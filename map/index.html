@@ -358,7 +358,8 @@ window.addEventListener("DOMContentLoaded", () => {
       `;
 
       div.onclick = () => {
-        alert(item["住所"]);
+        const query = encodeURIComponent(item["住所"]);
+        window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, "_blank");
       };
 
       resultBox.appendChild(div);
