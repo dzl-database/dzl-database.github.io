@@ -341,7 +341,9 @@ window.addEventListener("DOMContentLoaded", () => {
 
     const results = dataList.filter(item =>
       (item["場所名"] && item["場所名"].toLowerCase().includes(keyword)) ||
-      (item["イベント名"] && item["イベント名"].toLowerCase().includes(keyword))
+      (item["イベント名"] && item["イベント名"].toLowerCase().includes(keyword)) ||
+      (item["住所"] && item["住所"].toLowerCase().includes(keyword)) ||
+      (item["カテゴリ"] && item["カテゴリ"].toLowerCase().includes(keyword))
     );
 
     results.slice(0,10).forEach(item => {
