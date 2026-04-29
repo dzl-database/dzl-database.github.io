@@ -328,34 +328,38 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS-mAknXEbape8065ZFUgQ0sY
   });
 
 // 検索処理
-document.getElementById("searchInput").addEventListener("input", function(){
+window.addEventListener("DOMContentLoaded", () => {
 
-  const keyword = this.value.toLowerCase();
-  const resultBox = document.getElementById("searchResult");
+  document.getElementById("searchInput").addEventListener("input", function(){
 
-  resultBox.innerHTML = "";
+    const keyword = this.value.toLowerCase();
+    const resultBox = document.getElementById("searchResult");
 
-  if(!keyword) return;
+    resultBox.innerHTML = "";
 
-  const results = dataList.filter(item =>
-    (item["場所名"] && item["場所名"].toLowerCase().includes(keyword)) ||
-    (item["イベント名"] && item["イベント名"].toLowerCase().includes(keyword))
-  );
+    if(!keyword) return;
 
-  results.slice(0,10).forEach(item => {
+    const results = dataList.filter(item =>
+      (item["場所名"] && item["場所名"].toLowerCase().includes(keyword)) ||
+      (item["イベント名"] && item["イベント名"].toLowerCase().includes(keyword))
+    );
 
-    const div = document.createElement("div");
-    div.className = "search-item";
-    div.innerHTML = `
-      <strong>${item["場所名"]}</strong><br>
-      <small>${item["イベント名"] || ""}</small>
-    `;
+    results.slice(0,10).forEach(item => {
 
-    div.onclick = () => {
-      alert(item["住所"]);
-    };
+      const div = document.createElement("div");
+      div.className = "search-item";
+      div.innerHTML = `
+        <strong>${item["場所名"]}</strong><br>
+        <small>${item["イベント名"] || ""}</small>
+      `;
 
-    resultBox.appendChild(div);
+      div.onclick = () => {
+        alert(item["住所"]);
+      };
+
+      resultBox.appendChild(div);
+
+    });
 
   });
 
