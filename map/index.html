@@ -31,25 +31,6 @@ body{
   }
 }
 
-/* ===== ヘッダー ===== */
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:10px 16px;
-  background:#fff;
-  box-shadow:0 2px 6px rgba(0,0,0,0.1);
-}
-
-.header img{
-  height:40px;
-}
-
-.menu-btn{
-  font-size:28px;
-  cursor:pointer;
-}
-
 /* ===== セクション ===== */
 .section{
   display:none;
@@ -143,10 +124,6 @@ body{
   cursor:pointer;
 }
 
-.material-symbols-outlined{
-  font-size:24px;
-}
-
 /* ヘッダー分ずらす */
 .section{
   display:none;
@@ -156,6 +133,27 @@ body{
 
 .section.active{
   display:block;
+}
+
+.hamburger{
+  background:none;
+  border:none;
+  outline:none;
+  box-shadow:none;
+  color:white;
+  cursor:pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hamburger:focus,
+.hamburger:active,
+.hamburger:focus-visible{
+  outline:none;
+  box-shadow:none;
+}
+
+.hamburger .material-symbols-outlined{
+  font-size:28px;
 }
 </style>
 </head>
@@ -170,7 +168,7 @@ body{
     <!-- ★ここが重要（完全一致） -->
     <div class="site-title">
       <a href="../index.html">
-        <img src="/title-logo.png" alt="サイトタイトル">
+        <img src="../title-logo.png" alt="サイトタイトル">
       </a>
     </div>
 
