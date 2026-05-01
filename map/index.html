@@ -8,6 +8,9 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 <style>
 body{
   margin:0;
@@ -241,9 +244,7 @@ body{
 
 <!-- ===== マップ ===== -->
 <div id="map" class="section active">
-  <iframe src="https://www.google.com/maps/d/embed?mid=1tuQ01_mcre6gl9iWlWT23rojln4oojU&ehbc=2E312F&noprof=1"
-    style="width:100%; height:100%; border:none;">
-  </iframe>
+  <div id="leafletMap" style="width:100%; height:100%;"></div>
 </div>
 
 <!-- ===== 情報提供者一覧 ===== -->
@@ -289,34 +290,37 @@ function closeModal(e){
   }
 }
 
-// セクション切替
 function showSection(id){
-
   document.querySelectorAll(".section").forEach(el=>{
     el.classList.remove("active");
   });
-
   document.getElementById(id).classList.add("active");
-
   closeModal();
 }
 
-// ホームへ
 function goHome(){
   location.href = "/";
 }
 
+// =======================
+// Leaflet 初期化
+// =======================
+const map = L.map('leafletMap').setView([35.6812, 139.7671], 6); // 東京中心
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap'
+}).addTo(map);
+
+let markers = [];
 let dataList = [];
 
-// 検索ボックス開閉
-function toggleSearch(){
-  document.getElementById("searchBox").classList.toggle("active");
-}
-
-// CSV取得（スプシ公開URL）
+// =======================
+// CSV取得
+// =======================
 fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS-mAknXEbape8065ZFUgQ0sYVab31C0ZbYIOAzqjZtuj-pAFPcAeA4eg3f8ZeD0K-bTd51A19iNMQH/pub?gid=0&single=true&output=csv")
   .then(res => res.text())
   .then(text => {
+
     const rows = text.split("\n").map(r => r.split(","));
     const headers = rows.shift();
 
@@ -327,9 +331,37 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS-mAknXEbape8065ZFUgQ0sY
       });
       return obj;
     });
+
+    // =======================
+    // マーカー生成
+    // =======================
+    dataList.forEach(item => {
+
+      const lat = parseFloat(item["緯度"]);
+      const lng = parseFloat(item["経度"]);
+
+      if(!lat || !lng) return;
+
+      const marker = L.marker([lat, lng]).addTo(map);
+
+      marker.bindPopup(`
+        <b>${item["場所名"]}</b><br>
+        ${item["イベント名"] || ""}<br>
+        ${item["住所"] || ""}
+      `);
+
+      markers.push({ marker, data: item });
+    });
+
   });
 
-// 検索処理
+// =======================
+// 検索UI
+// =======================
+function toggleSearch(){
+  document.getElementById("searchBox").classList.toggle("active");
+}
+
 window.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("searchInput").addEventListener("input", function(){
@@ -341,14 +373,16 @@ window.addEventListener("DOMContentLoaded", () => {
 
     if(!keyword) return;
 
-    const results = dataList.filter(item =>
-      (item["場所名"] && item["場所名"].toLowerCase().includes(keyword)) ||
-      (item["イベント名"] && item["イベント名"].toLowerCase().includes(keyword)) ||
-      (item["住所"] && item["住所"].toLowerCase().includes(keyword)) ||
-      (item["カテゴリ"] && item["カテゴリ"].toLowerCase().includes(keyword))
+    const results = markers.filter(obj =>
+      (obj.data["場所名"] && obj.data["場所名"].toLowerCase().includes(keyword)) ||
+      (obj.data["イベント名"] && obj.data["イベント名"].toLowerCase().includes(keyword)) ||
+      (obj.data["住所"] && obj.data["住所"].toLowerCase().includes(keyword)) ||
+      (obj.data["カテゴリ"] && obj.data["カテゴリ"].toLowerCase().includes(keyword))
     );
 
-    results.slice(0,10).forEach(item => {
+    results.slice(0,10).forEach(obj => {
+
+      const item = obj.data;
 
       const div = document.createElement("div");
       div.className = "search-item";
@@ -358,12 +392,14 @@ window.addEventListener("DOMContentLoaded", () => {
       `;
 
       div.onclick = () => {
-        const query = encodeURIComponent(item["住所"]);
-        window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, "_blank");
+        const lat = parseFloat(item["緯度"]);
+        const lng = parseFloat(item["経度"]);
+
+        map.setView([lat, lng], 15); // ズーム
+        obj.marker.openPopup();      // ポップアップ表示
       };
 
       resultBox.appendChild(div);
-
     });
 
   });
@@ -371,13 +407,5 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
-<!-- ===== 検索ボタン ===== -->
-<button class="search-toggle-btn" onclick="toggleSearch()">検索</button>
-
-<!-- ===== 検索ボックス ===== -->
-<div id="searchBox" class="search-box">
-  <input type="text" id="searchInput" placeholder="場所名・イベント名で検索">
-  <div id="searchResult" class="search-result"></div>
-</div>
 </body>
 </html>
