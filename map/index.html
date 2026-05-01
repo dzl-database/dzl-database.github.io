@@ -341,6 +341,38 @@ function goHome(){
 }
 
 // =======================
+// カテゴリ別アイコン
+// =======================
+function getIcon(category){
+
+  let color = "black"; // デフォルト
+
+  switch(category){
+    case "グッズ": color = "#C80000"; break;
+    case "飲食": color = "#733C93"; break;
+    case "コンビニ": color = "#FCC700"; break;
+    case "カプセルトイ": color = "#54C3F1"; break;
+    case "ゲームセンター": color = "#EB6D9A"; break;
+    case "イベント": color = "green"; break;
+    case "その他": color = "black"; break;
+  }
+
+  return L.divIcon({
+    html: `<div style="
+      background:${color};
+      width:14px;
+      height:14px;
+      border-radius:50%;
+      border:2px solid white;
+      box-shadow:0 0 4px rgba(0,0,0,0.4);
+    "></div>`,
+    className: "",
+    iconSize: [18,18],
+    iconAnchor: [9,9]
+  });
+}
+  
+// =======================
 // Leaflet 初期化
 // =======================
 const map = L.map('leafletMap').setView([35.6812, 139.7671], 6); // 東京中心
@@ -380,7 +412,9 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS-mAknXEbape8065ZFUgQ0sY
 
       if(!lat || !lng) return;
 
-      const marker = L.marker([lat, lng]).addTo(map);
+      const marker = L.marker([lat, lng], {
+        icon: getIcon(item["カテゴリ"])
+      }).addTo(map);
 
       marker.bindPopup(`
         <b>${item["場所名"]}</b><br>
@@ -410,7 +444,6 @@ window.addEventListener("DOMContentLoaded", () => {
     resultBox.innerHTML = "";
     resultBox.classList.add("active");
 
-    if(!keyword) return;
     if(!keyword){
       resultBox.classList.remove("active");
       return;
