@@ -370,7 +370,7 @@ function openModal(){
 }
 
 function closeModal(e){
-  if(!e || e.target.id === "modal"){
+  if(e.target === e.currentTarget){
     document.getElementById("modal").classList.remove("active");
   }
 }
@@ -404,7 +404,7 @@ function openFilter(){
 }
 
 function closeFilter(e){
-  if(!e || e.target.id === "filterModal"){
+  if(e.target === e.currentTarget){
     document.getElementById("filterModal").classList.remove("active");
   }
 }
