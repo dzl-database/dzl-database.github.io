@@ -236,6 +236,20 @@ body{
 .search-item:hover{
   background:#f5f5f5;
 }
+
+.filter-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:6px 0;
+  cursor:pointer;
+}
+
+.color-dot{
+  width:14px;
+  height:14px;
+  border-radius:50%;
+}
 </style>
 </head>
 
@@ -311,7 +325,7 @@ body{
   </div>
 
   <!-- フィルターボタン -->
-  <button class="filter-btn">
+  <button class="filter-btn" onclick="openFilter()">
     <span class="material-symbols-outlined">filter_list</span>
   </button>
 
@@ -338,6 +352,99 @@ function showSection(id){
 
 function goHome(){
   location.href = "/";
+}
+
+const categories = [
+  {name:"グッズ", color:"#C80000"},
+  {name:"飲食", color:"#733C93"},
+  {name:"コンビニ", color:"#FCC700"},
+  {name:"カプセルトイ", color:"#54C3F1"},
+  {name:"ゲームセンター", color:"#EB6D9A"},
+  {name:"イベント", color:"green"},
+  {name:"その他", color:"black"}
+];
+
+const statuses = ["開催前","開催中","開催終了"];
+
+function openFilter(){
+  document.getElementById("filterModal").classList.add("active");
+}
+
+function closeFilter(e){
+  if(!e || e.target.id === "filterModal"){
+    document.getElementById("filterModal").classList.remove("active");
+  }
+}
+
+function createFilters(){
+
+  const catBox = document.getElementById("categoryFilter");
+  const statBox = document.getElementById("statusFilter");
+
+  // カテゴリ
+  categories.forEach(cat=>{
+    const div = document.createElement("label");
+    div.className = "filter-item";
+
+    div.innerHTML = `
+      <input type="checkbox" value="${cat.name}" checked>
+      <div class="color-dot" style="background:${cat.color}"></div>
+      ${cat.name}
+    `;
+
+    catBox.appendChild(div);
+  });
+
+  // 開催状況
+  statuses.forEach(st=>{
+    const div = document.createElement("label");
+    div.className = "filter-item";
+
+    div.innerHTML = `
+      <input type="checkbox" value="${st}" checked>
+      ${st}
+    `;
+
+    statBox.appendChild(div);
+  });
+
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  createFilters();
+});
+
+function applyFilter(){
+
+  const selectedCats = Array.from(
+    document.querySelectorAll("#categoryFilter input:checked")
+  ).map(el=>el.value);
+
+  const selectedStatus = Array.from(
+    document.querySelectorAll("#statusFilter input:checked")
+  ).map(el=>el.value);
+
+  // 全マーカー消す
+  markers.forEach(obj=>{
+    map.removeLayer(obj.marker);
+  });
+
+  // 条件一致だけ表示
+  markers.forEach(obj=>{
+
+    const cat = obj.data["カテゴリ"];
+    const status = obj.data["開催状況"];
+
+    if(
+      selectedCats.includes(cat) &&
+      selectedStatus.includes(status)
+    ){
+      obj.marker.addTo(map);
+    }
+
+  });
+
+  closeFilter();
 }
 
 // =======================
@@ -483,5 +590,28 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
+<!-- ===== フィルターモーダル ===== -->
+<div id="filterModal" class="modal" onclick="closeFilter(event)">
+
+  <div class="modal-content" onclick="event.stopPropagation()" style="width:320px; text-align:left;">
+
+    <h3>フィルター</h3>
+
+    <!-- カテゴリ -->
+    <h4>カテゴリ</h4>
+    <div id="categoryFilter"></div>
+
+    <!-- 開催状況 -->
+    <h4>開催状況</h4>
+    <div id="statusFilter"></div>
+
+    <br>
+    <button onclick="applyFilter()" style="width:100%; padding:10px; background:#d90000; color:#fff; border:none; border-radius:8px;">
+      適用
+    </button>
+
+  </div>
+</div>
+  
 </body>
 </html>
