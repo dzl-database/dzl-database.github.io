@@ -159,56 +159,76 @@ body{
   font-size:28px;
 }
 
-/* ===== 検索UI ===== */
-.search-toggle-btn{
+/* ===== 検索バー（右上） ===== */
+.search-container{
   position:fixed;
-  top:80px;   /* ヘッダーの下に出す */
+  top:72px;
   right:20px;
-  z-index:999;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  z-index:1000;
+}
+
+/* 入力欄 */
+.search-bar{
+  display:flex;
+  align-items:center;
+  background:#fff;
+  border-radius:30px;
+  padding:8px 14px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.2);
+  width:260px;
+}
+
+.search-bar input{
+  border:none;
+  outline:none;
+  width:100%;
+  font-size:14px;
+}
+
+/* 🔍アイコン */
+.search-bar .material-symbols-outlined{
+  margin-right:8px;
+  color:#888;
+}
+
+/* フィルターボタン（丸） */
+.filter-btn{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:none;
   background:#d90000;
   color:#fff;
-  border:none;
-  border-radius:50px;
-  padding:16px 22px;
-  font-size:16px;
-  font-weight:bold;
-  border-radius:30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   cursor:pointer;
   box-shadow:0 4px 12px rgba(0,0,0,0.2);
 }
 
-.search-box{
-  position:fixed;
-  top:140px;  /* ボタンの下に表示 */
-  right:20px;
-  width:300px;
+/* 検索結果 */
+.search-result{
+  position:absolute;
+  top:50px;
+  left:0;
+  width:100%;
   background:#fff;
   border-radius:12px;
   box-shadow:0 8px 20px rgba(0,0,0,0.2);
-  padding:15px;
+  max-height:250px;
+  overflow-y:auto;
   display:none;
-  z-index:999;
 }
 
-.search-box.active{
+.search-result.active{
   display:block;
 }
 
-.search-box input{
-  width:100%;
-  padding:10px;
-  border:1px solid #ccc;
-  border-radius:8px;
-  margin-bottom:10px;
-}
-
-.search-result{
-  max-height:200px;
-  overflow-y:auto;
-}
-
 .search-item{
-  padding:8px;
+  padding:10px;
   border-bottom:1px solid #eee;
   cursor:pointer;
 }
@@ -279,6 +299,24 @@ body{
 
 </div>
 
+<!-- ===== 検索バーUI ===== -->
+<div class="search-container">
+
+  <div class="search-bar">
+    <span class="material-symbols-outlined">search</span>
+    <input type="text" id="searchInput" placeholder="検索">
+    
+    <!-- 検索結果 -->
+    <div id="searchResult" class="search-result"></div>
+  </div>
+
+  <!-- フィルターボタン -->
+  <button class="filter-btn">
+    <span class="material-symbols-outlined">filter_list</span>
+  </button>
+
+</div>
+  
 <script>
 function openModal(){
   document.getElementById("modal").classList.add("active");
@@ -370,8 +408,13 @@ window.addEventListener("DOMContentLoaded", () => {
     const resultBox = document.getElementById("searchResult");
 
     resultBox.innerHTML = "";
+    resultBox.classList.add("active");
 
     if(!keyword) return;
+    if(!keyword){
+      resultBox.classList.remove("active");
+      return;
+    }
 
     const results = markers.filter(obj =>
       (obj.data["場所名"] && obj.data["場所名"].toLowerCase().includes(keyword)) ||
