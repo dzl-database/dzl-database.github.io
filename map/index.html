@@ -387,6 +387,10 @@ body{
   line-height:1.6;
 }
 
+/* =======================
+   ⑧ 利用規約
+======================= */
+   
 #terms h2{
   text-align:center;
   margin-bottom:20px;
@@ -425,6 +429,34 @@ body{
   max-width:800px;   /* ← 横幅制限（超重要） */
   margin:0 auto;     /* ← 中央配置 */
   padding:20px 30px; /* ← 左右余白広げる */
+}
+
+/* =======================
+   ⑨ 機能ボタン3種
+======================= */
+   
+.extra-buttons{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.circle-btn{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:none;
+  background:#fff;
+  color:#333;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,0.2);
+}
+
+.circle-btn .material-symbols-outlined{
+  font-size:22px;
 }
    
 </style>
@@ -602,6 +634,26 @@ body{
 
 </div>
 
+<!-- 追加ボタン群 -->
+<div class="extra-buttons">
+
+  <!-- 一覧 -->
+  <button class="circle-btn" onclick="showNearbyList()">
+    <span class="material-symbols-outlined">list</span>
+  </button>
+
+  <!-- 追加 -->
+  <button class="circle-btn" onclick="openAddModal()">
+    <span class="material-symbols-outlined">add</span>
+  </button>
+
+  <!-- 現在地 -->
+  <button class="circle-btn" onclick="goCurrentLocation()">
+    <span class="material-symbols-outlined">my_location</span>
+  </button>
+
+</div>
+
 <!-- ===== フィルターモーダル ===== -->
 <div id="filterModal" class="modal" onclick="closeFilter(event)">
 
@@ -623,6 +675,22 @@ body{
     </button>
 
   </div>
+</div>
+
+<!-- ===== 追加確認モーダル ===== -->
+<div id="addModal" class="modal" onclick="closeAddModal(event)">
+
+  <div class="modal-content" onclick="event.stopPropagation()">
+
+    <p>Googleフォームが開きます。よろしいですか？</p>
+
+    <div style="display:flex; gap:10px; margin-top:20px;">
+      <button onclick="closeAddModal()" style="flex:1;">戻る</button>
+      <button onclick="openForm()" style="flex:1; background:#d90000; color:#fff;">開く</button>
+    </div>
+
+  </div>
+
 </div>
 
 <div id="detailPanel" class="detail-panel">
@@ -1042,6 +1110,99 @@ function getCategoryStyle(category){
   }
 
 }
+
+// =======================
+// ① 一覧表示（近い順）
+// =======================
+function showNearbyList(){
+
+  const center = map.getCenter();
+
+  const sorted = markers.map(obj => {
+
+    const lat = parseFloat(obj.data["緯度"]);
+    const lng = parseFloat(obj.data["経度"]);
+
+    const dist = map.distance(center, [lat, lng]);
+
+    return { ...obj, dist };
+
+  }).sort((a,b)=> a.dist - b.dist);
+
+  const resultBox = document.getElementById("searchResult");
+  resultBox.innerHTML = "";
+  resultBox.classList.add("active");
+
+  sorted.slice(0,10).forEach(obj => {
+
+    const item = obj.data;
+
+    const div = document.createElement("div");
+    div.className = "search-item";
+    div.innerHTML = `
+      <strong>${item["場所名"]}</strong><br>
+      <small>${item["イベント名"] || ""}</small>
+    `;
+
+    div.onclick = () => {
+      const lat = parseFloat(item["緯度"]);
+      const lng = parseFloat(item["経度"]);
+
+      map.setView([lat, lng], 15);
+    };
+
+    resultBox.appendChild(div);
+
+  });
+}
+
+
+// =======================
+// ② 追加モーダル
+// =======================
+function openAddModal(){
+  document.getElementById("addModal").classList.add("active");
+}
+
+function closeAddModal(e){
+  if(!e || e.target === e.currentTarget){
+    document.getElementById("addModal").classList.remove("active");
+  }
+}
+
+function openForm(){
+  window.open("https://forms.gle/zRNh95SmFFXqaffT7", "_blank");
+  closeAddModal();
+}
+
+
+// =======================
+// ③ 現在地
+// =======================
+function goCurrentLocation(){
+
+  if(!navigator.geolocation){
+    alert("位置情報が使えません");
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(pos => {
+
+    const lat = pos.coords.latitude;
+    const lng = pos.coords.longitude;
+
+    map.setView([lat, lng], 15);
+
+    L.marker([lat, lng]).addTo(map)
+      .bindPopup("現在地")
+      .openPopup();
+
+  }, () => {
+    alert("位置情報の取得に失敗しました");
+  });
+
+}
+   
 </script>
   
 </body>
