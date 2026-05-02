@@ -279,24 +279,6 @@ body{
   left:0;
 }
 
-.detail-header{
-  background:#d90000;
-  color:#fff;
-  padding:12px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-weight:bold;
-}
-
-.detail-header button{
-  background:none;
-  border:none;
-  color:white;
-  font-size:16px;
-  cursor:pointer;
-}
-
 .detail-body{
   padding:15px;
   overflow-y:auto;
@@ -336,11 +318,6 @@ body{
   text-decoration:none;
 }
 
-/* ヘッダータイトル強化 */
-.detail-header{
-  font-size:16px;
-}
-
 .detail-title .material-symbols-outlined{
   font-size:18px;  /* ← 今より少し小さく */
 }
@@ -349,11 +326,10 @@ body{
 
 /* ヘッダー（赤） */
 .detail-hero{
-  background:#d90000;
-  color:#fff;
+  margin:12px;              /* ← 外側余白追加 */
+  border-radius:16px;
   padding:16px;
-  border-bottom-left-radius:16px;
-  border-bottom-right-radius:16px;
+  color:#fff;
 }
 
 .detail-category{
@@ -419,10 +395,6 @@ body{
   font-weight:bold;
   color:#fff;
 }
-
-.status-開催前{ background:#999; }
-.status-開催中{ background:#2ecc71; }
-.status-開催終了{ background:#e74c3c; }
 
 /* ===== パネル余白 ===== */
 .detail-panel{
@@ -492,6 +464,26 @@ body{
 
 .detail-section-title .material-symbols-outlined{
   font-size:16px; /* ← 少し小さく */
+}
+
+/* body全体スクロール部分 */
+.detail-body{
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+}
+
+/* 上も下も同じ余白 */
+.detail-hero,
+.detail-section{
+  margin:12px;
+}
+
+/* 共通カード */
+.detail-section{
+  background:#f4f6f9;
+  border-radius:12px;
+  padding:12px;
 }
   
 </style>
@@ -599,11 +591,6 @@ body{
 </div>
 
 <div id="detailPanel" class="detail-panel">
-
-  <div class="detail-header">
-    <span id="detailTitle">タイトル</span>
-    <button onclick="closeDetail()">✕</button>
-  </div>
 
   <div class="detail-body" id="detailBody"></div>
 
@@ -906,13 +893,9 @@ function openDetail(data){
 
   panel.appendChild(hero);
 
-  // ===== メイン =====
-  const main = document.createElement("div");
-  main.className = "detail-main";
-
   // 内容
   if(data["説明・詳細"]){
-    main.innerHTML += `
+    panel.innerHTML += `
       <div class="detail-section">
         <div class="detail-section-title">
           <span class="material-symbols-outlined">description</span>
@@ -925,9 +908,9 @@ function openDetail(data){
     `;
   }
 
-  // 開催状況（← バッジやめた）
+  // 開催状況
   if(data["開催状況"]){
-    main.innerHTML += `
+    panel.innerHTML += `
       <div class="detail-section">
         <div class="detail-section-title">
           <span class="material-symbols-outlined">schedule</span>
@@ -941,9 +924,8 @@ function openDetail(data){
   }
 
   // URL
-  const url = data["関連URL"];
   if(url && url.trim() !== ""){
-    main.innerHTML += `
+    panel.innerHTML += `
       <div class="detail-section">
         <div class="detail-section-title">
           <span class="material-symbols-outlined">link</span>
@@ -955,8 +937,6 @@ function openDetail(data){
       </div>
     `;
   }
-
-  panel.appendChild(main);
 
   document.getElementById("detailPanel").classList.add("active");
 }
