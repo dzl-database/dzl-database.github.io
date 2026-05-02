@@ -829,7 +829,14 @@ function getIcon(category){
 // =======================
 // Leaflet 初期化
 // =======================
-const map = L.map('leafletMap').setView([35.6812, 139.7671], 6); // 東京中心
+const map = L.map('leafletMap', {
+  zoomControl: false
+}).setView([35.6812, 139.7671], 6); // 東京中心
+
+// ↓ 追加
+L.control.zoom({
+  position: 'bottomleft'
+}).addTo(map);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; OpenStreetMap'
