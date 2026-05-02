@@ -423,6 +423,77 @@ body{
 .status-開催前{ background:#999; }
 .status-開催中{ background:#2ecc71; }
 .status-開催終了{ background:#e74c3c; }
+
+/* ===== パネル余白 ===== */
+.detail-panel{
+  top:80px;              /* ← 上に余白 */
+  height:calc(100% - 160px); /* ← 上下余白 */
+  border-radius:16px;
+  overflow:hidden;
+}
+
+/* ===== ヘッダー（カテゴリ連動） ===== */
+.detail-hero{
+  color:#fff;
+  padding:16px;
+}
+
+/* カテゴリ行 */
+.detail-category{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:13px;
+  opacity:0.95;
+}
+
+/* ← マップと同じサイズ感に */
+.detail-category .material-symbols-outlined{
+  font-size:18px;
+}
+
+/* タイトル */
+.detail-hero-title{
+  font-size:18px;
+  font-weight:bold;
+  margin:6px 0;
+}
+
+/* 住所 */
+.detail-hero-address{
+  font-size:13px;
+  opacity:0.9;
+}
+
+/* メイン */
+.detail-main{
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* セクション */
+.detail-section{
+  background:#f4f6f9;
+  border-radius:12px;
+  padding:12px;
+}
+
+/* タイトル */
+.detail-section-title{
+  font-size:13px;
+  color:#666;
+  margin-bottom:6px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.detail-section-title .material-symbols-outlined{
+  font-size:16px; /* ← 少し小さく */
+}
+  
 </style>
 </head>
 
@@ -812,14 +883,18 @@ function openDetail(data){
   const panel = document.getElementById("detailBody");
   panel.innerHTML = "";
 
-  // ===== 上部（赤ヘッダー） =====
+  const category = data["カテゴリ"];
+  const style = getCategoryStyle(category);
+
+  // ===== 上部 =====
   const hero = document.createElement("div");
   hero.className = "detail-hero";
+  hero.style.background = style.color;
 
   hero.innerHTML = `
     <div class="detail-category">
-      <span class="material-symbols-outlined">category</span>
-      ${data["カテゴリ"] || ""}
+      <span class="material-symbols-outlined">${style.icon}</span>
+      ${category || ""}
     </div>
 
     <div class="detail-hero-title">
@@ -852,10 +927,8 @@ function openDetail(data){
     `;
   }
 
-  // 開催状況（バッジ）
+  // 開催状況（← バッジやめた）
   if(data["開催状況"]){
-    const status = data["開催状況"];
-
     main.innerHTML += `
       <div class="detail-section">
         <div class="detail-section-title">
@@ -863,15 +936,13 @@ function openDetail(data){
           開催状況
         </div>
         <div class="detail-section-content">
-          <span class="status-badge status-${status}">
-            ${status}
-          </span>
+          ${data["開催状況"]}
         </div>
       </div>
     `;
   }
 
-  // URL（空チェック強化）
+  // URL
   const url = data["関連URL"];
   if(url && url.trim() !== ""){
     main.innerHTML += `
@@ -894,6 +965,20 @@ function openDetail(data){
 
 function closeDetail(){
   document.getElementById("detailPanel").classList.remove("active");
+}
+
+function getCategoryStyle(category){
+
+  switch(category){
+    case "グッズ": return { color:"#C80000", icon:"local_mall" };
+    case "飲食": return { color:"#733C93", icon:"restaurant" };
+    case "コンビニ": return { color:"#FCC700", icon:"store" };
+    case "カプセルトイ": return { color:"#54C3F1", icon:"local_laundry_service" };
+    case "ゲームセンター": return { color:"#EB6D9A", icon:"sports_esports" };
+    case "イベント": return { color:"green", icon:"attractions" };
+    default: return { color:"black", icon:"place" };
+  }
+
 }
 </script>
   
