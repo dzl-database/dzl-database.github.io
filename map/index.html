@@ -12,6 +12,9 @@
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <style>
+/* =======================
+   ① ベース
+======================= */
 body{
   margin:0;
 
@@ -23,71 +26,32 @@ body{
   font-family: sans-serif;
 }
 
-.site-title img{
-  height:55px;
-  cursor:pointer;
-}
-
-@media(max-width:768px){
-  .site-title img{
-    height:50px;
-  }
-}
-
-/* ===== セクション ===== */
-.section{
-  display:none;
-  height:calc(100vh - 60px);
-}
-
-.section.active{
-  display:block;
-}
-
-/* ===== マップ ===== */
 .map iframe{
   width:100%;
   height:100%;
   border:none;
 }
 
-/* ===== テキスト系 ===== */
 .content{
   padding:20px;
 }
 
-/* ===== モーダル ===== */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.5);
+/* =======================
+   ② レイアウト
+======================= */
+.section{
   display:none;
-  justify-content:center;
-  align-items:center;
+  padding-top:64px;
+  height:calc(100vh - 64px);
 }
 
-.modal.active{
-  display:flex;
-}
-
-.modal-content{
-  background:#fff;
-  border-radius:12px;
-  padding:20px;
-  width:280px;
-  text-align:center;
-}
-
-.menu-link{
+.section.active{
   display:block;
-  margin:10px 0;
-  padding:10px;
-  background:#f0f0f0;
-  border-radius:8px;
-  cursor:pointer;
 }
 
-/* ===== ヘッダー（ホームと統一） ===== */
+/* =======================
+   ③ ヘッダー
+======================= */
 .main-header{
   position:fixed;
   top:0;
@@ -104,38 +68,6 @@ body{
   align-items:center;
   justify-content:space-between;
   padding:0 20px;
-}
-
-.logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:bold;
-  font-size:18px;
-}
-
-.site-icon{
-  width:28px;
-  height:28px;
-  object-fit:contain;
-}
-
-.header-icons button{
-  background:none;
-  border:none;
-  color:white;
-  cursor:pointer;
-}
-
-/* ヘッダー分ずらす */
-.section{
-  display:none;
-  padding-top:64px;
-  height:calc(100vh - 64px);
-}
-
-.section.active{
-  display:block;
 }
 
 .hamburger{
@@ -159,7 +91,54 @@ body{
   font-size:28px;
 }
 
-/* ===== 検索バー（右上） ===== */
+.menu-link{
+  display:block;
+  margin:10px 0;
+  padding:10px;
+  background:#f0f0f0;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.site-title img{
+  height:55px;
+  cursor:pointer;
+}
+
+@media(max-width:768px){
+  .site-title img{
+    height:50px;
+  }
+}
+
+/* =======================
+   ④ モーダル
+======================= */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:2000; /* ← これ追加 */
+}
+
+.modal.active{
+  display:flex;
+}
+
+.modal-content{
+  background:#fff;
+  border-radius:12px;
+  padding:20px;
+  width:280px;
+  text-align:center;
+}
+
+/* =======================
+   ⑤ 検索UI
+======================= */
 .search-container{
   position:fixed;
   top:72px;
@@ -194,21 +173,6 @@ body{
   color:#888;
 }
 
-/* フィルターボタン（丸） */
-.filter-btn{
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  border:none;
-  background:#d90000;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  box-shadow:0 4px 12px rgba(0,0,0,0.2);
-}
-
 /* 検索結果 */
 .search-result{
   position:absolute;
@@ -237,6 +201,23 @@ body{
   background:#f5f5f5;
 }
 
+/* =======================
+   ⑥ フィルターUI
+======================= */
+.filter-btn{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:none;
+  background:#d90000;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,0.2);
+}
+
 .filter-item{
   display:flex;
   align-items:center;
@@ -251,16 +232,11 @@ body{
   border-radius:50%;
 }
 
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.5);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:2000; /* ← これ追加 */
-}
+/* =======================
+   ⑦ 詳細パネル
+======================= */
 
+/* 外枠（余白用） */
 .detail-panel{
   position:fixed;
   top:80px;
@@ -268,139 +244,68 @@ body{
   width:320px;
   height:calc(100% - 160px);
 
-  background:transparent; /* ← 白やめる */
-  box-shadow:none;        /* ← 外側影やめる */
+  background:transparent;
+  box-shadow:none;
 
   z-index:3000;
   transition:0.3s;
 
   display:flex;
-  flex-direction:column;
 }
 
 .detail-panel.active{
   left:0;
 }
 
+/* 中身 */
 .detail-inner{
   background:#fff;
   border-radius:16px;
   overflow:hidden;
-
-  height:100%;
   display:flex;
   flex-direction:column;
+  width:100%;
 }
-  
+
+/* ヘッダー（閉じるボタン） */
 .detail-header{
-  background:#d90000;
+  background:white;
   color:#fff;
   padding:12px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  font-weight:bold;
+  font-size:16px;
 }
 
 .detail-header button{
   background:none;
   border:none;
-  color:white;
+  color:black;
   font-size:16px;
   cursor:pointer;
 }
 
-/* ヘッダータイトル強化 */
-.detail-header{
-  font-size:16px;
+/* スクロール領域 */
+#detailBody{
+  overflow-y:auto;
+  flex:1;
 }
 
-.detail-title .material-symbols-outlined{
-  font-size:18px;  /* ← 今より少し小さく */
-}
-
-/* ===== 詳細パネル改善 ===== */
-
-.detail-category{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  font-size:13px;
-  opacity:0.9;
-}
-
-.detail-hero-title{
-  font-size:18px;
-  font-weight:bold;
-  margin:6px 0;
-}
-
-.detail-hero-address{
-  font-size:13px;
-  opacity:0.9;
-}
-
-/* セクション */
-.detail-section{
-  background:#f8f9fb;
-  border-radius:12px;
-  padding:12px;
-}
-
-/* セクションタイトル */
-.detail-section-title{
-  font-size:13px;
-  color:#666;
-  margin-bottom:6px;
-  display:flex;
-  align-items:center;
-  gap:6px;
-}
-
-.detail-section-title .material-symbols-outlined{
-  font-size:16px; /* ← アイコン小さく */
-}
-
-/* 本文 */
-.detail-section-content{
-  font-size:14px;
-  line-height:1.6;
-}
-
-/* 開催状況バッジ */
-.status-badge{
-  display:inline-block;
-  padding:4px 10px;
-  border-radius:20px;
-  font-size:12px;
-  font-weight:bold;
-  color:#fff;
-}
-
-/* ===== パネル余白 ===== */
-.detail-panel{
-  top:80px;              /* ← 上に余白 */
-  height:calc(100% - 160px); /* ← 上下余白 */
-  border-radius:16px;
-  overflow:hidden;
-}
-
-/* ===== ヘッダー（カテゴリ連動） ===== */
+/* 上カード（カテゴリ・タイトル・住所） */
 .detail-hero{
-  color:#fff;
   padding:16px;
+  color:#fff;
 }
 
-/* カテゴリ行 */
+/* カテゴリ */
 .detail-category{
   display:flex;
   align-items:center;
   gap:6px;
   font-size:13px;
-  opacity:0.95;
 }
 
-/* ← マップと同じサイズ感に */
 .detail-category .material-symbols-outlined{
   font-size:18px;
 }
@@ -418,11 +323,19 @@ body{
   opacity:0.9;
 }
 
-/* セクション */
+/* 下エリア */
+.detail-main{
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* カード */
 .detail-section{
   background:#f4f6f9;
   border-radius:12px;
-  padding:12px;
+  padding:14px;
 }
 
 /* タイトル */
@@ -435,33 +348,20 @@ body{
   gap:6px;
 }
 
+.detail-title .material-symbols-outlined{
+  font-size:18px;  /* ← 今より少し小さく */
+}
+
 .detail-section-title .material-symbols-outlined{
-  font-size:16px; /* ← 少し小さく */
+  font-size:16px;
 }
 
-.detail-hero{
-  padding:16px;
-  color:#fff;
+/* 本文 */
+.detail-section-content{
+  font-size:14px;
+  line-height:1.6;
 }
 
-.detail-main{
-  padding:16px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-
-.detail-section{
-  background:#f4f6f9;
-  border-radius:12px;
-  padding:14px;
-}
-
-#detailBody{
-  overflow-y:auto;
-  flex:1;
-}
-  
 </style>
 </head>
 
