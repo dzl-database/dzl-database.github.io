@@ -464,6 +464,65 @@ body{
 .circle-btn .material-symbols-outlined{
   font-size:22px;
 }
+
+.modal-actions{
+  display:flex;
+  gap:10px;
+  margin-top:20px;
+}
+
+.btn{
+  flex:1;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  font-size:14px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+/* 戻る（サブ） */
+.btn-cancel{
+  background:#eee;
+  color:#333;
+}
+
+.btn-cancel:hover{
+  background:#ddd;
+}
+
+/* 開く（メイン） */
+.btn-main{
+  background:#d90000;
+  color:#fff;
+}
+
+.btn-main:hover{
+  background:#b80000;
+}
+
+.current-dot{
+  position:relative;
+  width:18px;
+  height:18px;
+  background:#007aff;
+  border-radius:50%;
+  border:3px solid white;
+}
+
+.current-dot::after{
+  content:"";
+  position:absolute;
+  inset:-6px;
+  border-radius:50%;
+  border:2px solid #007aff;
+  animation:ping 1.5s infinite;
+}
+
+@keyframes ping{
+  0%{ transform:scale(1); opacity:1; }
+  100%{ transform:scale(2); opacity:0; }
+}
    
 </style>
 </head>
@@ -690,9 +749,9 @@ body{
 
     <p>Googleフォームが開きます。よろしいですか？</p>
 
-    <div style="display:flex; gap:10px; margin-top:20px;">
-      <button onclick="closeAddModal()" style="flex:1;">戻る</button>
-      <button onclick="openForm()" style="flex:1; background:#d90000; color:#fff;">開く</button>
+    <div class="modal-actions">
+      <button class="btn btn-cancel" onclick="closeAddModal()">戻る</button>
+      <button class="btn btn-main" onclick="openForm()">開く</button>
     </div>
 
   </div>
@@ -1199,9 +1258,22 @@ function goCurrentLocation(){
 
     map.setView([lat, lng], 15);
 
-    L.marker([lat, lng]).addTo(map)
-      .bindPopup("現在地")
-      .openPopup();
+    // 既存の現在地マーカー消す（あれば）
+    if(window.currentMarker){
+      map.removeLayer(window.currentMarker);
+    }
+
+    // カスタムピン
+    const icon = L.divIcon({
+      html: `<div class="current-dot"></div>`,
+      className: "",
+      iconSize: [18,18],
+      iconAnchor: [9,9]
+    });
+
+    window.currentMarker = L.marker([lat, lng], {
+      icon: icon
+    }).addTo(map);
 
   }, () => {
     alert("位置情報の取得に失敗しました");
