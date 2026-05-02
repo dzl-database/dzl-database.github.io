@@ -340,6 +340,10 @@ body{
 .detail-header{
   font-size:16px;
 }
+
+.detail-title .material-symbols-outlined{
+  font-size:18px;  /* ← 今より少し小さく */
+}
 </style>
 </head>
 
@@ -758,7 +762,9 @@ function openDetail(data){
   createCard("description", "説明", data["説明・詳細"]);
 
   // URLだけ特別処理
-  if(data["関連URL"]){
+  const url = data["関連URL"];
+
+  if(url && url.trim() !== ""){
     const div = document.createElement("div");
     div.className = "detail-card";
 
@@ -768,7 +774,7 @@ function openDetail(data){
         関連URL
       </div>
       <div class="detail-content">
-        <a href="${data["関連URL"]}" target="_blank">リンクを開く</a>
+        <a href="${url}" target="_blank">リンクを開く</a>
       </div>
     `;
 
