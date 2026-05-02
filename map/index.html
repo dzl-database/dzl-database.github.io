@@ -263,14 +263,17 @@ body{
 
 .detail-panel{
   position:fixed;
-  top:64px;
-  left:-350px; /* ← 初期は隠す */
+  top:80px;
+  left:-350px;
   width:320px;
-  height:calc(100% - 64px);
-  background:#fff;
-  box-shadow:4px 0 12px rgba(0,0,0,0.2);
+  height:calc(100% - 160px);
+
+  background:transparent; /* ← 白やめる */
+  box-shadow:none;        /* ← 外側影やめる */
+
   z-index:3000;
   transition:0.3s;
+
   display:flex;
   flex-direction:column;
 }
@@ -279,6 +282,16 @@ body{
   left:0;
 }
 
+.detail-inner{
+  background:#fff;
+  border-radius:16px;
+  overflow:hidden;
+
+  height:100%;
+  display:flex;
+  flex-direction:column;
+}
+  
 .detail-header{
   background:#d90000;
   color:#fff;
@@ -297,45 +310,6 @@ body{
   cursor:pointer;
 }
 
-.detail-body{
-  padding:15px;
-  overflow-y:auto;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-
-/* カード */
-.detail-card{
-  background:#f8f9fb;
-  border-radius:12px;
-  padding:12px;
-  box-shadow:0 2px 6px rgba(0,0,0,0.1);
-}
-
-/* タイトル */
-.detail-title{
-  font-size:13px;
-  color:#888;
-  display:flex;
-  align-items:center;
-  gap:6px;
-  margin-bottom:4px;
-}
-
-/* 中身 */
-.detail-content{
-  font-size:15px;
-  font-weight:500;
-  word-break:break-word;
-}
-
-/* URL */
-.detail-content a{
-  color:#d90000;
-  text-decoration:none;
-}
-
 /* ヘッダータイトル強化 */
 .detail-header{
   font-size:16px;
@@ -346,15 +320,6 @@ body{
 }
 
 /* ===== 詳細パネル改善 ===== */
-
-/* ヘッダー（赤） */
-.detail-hero{
-  background:#d90000;
-  color:#fff;
-  padding:16px;
-  border-bottom-left-radius:16px;
-  border-bottom-right-radius:16px;
-}
 
 .detail-category{
   display:flex;
@@ -373,14 +338,6 @@ body{
 .detail-hero-address{
   font-size:13px;
   opacity:0.9;
-}
-
-/* 中身 */
-.detail-main{
-  padding:14px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
 }
 
 /* セクション */
@@ -419,10 +376,6 @@ body{
   font-weight:bold;
   color:#fff;
 }
-
-.status-開催前{ background:#999; }
-.status-開催中{ background:#2ecc71; }
-.status-開催終了{ background:#e74c3c; }
 
 /* ===== パネル余白 ===== */
 .detail-panel{
@@ -465,14 +418,6 @@ body{
   opacity:0.9;
 }
 
-/* メイン */
-.detail-main{
-  padding:14px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-
 /* セクション */
 .detail-section{
   background:#f4f6f9;
@@ -492,6 +437,29 @@ body{
 
 .detail-section-title .material-symbols-outlined{
   font-size:16px; /* ← 少し小さく */
+}
+
+.detail-hero{
+  padding:16px;
+  color:#fff;
+}
+
+.detail-main{
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.detail-section{
+  background:#f4f6f9;
+  border-radius:12px;
+  padding:14px;
+}
+
+#detailBody{
+  overflow-y:auto;
+  flex:1;
 }
   
 </style>
@@ -600,12 +568,15 @@ body{
 
 <div id="detailPanel" class="detail-panel">
 
-  <div class="detail-header">
-    <span id="detailTitle">タイトル</span>
-    <button onclick="closeDetail()">✕</button>
-  </div>
+  <div class="detail-inner"> <!-- ★これ追加 -->
 
-  <div class="detail-body" id="detailBody"></div>
+    <div class="detail-header">
+      <button onclick="closeDetail()">✕</button>
+    </div>
+
+    <div id="detailBody"></div>
+
+  </div>
 
 </div>
   
