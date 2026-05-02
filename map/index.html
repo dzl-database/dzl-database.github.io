@@ -436,9 +436,15 @@ body{
 ======================= */
    
 .extra-buttons{
+  position: fixed;     /* ← これが最重要 */
+  top: 130px;          /* 検索バーの下あたり */
+  right: 20px;
+
   display:flex;
   flex-direction:column;
   gap:10px;
+
+  z-index:1500;        /* ← マップより前に出す */
 }
 
 .circle-btn{
