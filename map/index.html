@@ -35,7 +35,7 @@ body{
 .content{
   padding:20px;
 }
-
+   
 /* =======================
    ② レイアウト
 ======================= */
@@ -47,6 +47,10 @@ body{
 
 .section.active{
   display:block;
+}
+
+.hidden-ui{
+  display:none !important;
 }
 
 /* =======================
@@ -613,13 +617,27 @@ function closeModalForce(){
 }
 
 function showSection(id){
+
+  // セクション切り替え
   document.querySelectorAll(".section").forEach(el=>{
     el.classList.remove("active");
   });
   document.getElementById(id).classList.add("active");
+
+  // ===== UI制御ここから =====
+  const searchUI = document.querySelector(".search-container");
+  const detailPanel = document.getElementById("detailPanel");
+
+  if(id === "map"){
+    searchUI.classList.remove("hidden-ui");
+    detailPanel.classList.remove("hidden-ui");
+  }else{
+    searchUI.classList.add("hidden-ui");
+    detailPanel.classList.add("hidden-ui");
+  }
+
   closeModalForce();
 }
-
 function goHome(){
   location.href = "/";
 }
@@ -686,6 +704,9 @@ function createFilters(){
 
 window.addEventListener("DOMContentLoaded", () => {
   createFilters();
+
+  // ← 追加
+  showSection("map");
 });
 
 function applyFilter(){
