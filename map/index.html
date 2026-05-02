@@ -344,6 +344,85 @@ body{
 .detail-title .material-symbols-outlined{
   font-size:18px;  /* ← 今より少し小さく */
 }
+
+/* ===== 詳細パネル改善 ===== */
+
+/* ヘッダー（赤） */
+.detail-hero{
+  background:#d90000;
+  color:#fff;
+  padding:16px;
+  border-bottom-left-radius:16px;
+  border-bottom-right-radius:16px;
+}
+
+.detail-category{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:13px;
+  opacity:0.9;
+}
+
+.detail-hero-title{
+  font-size:18px;
+  font-weight:bold;
+  margin:6px 0;
+}
+
+.detail-hero-address{
+  font-size:13px;
+  opacity:0.9;
+}
+
+/* 中身 */
+.detail-main{
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* セクション */
+.detail-section{
+  background:#f8f9fb;
+  border-radius:12px;
+  padding:12px;
+}
+
+/* セクションタイトル */
+.detail-section-title{
+  font-size:13px;
+  color:#666;
+  margin-bottom:6px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.detail-section-title .material-symbols-outlined{
+  font-size:16px; /* ← アイコン小さく */
+}
+
+/* 本文 */
+.detail-section-content{
+  font-size:14px;
+  line-height:1.6;
+}
+
+/* 開催状況バッジ */
+.status-badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:bold;
+  color:#fff;
+}
+
+.status-開催前{ background:#999; }
+.status-開催中{ background:#2ecc71; }
+.status-開催終了{ background:#e74c3c; }
 </style>
 </head>
 
@@ -730,56 +809,85 @@ window.addEventListener("DOMContentLoaded", () => {
 
 function openDetail(data){
 
-  document.getElementById("detailTitle").textContent = data["場所名"] || "";
+  const panel = document.getElementById("detailBody");
+  panel.innerHTML = "";
 
-  const body = document.getElementById("detailBody");
-  body.innerHTML = "";
+  // ===== 上部（赤ヘッダー） =====
+  const hero = document.createElement("div");
+  hero.className = "detail-hero";
 
-  // 共通関数
-  function createCard(icon, title, value){
+  hero.innerHTML = `
+    <div class="detail-category">
+      <span class="material-symbols-outlined">category</span>
+      ${data["カテゴリ"] || ""}
+    </div>
 
-    if(!value || value.trim() === "") return; // ← 空なら作らない
+    <div class="detail-hero-title">
+      ${data["場所名"] || ""}
+    </div>
 
-    const div = document.createElement("div");
-    div.className = "detail-card";
+    <div class="detail-hero-address">
+      ${data["住所"] || ""}
+    </div>
+  `;
 
-    div.innerHTML = `
-      <div class="detail-title">
-        <span class="material-symbols-outlined">${icon}</span>
-        ${title}
+  panel.appendChild(hero);
+
+  // ===== メイン =====
+  const main = document.createElement("div");
+  main.className = "detail-main";
+
+  // 内容
+  if(data["説明・詳細"]){
+    main.innerHTML += `
+      <div class="detail-section">
+        <div class="detail-section-title">
+          <span class="material-symbols-outlined">description</span>
+          内容
+        </div>
+        <div class="detail-section-content">
+          ${data["説明・詳細"]}
+        </div>
       </div>
-      <div class="detail-content">${value}</div>
     `;
-
-    body.appendChild(div);
   }
 
-  // カード生成
-  createCard("category", "カテゴリ", data["カテゴリ"]);
-  createCard("event", "イベント名", data["イベント名"]);
-  createCard("location_on", "住所", data["住所"]);
-  createCard("schedule", "開催状況", data["開催状況"]);
-  createCard("description", "説明", data["説明・詳細"]);
+  // 開催状況（バッジ）
+  if(data["開催状況"]){
+    const status = data["開催状況"];
 
-  // URLだけ特別処理
+    main.innerHTML += `
+      <div class="detail-section">
+        <div class="detail-section-title">
+          <span class="material-symbols-outlined">schedule</span>
+          開催状況
+        </div>
+        <div class="detail-section-content">
+          <span class="status-badge status-${status}">
+            ${status}
+          </span>
+        </div>
+      </div>
+    `;
+  }
+
+  // URL（空チェック強化）
   const url = data["関連URL"];
-
   if(url && url.trim() !== ""){
-    const div = document.createElement("div");
-    div.className = "detail-card";
-
-    div.innerHTML = `
-      <div class="detail-title">
-        <span class="material-symbols-outlined">link</span>
-        関連URL
-      </div>
-      <div class="detail-content">
-        <a href="${url}" target="_blank">リンクを開く</a>
+    main.innerHTML += `
+      <div class="detail-section">
+        <div class="detail-section-title">
+          <span class="material-symbols-outlined">link</span>
+          関連リンク
+        </div>
+        <div class="detail-section-content">
+          <a href="${url}" target="_blank">リンクを開く</a>
+        </div>
       </div>
     `;
-
-    body.appendChild(div);
   }
+
+  panel.appendChild(main);
 
   document.getElementById("detailPanel").classList.add("active");
 }
