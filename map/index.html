@@ -151,6 +151,16 @@ body{
   text-align:center;
 }
 
+.modal-logo{
+  text-align:center;
+  margin-bottom:15px;
+}
+
+.modal-logo img{
+  max-width:180px;   /* サイズ調整（好みでOK） */
+  height:auto;
+}
+   
 /* =======================
    ⑤ 検索UI
 ======================= */
@@ -560,7 +570,9 @@ body{
 
   <div class="modal-content" onclick="event.stopPropagation()">
 
-    <h3>メニュー</h3>
+    <div class="modal-logo">
+      <img src="map-title-logo.png" alt="マップタイトル">
+    </div>
 
     <div class="menu-link" onclick="goHome()">ドズル社データベース を開く</div>
     <div class="menu-link" onclick="showSection('map')">ドズル社非公式マップ を開く</div>
