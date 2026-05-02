@@ -601,9 +601,15 @@ function openModal(){
 }
 
 function closeModal(e){
-  if(e.target === e.currentTarget){
+  // 背景クリック時のみ
+  if(e && e.target === e.currentTarget){
     document.getElementById("modal").classList.remove("active");
   }
+}
+
+// ← 追加（これが重要）
+function closeModalForce(){
+  document.getElementById("modal").classList.remove("active");
 }
 
 function showSection(id){
@@ -611,7 +617,7 @@ function showSection(id){
     el.classList.remove("active");
   });
   document.getElementById(id).classList.add("active");
-  closeModal();
+  closeModalForce();
 }
 
 function goHome(){
@@ -634,9 +640,14 @@ function openFilter(){
 }
 
 function closeFilter(e){
-  if(e.target === e.currentTarget){
+  if(e && e.target === e.currentTarget){
     document.getElementById("filterModal").classList.remove("active");
   }
+}
+
+// ← 追加
+function closeFilterForce(){
+  document.getElementById("filterModal").classList.remove("active");
 }
 
 function createFilters(){
@@ -707,7 +718,7 @@ function applyFilter(){
 
   });
 
-  closeFilter();
+  closeFilterForce();
 }
 
 // =======================
