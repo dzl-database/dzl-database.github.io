@@ -67,6 +67,8 @@ body{
   color:white;
   z-index:1000;
   height:64px;
+  border-bottom:3px solid #d90000;
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);
 }
 
 .header-top{
@@ -108,13 +110,14 @@ body{
 }
 
 .site-title img{
-  height:55px;
+  height:64px;   /* ヘッダーと同じ高さ */
+  object-fit:contain;
   cursor:pointer;
 }
 
 @media(max-width:768px){
   .site-title img{
-    height:50px;
+    height:64px;
   }
 }
 
@@ -421,7 +424,7 @@ body{
 
     <!-- ★ここが重要（完全一致） -->
     <div class="site-title">
-      <a href="index.html">
+      <a href="./">
         <img src="map-title-logo.png" alt="マップタイトル">
       </a>
     </div>
