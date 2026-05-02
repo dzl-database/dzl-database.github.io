@@ -260,6 +260,47 @@ body{
   align-items:center;
   z-index:2000; /* ← これ追加 */
 }
+
+.detail-panel{
+  position:fixed;
+  top:64px;
+  left:-350px; /* ← 初期は隠す */
+  width:320px;
+  height:calc(100% - 64px);
+  background:#fff;
+  box-shadow:4px 0 12px rgba(0,0,0,0.2);
+  z-index:3000;
+  transition:0.3s;
+  display:flex;
+  flex-direction:column;
+}
+
+.detail-panel.active{
+  left:0;
+}
+
+.detail-header{
+  background:#d90000;
+  color:#fff;
+  padding:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:bold;
+}
+
+.detail-header button{
+  background:none;
+  border:none;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.detail-body{
+  padding:15px;
+  overflow-y:auto;
+}
 </style>
 </head>
 
@@ -362,6 +403,26 @@ body{
     </button>
 
   </div>
+</div>
+
+<div id="detailPanel" class="detail-panel">
+
+  <div class="detail-header">
+    <span id="detailTitle">タイトル</span>
+    <button onclick="closeDetail()">✕</button>
+  </div>
+
+  <div class="detail-body">
+
+    <p><b>カテゴリ：</b><span id="dCategory"></span></p>
+    <p><b>イベント名：</b><span id="dEvent"></span></p>
+    <p><b>住所：</b><span id="dAddress"></span></p>
+    <p><b>開催状況：</b><span id="dStatus"></span></p>
+    <p><b>説明：</b><span id="dDesc"></span></p>
+    <p><b>関連URL：</b><a id="dUrl" target="_blank"></a></p>
+
+  </div>
+
 </div>
   
 <script>
@@ -569,12 +630,10 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS-mAknXEbape8065ZFUgQ0sY
         icon: getIcon(item["カテゴリ"])
       }).addTo(map);
 
-      marker.bindPopup(`
-        <b>${item["場所名"]}</b><br>
-        ${item["イベント名"] || ""}<br>
-        ${item["住所"] || ""}
-      `);
-
+      marker.on("click", () => {
+        openDetail(item);
+      });
+      
       markers.push({ marker, data: item });
     });
 
@@ -634,6 +693,32 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
 });
+
+function openDetail(data){
+
+  document.getElementById("detailTitle").textContent = data["場所名"] || "";
+  document.getElementById("dCategory").textContent = data["カテゴリ"] || "";
+  document.getElementById("dEvent").textContent = data["イベント名"] || "";
+  document.getElementById("dAddress").textContent = data["住所"] || "";
+  document.getElementById("dStatus").textContent = data["開催状況"] || "";
+  document.getElementById("dDesc").textContent = data["説明・詳細"] || "";
+
+  const url = data["関連URL"];
+  const link = document.getElementById("dUrl");
+
+  if(url){
+    link.href = url;
+    link.textContent = url;
+  }else{
+    link.textContent = "なし";
+  }
+
+  document.getElementById("detailPanel").classList.add("active");
+}
+
+function closeDetail(){
+  document.getElementById("detailPanel").classList.remove("active");
+}
 </script>
   
 </body>
