@@ -638,7 +638,6 @@ const categories = [
   {name:"コンビニ", color:"#FCC700"},
   {name:"カプセルトイ", color:"#54C3F1"},
   {name:"ゲームセンター", color:"#EB6D9A"},
-  {name:"イベント", color:"green"},
   {name:"その他", color:"black"}
 ];
 
@@ -739,7 +738,6 @@ function getIcon(category){
     case "コンビニ": color = "#FCC700"; icon = "store"; break;
     case "カプセルトイ": color = "#54C3F1"; icon = "local_laundry_service"; break;
     case "ゲームセンター": color = "#EB6D9A"; icon = "sports_esports"; break;
-    case "イベント": color = "green"; icon = "attractions"; break;
     case "その他": color = "black"; icon = "place"; break;
   }
 
@@ -975,7 +973,6 @@ function getCategoryStyle(category){
     case "コンビニ": return { color:"#FCC700", icon:"store" };
     case "カプセルトイ": return { color:"#54C3F1", icon:"local_laundry_service" };
     case "ゲームセンター": return { color:"#EB6D9A", icon:"sports_esports" };
-    case "イベント": return { color:"green", icon:"attractions" };
     default: return { color:"black", icon:"place" };
   }
 
