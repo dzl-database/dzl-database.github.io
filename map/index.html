@@ -485,30 +485,43 @@ function applyFilter(){
 // =======================
 function getIcon(category){
 
-  let color = "black"; // デフォルト
+  let color = "black";
+  let icon = "place"; // デフォルト
 
   switch(category){
-    case "グッズ": color = "#C80000"; break;
-    case "飲食": color = "#733C93"; break;
-    case "コンビニ": color = "#FCC700"; break;
-    case "カプセルトイ": color = "#54C3F1"; break;
-    case "ゲームセンター": color = "#EB6D9A"; break;
-    case "イベント": color = "green"; break;
-    case "その他": color = "black"; break;
+    case "グッズ": color = "#C80000"; icon = "shopping_bag"; break;
+    case "飲食": color = "#733C93"; icon = "restaurant"; break;
+    case "コンビニ": color = "#FCC700"; icon = "store"; break;
+    case "カプセルトイ": color = "#54C3F1"; icon = "toys"; break;
+    case "ゲームセンター": color = "#EB6D9A"; icon = "sports_esports"; break;
+    case "イベント": color = "green"; icon = "event"; break;
+    case "その他": color = "black"; icon = "place"; break;
   }
 
   return L.divIcon({
-    html: `<div style="
-      background:${color};
-      width:14px;
-      height:14px;
-      border-radius:50%;
-      border:2px solid white;
-      box-shadow:0 0 4px rgba(0,0,0,0.4);
-    "></div>`,
+    html: `
+      <div style="
+        background:${color};
+        width:26px;
+        height:26px;
+        border-radius:50%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border:2px solid white;
+        box-shadow:0 0 6px rgba(0,0,0,0.4);
+      ">
+        <span class="material-symbols-outlined" style="
+          font-size:16px;
+          color:white;
+        ">
+          ${icon}
+        </span>
+      </div>
+    `,
     className: "",
-    iconSize: [18,18],
-    iconAnchor: [9,9]
+    iconSize: [26,26],
+    iconAnchor: [13,13]
   });
 }
   
