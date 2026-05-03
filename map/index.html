@@ -844,10 +844,10 @@ body{
     </div>
 
     <div class="menu-link" onclick="goHome()">ドズル社データベース を開く</div>
-    <div class="menu-link" onclick="showSection('map')">ドズル社非公式マップ を開く</div>
-    <div class="menu-link" onclick="showSection('contributors')">情報提供者様 一覧</div>
-    <div class="menu-link" onclick="showSection('howto')">使い方</div>
-    <div class="menu-link" onclick="showSection('terms')">利用規約</div>
+    <div class="menu-link" onclick="showSection('map'); closeModalForce();">ドズル社非公式マップ を開く</div>
+    <div class="menu-link" onclick="showSection('contributors'); closeModalForce();">情報提供者様 一覧</div>
+    <div class="menu-link" onclick="showSection('howto'); closeModalForce();">使い方</div>
+    <div class="menu-link" onclick="showSection('terms'); closeModalForce();">利用規約</div>
 
   </div>
 
@@ -1017,20 +1017,21 @@ function showSection(id){
   });
   document.getElementById(id).classList.add("active");
 
-  // ===== UI制御ここから =====
-  const searchUI = document.querySelector(".search-container");
+  // ===== ここ修正 =====
+  const extraButtons = document.querySelector(".extra-buttons");
   const detailPanel = document.getElementById("detailPanel");
 
   if(id === "map"){
-    searchUI.classList.remove("hidden-ui");
+    extraButtons.classList.remove("hidden-ui");
     detailPanel.classList.remove("hidden-ui");
   }else{
-    searchUI.classList.add("hidden-ui");
+    extraButtons.classList.add("hidden-ui");
     detailPanel.classList.add("hidden-ui");
   }
 
   closeModalForce();
 }
+   
 function goHome(){
   location.href = "/";
 }
