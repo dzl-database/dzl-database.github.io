@@ -698,8 +698,9 @@ body{
 
 .extra-buttons{
   position: fixed;
-  bottom: 20px;   /* ← 下固定に統一 */
-  right: 20px;
+
+  top: 80px;   /* ← ヘッダー下に配置 */
+  right: 12px;
 
   display:flex;
   flex-direction:column;
@@ -960,10 +961,10 @@ body{
 <div class="extra-buttons">
 
   <!-- 検索（NEW） -->
-  <button class="circle-btn">
+  <button class="circle-btn" onclick="openSearchModal()">
     <span class="material-symbols-outlined">search</span>
   </button>
-
+   
   <!-- フィルター -->
   <button class="circle-btn main" onclick="openFilter()">
     <span class="material-symbols-outlined">tune</span>
@@ -1020,6 +1021,26 @@ body{
       <button class="btn btn-cancel" onclick="closeAddModal()">戻る</button>
       <button class="btn btn-main" onclick="openForm()">開く</button>
     </div>
+
+  </div>
+
+</div>
+
+<!-- ===== 検索モーダル ===== -->
+<div id="searchModal" class="modal" onclick="closeSearchModal(event)">
+
+  <div class="modal-content" onclick="event.stopPropagation()" style="width:320px;">
+
+    <h3>検索</h3>
+
+    <input type="text" placeholder="キーワード検索"
+      style="
+        width:100%;
+        padding:10px;
+        border-radius:8px;
+        border:1px solid #ccc;
+        margin-top:10px;
+      ">
 
   </div>
 
@@ -1512,6 +1533,16 @@ function openRoute(address){
   const url = `https://www.google.com/maps/dir/?api=1&destination=${encoded}`;
 
   window.open(url, "_blank");
+}
+
+function openSearchModal(){
+  document.getElementById("searchModal").classList.add("active");
+}
+
+function closeSearchModal(e){
+  if(e && e.target === e.currentTarget){
+    document.getElementById("searchModal").classList.remove("active");
+  }
 }
 
 function openEditForm(){
