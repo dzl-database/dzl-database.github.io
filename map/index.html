@@ -270,17 +270,22 @@ body{
 
 .type-btn{
   flex:1;
-  padding:6px;
+  padding:8px;
   border:none;
   border-radius:999px;
   background:#eee;
   cursor:pointer;
   font-size:12px;
+  transition:0.2s;
 }
 
 .type-btn.active{
   background:#d90000;
   color:#fff;
+}
+
+.type-btn:hover{
+  opacity:0.8;
 }
 
 /* =======================
@@ -1064,6 +1069,10 @@ body{
         margin-top:10px;
       ">
 
+    <div id="searchTypeLabel" style="margin-top:10px; font-size:13px; color:#666;">
+      検索対象：スポット名
+    </div>
+
     <!-- 検索タイプ -->
     <div class="search-type">
       <button class="type-btn active" data-type="place">スポット名</button>
@@ -1569,6 +1578,7 @@ function openRoute(address){
 
 function openSearchModal(){
   document.getElementById("searchModal").classList.add("active");
+  updateSearchLabel(); // ←追加
 }
 
 function closeSearchModal(e){
@@ -1703,14 +1713,20 @@ let currentSearchType = "place";
 
 // タイプ切替
 document.addEventListener("click", (e)=>{
-  if(e.target.classList.contains("type-btn")){
 
-    document.querySelectorAll(".type-btn").forEach(btn=>{
-      btn.classList.remove("active");
+  const btn = e.target.closest(".type-btn"); // ←これが神
+
+  if(btn){
+
+    document.querySelectorAll(".type-btn").forEach(b=>{
+      b.classList.remove("active");
     });
 
-    e.target.classList.add("active");
-    currentSearchType = e.target.dataset.type;
+    btn.classList.add("active");
+    currentSearchType = btn.dataset.type;
+
+    // ★表示更新
+    updateSearchLabel();
 
   }
 });
@@ -1780,6 +1796,18 @@ document.addEventListener("DOMContentLoaded", ()=>{
   });
 
 });
+
+function updateSearchLabel(){
+
+  const label = document.getElementById("searchTypeLabel");
+
+  let text = "スポット名";
+
+  if(currentSearchType === "address") text = "住所";
+  if(currentSearchType === "event") text = "イベント名";
+
+  label.textContent = "検索対象：" + text;
+}
    
 </script>
   
