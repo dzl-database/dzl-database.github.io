@@ -305,10 +305,19 @@ body{
     padding:16px;
     box-sizing:border-box;
 
-    transform: translateY(100%);
+    /* ★待機位置をもっと下へ */
+    transform: translateY(120%);
     transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 
     z-index:1500;
+  }
+ 
+  .detail-panel{
+    will-change: transform;
+  }
+
+  .detail-panel *{
+    transform: translateZ(0);
   }
 
   .detail-panel.active{
@@ -317,7 +326,7 @@ body{
 
   .detail-inner{
     width:100%;
-    max-width:520px;
+    max-width:640px; /* ★横幅拡張（ここ重要） */
 
     max-height:75vh;
 
