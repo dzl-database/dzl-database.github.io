@@ -501,6 +501,10 @@ body{
 
   background:rgba(255,255,255,0.2);
   backdrop-filter:blur(4px);
+
+  /* ★追加 */
+  border:2px solid #fff;
+  box-shadow:0 2px 6px rgba(0,0,0,0.15);
 }
 
 .category-badge .material-symbols-outlined{
@@ -510,6 +514,32 @@ body{
 .info-value{
   max-width:60%;
   text-align:right;
+}
+
+/* スクロールバー全体 */
+#detailBody::-webkit-scrollbar{
+  width:6px;
+}
+
+/* 背景（←これを消す） */
+#detailBody::-webkit-scrollbar-track{
+  background:transparent;
+}
+
+/* つまみ */
+#detailBody::-webkit-scrollbar-thumb{
+  background:#ccc;
+  border-radius:10px;
+}
+
+/* ホバー時 */
+#detailBody::-webkit-scrollbar-thumb:hover{
+  background:#aaa;
+}
+
+#detailBody{
+  scrollbar-width:thin;
+  scrollbar-color:#ccc transparent;
 }
    
 /* =======================
