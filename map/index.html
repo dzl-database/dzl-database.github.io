@@ -203,6 +203,22 @@ body{
   z-index:1000;
 }
 
+@media(max-width:768px){
+
+  .search-container{
+    top:70px;
+    left:50%;
+    transform:translateX(-50%);
+    right:auto;
+    width:90%;
+  }
+
+  .filter-btn{
+    display:none; /* ← 上のフィルター消す */
+  }
+
+}
+
 /* 入力欄 */
 .search-bar{
   display:flex;
@@ -312,14 +328,25 @@ body{
 }
 
 @media(max-width:768px){
+
   .detail-panel{
-    width:92%;
-    left:-100%;
+    top:auto;
+    bottom:-100%;
+    left:0;
+    width:100%;
+    height:85%;
+
+    transition:0.35s;
   }
 
   .detail-panel.active{
-    left:4%;
+    bottom:0;
   }
+
+  .detail-inner{
+    border-radius:16px 16px 0 0;
+  }
+
 }
 
 /* 中身 */
@@ -665,6 +692,18 @@ body{
   z-index:1000;        /* ← マップより前に出す */
 }
 
+@media(max-width:768px){
+
+  .extra-buttons{
+    top:auto;
+    bottom:20px;
+    right:16px;
+
+    flex-direction:column;
+  }
+
+}
+
 .circle-btn{
   width:44px;
   height:44px;
@@ -918,7 +957,12 @@ body{
 </div>
 
 <!-- 追加ボタン群 -->
-<div class="extra-buttons">
+<div class="extra-buttons
+
+  <!-- フィルター（スマホ用） -->
+  <button class="circle-btn" onclick="openFilter()">
+    <span class="material-symbols-outlined">filter_list</span>
+  </button>
 
   <!-- 一覧 -->
   <button class="circle-btn" onclick="showNearbyList()">
