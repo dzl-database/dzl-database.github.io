@@ -195,28 +195,11 @@ body{
 ======================= */
 .search-container{
   position:fixed;
-  top:72px;
+  top:80px;
   right:20px;
   display:flex;
   align-items:center;
   z-index:1000;
-}
-
-/* スマホでも右寄せ維持 */
-@media(max-width:768px){
-
-  .search-container{
-    top:72px;
-    right:12px;
-    left:auto;   /* ←これ重要 */
-    width:auto;  /* ←これ重要 */
-    padding:0;
-  }
-
-  .search-bar{
-    width:260px; /* PCと統一 */
-  }
-
 }
    
 /* 入力欄 */
@@ -225,16 +208,21 @@ body{
   align-items:center;
   background:#fff;
   border-radius:30px;
-  padding:8px 14px;
+
+  padding:12px 18px;  /* ←ここ拡張 */
+
   box-shadow:0 4px 12px rgba(0,0,0,0.2);
   width:260px;
+
+  cursor:text;
 }
 
 .search-bar input{
   border:none;
   outline:none;
   width:100%;
-  font-size:14px;
+  font-size:15px; /* ←少し大きく */
+  padding:4px 0;  /* ←縦の当たり判定UP */
 }
 
 /* 🔍アイコン */
@@ -321,14 +309,6 @@ body{
 .filter-inside-btn .material-symbols-outlined{
   font-size:22px;
   color:#555;
-}
-
-/* 入力欄の余白調整（ボタン分） */
-.search-bar input{
-  border:none;
-  outline:none;
-  width:100%;
-  font-size:14px;
 }
    
 /* =======================
