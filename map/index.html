@@ -295,21 +295,20 @@ body{
 
   .detail-panel{
     position:fixed;
-    top:0;
     left:0;
-
-    width:100%;
-    height:100%;
+    right:0;
+    bottom:0;
 
     display:flex;
     justify-content:center;
-    align-items:flex-end;
 
     padding:16px;
     box-sizing:border-box;
 
     transform: translateY(100%);
     transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+
+    z-index:1500;
   }
 
   .detail-panel.active{
@@ -319,9 +318,8 @@ body{
   .detail-inner{
     width:100%;
     max-width:520px;
-    max-height:75vh;
 
-    margin:0 auto; /* ← 中央固定の核 */
+    max-height:75vh;
 
     border-radius:16px;
     overflow:hidden;
