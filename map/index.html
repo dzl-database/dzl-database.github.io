@@ -290,50 +290,6 @@ body{
 .detail-panel.active{
   left:16px; /* ← ここが神ポイント */
 }
-
-@media(max-width:768px){
-
-  .detail-panel{
-    position:fixed;
-    left:0;
-    right:0;
-    bottom:0;
-
-    display:flex;
-    justify-content:center;
-
-    padding:16px;
-    box-sizing:border-box;
-
-    /* ★待機位置をもっと下へ */
-    transform: translateY(120%);
-    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
-
-    z-index:1500;
-  }
- 
-  .detail-panel{
-    will-change: transform;
-  }
-
-  .detail-panel *{
-    transform: translateZ(0);
-  }
-
-  .detail-panel.active{
-    transform: translateY(0);
-  }
-
-  .detail-inner{
-    width:100%;
-    max-width:640px; /* ★横幅拡張（ここ重要） */
-
-    max-height:75vh;
-
-    border-radius:16px;
-    overflow:hidden;
-  }
-}
    
 /* 中身 */
 .detail-inner{
