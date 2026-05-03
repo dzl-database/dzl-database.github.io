@@ -416,6 +416,73 @@ body{
   line-height:1.6;
 }
 
+/* ===== 改良デザイン ===== */
+
+/* ヒーロー強化 */
+.detail-hero{
+  padding:18px;
+  color:#fff;
+  position:relative;
+}
+
+/* ステータスバッジ */
+.status-badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:12px;
+  margin-top:8px;
+  background:rgba(255,255,255,0.2);
+}
+
+/* アクションボタン */
+.detail-actions{
+  display:flex;
+  gap:10px;
+  margin-top:12px;
+}
+
+.detail-btn{
+  flex:1;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  font-size:13px;
+  cursor:pointer;
+}
+
+.detail-btn.main{
+  background:#fff;
+  color:#000;
+  font-weight:bold;
+}
+
+.detail-btn.sub{
+  background:rgba(255,255,255,0.2);
+  color:#fff;
+}
+
+/* 情報リスト */
+.info-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.info-item{
+  display:flex;
+  justify-content:space-between;
+  font-size:14px;
+}
+
+.info-label{
+  color:#666;
+}
+
+.info-value{
+  font-weight:bold;
+}
+   
 /* =======================
    (8) 利用規約
 ======================= */
@@ -1111,10 +1178,10 @@ function openDetail(data){
   const category = data["カテゴリ"];
   const style = getCategoryStyle(category);
 
-  // ===== 上部 =====
+  // ===== ヒーロー =====
   const hero = document.createElement("div");
   hero.className = "detail-hero";
-  hero.style.background = style.color;
+  hero.style.background = `linear-gradient(135deg, ${style.color}, #000)`;
 
   hero.innerHTML = `
     <div class="detail-category">
@@ -1129,6 +1196,24 @@ function openDetail(data){
     <div class="detail-hero-address">
       ${data["住所"] || ""}
     </div>
+
+    ${data["開催状況"] ? `
+      <div class="status-badge">
+        ${data["開催状況"]}
+      </div>
+    ` : ""}
+
+    <div class="detail-actions">
+      <button class="detail-btn main" onclick="goMap(${data["緯度"]}, ${data["経度"]})">
+        マップで見る
+      </button>
+
+      ${data["関連URL"] ? `
+        <button class="detail-btn sub" onclick="window.open('${data["関連URL"]}')">
+          リンク
+        </button>
+      ` : ""}
+    </div>
   `;
 
   panel.appendChild(hero);
@@ -1137,13 +1222,13 @@ function openDetail(data){
   const main = document.createElement("div");
   main.className = "detail-main";
 
-  // 内容
+  // 概要
   if(data["説明・詳細"]){
     main.innerHTML += `
       <div class="detail-section">
         <div class="detail-section-title">
-          <span class="material-symbols-outlined">description</span>
-          内容
+          <span class="material-symbols-outlined">article</span>
+          概要
         </div>
         <div class="detail-section-content">
           ${data["説明・詳細"]}
@@ -1152,36 +1237,31 @@ function openDetail(data){
     `;
   }
 
-  // 開催状況（← バッジやめた）
-  if(data["開催状況"]){
-    main.innerHTML += `
-      <div class="detail-section">
-        <div class="detail-section-title">
-          <span class="material-symbols-outlined">schedule</span>
-          開催状況
-        </div>
-        <div class="detail-section-content">
-          ${data["開催状況"]}
-        </div>
+  // 情報まとめ
+  main.innerHTML += `
+    <div class="detail-section">
+      <div class="detail-section-title">
+        <span class="material-symbols-outlined">info</span>
+        情報
       </div>
-    `;
-  }
 
-  // URL
-  const url = data["関連URL"];
-  if(url && url.trim() !== ""){
-    main.innerHTML += `
-      <div class="detail-section">
-        <div class="detail-section-title">
-          <span class="material-symbols-outlined">link</span>
-          関連リンク
-        </div>
-        <div class="detail-section-content">
-          <a href="${url}" target="_blank">リンクを開く</a>
-        </div>
+      <div class="info-list">
+        ${category ? `
+          <div class="info-item">
+            <div class="info-label">カテゴリ</div>
+            <div class="info-value">${category}</div>
+          </div>
+        ` : ""}
+
+        ${data["開催状況"] ? `
+          <div class="info-item">
+            <div class="info-label">状態</div>
+            <div class="info-value">${data["開催状況"]}</div>
+          </div>
+        ` : ""}
       </div>
-    `;
-  }
+    </div>
+  `;
 
   panel.appendChild(main);
 
@@ -1190,6 +1270,10 @@ function openDetail(data){
 
 function closeDetail(){
   document.getElementById("detailPanel").classList.remove("active");
+}
+
+function goMap(lat, lng){
+  map.setView([lat, lng], 17);
 }
 
 function getCategoryStyle(category){
