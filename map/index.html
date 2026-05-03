@@ -15,7 +15,7 @@
 
 <style>
 /* =======================
-   ① ベース
+   (1) ベース
 ======================= */
 html, body{
   margin:0;
@@ -42,7 +42,7 @@ body{
 }
    
 /* =======================
-   ② レイアウト
+   (2) レイアウト
 ======================= */
 .section{
   display:none;
@@ -59,7 +59,7 @@ body{
 }
 
 /* =======================
-   ③ ヘッダー
+   (3) ヘッダー
 ======================= */
 .main-header{
   position:fixed;
@@ -129,7 +129,7 @@ body{
 }
 
 /* =======================
-   ④ モーダル
+   (4) モーダル
 ======================= */
 .modal{
   position:fixed;
@@ -164,7 +164,7 @@ body{
 }
    
 /* =======================
-   ⑤ 検索UI
+   (5) 検索UI
 ======================= */
 .search-container{
   position:fixed;
@@ -229,7 +229,7 @@ body{
 }
 
 /* =======================
-   ⑥ フィルターUI
+   (6) フィルターUI
 ======================= */
 .filter-btn{
   width:44px;
@@ -260,7 +260,7 @@ body{
 }
 
 /* =======================
-   ⑦ 詳細パネル
+   (7) 詳細パネル
 ======================= */
 
 /* 外枠（余白用） */
@@ -390,7 +390,7 @@ body{
 }
 
 /* =======================
-   ⑧ 利用規約
+   (8) 利用規約
 ======================= */
    
 #terms h2{
@@ -434,7 +434,7 @@ body{
 }
 
 /* =======================
-   ⑨ 機能ボタン3種
+   (9) 機能ボタン3種
 ======================= */
    
 .extra-buttons{
@@ -525,6 +525,37 @@ body{
   0%{ transform:scale(1); opacity:1; }
   100%{ transform:scale(2); opacity:0; }
 }
+
+/* =======================
+   (10) フッター
+======================= */
+   
+.site-footer{
+  background:#fff;
+  border-top:2px solid #eee;
+  padding:15px 10px;
+  text-align:center;
+  font-size:13px;
+  color:#555;
+
+  position:fixed;
+  bottom:0;
+  width:100%;
+}
+
+.site-footer a{
+  color:#d90000;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+.site-footer a:hover{
+  text-decoration:underline;
+}
+
+.footer-text{
+  margin:6px 0;
+}
    
 </style>
 </head>
@@ -551,6 +582,21 @@ body{
   </div>
 
 </header>
+
+<footer class="site-footer">
+
+  <p class="footer-text">
+    本サイトは非公式ファンサイトです。ご利用前に
+    <a href="#" onclick="showSection('terms')">利用規約</a>
+    をご確認ください。
+  </p>
+
+  <p class="footer-text">
+    スポットの情報提供募集中 →
+    <a href="#" onclick="openAddModal()">こちらから</a>
+  </p>
+
+</footer>
 
 <!-- ===== マップ ===== -->
 <div id="map" class="section active">
