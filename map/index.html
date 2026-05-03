@@ -714,27 +714,15 @@ body{
 ======================= */
 
 .extra-buttons{
-  position: fixed;     /* ← これが最重要 */
-  top: 80px; /* ←ここ調整（70〜90くらいでOK） */
+  position: fixed;
+  bottom: 20px;   /* ← 下固定に統一 */
   right: 20px;
 
   display:flex;
   flex-direction:column;
   gap:10px;
 
-  z-index:1000;        /* ← マップより前に出す */
-}
-
-@media(max-width:768px){
-
-  .extra-buttons{
-    top:auto;
-    bottom:20px;
-    right:16px;
-
-    flex-direction:column;
-  }
-
+  z-index:1000;
 }
 
 .circle-btn{
