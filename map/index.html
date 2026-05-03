@@ -965,6 +965,16 @@ body{
 .howto-btn:hover{
   background:#b80000;
 }
+
+.contributors-list{
+  margin-top:20px;
+  text-align:center; /* ← 中央寄せ */
+}
+
+.contributor-item{
+  margin:6px 0;
+  font-size:16px;
+}
    
 </style>
 </head>
@@ -1002,6 +1012,10 @@ body{
   <div class="content">
     <h2>情報提供者様 一覧</h2>
     <p>フォームから情報提供してくださった方は、こちらに名前を記載させていただきます。</p>
+
+    <!-- ★追加 -->
+    <div id="contributorsList" class="contributors-list"></div>
+
   </div>
 </div>
 
@@ -2251,6 +2265,46 @@ function updateSearchLabel(){
 
   label.textContent = "検索対象：" + text;
 }
+
+// =======================
+// 提供者一覧CSV読み込み
+// =======================
+
+// ★ここに新しいCSV_URLを入れてください
+const CONTRIBUTORS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS-mAknXEbape8065ZFUgQ0sYVab31C0ZbYIOAzqjZtuj-pAFPcAeA4eg3f8ZeD0K-bTd51A19iNMQH/pub?gid=1182453185&single=true&output=csv";
+
+fetch(CONTRIBUTORS_CSV_URL)
+  .then(res => res.text())
+  .then(text => {
+
+    const parsed = Papa.parse(text, {
+      header: true,
+      skipEmptyLines: true
+    });
+
+    const list = document.getElementById("contributorsList");
+    list.innerHTML = "";
+
+    const names = new Set(); // ★追加（重複管理）
+
+    parsed.data.forEach(item => {
+
+      const name = item["名前"];
+
+      // 空 or すでにある名前はスキップ
+      if(!name || names.has(name)) return;
+
+      names.add(name); // ★登録
+
+      const div = document.createElement("div");
+      div.className = "contributor-item";
+      div.textContent = `${name} 様`;
+
+      list.appendChild(div);
+
+    });
+
+  });
    
 </script>
   
