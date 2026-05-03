@@ -327,9 +327,11 @@ body{
   background:#fff;
   border-radius:10px;
 
-  /* ★ここ追加 */
-  border:1px solid rgba(0,0,0,0.08);
-  box-shadow:0 8px 24px rgba(0,0,0,0.12);
+  /* ★ここ変更 */
+  border:2px solid #d90000;
+
+  /* 影は少し控えめに（赤枠を目立たせる） */
+  box-shadow:0 6px 16px rgba(0,0,0,0.1);
 
   overflow:hidden;
   display:flex;
@@ -557,30 +559,19 @@ body{
   text-align:right;
 }
 
-/* スクロールバー全体 */
+/* Chrome・Safari */
 #detailBody::-webkit-scrollbar{
-  width:6px;
+  display:none;
 }
 
-/* 背景（←これを消す） */
-#detailBody::-webkit-scrollbar-track{
-  background:transparent;
-}
-
-/* つまみ */
-#detailBody::-webkit-scrollbar-thumb{
-  background:#ccc;
-  border-radius:10px;
-}
-
-/* ホバー時 */
-#detailBody::-webkit-scrollbar-thumb:hover{
-  background:#aaa;
-}
-
+/* Firefox */
 #detailBody{
-  scrollbar-width:thin;
-  scrollbar-color:#ccc transparent;
+  scrollbar-width:none;
+}
+
+/* IE系（念のため） */
+#detailBody{
+  -ms-overflow-style:none;
 }
 
 .detail-close-btn{
