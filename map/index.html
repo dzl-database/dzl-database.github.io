@@ -349,22 +349,6 @@ body{
   width:100%;
 }
 
-/* ヘッダー（閉じるボタン） */
-.detail-header{
-  background: transparent; /* ← 消す */
-  position:absolute;
-  top:10px;
-  left:10px;
-}
-   
-.detail-header button{
-  background:none;
-  border:none;
-  color:black;
-  font-size:16px;
-  cursor:pointer;
-}
-
 /* スクロール領域 */
 #detailBody{
   overflow-y:auto;
@@ -455,7 +439,7 @@ body{
   color:#fff;
   position:relative;
 }
-
+   
 /* ステータスバッジ */
 .status-badge{
   display:inline-block;
@@ -1023,10 +1007,6 @@ body{
 <div id="detailPanel" class="detail-panel">
 
   <div class="detail-inner"> <!-- ★これ追加 -->
-
-    <div class="detail-header">
-      <button onclick="closeDetail()"></button>
-    </div>
 
     <div id="detailBody"></div>
 
