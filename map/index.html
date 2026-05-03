@@ -288,6 +288,34 @@ body{
   opacity:0.8;
 }
 
+/* 検索結果（モーダル用） */
+#modalSearchResult{
+  height:300px;          /* ← 固定高さ（好きに調整OK） */
+  overflow-y:auto;       /* ← スクロール */
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+  margin-top:10px;
+}
+
+/* 各アイテム */
+.search-item{
+  padding:12px;
+  border-bottom:1px solid #eee;
+  cursor:pointer;
+}
+
+.search-item:hover{
+  background:#f5f5f5;
+}
+
+/* サブテキスト */
+.search-sub{
+  font-size:12px;
+  color:#666;
+  margin-top:4px;
+}
+
 /* =======================
    (6) フィルターUI
 ======================= */
