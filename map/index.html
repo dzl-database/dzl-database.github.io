@@ -963,6 +963,25 @@ body{
 
 </div>
 
+<!-- ===== 一覧モーダル ===== -->
+<div id="listModal" class="modal" onclick="closeListModal(event)">
+
+  <div class="modal-content" onclick="event.stopPropagation()" style="width:320px; text-align:left;">
+
+    <h3>近くのスポット</h3>
+
+    <!-- 一覧表示エリア -->
+    <div id="listResult" style="
+      max-height:300px;
+      overflow-y:auto;
+      margin-top:10px;
+    "></div>
+
+  </div>
+
+</div>
+
+<!-- ===== 詳細パネル ===== -->
 <div id="detailPanel" class="detail-panel">
 
   <div class="detail-inner"> <!-- ★これ追加 -->
@@ -1391,6 +1410,16 @@ function closeSearchModal(e){
   }
 }
 
+function openListModal(){
+  document.getElementById("listModal").classList.add("active");
+}
+
+function closeListModal(e){
+  if(!e || e.target === e.currentTarget){
+    document.getElementById("listModal").classList.remove("active");
+  }
+}
+
 function openEditForm(){
   window.open("https://forms.gle/ontjkVvF4kRG2dmp7", "_blank");
 }
@@ -1413,8 +1442,12 @@ function getCategoryStyle(category){
 // =======================
 function showNearbyList(){
 
+  // モーダル開く
+  openListModal();
+
   const center = map.getCenter();
 
+  // 距離付きで並び替え
   const sorted = markers.map(obj => {
 
     const lat = parseFloat(obj.data["緯度"]);
@@ -1426,31 +1459,40 @@ function showNearbyList(){
 
   }).sort((a,b)=> a.dist - b.dist);
 
-  const resultBox = document.getElementById("searchResult");
+  const resultBox = document.getElementById("listResult");
   resultBox.innerHTML = "";
-  resultBox.classList.add("active");
 
-  sorted.slice(0,10).forEach(obj => {
+  // 上位20件表示（調整OK）
+  sorted.slice(0,20).forEach(obj => {
 
     const item = obj.data;
 
     const div = document.createElement("div");
     div.className = "search-item";
+
     div.innerHTML = `
-      <strong>${item["場所名"]}</strong><br>
-      <small>${item["イベント名"] || ""}</small>
+      <strong>${item["場所名"] || "名称なし"}</strong>
+      <div class="search-sub">
+        ${item["住所"] || ""}
+      </div>
     `;
 
     div.onclick = () => {
+
       const lat = parseFloat(item["緯度"]);
       const lng = parseFloat(item["経度"]);
 
-      map.setView([lat, lng], 15);
+      // マップ移動
+      map.setView([lat, lng], 16);
+
+      // モーダル閉じる
+      closeListModal();
     };
 
     resultBox.appendChild(div);
 
   });
+
 }
 
 
