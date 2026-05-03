@@ -293,10 +293,10 @@ body{
 /* 外枠（余白用） */
 .detail-panel{
   position:fixed;
-  top:80px;
-  left:-350px;
-  width:320px;
-  height:calc(100% - 160px);
+  top:72px; /* 少し上に寄せる */
+  left:-360px; /* 少し多めに隠す */
+  width:340px;
+  height:calc(100% - 90px); /* ← かなり広げる */
 
   background:transparent;
   box-shadow:none;
@@ -308,13 +308,24 @@ body{
 }
 
 .detail-panel.active{
-  left:0;
+  left:16px; /* ← ここが神ポイント */
+}
+
+@media(max-width:768px){
+  .detail-panel{
+    width:92%;
+    left:-100%;
+  }
+
+  .detail-panel.active{
+    left:4%;
+  }
 }
 
 /* 中身 */
 .detail-inner{
   background:#fff;
-  border-radius:16px;
+  border-radius:10px; /* 少しシャープに */
   overflow:hidden;
   display:flex;
   flex-direction:column;
