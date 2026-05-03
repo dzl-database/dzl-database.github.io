@@ -456,6 +456,7 @@ body{
   display:flex;
   gap:10px;
   margin-top:12px;
+  flex-wrap:wrap; /* ← これ追加おすすめ */
 }
 
 .detail-btn{
@@ -1274,8 +1275,13 @@ function openDetail(data){
     ` : ""}
 
     <div class="detail-actions">
+
       <button class="detail-btn main" onclick="goMap(${data["緯度"]}, ${data["経度"]})">
         マップで見る
+      </button>
+
+      <button class="detail-btn sub" onclick="openRoute(${data["緯度"]}, ${data["経度"]})">
+        経路
       </button>
 
       ${data["関連URL"] ? `
@@ -1283,6 +1289,11 @@ function openDetail(data){
           リンク
         </button>
       ` : ""}
+
+      <button class="detail-btn sub" onclick="openEditForm()">
+        情報修正
+      </button>
+
     </div>
   `;
 
@@ -1374,6 +1385,15 @@ function closeDetail(){
 
 function goMap(lat, lng){
   map.setView([lat, lng], 17);
+}
+
+function openRoute(lat, lng){
+  const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`;
+  window.open(url, "_blank");
+}
+
+function openEditForm(){
+  window.open("https://forms.gle/ontjkVvF4kRG2dmp7", "_blank");
 }
 
 function getCategoryStyle(category){
