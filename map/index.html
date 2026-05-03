@@ -40,6 +40,11 @@ body{
 .content{
   padding:20px;
 }
+
+#leafletMap{
+  width:100%;
+  height:100%;
+}
    
 /* =======================
    (2) レイアウト
@@ -47,7 +52,8 @@ body{
 .section{
   display:none;
   padding-top:64px;
-  height:calc(100vh - 64px);
+
+  height:calc(100vh - 64px - 60px); /* ← フッター分引く */
 }
 
 .section.active{
@@ -531,16 +537,22 @@ body{
 ======================= */
    
 .site-footer{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  height:60px;          /* ← 高さを固定（重要） */
+
   background:#fff;
   border-top:2px solid #eee;
-  padding:15px 10px;
   text-align:center;
   font-size:13px;
   color:#555;
 
-  position:fixed;
-  bottom:0;
-  width:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+
+  z-index:1000;         /* ← ヘッダーと同じ層にする */
 }
 
 .site-footer a{
