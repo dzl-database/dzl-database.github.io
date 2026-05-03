@@ -207,14 +207,14 @@ body{
 
   .search-container{
     top:70px;
-    left:50%;
-    transform:translateX(-50%);
-    right:auto;
-    width:90%;
+    left:0;
+    transform:none;
+    width:100%;
+    padding:0 10px; /* 余白だけ残す */
   }
 
-  .filter-btn{
-    display:none; /* ← 上のフィルター消す */
+  .search-bar{
+    width:100%;
   }
 
 }
@@ -684,10 +684,10 @@ body{
 /* =======================
    (9) 機能ボタン3種
 ======================= */
-   
+
 .extra-buttons{
   position: fixed;     /* ← これが最重要 */
-  top: 130px;          /* 検索バーの下あたり */
+  top: 80px; /* ←ここ調整（70〜90くらいでOK） */
   right: 20px;
 
   display:flex;
@@ -953,11 +953,6 @@ body{
     <!-- 検索結果 -->
     <div id="searchResult" class="search-result"></div>
   </div>
-
-  <!-- フィルターボタン -->
-  <button class="filter-btn" onclick="openFilter()">
-    <span class="material-symbols-outlined">filter_list</span>
-  </button>
 
 </div>
 
