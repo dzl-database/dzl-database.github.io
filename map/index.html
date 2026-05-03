@@ -12,6 +12,8 @@
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+   
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
 <style>
 /* =======================
@@ -1228,20 +1230,13 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS-mAknXEbape8065ZFUgQ0sY
   .then(res => res.text())
   .then(text => {
 
-    const rows = text.split("\n").map(r => r.split(","));
-    const headers = rows.shift();
-
-    dataList = rows.map(row => {
-      let obj = {};
-      headers.forEach((h,i)=>{
-        obj[h.trim()] = row[i];
-      });
-      return obj;
+    const parsed = Papa.parse(text, {
+      header: true,     // 1行目をヘッダーとして扱う
+      skipEmptyLines: true
     });
 
-    // =======================
-    // マーカー生成
-    // =======================
+    dataList = parsed.data;
+
     dataList.forEach(item => {
 
       const lat = parseFloat(item["緯度"]);
@@ -1256,12 +1251,12 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS-mAknXEbape8065ZFUgQ0sY
       marker.on("click", () => {
         openDetail(item);
       });
-      
+
       markers.push({ marker, data: item });
     });
 
   });
-
+   
 function openDetail(data){
 
   const panel = document.getElementById("detailBody");
