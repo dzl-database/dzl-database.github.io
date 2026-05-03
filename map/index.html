@@ -332,20 +332,89 @@ body{
   border-radius:50%;
 }
 
-/* 検索バー内ボタン */
-.filter-inside-btn{
-  border:none;
-  background:transparent;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin-left:6px;
+/* ===== フィルターモーダル ===== */
+.filter-modal-content{
+  width:320px;
+  text-align:left;
+  position:relative;
 }
 
-.filter-inside-btn .material-symbols-outlined{
-  font-size:22px;
-  color:#555;
+/* ヘッダー */
+.filter-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:10px;
+}
+
+.filter-title{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.filter-close-btn{
+  border:none;
+  background:none;
+  cursor:pointer;
+}
+
+.filter-close-btn .material-symbols-outlined{
+  font-size:24px;
+}
+
+/* ===== トグルボタン ===== */
+.toggle-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:10px;
+  margin:6px 0;
+
+  border-radius:10px;
+  background:#f5f5f5;
+  cursor:pointer;
+
+  transition:0.2s;
+}
+
+.toggle-item.active{
+  background:#d90000;
+  color:#fff;
+}
+
+.toggle-left{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+/* アイコン */
+.toggle-left .material-symbols-outlined{
+  font-size:18px;
+}
+
+/* ===== ボタン ===== */
+.apply-btn{
+  width:100%;
+  padding:14px;
+  margin-top:15px;
+
+  background:#d90000;
+  color:#fff;
+
+  border:none;
+  border-radius:10px;
+
+  font-size:16px;
+  font-weight:bold;
+
+  cursor:pointer;
+}
+
+.apply-btn:hover{
+  background:#b80000;
 }
    
 /* =======================
@@ -966,26 +1035,34 @@ body{
 </div>
    
 <!-- ===== フィルターモーダル ===== -->
-<div id="filterModal" class="modal" onclick="closeFilter(event)">
+<div class="modal-content filter-modal-content" onclick="event.stopPropagation()">
 
-  <div class="modal-content" onclick="event.stopPropagation()" style="width:320px; text-align:left;">
+  <!-- ヘッダー -->
+  <div class="filter-header">
 
-    <h3>フィルター</h3>
+    <div class="filter-title">
+      <span class="material-symbols-outlined">tune</span>
+      <h3>フィルター</h3>
+    </div>
 
-    <!-- カテゴリ -->
-    <h4>カテゴリ</h4>
-    <div id="categoryFilter"></div>
-
-    <!-- 開催状況 -->
-    <h4>開催状況</h4>
-    <div id="statusFilter"></div>
-
-    <br>
-    <button onclick="applyFilter()" style="width:100%; padding:10px; background:#d90000; color:#fff; border:none; border-radius:8px;">
-      適用
+    <button class="filter-close-btn" onclick="closeFilterForce()">
+      <span class="material-symbols-outlined">close</span>
     </button>
 
   </div>
+
+  <!-- カテゴリ -->
+  <h4>カテゴリ</h4>
+  <div id="categoryFilter"></div>
+
+  <!-- 開催状況 -->
+  <h4>開催状況</h4>
+  <div id="statusFilter"></div>
+
+  <button class="apply-btn" onclick="applyFilter()">
+    マップに反映
+  </button>
+
 </div>
 
 <!-- ===== 追加確認モーダル ===== -->
@@ -1162,29 +1239,50 @@ function createFilters(){
   const catBox = document.getElementById("categoryFilter");
   const statBox = document.getElementById("statusFilter");
 
-  // カテゴリ
+  catBox.innerHTML = "";
+  statBox.innerHTML = "";
+
+  // ===== カテゴリ =====
   categories.forEach(cat=>{
-    const div = document.createElement("label");
-    div.className = "filter-item";
+
+    const style = getCategoryStyle(cat.name);
+
+    const div = document.createElement("div");
+    div.className = "toggle-item active";
+    div.dataset.value = cat.name;
 
     div.innerHTML = `
-      <input type="checkbox" value="${cat.name}" checked>
-      <div class="color-dot" style="background:${cat.color}"></div>
-      ${cat.name}
+      <div class="toggle-left">
+        <span class="material-symbols-outlined">${style.icon}</span>
+        ${cat.name}
+      </div>
     `;
+
+    // ON/OFF切替
+    div.onclick = () => {
+      div.classList.toggle("active");
+    };
 
     catBox.appendChild(div);
   });
 
-  // 開催状況
+  // ===== 開催状況 =====
   statuses.forEach(st=>{
-    const div = document.createElement("label");
-    div.className = "filter-item";
+
+    const div = document.createElement("div");
+    div.className = "toggle-item active";
+    div.dataset.value = st;
 
     div.innerHTML = `
-      <input type="checkbox" value="${st}" checked>
-      ${st}
+      <div class="toggle-left">
+        <span class="material-symbols-outlined">event</span>
+        ${st}
+      </div>
     `;
+
+    div.onclick = () => {
+      div.classList.toggle("active");
+    };
 
     statBox.appendChild(div);
   });
@@ -1199,19 +1297,19 @@ window.addEventListener("DOMContentLoaded", () => {
 function applyFilter(){
 
   const selectedCats = Array.from(
-    document.querySelectorAll("#categoryFilter input:checked")
-  ).map(el=>el.value);
+    document.querySelectorAll("#categoryFilter .toggle-item.active")
+  ).map(el => el.dataset.value);
 
   const selectedStatus = Array.from(
-    document.querySelectorAll("#statusFilter input:checked")
-  ).map(el=>el.value);
+    document.querySelectorAll("#statusFilter .toggle-item.active")
+  ).map(el => el.dataset.value);
 
-  // 全マーカー消す
+  // 全削除
   markers.forEach(obj=>{
     map.removeLayer(obj.marker);
   });
 
-  // 条件一致だけ表示
+  // 条件一致のみ
   markers.forEach(obj=>{
 
     const cat = obj.data["カテゴリ"];
