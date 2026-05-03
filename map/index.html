@@ -301,7 +301,7 @@ body{
   background:transparent;
   box-shadow:none;
 
-  z-index:3000;
+  z-index:1000;
   transition:0.3s;
 
   display:flex;
@@ -576,6 +576,37 @@ body{
 #detailBody{
   scrollbar-width:thin;
   scrollbar-color:#ccc transparent;
+}
+
+.detail-close-btn{
+  position:absolute;
+  top:10px;
+  right:10px;
+
+  width:36px;
+  height:36px;
+
+  border:none;
+  border-radius:50%;
+
+  background:rgba(255,255,255,0.9);
+  backdrop-filter:blur(4px);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}
+
+.detail-close-btn .material-symbols-outlined{
+  font-size:20px;
+  color:#333;
+}
+
+.detail-close-btn:hover{
+  background:#fff;
 }
    
 /* =======================
@@ -1279,9 +1310,14 @@ function openDetail(data){
   hero.style.background = `linear-gradient(135deg, #d90000, #ff6b6b)`;
 
   hero.innerHTML = `
+    <!-- ★閉じるボタン -->
+    <button class="detail-close-btn" onclick="closeDetail()">
+     <span class="material-symbols-outlined">close</span>
+    </button>
+
     <div class="category-badge" style="background:${style.color}">
       <span class="material-symbols-outlined">${style.icon}</span>
-      ${category || ""}
+       ${category || ""}
     </div>
 
     <div class="detail-hero-title">
