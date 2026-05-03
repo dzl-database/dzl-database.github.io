@@ -1497,12 +1497,14 @@ function openRoute(address){
 
 function openSearchModal(){
   document.getElementById("searchModal").classList.add("active");
-  updateSearchLabel();
 
-  // ★ これ追加（空状態で発火）
   const input = document.getElementById("modalSearchInput");
   input.value = "";
-  input.dispatchEvent(new Event("input"));
+
+  // 少し遅らせて発火（DOM & 状態安定）
+  setTimeout(() => {
+    input.dispatchEvent(new Event("input"));
+  }, 50);
 }
 
 function closeSearchModal(e){
