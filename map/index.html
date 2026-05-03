@@ -43,10 +43,22 @@ body{
 
 #map{
   position:fixed;
-  top:64px;   /* ヘッダー分 */
   left:0;
   width:100%;
-  height:calc(100vh - 64px);
+}
+
+@media(min-width:769px){
+  #map{
+    top:64px;
+    height:calc(100vh - 64px);
+  }
+}
+
+@media(max-width:768px){
+  #map{
+    top:64px;
+    bottom:0;
+  }
 }
 
 #leafletMap{
