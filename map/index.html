@@ -262,6 +262,27 @@ body{
   background:#f5f5f5;
 }
 
+.search-type{
+  display:flex;
+  gap:6px;
+  margin-top:10px;
+}
+
+.type-btn{
+  flex:1;
+  padding:6px;
+  border:none;
+  border-radius:999px;
+  background:#eee;
+  cursor:pointer;
+  font-size:12px;
+}
+
+.type-btn.active{
+  background:#d90000;
+  color:#fff;
+}
+
 /* =======================
    (6) フィルターUI
 ======================= */
@@ -1029,11 +1050,12 @@ body{
 <!-- ===== 検索モーダル ===== -->
 <div id="searchModal" class="modal" onclick="closeSearchModal(event)">
 
-  <div class="modal-content" onclick="event.stopPropagation()" style="width:320px;">
+  <div class="modal-content" onclick="event.stopPropagation()" style="width:320px; text-align:left;">
 
     <h3>検索</h3>
 
-    <input type="text" placeholder="キーワード検索"
+    <!-- 検索入力 -->
+    <input type="text" id="modalSearchInput" placeholder="キーワード検索"
       style="
         width:100%;
         padding:10px;
@@ -1041,6 +1063,16 @@ body{
         border:1px solid #ccc;
         margin-top:10px;
       ">
+
+    <!-- 検索タイプ -->
+    <div class="search-type">
+      <button class="type-btn active" data-type="place">スポット名</button>
+      <button class="type-btn" data-type="address">住所</button>
+      <button class="type-btn" data-type="event">イベント名</button>
+    </div>
+
+    <!-- 結果 -->
+    <div id="modalSearchResult" class="search-result" style="position:static; margin-top:10px;"></div>
 
   </div>
 
@@ -1540,7 +1572,7 @@ function openSearchModal(){
 }
 
 function closeSearchModal(e){
-  if(e && e.target === e.currentTarget){
+  if(!e || e.target === e.currentTarget){
     document.getElementById("searchModal").classList.remove("active");
   }
 }
@@ -1666,6 +1698,88 @@ function goCurrentLocation(){
   });
 
 }
+
+let currentSearchType = "place";
+
+// タイプ切替
+document.addEventListener("click", (e)=>{
+  if(e.target.classList.contains("type-btn")){
+
+    document.querySelectorAll(".type-btn").forEach(btn=>{
+      btn.classList.remove("active");
+    });
+
+    e.target.classList.add("active");
+    currentSearchType = e.target.dataset.type;
+
+  }
+});
+
+// 検索処理
+document.addEventListener("DOMContentLoaded", ()=>{
+
+  const input = document.getElementById("modalSearchInput");
+  const resultBox = document.getElementById("modalSearchResult");
+
+  input.addEventListener("input", function(){
+
+    const keyword = this.value.toLowerCase();
+    resultBox.innerHTML = "";
+
+    if(!keyword){
+      resultBox.classList.remove("active");
+      return;
+    }
+
+    resultBox.classList.add("active");
+
+    const results = markers.filter(obj => {
+
+      const data = obj.data;
+
+      if(currentSearchType === "place"){
+        return data["場所名"]?.toLowerCase().includes(keyword);
+      }
+
+      if(currentSearchType === "address"){
+        return data["住所"]?.toLowerCase().includes(keyword);
+      }
+
+      if(currentSearchType === "event"){
+        return data["イベント名"]?.toLowerCase().includes(keyword);
+      }
+
+    });
+
+    results.slice(0,10).forEach(obj => {
+
+      const item = obj.data;
+
+      const div = document.createElement("div");
+      div.className = "search-item";
+      div.innerHTML = `
+        <strong>${item["場所名"]}</strong><br>
+        <small>${item["イベント名"] || ""}</small>
+      `;
+
+      // ★ここが重要
+      div.onclick = () => {
+
+        const lat = parseFloat(item["緯度"]);
+        const lng = parseFloat(item["経度"]);
+
+        map.setView([lat, lng], 15);
+
+        closeSearchModal(); // ← モーダル閉じる
+      };
+
+      resultBox.appendChild(div);
+
+    });
+
+  });
+
+});
    
 </script>
   
