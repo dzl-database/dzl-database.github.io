@@ -280,6 +280,36 @@ body{
   margin-top:2px;
 }
 
+/* ===== 検索フォームUI（元デザイン復元） ===== */
+
+.search-input,
+.search-select{
+  width:100%;
+  box-sizing:border-box;
+
+  padding:10px;
+  margin-top:10px;
+
+  border-radius:8px;
+  border:1px solid #ccc;
+
+  font-size:14px;
+  background:#fff;
+}
+
+/* selectだけ少し高さ調整 */
+.search-select{
+  padding:8px;
+}
+
+/* フォーカス時ちょい強化（任意） */
+.search-input:focus,
+.search-select:focus{
+  outline:none;
+  border-color:#d90000;
+  box-shadow:0 0 0 2px rgba(217,0,0,0.1);
+}
+
 /* =======================
    (6) フィルターUI
 ======================= */
@@ -995,12 +1025,17 @@ body{
     </div>
 
     <!-- 検索入力 -->
-    <input type="text" id="modalSearchInput" placeholder="キーワード検索">
+    <input 
+      type="text" 
+      id="modalSearchInput" 
+      class="search-input"
+      placeholder="キーワード検索"
+    >
 
     <div style="margin-top:10px;">
       <label style="font-size:13px; color:#666;">検索対象：</label>
 
-      <select id="searchTypeSelect">
+      <select id="searchTypeSelect" class="search-select">
         <option value="place">スポット名</option>
         <option value="address">住所</option>
         <option value="event">イベント名</option>
