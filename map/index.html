@@ -1069,15 +1069,21 @@ body{
         margin-top:10px;
       ">
 
-    <div id="searchTypeLabel" style="margin-top:10px; font-size:13px; color:#666;">
-      検索対象：スポット名
-    </div>
+    <div style="margin-top:10px;">
+      <label style="font-size:13px; color:#666;">検索対象：</label>
 
-    <!-- 検索タイプ -->
-    <div class="search-type">
-      <button class="type-btn active" data-type="place">スポット名</button>
-      <button class="type-btn" data-type="address">住所</button>
-      <button class="type-btn" data-type="event">イベント名</button>
+      <select id="searchTypeSelect"
+        style="
+          width:100%;
+          margin-top:5px;
+          padding:8px;
+          border-radius:8px;
+          border:1px solid #ccc;
+        ">
+        <option value="place">スポット名</option>
+        <option value="address">住所</option>
+        <option value="event">イベント名</option>
+      </select>
     </div>
 
     <!-- 結果 -->
@@ -1712,25 +1718,14 @@ function goCurrentLocation(){
 let currentSearchType = "place";
 
 // タイプ切替
-document.addEventListener("click", (e)=>{
+const select = document.getElementById("searchTypeSelect");
 
-  const btn = e.target.closest(".type-btn");
+select.addEventListener("change", () => {
+  currentSearchType = select.value;
 
-  if(btn){
-
-    document.querySelectorAll(".type-btn").forEach(b=>{
-      b.classList.remove("active");
-    });
-
-    btn.classList.add("active");
-    currentSearchType = btn.dataset.type;
-
-    updateSearchLabel();
-
-    // ★これ追加（超重要）
-    document.getElementById("modalSearchInput").dispatchEvent(new Event("input"));
-
-  }
+  // ★検索を即更新
+  document.getElementById("modalSearchInput")
+    .dispatchEvent(new Event("input"));
 });
 
 // 検索処理
