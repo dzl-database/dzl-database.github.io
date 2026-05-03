@@ -345,8 +345,9 @@ body{
 .filter-header{
   display:flex;
   align-items:center;
-  justify-content:space-between;
+  justify-content:flex-start; /* 左寄せにする */
   margin-bottom:6px;    /* 10 → 詰める */
+  gap:6px;
 }
 
 .filter-modal-content h4{
@@ -431,8 +432,8 @@ body{
 
 #categoryFilter{
   display:grid;
-  grid-template-columns: 1fr 1fr; /* 2列 */
-  gap:8px;
+  grid-template-columns: 1fr 1fr;
+  gap:6px; /* ← 8 → 6 に縮小 */
 }
 
 .filter-desc{
@@ -1074,10 +1075,6 @@ body{
         <span class="material-symbols-outlined">tune</span>
         <h3>フィルター</h3>
       </div>
-
-      <button class="filter-close-btn" onclick="closeFilterForce()">
-        <span class="material-symbols-outlined">close</span>
-      </button>
 
     </div>
 
