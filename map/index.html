@@ -1035,33 +1035,37 @@ body{
 </div>
    
 <!-- ===== フィルターモーダル ===== -->
-<div class="modal-content filter-modal-content" onclick="event.stopPropagation()">
+<div id="filterModal" class="modal" onclick="closeFilter(event)">
 
-  <!-- ヘッダー -->
-  <div class="filter-header">
+  <div class="modal-content filter-modal-content" onclick="event.stopPropagation()">
 
-    <div class="filter-title">
-      <span class="material-symbols-outlined">tune</span>
-      <h3>フィルター</h3>
+    <!-- ヘッダー -->
+    <div class="filter-header">
+
+      <div class="filter-title">
+        <span class="material-symbols-outlined">tune</span>
+        <h3>フィルター</h3>
+      </div>
+
+      <button class="filter-close-btn" onclick="closeFilterForce()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+
     </div>
 
-    <button class="filter-close-btn" onclick="closeFilterForce()">
-      <span class="material-symbols-outlined">close</span>
+    <!-- カテゴリ -->
+    <h4>カテゴリ</h4>
+    <div id="categoryFilter"></div>
+
+    <!-- 開催状況 -->
+    <h4>開催状況</h4>
+    <div id="statusFilter"></div>
+
+    <button class="apply-btn" onclick="applyFilter()">
+      マップに反映
     </button>
 
   </div>
-
-  <!-- カテゴリ -->
-  <h4>カテゴリ</h4>
-  <div id="categoryFilter"></div>
-
-  <!-- 開催状況 -->
-  <h4>開催状況</h4>
-  <div id="statusFilter"></div>
-
-  <button class="apply-btn" onclick="applyFilter()">
-    マップに反映
-  </button>
 
 </div>
 
