@@ -195,11 +195,13 @@ body{
 ======================= */
 .search-container{
   position:fixed;
-  top:80px;
+  top:84px;
   right:20px;
   display:flex;
   align-items:center;
   z-index:1000;
+
+  padding:8px;              /* ←追加（当たり判定） */
 }
    
 /* 入力欄 */
@@ -209,20 +211,17 @@ body{
   background:#fff;
   border-radius:30px;
 
-  padding:12px 18px;  /* ←ここ拡張 */
+  padding:8px 14px; /* ←そのまま */
 
   box-shadow:0 4px 12px rgba(0,0,0,0.2);
   width:260px;
-
-  cursor:text;
 }
 
 .search-bar input{
   border:none;
   outline:none;
   width:100%;
-  font-size:15px; /* ←少し大きく */
-  padding:4px 0;  /* ←縦の当たり判定UP */
+  font-size:14px;
 }
 
 /* 🔍アイコン */
@@ -1136,9 +1135,13 @@ function createFilters(){
 
 window.addEventListener("DOMContentLoaded", () => {
   createFilters();
-
-  // ← 追加
   showSection("map");
+
+  // ★追加：検索バーどこ押しても入力にフォーカス
+  document.querySelector(".search-container").addEventListener("click", ()=>{
+    document.getElementById("searchInput").focus();
+  });
+
 });
 
 function applyFilter(){
