@@ -1714,7 +1714,7 @@ let currentSearchType = "place";
 // タイプ切替
 document.addEventListener("click", (e)=>{
 
-  const btn = e.target.closest(".type-btn"); // ←これが神
+  const btn = e.target.closest(".type-btn");
 
   if(btn){
 
@@ -1725,8 +1725,10 @@ document.addEventListener("click", (e)=>{
     btn.classList.add("active");
     currentSearchType = btn.dataset.type;
 
-    // ★表示更新
     updateSearchLabel();
+
+    // ★これ追加（超重要）
+    document.getElementById("modalSearchInput").dispatchEvent(new Event("input"));
 
   }
 });
