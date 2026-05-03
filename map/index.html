@@ -199,27 +199,26 @@ body{
   right:20px;
   display:flex;
   align-items:center;
-  gap:10px;
   z-index:1000;
 }
-   
+
+/* スマホでも右寄せ維持 */
 @media(max-width:768px){
 
   .search-container{
-    top:70px;
-    left:0;
-    width:100%;
-    padding:0 10px;
-    box-sizing:border-box; /* ← 追加 */
+    top:72px;
+    right:12px;
+    left:auto;   /* ←これ重要 */
+    width:auto;  /* ←これ重要 */
+    padding:0;
   }
 
   .search-bar{
-    width:100%;
-    max-width:none; /* ← 追加 */
+    width:260px; /* PCと統一 */
   }
 
 }
-
+   
 /* 入力欄 */
 .search-bar{
   display:flex;
@@ -980,11 +979,6 @@ body{
 
     <input type="text" id="searchInput" placeholder="検索">
 
-    <!-- ★追加：フィルターボタン -->
-    <button class="filter-inside-btn" onclick="openFilter()">
-      <span class="material-symbols-outlined">tune</span>
-    </button>
-
     <!-- 検索結果 -->
     <div id="searchResult" class="search-result"></div>
   </div>
@@ -993,7 +987,12 @@ body{
 
 <!-- 追加ボタン群 -->
 <div class="extra-buttons">
-   
+
+  <!-- フィルター -->
+  <button class="circle-btn main" onclick="openFilter()">
+    <span class="material-symbols-outlined">tune</span>
+  </button>
+
   <!-- 一覧 -->
   <button class="circle-btn" onclick="showNearbyList()">
     <span class="material-symbols-outlined">list</span>
