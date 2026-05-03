@@ -506,6 +506,18 @@ body{
 .category-badge .material-symbols-outlined{
   font-size:16px;
 }
+
+.info-item:last-child .info-value{
+  font-size:13px;
+  color:#888;
+  font-weight:normal;
+}
+
+.info-value{
+  max-width:60%;
+  text-align:right;
+  word-break:break-word;
+}
    
 /* =======================
    (8) 利用規約
@@ -1256,6 +1268,36 @@ function openDetail(data){
         </div>
         <div class="detail-section-content">
           ${data["説明・詳細"]}
+        </div>
+      </div>
+    `;
+  }
+
+  // ===== メタ情報（イベント名・更新日時）=====
+  if(data["イベント名"] || data["更新日時"]){
+    main.innerHTML += `
+      <div class="detail-section">
+        <div class="detail-section-title">
+          <span class="material-symbols-outlined">event</span>
+          イベント情報
+        </div>
+
+        <div class="info-list">
+
+          ${data["イベント名"] ? `
+            <div class="info-item">
+              <div class="info-label">イベント名</div>
+              <div class="info-value">${data["イベント名"]}</div>
+            </div>
+          ` : ""}
+
+          ${data["更新日時"] ? `
+            <div class="info-item">
+              <div class="info-label">更新日時</div>
+              <div class="info-value">${data["更新日時"]}</div>
+            </div>
+          ` : ""}
+
         </div>
       </div>
     `;
