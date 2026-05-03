@@ -377,17 +377,21 @@ body{
 /* 下エリア */
 .detail-main{
   background:#f8f9fc;
-  padding:16px;
+  padding:20px 16px 24px;
   border-top-left-radius:20px;
   border-top-right-radius:20px;
-  margin-top:-10px;
+  margin-top:-12px;
+
+  display:flex;
+  flex-direction:column;
+  gap:16px; /* ← 12 → 16に */
 }
 
 /* カード */
 .detail-section{
   background:#ffffff;
   border-radius:14px;
-  padding:14px;
+  padding:16px; /* ← 14 → 16 */
   box-shadow:0 4px 10px rgba(0,0,0,0.05);
 }
 
@@ -395,7 +399,7 @@ body{
 .detail-section-title{
   font-size:13px;
   color:#666;
-  margin-bottom:6px;
+  margin-bottom:10px; /* ← 6 → 10 */
   display:flex;
   align-items:center;
   gap:6px;
@@ -431,7 +435,9 @@ body{
   border-radius:999px;
   font-size:12px;
   margin-top:8px;
-  background:rgba(255,255,255,0.2);
+  background:#fff;
+  color:#d90000;
+  font-weight:bold;
 }
 
 /* アクションボタン */
@@ -480,6 +486,25 @@ body{
 
 .info-value{
   font-weight:bold;
+}
+
+.category-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+
+  padding:6px 10px;
+  border-radius:999px;
+
+  font-size:12px;
+  font-weight:bold;
+
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(4px);
+}
+
+.category-badge .material-symbols-outlined{
+  font-size:16px;
 }
    
 /* =======================
@@ -1180,10 +1205,10 @@ function openDetail(data){
   // ===== ヒーロー =====
   const hero = document.createElement("div");
   hero.className = "detail-hero";
-  hero.style.background = `linear-gradient(135deg, #ff3b3b, #ff7a7a)`;
+  hero.style.background = `linear-gradient(135deg, #d90000, #ff6b6b)`;
 
   hero.innerHTML = `
-    <div class="detail-category">
+    <div class="category-badge" style="background:${style.color}">
       <span class="material-symbols-outlined">${style.icon}</span>
       ${category || ""}
     </div>
