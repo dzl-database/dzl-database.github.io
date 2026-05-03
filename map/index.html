@@ -451,32 +451,57 @@ body{
   font-weight:bold;
 }
 
-/* アクションボタン */
 .detail-actions{
   display:flex;
   gap:10px;
   margin-top:12px;
-  flex-wrap:wrap; /* ← これ追加おすすめ */
+  flex-wrap:wrap;
 }
 
 .detail-btn{
-  flex:1;
-  padding:10px;
+  flex:1 1 45%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  padding:12px 6px;
   border:none;
-  border-radius:8px;
-  font-size:13px;
+  border-radius:10px;
+
+  background:#fff;
   cursor:pointer;
+
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+  transition:0.2s;
 }
 
+/* ホバー */
+.detail-btn:hover{
+  transform:translateY(-2px);
+}
+
+/* アイコン */
+.detail-btn .material-symbols-outlined{
+  font-size:26px;
+  margin-bottom:4px;
+}
+
+/* 文字 */
+.detail-btn span.label{
+  font-size:11px;
+  color:#555;
+}
+
+/* メイン（強調） */
 .detail-btn.main{
   background:#fff;
-  color:#000;
   font-weight:bold;
 }
 
+/* サブ */
 .detail-btn.sub{
-  background:rgba(255,255,255,0.2);
-  color:#fff;
+  background:#f3f4f7;
 }
 
 /* 情報リスト */
@@ -1277,21 +1302,25 @@ function openDetail(data){
     <div class="detail-actions">
 
       <button class="detail-btn main" onclick="goMap(${data["緯度"]}, ${data["経度"]})">
-        マップで見る
+        <span class="material-symbols-outlined">map</span>
+        <span class="label">マップ</span>
       </button>
 
       <button class="detail-btn sub" onclick="openRoute(${data["緯度"]}, ${data["経度"]})">
-        経路
+        <span class="material-symbols-outlined">directions_car</span>
+        <span class="label">経路</span>
       </button>
 
       ${data["関連URL"] ? `
         <button class="detail-btn sub" onclick="window.open('${data["関連URL"]}')">
-          リンク
+          <span class="material-symbols-outlined">link</span>
+          <span class="label">リンク</span>
         </button>
       ` : ""}
 
       <button class="detail-btn sub" onclick="openEditForm()">
-        情報修正
+        <span class="material-symbols-outlined">edit</span>
+        <span class="label">修正</span>
       </button>
 
     </div>
@@ -1388,7 +1417,7 @@ function goMap(lat, lng){
 }
 
 function openRoute(lat, lng){
-  const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`;
+  const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
   window.open(url, "_blank");
 }
 
