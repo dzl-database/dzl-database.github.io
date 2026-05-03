@@ -1043,6 +1043,15 @@ body{
     </div>
 
     <!-- 結果 -->
+    <div id="searchResultHeader" style="
+      font-size:13px;
+      color:#666;
+      margin-top:10px;
+      display:none;
+    ">
+      検索結果（現在地から近い順で表示）：
+    </div>
+
     <div id="modalSearchResult"></div>
 
   </div>
@@ -1488,7 +1497,12 @@ function openRoute(address){
 
 function openSearchModal(){
   document.getElementById("searchModal").classList.add("active");
-  updateSearchLabel(); // ←追加
+  updateSearchLabel();
+
+  // ★ これ追加（空状態で発火）
+  const input = document.getElementById("modalSearchInput");
+  input.value = "";
+  input.dispatchEvent(new Event("input"));
 }
 
 function closeSearchModal(e){
@@ -1660,36 +1674,51 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
   const input = document.getElementById("modalSearchInput");
   const resultBox = document.getElementById("modalSearchResult");
+  const header = document.getElementById("searchResultHeader");
 
   input.addEventListener("input", function(){
 
     const keyword = this.value.toLowerCase();
     resultBox.innerHTML = "";
+    header.style.display = "block";
 
-    if(!keyword){
-      return;
-    }
-
-    let results = markers.filter(obj => {
-
-      const data = obj.data;
-
-      if(currentSearchType === "place"){
-        return data["場所名"]?.toLowerCase().includes(keyword);
-      }
-
-      if(currentSearchType === "address"){
-        return data["住所"]?.toLowerCase().includes(keyword);
-      }
-
-      if(currentSearchType === "event"){
-        return data["イベント名"]?.toLowerCase().includes(keyword);
-      }
-
-    });
+    let results = [];
 
     // =========================
-    // ★ 距離ソート（ここが神）
+    // ★ 分岐：空 or 検索あり
+    // =========================
+
+    if(!keyword){
+      // 🔵 入力なし → 全件対象
+      results = [...markers];
+
+      header.textContent = "検索結果（現在地から近い順で表示）：";
+
+    }else{
+      // 🔵 入力あり → フィルタ
+      results = markers.filter(obj => {
+
+        const data = obj.data;
+
+        if(currentSearchType === "place"){
+          return data["場所名"]?.toLowerCase().includes(keyword);
+        }
+
+        if(currentSearchType === "address"){
+          return data["住所"]?.toLowerCase().includes(keyword);
+        }
+
+        if(currentSearchType === "event"){
+          return data["イベント名"]?.toLowerCase().includes(keyword);
+        }
+
+      });
+
+      header.textContent = "検索結果：";
+    }
+
+    // =========================
+    // ★ 距離ソート
     // =========================
     if(navigator.geolocation){
 
@@ -1712,7 +1741,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
         renderResults(results);
 
       }, () => {
-        // 位置情報NGならそのまま表示
         renderResults(results);
       });
 
@@ -1721,6 +1749,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     }
 
   });
+
 
   // =========================
   // ★ 描画関数（分離して見やすく）
