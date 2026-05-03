@@ -1758,6 +1758,25 @@ document.addEventListener("DOMContentLoaded", ()=>{
   // =========================
   function renderResults(results){
 
+    const resultBox = document.getElementById("modalSearchResult");
+
+    // ★ 追加：0件チェック
+    if(results.length === 0){
+      resultBox.innerHTML = `
+        <div style="
+          padding:20px;
+          text-align:center;
+          color:#666;
+          font-size:14px;
+          line-height:1.6;
+        ">
+          該当スポットが見つかりませんでした<br>
+          ワードや検索対象を変えてお試しください
+        </div>
+      `;
+      return; // ← ここ重要（以降の処理止める）
+    }
+
     const max = 50;
 
     results.slice(0, max).forEach(obj => {
