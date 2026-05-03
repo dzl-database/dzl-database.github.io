@@ -367,7 +367,9 @@ body{
 .toggle-item{
   display:flex;
   align-items:center;
-  justify-content:space-between;
+
+  text-align:center;
+  justify-content:center;
 
   padding:10px;
   margin:6px 0;
@@ -415,6 +417,12 @@ body{
 
 .apply-btn:hover{
   background:#b80000;
+}
+
+#categoryFilter{
+  display:grid;
+  grid-template-columns: 1fr 1fr; /* 2列 */
+  gap:8px;
 }
    
 /* =======================
@@ -1053,6 +1061,11 @@ body{
 
     </div>
 
+    <!-- ★追加 -->
+    <div style="font-size:12px; color:#666; margin-bottom:10px;">
+      色がついている状態がONです
+    </div>
+
     <!-- カテゴリ -->
     <h4>カテゴリ</h4>
     <div id="categoryFilter"></div>
@@ -1255,6 +1268,10 @@ function createFilters(){
     div.className = "toggle-item active";
     div.dataset.value = cat.name;
 
+    // ★初期状態ONカラー
+    div.style.background = style.color;
+    div.style.color = "#fff";
+
     div.innerHTML = `
       <div class="toggle-left">
         <span class="material-symbols-outlined">${style.icon}</span>
@@ -1262,9 +1279,19 @@ function createFilters(){
       </div>
     `;
 
-    // ON/OFF切替
     div.onclick = () => {
+
       div.classList.toggle("active");
+
+      // ★ON/OFFで色切り替え
+      if(div.classList.contains("active")){
+        div.style.background = style.color;
+        div.style.color = "#fff";
+      }else{
+        div.style.background = "#f5f5f5";
+        div.style.color = "#333";
+      }
+
     };
 
     catBox.appendChild(div);
