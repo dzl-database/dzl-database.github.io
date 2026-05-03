@@ -196,25 +196,26 @@ body{
 .search-container{
   position:fixed;
   top:72px;
-  right:20px;
+  right:80px; /* ← 20 → 80 に変更（ボタン分ずらす） */
   display:flex;
   align-items:center;
   gap:10px;
   z-index:1000;
 }
-
+   
 @media(max-width:768px){
 
   .search-container{
     top:70px;
     left:0;
-    transform:none;
     width:100%;
-    padding:0 10px; /* 余白だけ残す */
+    padding:0 10px;
+    box-sizing:border-box; /* ← 追加 */
   }
 
   .search-bar{
     width:100%;
+    max-width:none; /* ← 追加 */
   }
 
 }
@@ -341,7 +342,9 @@ body{
     width:100%;
     height:85%;
 
-    transition:0.35s;
+    display:flex;
+    justify-content:center; /* ← 中央寄せ */
+    align-items:flex-end;   /* ← 下寄せ */
   }
 
   .detail-panel.active{
@@ -349,7 +352,9 @@ body{
   }
 
   .detail-inner{
-    border-radius:16px 16px 0 0;
+    width:94%;          /* ← 少し余白 */
+    margin-bottom:10px; /* ← 下に余白 */
+    border-radius:16px;
   }
 
 }
