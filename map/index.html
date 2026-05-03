@@ -195,13 +195,15 @@ body{
 ======================= */
 .search-container{
   position:fixed;
-  top:84px;
-  right:20px;
+
+  top:72px;    /* ← 84 → 72（少し上へ） */
+  right:12px;  /* ← 20 → 12（少し右へ） */
+
   display:flex;
   align-items:center;
   z-index:1000;
 
-  padding:8px;              /* ←追加（当たり判定） */
+  padding:8px;  /* ← 当たり判定も少し強化 */
 }
    
 /* 入力欄 */
@@ -211,10 +213,12 @@ body{
   background:#fff;
   border-radius:30px;
 
-  padding:8px 14px; /* ←そのまま */
+  padding:8px 14px;
 
   box-shadow:0 4px 12px rgba(0,0,0,0.2);
-  width:260px;
+
+  width:calc(100vw - 40px);   /* ← ここ変更（超重要） */
+  max-width:420px;            /* ← PCで広がりすぎ防止 */
 }
 
 .search-bar input{
