@@ -40,11 +40,6 @@ body{
 .content{
   padding:20px;
 }
-
-#leafletMap{
-  width:100%;
-  height:calc(100dvh - 104px);
-}
    
 /* =======================
    (2) レイアウト
@@ -52,9 +47,7 @@ body{
 .section{
   display:none;
   padding-top:64px;
-
-  height:auto;
-  min-height:calc(100dvh - 104px);
+  height:calc(100vh - 64px);
 }
 
 .section.active{
@@ -532,53 +525,6 @@ body{
   0%{ transform:scale(1); opacity:1; }
   100%{ transform:scale(2); opacity:0; }
 }
-
-/* =======================
-   (10) フッター
-======================= */
-   
-.site-footer{
-  position:fixed;
-  bottom:0;
-  width:100%;
-  height:50px;
-
-  display:none;
-  align-items:center;
-  justify-content:center;
-
-  font-size:12px;
-  color:#666;
-
-  background:rgba(255,255,255,0.8); /* ← 半透明 */
-  backdrop-filter: blur(8px);       /* ← ガラス感 */
-  border-top:1px solid rgba(0,0,0,0.08);
-
-  z-index:1000;
-}
-
-.site-footer a{
-  color:#d90000;
-  font-weight:bold;
-  text-decoration:none;
-}
-
-.site-footer a:hover{
-  text-decoration:underline;
-}
-
-.footer-text{
-  margin:2px 0;
-  line-height:1.4;
-}
-
-.site-footer{
-  text-align:center;
-}
-
-.footer-text{
-  text-align:center;
-}
    
 </style>
 </head>
@@ -605,21 +551,6 @@ body{
   </div>
 
 </header>
-
-<footer class="site-footer">
-
-  <p class="footer-text">
-    本サイトは非公式ファンサイトです。ご利用前に
-    <a href="#" onclick="showSection('terms')">利用規約</a>
-    をご確認ください。
-  </p>
-
-  <p class="footer-text">
-    スポットの情報提供募集中 →
-    <a href="#" onclick="openAddModal()">こちらから</a>
-  </p>
-
-</footer>
 
 <!-- ===== マップ ===== -->
 <div id="map" class="section active">
@@ -868,24 +799,20 @@ function showSection(id){
   });
   document.getElementById(id).classList.add("active");
 
-  // UI制御
+  // ===== UI制御ここから =====
   const searchUI = document.querySelector(".search-container");
   const detailPanel = document.getElementById("detailPanel");
-  const footer = document.querySelector(".site-footer");
 
   if(id === "map"){
     searchUI.classList.remove("hidden-ui");
     detailPanel.classList.remove("hidden-ui");
-    footer.style.display = "block";   // ← 追加
   }else{
     searchUI.classList.add("hidden-ui");
     detailPanel.classList.add("hidden-ui");
-    footer.style.display = "none";    // ← 追加
   }
 
   closeModalForce();
 }
-   
 function goHome(){
   location.href = "/";
 }
