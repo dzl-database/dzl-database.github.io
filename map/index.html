@@ -288,6 +288,11 @@ body{
   box-shadow:0 4px 12px rgba(0,0,0,0.2);
 }
 
+.circle-btn.main{
+  background:#d90000;
+  color:#fff;
+}
+
 .filter-item{
   display:flex;
   align-items:center;
@@ -957,10 +962,10 @@ body{
 </div>
 
 <!-- 追加ボタン群 -->
-<div class="extra-buttons
+<div class="extra-buttons">
 
-  <!-- フィルター（スマホ用） -->
-  <button class="circle-btn" onclick="openFilter()">
+  <!-- フィルター -->
+  <button class="circle-btn main" onclick="openFilter()">
     <span class="material-symbols-outlined">filter_list</span>
   </button>
 
@@ -980,7 +985,7 @@ body{
   </button>
 
 </div>
-
+   
 <!-- ===== フィルターモーダル ===== -->
 <div id="filterModal" class="modal" onclick="closeFilter(event)">
 
