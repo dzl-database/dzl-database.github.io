@@ -228,6 +228,58 @@ body{
   margin-top:4px;
 }
 
+/* ===== 検索モーダル改善 ===== */
+.search-modal-content{
+  width:90%;
+  max-width:320px; /* ← PCは今まで通り */
+  text-align:left;
+  position:relative;
+}
+
+/* ヘッダー */
+.search-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+/* タイトル左側 */
+.search-title{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+/* 閉じるボタン */
+.search-close-btn{
+  border:none;
+  background:none;
+  cursor:pointer;
+}
+
+.search-close-btn .material-symbols-outlined{
+  font-size:24px;
+}
+
+/* inputはみ出し防止 */
+#modalSearchInput{
+  width:100%;
+  box-sizing:border-box; /* ← これが重要 */
+}
+
+/* 検索結果アイコン */
+.search-row{
+  display:flex;
+  align-items:flex-start;
+  gap:6px;
+}
+
+.search-row .material-symbols-outlined{
+  font-size:16px;
+  color:#666;
+  margin-top:2px;
+}
+
 /* =======================
    (6) フィルターUI
 ======================= */
@@ -925,31 +977,30 @@ body{
 <!-- ===== 検索モーダル ===== -->
 <div id="searchModal" class="modal" onclick="closeSearchModal(event)">
 
-  <div class="modal-content" onclick="event.stopPropagation()" style="width:320px; text-align:left;">
+  <div class="modal-content search-modal-content" onclick="event.stopPropagation()">
 
-    <h3>検索</h3>
+    <!-- ヘッダー -->
+    <div class="search-header">
+
+      <div class="search-title">
+        <span class="material-symbols-outlined">search</span>
+        <h3 style="margin:0;">検索</h3>
+      </div>
+
+      <!-- 閉じる -->
+      <button class="search-close-btn" onclick="closeSearchModal()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+
+    </div>
 
     <!-- 検索入力 -->
-    <input type="text" id="modalSearchInput" placeholder="キーワード検索"
-      style="
-        width:100%;
-        padding:10px;
-        border-radius:8px;
-        border:1px solid #ccc;
-        margin-top:10px;
-      ">
+    <input type="text" id="modalSearchInput" placeholder="キーワード検索">
 
     <div style="margin-top:10px;">
       <label style="font-size:13px; color:#666;">検索対象：</label>
 
-      <select id="searchTypeSelect"
-        style="
-          width:100%;
-          margin-top:5px;
-          padding:8px;
-          border-radius:8px;
-          border:1px solid #ccc;
-        ">
+      <select id="searchTypeSelect">
         <option value="place">スポット名</option>
         <option value="address">住所</option>
         <option value="event">イベント名</option>
@@ -957,7 +1008,7 @@ body{
     </div>
 
     <!-- 結果 -->
-    <div id="modalSearchResult" class="search-result" style="position:static; margin-top:10px;"></div>
+    <div id="modalSearchResult"></div>
 
   </div>
 
@@ -1641,7 +1692,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
   // =========================
   function renderResults(results){
 
-    const max = 50; // ← 表示数増やした（調整OK）
+    const max = 50;
 
     results.slice(0, max).forEach(obj => {
 
@@ -1652,19 +1703,31 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
       div.innerHTML = `
         <strong>${item["場所名"] || "名称なし"}</strong>
+
         <div class="search-sub">
-          ${item["住所"] || ""}
-          ${item["イベント名"] ? " / " + item["イベント名"] : ""}
+
+          ${item["住所"] ? `
+            <div class="search-row">
+              <span class="material-symbols-outlined">location_on</span>
+              <div>${item["住所"]}</div>
+            </div>
+          ` : ""}
+
+          ${item["イベント名"] ? `
+            <div class="search-row">
+              <span class="material-symbols-outlined">event</span>
+              <div>${item["イベント名"]}</div>
+            </div>
+          ` : ""}
+
         </div>
       `;
 
       div.onclick = () => {
-
         const lat = parseFloat(item["緯度"]);
         const lng = parseFloat(item["経度"]);
 
         map.setView([lat, lng], 15);
-
         closeSearchModal();
       };
 
