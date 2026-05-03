@@ -1172,9 +1172,32 @@ body{
 <!-- ===== 一覧モーダル ===== -->
 <div id="listModal" class="modal" onclick="closeListModal(event)">
 
-  <div class="modal-content" onclick="event.stopPropagation()" style="width:320px; text-align:left;">
+  <div class="modal-content" onclick="event.stopPropagation()" style="width:320px; text-align:left; position:relative;">
 
-    <h3>近くのスポット</h3>
+    <!-- ヘッダー -->
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+
+      <!-- 左：タイトル -->
+      <div style="display:flex; align-items:center; gap:6px;">
+        <span class="material-symbols-outlined">list</span>
+        <h3 style="margin:0;">近くのスポット</h3>
+      </div>
+
+      <!-- 右：閉じる -->
+      <button onclick="closeListModal()" style="border:none; background:none; cursor:pointer;">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+
+    </div>
+
+    <div style="
+      font-size:14px;
+      color:#666;
+      margin-top:6px;
+      margin-bottom:10px;
+    ">
+      マップで表示している地点の周辺スポットを表示します
+    </div>
 
     <!-- 一覧表示エリア -->
     <div id="listResult" style="
@@ -1691,12 +1714,10 @@ function getCategoryStyle(category){
 // =======================
 function showNearbyList(){
 
-  // モーダル開く
   openListModal();
 
   const center = map.getCenter();
 
-  // 距離付きで並び替え
   const sorted = markers.map(obj => {
 
     const lat = parseFloat(obj.data["緯度"]);
@@ -1711,7 +1732,6 @@ function showNearbyList(){
   const resultBox = document.getElementById("listResult");
   resultBox.innerHTML = "";
 
-  // 上位20件表示（調整OK）
   sorted.slice(0,20).forEach(obj => {
 
     const item = obj.data;
@@ -1719,10 +1739,26 @@ function showNearbyList(){
     const div = document.createElement("div");
     div.className = "search-item";
 
+    // ★ここを完全に検索と揃える
     div.innerHTML = `
       <strong>${item["場所名"] || "名称なし"}</strong>
+
       <div class="search-sub">
-        ${item["住所"] || ""}
+
+        ${item["住所"] ? `
+          <div class="search-row">
+            <span class="material-symbols-outlined">location_on</span>
+            <div>${item["住所"]}</div>
+          </div>
+        ` : ""}
+
+        ${item["イベント名"] ? `
+          <div class="search-row">
+            <span class="material-symbols-outlined">event</span>
+            <div>${item["イベント名"]}</div>
+          </div>
+        ` : ""}
+
       </div>
     `;
 
@@ -1731,10 +1767,7 @@ function showNearbyList(){
       const lat = parseFloat(item["緯度"]);
       const lng = parseFloat(item["経度"]);
 
-      // マップ移動
       map.setView([lat, lng], 16);
-
-      // モーダル閉じる
       closeListModal();
     };
 
