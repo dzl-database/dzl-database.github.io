@@ -308,6 +308,30 @@ body{
   border-radius:50%;
 }
 
+/* 検索バー内ボタン */
+.filter-inside-btn{
+  border:none;
+  background:transparent;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-left:6px;
+}
+
+.filter-inside-btn .material-symbols-outlined{
+  font-size:22px;
+  color:#555;
+}
+
+/* 入力欄の余白調整（ボタン分） */
+.search-bar input{
+  border:none;
+  outline:none;
+  width:100%;
+  font-size:14px;
+}
+   
 /* =======================
    (7) 詳細パネル
 ======================= */
@@ -953,8 +977,14 @@ body{
 
   <div class="search-bar">
     <span class="material-symbols-outlined">search</span>
+
     <input type="text" id="searchInput" placeholder="検索">
-    
+
+    <!-- ★追加：フィルターボタン -->
+    <button class="filter-inside-btn" onclick="openFilter()">
+      <span class="material-symbols-outlined">tune</span>
+    </button>
+
     <!-- 検索結果 -->
     <div id="searchResult" class="search-result"></div>
   </div>
@@ -963,12 +993,7 @@ body{
 
 <!-- 追加ボタン群 -->
 <div class="extra-buttons">
-
-  <!-- フィルター -->
-  <button class="circle-btn main" onclick="openFilter()">
-    <span class="material-symbols-outlined">filter_list</span>
-  </button>
-
+   
   <!-- 一覧 -->
   <button class="circle-btn" onclick="showNearbyList()">
     <span class="material-symbols-outlined">list</span>
