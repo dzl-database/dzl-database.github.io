@@ -453,13 +453,12 @@ body{
 
 .detail-actions{
   display:flex;
-  gap:10px;
+  gap:8px;          /* 少し詰める */
   margin-top:12px;
-  flex-wrap:wrap;
 }
 
 .detail-btn{
-  flex:1 1 45%;
+  flex:1;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -1306,7 +1305,7 @@ function openDetail(data){
         <span class="label">マップ</span>
       </button>
 
-      <button class="detail-btn sub" onclick="openRoute(${data["緯度"]}, ${data["経度"]})">
+      <button class="detail-btn sub" onclick="openRoute('${data["住所"]}')">
         <span class="material-symbols-outlined">directions_car</span>
         <span class="label">経路</span>
       </button>
@@ -1416,8 +1415,17 @@ function goMap(lat, lng){
   map.setView([lat, lng], 17);
 }
 
-function openRoute(lat, lng){
-  const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+function openRoute(address){
+
+  if(!address){
+    alert("住所が登録されていません");
+    return;
+  }
+
+  const encoded = encodeURIComponent(address);
+
+  const url = `https://www.google.com/maps/dir/?api=1&destination=${encoded}`;
+
   window.open(url, "_blank");
 }
 
