@@ -30,13 +30,7 @@ html, body{
 body{
   font-family: sans-serif;
 }
-
-.map iframe{
-  width:100%;
-  height:100%;
-  border:none;
-}
-
+   
 .content{
   padding:20px;
 }
@@ -193,70 +187,6 @@ body{
 /* =======================
    (5) 検索UI
 ======================= */
-.search-container{
-  position:fixed;
-
-  top:72px;    /* ← 84 → 72（少し上へ） */
-  right:12px;  /* ← 20 → 12（少し右へ） */
-
-  display:flex;
-  align-items:center;
-  z-index:1000;
-
-  padding:8px;  /* ← 当たり判定も少し強化 */
-}
-   
-/* 入力欄 */
-.search-bar{
-  display:flex;
-  align-items:center;
-  background:#fff;
-  border-radius:30px;
-
-  padding:8px 14px;
-
-  box-shadow:0 4px 12px rgba(0,0,0,0.2);
-
-  width:calc(100vw - 50px);   /* ← ここ変更（超重要） */
-  max-width:250px;            /* ← PCで広がりすぎ防止 */
-}
-
-.search-bar input{
-  border:none;
-  outline:none;
-  width:100%;
-  font-size:14px;
-}
-
-/* 🔍アイコン */
-.search-bar .material-symbols-outlined{
-  margin-right:8px;
-  color:#888;
-}
-
-/* 検索結果 */
-.search-result{
-  position:absolute;
-  top:50px;
-  left:0;
-  width:100%;
-  background:#fff;
-  border-radius:12px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.2);
-  max-height:250px;
-  overflow-y:auto;
-  display:none;
-}
-
-.search-result.active{
-  display:block;
-}
-
-.search-item{
-  padding:10px;
-  border-bottom:1px solid #eee;
-  cursor:pointer;
-}
 
 .search-item:hover{
   background:#f5f5f5;
@@ -266,26 +196,6 @@ body{
   display:flex;
   gap:6px;
   margin-top:10px;
-}
-
-.type-btn{
-  flex:1;
-  padding:8px;
-  border:none;
-  border-radius:999px;
-  background:#eee;
-  cursor:pointer;
-  font-size:12px;
-  transition:0.2s;
-}
-
-.type-btn.active{
-  background:#d90000;
-  color:#fff;
-}
-
-.type-btn:hover{
-  opacity:0.8;
 }
 
 /* 検索結果（モーダル用） */
@@ -319,20 +229,6 @@ body{
 /* =======================
    (6) フィルターUI
 ======================= */
-.filter-btn{
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  border:none;
-  background:#d90000;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  box-shadow:0 4px 12px rgba(0,0,0,0.2);
-}
-
 .circle-btn.main{
   background:#d90000;
   color:#fff;
@@ -997,20 +893,6 @@ body{
 
 </div>
 
-<!--
-<div class="search-container">
-
-  <div class="search-bar">
-    <span class="material-symbols-outlined">search</span>
-
-    <input type="text" id="searchInput" placeholder="検索">
-
-    <div id="searchResult" class="search-result"></div>
-  </div>
-
-</div>
--->
-
 <!-- 追加ボタン群 -->
 <div class="extra-buttons">
 
@@ -1241,12 +1123,6 @@ function createFilters(){
 window.addEventListener("DOMContentLoaded", () => {
   createFilters();
   showSection("map");
-
-  // ★追加：検索バーどこ押しても入力にフォーカス
-  document.querySelector(".search-container").addEventListener("click", ()=>{
-    document.getElementById("searchInput").focus();
-  });
-
 });
 
 function applyFilter(){
@@ -1385,61 +1261,6 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS-mAknXEbape8065ZFUgQ0sY
     });
 
   });
-
-// =======================
-// 検索UI
-// =======================
-function toggleSearch(){
-  document.getElementById("searchBox").classList.toggle("active");
-}
-
-window.addEventListener("DOMContentLoaded", () => {
-
-  document.getElementById("searchInput").addEventListener("input", function(){
-
-    const keyword = this.value.toLowerCase();
-    const resultBox = document.getElementById("searchResult");
-
-    resultBox.innerHTML = "";
-    resultBox.classList.add("active");
-
-    if(!keyword){
-      resultBox.classList.remove("active");
-      return;
-    }
-
-    const results = markers.filter(obj =>
-      (obj.data["場所名"] && obj.data["場所名"].toLowerCase().includes(keyword)) ||
-      (obj.data["イベント名"] && obj.data["イベント名"].toLowerCase().includes(keyword)) ||
-      (obj.data["住所"] && obj.data["住所"].toLowerCase().includes(keyword)) ||
-      (obj.data["カテゴリ"] && obj.data["カテゴリ"].toLowerCase().includes(keyword))
-    );
-
-    results.slice(0,10).forEach(obj => {
-
-      const item = obj.data;
-
-      const div = document.createElement("div");
-      div.className = "search-item";
-      div.innerHTML = `
-        <strong>${item["場所名"]}</strong><br>
-        <small>${item["イベント名"] || ""}</small>
-      `;
-
-      div.onclick = () => {
-        const lat = parseFloat(item["緯度"]);
-        const lng = parseFloat(item["経度"]);
-
-        map.setView([lat, lng], 15); // ズーム
-        obj.marker.openPopup();      // ポップアップ表示
-      };
-
-      resultBox.appendChild(div);
-    });
-
-  });
-
-});
 
 function openDetail(data){
 
