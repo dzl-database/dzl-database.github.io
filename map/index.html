@@ -875,6 +875,96 @@ body{
   0%{ transform:scale(1); opacity:1; }
   100%{ transform:scale(2); opacity:0; }
 }
+
+/* =======================
+   (10) 使い方ページ
+======================= */
+
+.howto-container{
+  max-width:900px;
+  margin:0 auto;
+}
+
+.howto-lead{
+  text-align:center;
+  color:#555;
+  margin-bottom:20px;
+}
+
+.howto-card{
+  background:#fff;
+  border-radius:12px;
+  padding:16px;
+  margin-bottom:16px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.05);
+}
+
+.howto-card h3{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-bottom:10px;
+}
+
+.howto-card ul{
+  padding-left:18px;
+}
+
+.howto-card li{
+  margin:6px 0;
+  line-height:1.6;
+}
+
+/* アイコン一覧 */
+.icon-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:12px;
+  margin-top:10px;
+}
+
+.icon-item{
+  text-align:center;
+}
+
+.icon-circle{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 6px;
+  color:#fff;
+}
+
+.icon-circle.red{ background:#C80000; }
+.icon-circle.purple{ background:#733C93; }
+.icon-circle.yellow{ background:#FCC700; color:#333; }
+.icon-circle.blue{ background:#54C3F1; }
+.icon-circle.pink{ background:#EB6D9A; }
+.icon-circle.black{ background:#333; }
+
+/* 強調カード */
+.howto-card.highlight{
+  border:2px solid #d90000;
+  text-align:center;
+}
+
+.howto-btn{
+  margin-top:10px;
+  padding:12px 16px;
+  border:none;
+  border-radius:8px;
+  background:#d90000;
+  color:#fff;
+  font-size:14px;
+  cursor:pointer;
+}
+
+.howto-btn:hover{
+  background:#b80000;
+}
    
 </style>
 </head>
@@ -917,9 +1007,147 @@ body{
 
 <!-- ===== 使い方 ===== -->
 <div id="howto" class="section">
-  <div class="content">
-    <h2>使い方</h2>
-    <p>使い方ページは作成中です。</p>
+  <div class="content howto-container">
+
+    <h2>使い方ガイド</h2>
+
+    <p class="howto-lead">
+      「ドズル社マップplus」の基本的な使い方を紹介します。<br>
+      初めての方はぜひご覧ください！
+    </p>
+
+    <!-- ===================== -->
+    <!-- マップの使い方 -->
+    <!-- ===================== -->
+    <div class="howto-card">
+      <h3><span class="material-symbols-outlined">map</span> マップの見方</h3>
+
+      <ul>
+        <li>マップ上のピンをタップすると詳細情報が表示されます</li>
+        <li>ピンの色やアイコンでカテゴリが分かります</li>
+        <li>ピンをタップ → 詳細 → 「マップ」でその場所へズームできます</li>
+      </ul>
+    </div>
+
+    <!-- ===================== -->
+    <!-- アイコン説明 -->
+    <!-- ===================== -->
+    <div class="howto-card">
+      <h3><span class="material-symbols-outlined">place</span> マップ上アイコンの説明</h3>
+
+      <div class="icon-grid">
+
+        <div class="icon-item">
+          <div class="icon-circle red">
+            <span class="material-symbols-outlined">local_mall</span>
+          </div>
+          <p>グッズ</p>
+        </div>
+
+        <div class="icon-item">
+          <div class="icon-circle purple">
+            <span class="material-symbols-outlined">restaurant</span>
+          </div>
+          <p>飲食</p>
+        </div>
+
+        <div class="icon-item">
+          <div class="icon-circle yellow">
+            <span class="material-symbols-outlined">store</span>
+          </div>
+          <p>コンビニ</p>
+        </div>
+
+        <div class="icon-item">
+          <div class="icon-circle blue">
+            <span class="material-symbols-outlined">local_laundry_service</span>
+          </div>
+          <p>カプセルトイ</p>
+        </div>
+
+        <div class="icon-item">
+          <div class="icon-circle pink">
+            <span class="material-symbols-outlined">sports_esports</span>
+          </div>
+          <p>ゲームセンター</p>
+        </div>
+
+        <div class="icon-item">
+          <div class="icon-circle black">
+            <span class="material-symbols-outlined">place</span>
+          </div>
+          <p>その他</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ===================== -->
+    <!-- 検索 -->
+    <!-- ===================== -->
+    <div class="howto-card">
+      <h3><span class="material-symbols-outlined">search</span> 検索機能</h3>
+
+      <ul>
+        <li>右上の「🔍」ボタンで検索ができます</li>
+        <li>スポット名 / 住所 / イベント名 で検索可能</li>
+        <li>現在地から近い順で表示されます</li>
+      </ul>
+    </div>
+
+    <!-- ===================== -->
+    <!-- フィルター -->
+    <!-- ===================== -->
+    <div class="howto-card">
+      <h3><span class="material-symbols-outlined">tune</span> フィルター機能</h3>
+
+      <ul>
+        <li>カテゴリごとに表示・非表示を切り替え可能</li>
+        <li>開催状況（開催前・開催中・終了）でも絞り込みできます</li>
+        <li>色がついている状態がONです</li>
+      </ul>
+    </div>
+
+    <!-- ===================== -->
+    <!-- 一覧 -->
+    <!-- ===================== -->
+    <div class="howto-card">
+      <h3><span class="material-symbols-outlined">list</span> 近くのスポット一覧</h3>
+
+      <ul>
+        <li>「リスト」ボタンで周辺スポットを表示</li>
+        <li>現在見ている位置から近い順で並びます</li>
+      </ul>
+    </div>
+
+    <!-- ===================== -->
+    <!-- 現在地 -->
+    <!-- ===================== -->
+    <div class="howto-card">
+      <h3><span class="material-symbols-outlined">my_location</span> 現在地表示</h3>
+
+      <ul>
+        <li>現在地ボタンで自分の位置を表示できます</li>
+        <li>青い丸が現在地です</li>
+      </ul>
+    </div>
+
+    <!-- ===================== -->
+    <!-- 情報提供 -->
+    <!-- ===================== -->
+    <div class="howto-card highlight">
+      <h3><span class="material-symbols-outlined">campaign</span> 情報提供募集中！</h3>
+
+      <p>
+        新しいスポットやイベント情報を募集中です！<br>
+        ぜひご協力ください 🙏
+      </p>
+
+      <button class="howto-btn" onclick="openInfoForm()">
+        情報提供フォームを開く
+      </button>
+    </div>
+
   </div>
 </div>
 
