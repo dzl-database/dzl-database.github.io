@@ -40,6 +40,19 @@ body{
 .content{
   padding:20px;
 }
+
+#map{
+  position:fixed;
+  top:64px;   /* ヘッダー分 */
+  left:0;
+  width:100%;
+  height:calc(100vh - 64px);
+}
+
+#leafletMap{
+  width:100%;
+  height:100%;
+}
    
 /* =======================
    (2) レイアウト
@@ -47,7 +60,6 @@ body{
 .section{
   display:none;
   padding-top:64px;
-  height:calc(100vh - 64px);
 }
 
 .section.active{
