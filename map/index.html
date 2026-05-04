@@ -1747,13 +1747,36 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS-mAknXEbape8065ZFUgQ0sY
 
     dataList = parsed.data;
 
+    let usedPositions = {}; // ← 追加（座標管理）
+
     dataList.forEach(item => {
 
-      const lat = parseFloat(item["緯度"]);
-      const lng = parseFloat(item["経度"]);
+      let lat = parseFloat(item["緯度"]);
+      let lng = parseFloat(item["経度"]);
 
-      if(!lat || !lng) return;
+      // ✔ 正しいチェック
+      if(isNaN(lat) || isNaN(lng)) return;
 
+      // =========================
+      // ★ 同じ座標チェック
+      // =========================
+      const key = lat.toFixed(6) + "," + lng.toFixed(6);
+
+      if(usedPositions[key]){
+        usedPositions[key]++;
+
+        // ✔ ランダムにズラす（自然）
+        const offset = (Math.random() - 0.5) * 0.0002;
+
+        lat += offset;
+        lng += offset;
+      }else{
+        usedPositions[key] = 1;
+      }
+
+      // =========================
+      // マーカー生成
+      // =========================
       const marker = L.marker([lat, lng], {
         icon: getIcon(item["カテゴリ"])
       }).addTo(map);
