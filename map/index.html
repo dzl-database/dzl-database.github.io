@@ -7,12 +7,12 @@
 <title>【非公式】ドズル社マップplus</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-
 <link rel="icon" href="../favicon.png" type="image/png">
-
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-   
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css">
+<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
 <style>
@@ -1649,7 +1649,7 @@ function applyFilter(){
 
   // 全削除
   markers.forEach(obj=>{
-    map.removeLayer(obj.marker);
+    markerCluster.removeLayer(obj.marker);
   });
 
   // 条件一致のみ
@@ -1662,7 +1662,7 @@ function applyFilter(){
       selectedCats.includes(cat) &&
       selectedStatus.includes(status)
     ){
-      obj.marker.addTo(map);
+      markerCluster.addLayer(obj.marker);
     }
 
   });
@@ -1720,6 +1720,10 @@ function getIcon(category){
 const map = L.map('leafletMap', {
   zoomControl: false
 }).setView([35.6812, 139.7671], 6); // 東京中心
+
+// ★追加
+const markerCluster = L.markerClusterGroup();
+map.addLayer(markerCluster);
 
 // ↓ 追加
 L.control.zoom({
@@ -1779,7 +1783,10 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS-mAknXEbape8065ZFUgQ0sY
       // =========================
       const marker = L.marker([lat, lng], {
         icon: getIcon(item["カテゴリ"])
-      }).addTo(map);
+      });
+
+      // ★ mapではなくclusterへ
+      markerCluster.addLayer(marker);
 
       marker.on("click", () => {
         openDetail(item);
