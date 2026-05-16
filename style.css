@@ -38,7 +38,7 @@ width:100%;
 background:#d90000;
 color:white;
 z-index:1000;
-height:64px;   /* ← 追加 */
+height:auto;
 }
 
 /* 上段 */
