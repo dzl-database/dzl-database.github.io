@@ -32,22 +32,90 @@ object-fit:contain;
 }
 /* ===== ヘッダー全体 ===== */
 .main-header{
-position:fixed;
-top:0;
-width:100%;
-background:#d90000;
-color:white;
-z-index:1000;
-height:auto;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  background:#d90000;
+  z-index:1000;
 }
 
 /* 上段 */
 .header-top{
-  height:64px;     /* ← 追加 */
+  height:64px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 20px;  /* ← 縦padding削除 */
+  padding:0 20px;
+}
+
+.top-menu{
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+
+  background:#d90000;
+
+  padding:12px 10px 14px;
+}
+
+.top-menu button{
+  background:none;
+  border:none;
+  color:white;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+
+  cursor:pointer;
+}
+
+.top-menu .material-symbols-outlined{
+  font-size:32px;
+}
+
+.top-menu span:last-child{
+  font-size:13px;
+  font-weight:700;
+}
+
+.drawer-menu{
+  position:fixed;
+  top:118px;
+  left:0;
+  width:100%;
+
+  background:white;
+
+  z-index:950;
+
+  transform:translateY(-120%);
+  transition:transform 0.3s ease;
+
+  box-shadow:0 10px 20px rgba(0,0,0,0.15);
+}
+
+.drawer-menu.open{
+  transform:translateY(0);
+}
+
+.drawer-menu button{
+  width:100%;
+
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  padding:16px 20px;
+
+  border:none;
+  background:white;
+
+  cursor:pointer;
+
+  font-size:15px;
 }
 
 .logo{
@@ -799,7 +867,7 @@ box-shadow:0 2px 8px rgba(0,0,0,0.05);
   margin-right:240px;
   width:100%;
   padding:0px;
-  margin-top:64px;
+  margin-top:120px;
   transition:margin 0.3s ease;
 }
 
