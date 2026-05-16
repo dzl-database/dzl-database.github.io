@@ -58,7 +58,7 @@ height:64px;   /* ← 追加 */
   top:64px;
   left:0;
   width:100%;
-  height:92px;
+  height:64px;
 
   background:#d90000;
 
@@ -85,7 +85,7 @@ height:64px;   /* ← 追加 */
   align-items:center;
   justify-content:center;
 
-  gap:6px;
+  gap:2px;
 
   cursor:pointer;
 
@@ -95,12 +95,12 @@ height:64px;   /* ← 追加 */
 }
 
 .quick-menu button .material-symbols-outlined{
-  font-size:34px;
+  font-size:20px;
 }
 
 .quick-menu button span:last-child{
-  font-size:13px;
-  font-weight:bold;
+  font-size:10px;
+  font-weight:600;
 }
 
 .quick-menu button.active-tab{
@@ -814,12 +814,8 @@ box-shadow:0 2px 8px rgba(0,0,0,0.05);
   margin-right:0;
   width:100%;
   padding:0px;
-  margin-top:156px;
+  margin-top:128px;
   transition:margin 0.3s ease;
-}
-
-#mainContent.expanded{
-  margin-right:0;
 }
 
 .main-footer{
@@ -2261,42 +2257,42 @@ font-size:18px;
     <!-- メニュー -->
     <div class="menu-modal-body">
 
-      <button onclick="showSection('news');closeMenuModal()">
+      <button onclick="showSection('news'); closeMenuModal()" data-section="news">
         <span class="material-symbols-outlined">article</span>
         <span>ニュース</span>
       </button>
 
-      <button onclick="showSection('about');closeMenuModal()">
+      <button onclick="showSection('about'); closeMenuModal()">
         <span class="material-symbols-outlined">menu_book</span>
         <span>ドズル社</span>
       </button>
 
-      <button onclick="window.open('https://dzl-database.github.io/map/', '_blank');closeMenuModal()">
+      <button onclick="window.open('https://dzl-database.github.io/map/', '_blank'); closeMenuModal()">
         <span class="material-symbols-outlined">map</span>
         <span>マップ</span>
       </button>
 
-      <button onclick="showSection('community');closeMenuModal()">
+      <button onclick="showSection('community'); closeMenuModal()">
         <span class="material-symbols-outlined">groups</span>
         <span>ファンコミュニティ</span>
       </button>
 
-      <button onclick="showSection('guide');closeMenuModal()">
+      <button onclick="showSection('guide'); closeMenuModal()">
         <span class="material-symbols-outlined">help</span>
         <span>使い方</span>
       </button>
 
-      <button onclick="showSection('policy');closeMenuModal()">
+      <button onclick="showSection('policy'); closeMenuModal()">
         <span class="material-symbols-outlined">policy</span>
         <span>ポリシー・注意事項</span>
       </button>
 
-      <button onclick="showSection('contact');closeMenuModal()">
+      <button onclick="showSection('contact'); closeMenuModal()">
         <span class="material-symbols-outlined">mail</span>
         <span>お問い合わせ・感想</span>
       </button>
 
-      <button onclick="showSection('planned');closeMenuModal()">
+      <button onclick="showSection('planned'); closeMenuModal()">
         <span class="material-symbols-outlined">build</span>
         <span>現在検討中の機能</span>
       </button>
@@ -2805,11 +2801,6 @@ function showSection(sectionId){
 
   if(activeBtn){
     activeBtn.classList.add('active-tab');
-  }
-
-  // 🔥 スマホなら閉じる
-  if(window.innerWidth <= 768){
-    closeSidebar();
   }
 
   if(sectionId==="mylist"){
