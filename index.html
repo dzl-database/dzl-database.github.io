@@ -76,7 +76,7 @@
 
 <div id="drawerMenu" class="drawer-menu">
 
-  <button onclick="showSection('news');closeSidebarMobile()" data-section="news">
+  <button onclick="showSection('news');closeDrawerMenu()" data-section="news">
     <span class="material-symbols-outlined">article</span>
     <span>ニュース</span>
   </button>
@@ -91,29 +91,27 @@
     <span>ファンコミュニティ</span>
   </button>
 
-  <button onclick="showSection('guide');closeSidebarMobile()" data-section="guide">
+  <button onclick="showSection('guide');closeDrawerMenu()" data-section="guide">
     <span class="material-symbols-outlined">help</span>
     <span>使い方</span>
   </button>
 
-  <button onclick="showSection('policy');closeSidebarMobile()" data-section="policy">
+  <button onclick="showSection('policy');closeDrawerMenu()" data-section="policy">
     <span class="material-symbols-outlined">policy</span>
     <span>ポリシー・注意事項</span>
   </button>
 
-  <button onclick="showSection('contact');closeSidebarMobile()" data-section="contact">
+  <button onclick="showSection('contact');closeDrawerMenu()" data-section="contact">
     <span class="material-symbols-outlined">mail</span>
     <span>お問い合わせ・感想</span>
   </button>
 
-  <button onclick="showSection('planned');closeSidebarMobile()" data-section="planned">
+  <button onclick="showSection('planned');closeDrawerMenu()" data-section="planned">
     <span class="material-symbols-outlined">build</span>
     <span>現在検討中の機能</span>
   </button>
 
 </div>
-  
-<div class="layout">
 
 <!-- ===== メインエリア ===== -->
 <main id="mainContent">
@@ -2535,7 +2533,6 @@ loadYouTubeStats();
 </script>
 
 </main>
-</div>
 
 
 <div id="calendarModal" class="calendar-modal">
