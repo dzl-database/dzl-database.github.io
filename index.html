@@ -2257,42 +2257,42 @@ font-size:18px;
     <!-- メニュー -->
     <div class="menu-modal-body">
 
-      <button onclick="showSection('news'); closeMenuModal()" data-section="news">
+      <button onclick="closeMenuModal(); showSection('news')" data-section="news">
         <span class="material-symbols-outlined">article</span>
         <span>ニュース</span>
       </button>
 
-      <button onclick="showSection('about'); closeMenuModal()">
+      <button onclick="closeMenuModal(); showSection('about')">
         <span class="material-symbols-outlined">menu_book</span>
         <span>ドズル社</span>
       </button>
 
-      <button onclick="window.open('https://dzl-database.github.io/map/', '_blank'); closeMenuModal()">
+      <button onclick="closeMenuModal(); window.open('https://dzl-database.github.io/map/', '_blank')">
         <span class="material-symbols-outlined">map</span>
         <span>マップ</span>
       </button>
 
-      <button onclick="showSection('community'); closeMenuModal()">
+      <button onclick="closeMenuModal(); showSection('community')">
         <span class="material-symbols-outlined">groups</span>
         <span>ファンコミュニティ</span>
       </button>
 
-      <button onclick="showSection('guide'); closeMenuModal()">
+      <button onclick="closeMenuModal(); showSection('guide')">
         <span class="material-symbols-outlined">help</span>
         <span>使い方</span>
       </button>
 
-      <button onclick="showSection('policy'); closeMenuModal()">
+      <button onclick="closeMenuModal(); showSection('policy')">
         <span class="material-symbols-outlined">policy</span>
         <span>ポリシー・注意事項</span>
       </button>
 
-      <button onclick="showSection('contact'); closeMenuModal()">
+      <button onclick="closeMenuModal(); showSection('contact')">
         <span class="material-symbols-outlined">mail</span>
         <span>お問い合わせ・感想</span>
       </button>
 
-      <button onclick="showSection('planned'); closeMenuModal()">
+      <button onclick="closeMenuModal(); showSection('planned')">
         <span class="material-symbols-outlined">build</span>
         <span>現在検討中の機能</span>
       </button>
@@ -2798,10 +2798,6 @@ function showSection(sectionId){
   activeBtns.forEach(btn=>{
     btn.classList.add('active-tab');
   });
-
-  if(activeBtn){
-    activeBtn.classList.add('active-tab');
-  }
 
   if(sectionId==="mylist"){
     loadMyList();
