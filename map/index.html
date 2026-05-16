@@ -12,6 +12,11 @@
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- MarkerCluster -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
    
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
@@ -1648,11 +1653,9 @@ function applyFilter(){
   ).map(el => el.dataset.value);
 
   // 全削除
-  markers.forEach(obj=>{
-    map.removeLayer(obj.marker);
-  });
+  markerCluster.clearLayers();
 
-  // 条件一致のみ
+  // 条件一致のみ追加
   markers.forEach(obj=>{
 
     const cat = obj.data["カテゴリ"];
@@ -1662,7 +1665,7 @@ function applyFilter(){
       selectedCats.includes(cat) &&
       selectedStatus.includes(status)
     ){
-      obj.marker.addTo(map);
+      markerCluster.addLayer(obj.marker);
     }
 
   });
@@ -1733,6 +1736,10 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 let markers = [];
 let dataList = [];
 
+// MarkerCluster
+const markerCluster = L.markerClusterGroup();
+map.addLayer(markerCluster);
+
 // =======================
 // CSV取得
 // =======================
@@ -1779,7 +1786,10 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS-mAknXEbape8065ZFUgQ0sY
       // =========================
       const marker = L.marker([lat, lng], {
         icon: getIcon(item["カテゴリ"])
-      }).addTo(map);
+      });
+
+      // map.addTo しない
+      markerCluster.addLayer(marker);
 
       marker.on("click", () => {
         openDetail(item);
