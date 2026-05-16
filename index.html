@@ -52,6 +52,72 @@ z-index:1000;
 height:64px;   /* ← 追加 */
 }
 
+/* ===== クイックメニュー ===== */
+.quick-menu{
+  position:fixed;
+  top:64px;
+  left:0;
+  width:100%;
+  height:92px;
+
+  background:#d90000;
+
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+
+  z-index:999;
+
+  border-top:1px solid rgba(255,255,255,0.1);
+}
+
+.quick-menu button{
+  flex:1;
+  height:100%;
+
+  background:none;
+  border:none;
+
+  color:rgba(255,255,255,0.65);
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  gap:6px;
+
+  cursor:pointer;
+
+  position:relative;
+
+  transition:0.2s;
+}
+
+.quick-menu button .material-symbols-outlined{
+  font-size:34px;
+}
+
+.quick-menu button span:last-child{
+  font-size:13px;
+  font-weight:bold;
+}
+
+.quick-menu button.active-tab{
+  color:white;
+}
+
+.quick-menu button.active-tab::after{
+  content:"";
+  position:absolute;
+  bottom:0;
+  left:15%;
+  width:70%;
+  height:4px;
+  background:white;
+  border-radius:999px;
+}
+
 /* 上段 */
 .header-top{
   height:64px;     /* ← 追加 */
@@ -745,21 +811,20 @@ box-shadow:0 2px 8px rgba(0,0,0,0.05);
 
 .sidebar{
   position:fixed;
-  top:64px; /* ヘッダー高さ */
-  right:0;
-  width:240px;
-  height:calc(100vh - 64px);
-  background:white;
-  border-left:2px solid #d90000;
-  padding:20px 0;
-  z-index:900;
-  transform:translateX(0);
-  transition:transform 0.3s ease;
+  top:64px;
+  left:0;
 
-  max-height:100vh;
+  width:100%;
+  max-height:calc(100vh - 64px);
+
+  background:white;
+
+  z-index:998;
+
   overflow-y:auto;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 20px;
+
+  transform:translateY(-120%);
+  transition:0.3s ease;
 }
 
 .sidebar::-webkit-scrollbar{
@@ -807,10 +872,10 @@ box-shadow:0 2px 8px rgba(0,0,0,0.05);
 
 /* メイン余白 */
 #mainContent{
-  margin-right:240px;
+  margin-right:0;
   width:100%;
   padding:0px;
-  margin-top:64px;
+  margin-top:156px;
   transition:margin 0.3s ease;
 }
 
@@ -836,7 +901,7 @@ box-shadow:0 2px 8px rgba(0,0,0,0.05);
 
   #mainContent{
     margin-right:0;
-    margin-top:64px;
+    margin-top:156px;
     padding:0px;
   }
 
@@ -901,24 +966,12 @@ box-shadow:0 2px 8px rgba(0,0,0,0.05);
   }
 }
 
-.sidebar.collapsed{
-  transform:translateX(100%);
-}
-  
-/* PC：開いている状態 */
 .sidebar.closed{
-  transform:translateX(100%);
+  transform:translateY(-120%);
 }
 
-/* スマホ：最初は閉じる */
-@media(max-width:768px){
-  .sidebar{
-    transform:translateX(100%);
-  }
-
-  .sidebar.open{
-    transform:translateX(0);
-  }
+.sidebar.open{
+  transform:translateY(0);
 }
 
 .sidebar button{
@@ -2197,6 +2250,36 @@ font-size:18px;
 
 </header>
 
+<!-- ===== クイックメニュー ===== -->
+<nav class="quick-menu">
+
+  <button onclick="showSection('home')" data-section="home">
+    <span class="material-symbols-outlined">home</span>
+    <span>ホーム</span>
+  </button>
+
+  <button onclick="showSection('event')" data-section="event">
+    <span class="material-symbols-outlined">event</span>
+    <span>イベント</span>
+  </button>
+
+  <button onclick="showSection('goods')" data-section="goods">
+    <span class="material-symbols-outlined">shopping_bag</span>
+    <span>グッズ</span>
+  </button>
+
+  <button onclick="showSection('video')" data-section="video">
+    <span class="material-symbols-outlined">smart_display</span>
+    <span>動画</span>
+  </button>
+
+  <button onclick="showSection('mylist')" data-section="mylist">
+    <span class="material-symbols-outlined">bookmark</span>
+    <span>マイリスト</span>
+  </button>
+
+</nav>
+ 
 <div class="layout">
 
   <!-- ===== サイドバー ===== -->
@@ -2205,26 +2288,6 @@ font-size:18px;
     <div class="sidebar-inner">
 
       <nav class="sidebar-nav">
-
-        <button onclick="showSection('home');closeSidebarMobile()" data-section="home">
-          <span class="material-symbols-outlined">home</span>
-          <span>ホーム</span>
-        </button>
-
-        <button onclick="showSection('event');closeSidebarMobile()" data-section="event">
-          <span class="material-symbols-outlined">event</span>
-          <span>イベント</span>
-        </button>
-
-        <button onclick="showSection('goods');closeSidebarMobile()" data-section="goods">
-          <span class="material-symbols-outlined">shopping_bag</span>
-          <span>グッズ</span>
-        </button>
-
-        <button onclick="showSection('video');closeSidebarMobile()" data-section="video"> 
-          <span class="material-symbols-outlined">smart_display</span> 
-          <span>動画</span> 
-        </button>
 
         <button onclick="showSection('news');closeSidebarMobile()" data-section="news">
           <span class="material-symbols-outlined">article</span>
@@ -2244,11 +2307,6 @@ font-size:18px;
         <button onclick="showSection('community');closeSidebarMobile()" data-section="community">
           <span class="material-symbols-outlined">groups</span>
           <span>ファンコミュニティ</span>
-        </button>
-
-        <button onclick="showSection('mylist');closeSidebarMobile()" data-section="mylist">
-          <span class="material-symbols-outlined">bookmark</span>
-          <span>マイリスト</span>
         </button>
 
         <hr>
@@ -2762,13 +2820,17 @@ function showSection(sectionId){
 
   document.getElementById(sectionId).classList.add('active');
 
-  document.querySelectorAll('.sidebar button').forEach(btn=>{
+  document.querySelectorAll('.sidebar button, .quick-menu button').forEach(btn=>{
     btn.classList.remove('active-tab');
   });
 
-  const activeBtn = document.querySelector(
-    `.sidebar button[data-section="${sectionId}"]`
+  const activeBtns = document.querySelectorAll(
+    `[data-section="${sectionId}"]`
   );
+
+  activeBtns.forEach(btn=>{
+    btn.classList.add('active-tab');
+  });
 
   if(activeBtn){
     activeBtn.classList.add('active-tab');
