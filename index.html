@@ -29,100 +29,91 @@
 
   <!-- 上段 -->
   <div class="header-top">
+
     <div class="site-title" onclick="showSection('home')">
       <img src="title-logo.png" alt="サイトタイトル">
     </div>
 
-    <!-- スマホ・パソコン両方ハンバーガー -->
-    <button class="hamburger" onclick="toggleSidebar()">
-      <span id="menuIcon" class="material-symbols-outlined">menu</span>
+    <button class="hamburger" onclick="toggleDrawerMenu()">
+      <span id="menuIcon" class="material-symbols-outlined">
+        menu
+      </span>
     </button>
+
   </div>
 
+  <!-- 下段メニュー -->
+  <nav class="top-menu">
+
+    <button onclick="showSection('event')">
+      <span class="material-symbols-outlined">event</span>
+      <span>イベント</span>
+    </button>
+
+    <button onclick="showSection('goods')">
+      <span class="material-symbols-outlined">shopping_bag</span>
+      <span>グッズ</span>
+    </button>
+
+    <button onclick="showSection('video')">
+      <span class="material-symbols-outlined">smart_display</span>
+      <span>動画</span>
+    </button>
+
+    <button onclick="window.open('https://dzl-database.github.io/map/', '_blank')">
+      <span class="material-symbols-outlined">map</span>
+      <span>マップ</span>
+    </button>
+
+    <button onclick="showSection('mylist')">
+      <span class="material-symbols-outlined">bookmark</span>
+      <span>マイリスト</span>
+    </button>
+
+  </nav>
+
 </header>
+
+<div id="drawerMenu" class="drawer-menu">
+
+  <button onclick="showSection('news');closeSidebarMobile()" data-section="news">
+    <span class="material-symbols-outlined">article</span>
+    <span>ニュース</span>
+  </button>
+
+  <button onclick="showSection('about');closeDrawerMenu()">
+    <span class="material-symbols-outlined">menu_book</span>
+    <span>ドズル社</span>
+  </button>
+
+  <button onclick="showSection('community');closeDrawerMenu()">
+    <span class="material-symbols-outlined">groups</span>
+    <span>ファンコミュニティ</span>
+  </button>
+
+  <button onclick="showSection('guide');closeSidebarMobile()" data-section="guide">
+    <span class="material-symbols-outlined">help</span>
+    <span>使い方</span>
+  </button>
+
+  <button onclick="showSection('policy');closeSidebarMobile()" data-section="policy">
+    <span class="material-symbols-outlined">policy</span>
+    <span>ポリシー・注意事項</span>
+  </button>
+
+  <button onclick="showSection('contact');closeSidebarMobile()" data-section="contact">
+    <span class="material-symbols-outlined">mail</span>
+    <span>お問い合わせ・感想</span>
+  </button>
+
+  <button onclick="showSection('planned');closeSidebarMobile()" data-section="planned">
+    <span class="material-symbols-outlined">build</span>
+    <span>現在検討中の機能</span>
+  </button>
+
+</div>
   
 <div class="layout">
-
-  <!-- ===== サイドバー ===== -->
-  <aside id="sidebar" class="sidebar">
-
-    <div class="sidebar-inner">
-
-      <nav class="sidebar-nav">
-
-        <button onclick="showSection('home');closeSidebarMobile()" data-section="home">
-          <span class="material-symbols-outlined">home</span>
-          <span>ホーム</span>
-        </button>
-
-        <button onclick="showSection('event');closeSidebarMobile()" data-section="event">
-          <span class="material-symbols-outlined">event</span>
-          <span>イベント</span>
-        </button>
-
-        <button onclick="showSection('goods');closeSidebarMobile()" data-section="goods">
-          <span class="material-symbols-outlined">shopping_bag</span>
-          <span>グッズ</span>
-        </button>
-
-        <button onclick="showSection('video');closeSidebarMobile()" data-section="video">
-          <span class="material-symbols-outlined">smart_display</span>
-          <span>動画</span>
-        </button>
-
-        <button onclick="showSection('news');closeSidebarMobile()" data-section="news">
-          <span class="material-symbols-outlined">article</span>
-          <span>ニュース</span>
-        </button>
-
-        <button onclick="window.open('https://dzl-database.github.io/map/', '_blank');closeSidebarMobile()">
-          <span class="material-symbols-outlined">map</span>
-          <span>マップ</span>
-        </button>
-
-        <button onclick="showSection('about');closeSidebarMobile()" data-section="about">
-          <span class="material-symbols-outlined">menu_book</span>
-          <span>ドズル社</span>
-        </button>
-
-        <button onclick="showSection('community');closeSidebarMobile()" data-section="community">
-          <span class="material-symbols-outlined">groups</span>
-          <span>ファンコミュニティ</span>
-        </button>
-
-        <button onclick="showSection('mylist');closeSidebarMobile()" data-section="mylist">
-          <span class="material-symbols-outlined">bookmark</span>
-          <span>マイリスト</span>
-        </button>
-
-        <hr>
-
-        <button onclick="showSection('guide');closeSidebarMobile()" data-section="guide">
-          <span class="material-symbols-outlined">help</span>
-          <span>使い方</span>
-        </button>
-
-        <button onclick="showSection('policy');closeSidebarMobile()" data-section="policy">
-          <span class="material-symbols-outlined">policy</span>
-          <span>ポリシー・注意事項</span>
-        </button>
-
-        <button onclick="showSection('contact');closeSidebarMobile()" data-section="contact">
-          <span class="material-symbols-outlined">mail</span>
-          <span>お問い合わせ・感想</span>
-        </button>
-
-        <button onclick="showSection('planned');closeSidebarMobile()" data-section="planned">
-          <span class="material-symbols-outlined">build</span>
-          <span>現在検討中の機能</span>
-        </button>
-
-      </nav>
-    </div>
-  </aside>
-
-<!-- オーバーレイ（スマホ用） -->
-<div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
 
 <!-- ===== メインエリア ===== -->
 <main id="mainContent">
@@ -632,6 +623,18 @@ function showSection(sectionId){
   if(sectionId === "news"){
     loadNewsPage();
   }
+}
+
+function toggleDrawerMenu(){
+  document
+    .getElementById('drawerMenu')
+    .classList.toggle('open');
+}
+
+function closeDrawerMenu(){
+  document
+    .getElementById('drawerMenu')
+    .classList.remove('open');
 }
   
 const eventsURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vQeScX6j_3nRvOlYuVa0P4wGG6piBpQ2ZwXzZxEPscII79uBByy9Z8_MDND2wouDZboQQon7XVVN4Gp/pub?gid=0&single=true&output=csv";
@@ -1792,56 +1795,7 @@ function filterMyList(type, el){
 
   loadMyList(type);
 }
-
-function toggleSidebar(){
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("sidebarOverlay");
-  const icon = document.getElementById("menuIcon");
-  const isMobile = window.innerWidth <= 768;
-
-  if(isMobile){
-    sidebar.classList.toggle("open");
-    overlay.classList.toggle("active");
-
-    if(sidebar.classList.contains("open")){
-      icon.textContent = "close";
-    }else{
-      icon.textContent = "menu";
-    }
-
-  }else{
-    sidebar.classList.toggle("collapsed");
-
-    if(sidebar.classList.contains("collapsed")){
-      icon.textContent = "menu";
-    }else{
-      icon.textContent = "close";
-    }
-  }
-}
-
-function closeSidebar(){
-  document.getElementById("sidebar").classList.remove("open");
-  document.getElementById("sidebarOverlay").classList.remove("active");
-  document.getElementById("menuIcon").textContent = "menu";
-}
-  
-document.querySelectorAll("#sidebar button").forEach(btn=>{
-  btn.addEventListener("click", function(){
-
-    const isMobile = window.innerWidth <= 768;
-
-    if(isMobile){
-      document.getElementById("sidebar").classList.remove("open");
-      document.getElementById("sidebarOverlay").classList.remove("active");
-
-      // ハンバーガーを戻す
-      document.getElementById("menuIcon").textContent = "menu";
-    }
-
-  });
-});
-  
+ 
 /* ===== グッズ お気に入り ===== */
 function getGoodsFavorites(){
   return JSON.parse(localStorage.getItem("goodsFavorites") || "[]");
