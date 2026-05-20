@@ -4644,6 +4644,9 @@ async function drawCanvas(){
 
   ctx.font = "bold 50px 'M PLUS Rounded 1c'";
   drawText(ctx, cardState.series, 903, 1044, 1200);
+
+  ctx.fillStyle = "red";
+  ctx.fillRect(903, 560, 20, 20);
 }
   
 function updateState(){
