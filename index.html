@@ -2194,25 +2194,25 @@ font-size:18px;
 
 .home-dashboard{
   background:#d90000;
-  border-radius:22px;
-  padding:18px;
+  border-radius:18px;
+  padding:14px;
   color:white;
 
   display:flex;
-  gap:18px;
+  gap:14px;
 
-  margin-bottom:20px;
+  margin-bottom:18px;
 
-  width:40%;
-  min-width:520px;
+  width:38%;
+  min-width:430px;
 
-  box-shadow:0 6px 16px rgba(0,0,0,0.16);
+  box-shadow:0 4px 12px rgba(0,0,0,0.14);
 }
 
 /* ===== 左の日付 ===== */
 
 .dashboard-date{
-  width:120px;
+  width:95px;
 
   display:flex;
   flex-direction:column;
@@ -2223,7 +2223,7 @@ font-size:18px;
 }
 
 .date-year{
-  font-size:20px;
+  font-size:15px;
   font-weight:700;
   line-height:1;
 }
@@ -2239,33 +2239,29 @@ font-size:18px;
   line-height:0.9;
 }
 
-.date-main span{
-  display:block;
-}
-
 #todayMonth,
 #todayDay{
-  font-size:56px;
+  font-size:42px;
 }
 
 .date-main .slash{
-  font-size:24px;
-  margin:0 4px 8px;
+  font-size:18px;
+  margin:0 3px 5px;
 }
 
 .current-time{
-  margin-top:8px;
+  margin-top:6px;
 
   display:flex;
   align-items:center;
-  gap:4px;
+  gap:3px;
 
-  font-size:18px;
+  font-size:14px;
   font-weight:700;
 }
 
 .current-time .material-symbols-outlined{
-  font-size:20px;
+  font-size:16px;
 }
 
 /* ===== 右側 ===== */
@@ -2275,34 +2271,34 @@ font-size:18px;
 
   display:flex;
   flex-direction:column;
-  gap:12px;
+  gap:10px;
 }
 
 /* ===== カウントダウン ===== */
 
 .video-countdown{
   display:flex;
-  align-items:baseline;
-  gap:10px;
-  flex-wrap:wrap;
+  flex-direction:column;
+  gap:2px;
 }
 
 .countdown-title{
-  font-size:20px;
+  font-size:14px;
   font-weight:700;
 }
 
 .countdown-time{
-  font-size:30px;
+  font-size:24px;
   font-weight:900;
+  line-height:1.1;
 }
 
 /* ===== 今日のドズル社 ===== */
 
 .today-dozle{
   background:#b30000;
-  border-radius:18px;
-  padding:14px 16px;
+  border-radius:14px;
+  padding:10px 12px;
 }
 
 .today-header{
@@ -2310,40 +2306,43 @@ font-size:18px;
   justify-content:space-between;
   align-items:center;
 
-  margin-bottom:8px;
+  margin-bottom:6px;
 }
 
 .today-title{
   display:flex;
   align-items:center;
-  gap:6px;
+  gap:5px;
 
-  font-size:18px;
+  font-size:14px;
   font-weight:700;
 }
 
 .today-title .material-symbols-outlined{
-  font-size:20px;
+  font-size:16px;
 }
 
 .today-date{
-  font-size:13px;
+  font-size:10px;
   opacity:0.9;
 }
 
 .today-event{
-  font-size:24px;
+  font-size:20px;
   font-weight:800;
-  line-height:1.4;
+  line-height:1.35;
 }
 
 /* ===== ボタンエリア ===== */
 
 .dashboard-links{
   background:#b30000;
-  border-radius:18px;
+  border-radius:14px;
 
   overflow:hidden;
+
+  /* 左端まで伸ばす */
+  margin-left:-109px;
 }
 
 /* ボタン */
@@ -2359,7 +2358,7 @@ font-size:18px;
   justify-content:space-between;
   align-items:center;
 
-  padding:16px 18px;
+  padding:12px 16px 12px 125px;
 
   cursor:pointer;
 
@@ -2369,7 +2368,7 @@ font-size:18px;
 /* 区切り線 */
 
 .dashboard-links button + button{
-  border-top:2px solid rgba(255,255,255,0.35);
+  border-top:1.5px solid rgba(255,255,255,0.35);
 }
 
 /* 左側 */
@@ -2377,23 +2376,22 @@ font-size:18px;
 .dashboard-links .link-left{
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:8px;
 
-  font-size:18px;
+  font-size:15px;
   font-weight:700;
 }
 
 /* アイコン */
 
 .dashboard-links .link-left .material-symbols-outlined{
-  font-size:22px;
+  font-size:18px;
 }
 
 /* 右矢印 */
 
 .dashboard-links .arrow{
-  font-size:28px;
-  font-weight:700;
+  font-size:22px;
 }
 
 /* hover */
