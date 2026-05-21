@@ -2199,12 +2199,13 @@ font-size:18px;
   color:white;
 
   display:flex;
-  gap:12px;
+  gap:10px;
 
   margin-bottom:18px;
 
-  width:38%;
-  min-width:410px;
+  /* 少し小さく */
+  width:34%;
+  min-width:380px;
 
   box-shadow:0 4px 10px rgba(0,0,0,0.14);
 }
@@ -2212,19 +2213,17 @@ font-size:18px;
 /* ===== 左の日付 ===== */
 
 .dashboard-date{
-  width:88px;
+  width:82px;
 
   display:flex;
   flex-direction:column;
   align-items:center;
-
-  /* 上寄せに変更 */
   justify-content:flex-start;
 
-  /* 少し下げる */
-  padding-top:102px;
-
   flex-shrink:0;
+
+  /* 上位置調整 */
+  padding-top:92px;
 }
 
 .date-year{
@@ -2234,7 +2233,7 @@ font-size:18px;
 }
 
 .date-main{
-  margin-top:1px;
+  margin-top:2px;
 
   display:flex;
   align-items:flex-end;
@@ -2246,11 +2245,11 @@ font-size:18px;
 
 #todayMonth,
 #todayDay{
-  font-size:36px;
+  font-size:34px;
 }
 
 .date-main .slash{
-  font-size:16px;
+  font-size:15px;
   margin:0 2px 4px;
 }
 
@@ -2259,6 +2258,7 @@ font-size:18px;
 
   display:flex;
   align-items:center;
+  justify-content:center;
   gap:2px;
 
   font-size:12px;
@@ -2303,7 +2303,10 @@ font-size:18px;
 .today-dozle{
   background:#b30000;
   border-radius:12px;
-  padding:9px 11px;
+  padding:10px 12px;
+
+  /* 中央寄せ */
+  text-align:center;
 }
 
 .today-header{
@@ -2336,6 +2339,8 @@ font-size:18px;
   font-size:17px;
   font-weight:800;
   line-height:1.3;
+
+  text-align:center;
 }
 
 /* ===== ボタンエリア ===== */
@@ -2346,8 +2351,8 @@ font-size:18px;
 
   overflow:hidden;
 
-  /* 左端まで */
-  margin-left:-100px;
+  /* 左へ伸ばす */
+  margin-left:-92px;
 }
 
 /* ボタン */
@@ -2360,10 +2365,12 @@ font-size:18px;
   color:white;
 
   display:flex;
-  justify-content:space-between;
+  justify-content:center;
   align-items:center;
 
-  padding:11px 14px 11px 112px;
+  position:relative;
+
+  padding:11px 16px;
 
   cursor:pointer;
 
@@ -2381,6 +2388,7 @@ font-size:18px;
 .dashboard-links .link-left{
   display:flex;
   align-items:center;
+  justify-content:center;
   gap:7px;
 
   font-size:13px;
@@ -2396,6 +2404,9 @@ font-size:18px;
 /* 右矢印 */
 
 .dashboard-links .arrow{
+  position:absolute;
+  right:14px;
+
   font-size:19px;
 }
 
