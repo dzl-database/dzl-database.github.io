@@ -5117,7 +5117,17 @@ async function loadTodayEvent(){
 
       if(cols[0] === today){
 
-        found = cols[1];
+        // イベント列が空なら
+        if(!cols[1] || cols[1].trim() === ""){
+
+          found = "今日はイベントがありません";
+
+        }else{
+
+          found = cols[1];
+
+        }
+
         break;
 
       }
