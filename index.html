@@ -3569,7 +3569,11 @@ function showSection(sectionId, updateHash = true){
 
     }else{
 
-      location.hash = sectionId;
+      history.pushState(
+        null,
+        "",
+        `#${sectionId}`
+      );
 
     }
 
@@ -3582,8 +3586,6 @@ function showSection(sectionId, updateHash = true){
   if(sectionId==="news"){
     loadNewsPage();
   }
-
-  window.scrollTo(0, 0);
 
 }
 
@@ -5182,11 +5184,13 @@ function switchAboutTab(tabId, updateHash = true){
       historyTab: "history"
     };
 
-    location.hash =
-      `about-${tabMap[tabId]}`;
+    history.pushState(
+      null,
+      "",
+      `#about-${tabMap[tabId]}`
+    );
+   
   }
-
-  window.scrollTo(0, 0);
 
 }
 
