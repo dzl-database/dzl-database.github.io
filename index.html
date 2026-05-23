@@ -3532,18 +3532,18 @@ font-size:18px;
 </footer>
 
 <script>
-function showSection(sectionId){
+function showSection(sectionId, updateHash = true){
 
-  // ⭐ 追加（今開いたタブを保存）
-  localStorage.setItem("lastSection", sectionId);
-  
   document.querySelectorAll('.section').forEach(section=>{
     section.classList.remove('active');
   });
 
-  document.getElementById(sectionId).classList.add('active');
+  document.getElementById(sectionId)
+    .classList.add('active');
 
-  document.querySelectorAll('.sidebar button, .quick-menu button').forEach(btn=>{
+  document.querySelectorAll(
+    '.sidebar button, .quick-menu button'
+  ).forEach(btn=>{
     btn.classList.remove('active-tab');
   });
 
@@ -3555,13 +3555,19 @@ function showSection(sectionId){
     btn.classList.add('active-tab');
   });
 
+  // URL変更
+  if(updateHash){
+    location.hash = sectionId;
+  }
+
   if(sectionId==="mylist"){
     loadMyList();
   }
 
-  if(sectionId === "news"){
+  if(sectionId==="news"){
     loadNewsPage();
   }
+
 }
 
 function openMenuModal(){
@@ -4925,18 +4931,6 @@ function addToGoogleCalendar(){
   closeCalendarModal();
 }
 
-window.addEventListener("DOMContentLoaded", ()=>{
-
-  const saved = localStorage.getItem("lastSection");
-
-  if(saved){
-    showSection(saved);
-  }else{
-    showSection("home"); // 初回はホーム
-  }
-
-});
-
 async function loadAllLikes(){
 
   const res = await fetch(GAS_URL);
@@ -5130,81 +5124,52 @@ function formatNumber(num){
   return Number(num).toLocaleString();
 }
 
-function switchAboutTab(tabId){
+function switchAboutTab(tabId, updateHash = true){
 
   // 全タブ非表示
-  document.querySelectorAll(".tab-content").forEach(el=>{
-    el.classList.remove("active");
-  });
+  document.querySelectorAll(".tab-content")
+    .forEach(el=>{
+      el.classList.remove("active");
+    });
 
-  // 全ボタン非アクティブ
-  document.querySelectorAll(".tab-btn").forEach(btn=>{
-    btn.classList.remove("active");
-  });
+  // 全ボタン非active
+  document.querySelectorAll(".tab-btn")
+    .forEach(btn=>{
+      btn.classList.remove("active");
+    });
 
-  // 対象表示
+  // タブ表示
   document.getElementById(tabId)
     .classList.add("active");
 
-  // 押されたボタンactive
-  event.target.classList.add("active");
-
-  /* 保存 */
-  localStorage.setItem(
-    "activeAboutTab",
-    tabId
+  // ボタンactive
+  const btn = document.querySelector(
+    `[onclick*="${tabId}"]`
   );
 
-}
-
-/* =========================
-   Aboutタブ復元
-========================= */
-
-window.addEventListener("load", ()=>{
-
-  const savedTab =
-    localStorage.getItem(
-      "activeAboutTab"
-    );
-
-  if(savedTab){
-
-    // 全タブ非表示
-    document.querySelectorAll(".tab-content")
-      .forEach(el=>{
-        el.classList.remove("active");
-      });
-
-    // 全ボタン非active
-    document.querySelectorAll(".tab-btn")
-      .forEach(btn=>{
-        btn.classList.remove("active");
-      });
-
-    // タブ表示
-    const targetTab =
-      document.getElementById(savedTab);
-
-    if(targetTab){
-
-      targetTab.classList.add("active");
-
-      // ボタン側もactive
-      const btn =
-        document.querySelector(
-          `[onclick="switchAboutTab('${savedTab}')"]`
-        );
-
-      if(btn){
-        btn.classList.add("active");
-      }
-
-    }
-
+  if(btn){
+    btn.classList.add("active");
   }
 
-});
+  // Aboutページ表示
+  showSection("about", false);
+
+  // URL変更
+  if(updateHash){
+
+    const tabMap = {
+      aboutTab: "about",
+      memberTab: "member",
+      portalTab: "portal",
+      channelTab: "channel",
+      historyTab: "history"
+    };
+
+    location.hash =
+      `about-${tabMap[tabId]}`;
+  }
+
+}
 
 const cardState = {
   bg: 1,
@@ -5951,7 +5916,75 @@ window.addEventListener("scroll", ()=>{
  
 /* 起動 */
 loadHistoryTimeline();
-               
+
+window.addEventListener("DOMContentLoaded", ()=>{
+
+  const hash =
+    location.hash.replace("#","");
+
+  // ハッシュなし
+  if(!hash){
+    showSection("home", false);
+    return;
+  }
+
+  // About系
+  if(hash.startsWith("about-")){
+
+    const tabName =
+      hash.replace("about-","");
+
+    const tabMap = {
+      about: "aboutTab",
+      member: "memberTab",
+      portal: "portalTab",
+      channel: "channelTab",
+      history: "historyTab"
+    };
+
+    const tabId = tabMap[tabName];
+
+    if(tabId){
+      switchAboutTab(tabId, false);
+      return;
+    }
+  }
+
+  // 通常ページ
+  showSection(hash, false);
+
+});
+
+window.addEventListener("hashchange", ()=>{
+
+  const hash =
+    location.hash.replace("#","");
+
+  if(hash.startsWith("about-")){
+
+    const tabName =
+      hash.replace("about-","");
+
+    const tabMap = {
+      about: "aboutTab",
+      member: "memberTab",
+      portal: "portalTab",
+      channel: "channelTab",
+      history: "historyTab"
+    };
+
+    const tabId = tabMap[tabName];
+
+    if(tabId){
+      switchAboutTab(tabId, false);
+      return;
+    }
+  }
+
+  showSection(hash, false);
+
+});
+ 
 loadNews();
 loadTodayContent();
 loadAllLikes();
