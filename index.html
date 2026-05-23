@@ -2623,6 +2623,32 @@ font-size:18px;
 .history-link-icon{
   font-size:15px;
 }
+
+/* =========================
+   カテゴリバッジ
+========================= */
+
+.history-category{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+
+  background:#f3f3f3;
+  color:#555;
+
+  font-size:11px;
+  font-weight:700;
+
+  padding:5px 10px;
+
+  border-radius:999px;
+
+  margin-bottom:10px;
+}
+
+.history-category-icon{
+  font-size:14px;
+}
  
 </style>
 </head>
@@ -5455,8 +5481,9 @@ async function loadHistoryTimeline(){
       const title = cols[1] || "";
       const first = cols[2] || "";
       const colorName = cols[3] || "";
-      const link = cols[4] || "";
-      const linkTitle = cols[5] || "";
+      const category = cols[4] || "";
+      const link = cols[5] || "";
+      const linkTitle = cols[6] || "";
 
       const color =
         historyColors[colorName] || "#999";
@@ -5471,6 +5498,19 @@ async function loadHistoryTimeline(){
 
         <div class="history-card"
           style="border-left-color:${color}">
+
+          ${
+            category
+            ? `
+            <div class="history-category">
+              <span class="material-symbols-outlined history-category-icon">
+                sell
+              </span>
+              ${category}
+            </div>
+            `
+            : ``
+          }
 
           <div class="history-date">
             ${date}
