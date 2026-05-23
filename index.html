@@ -2554,15 +2554,17 @@ font-size:18px;
 /* 初バッジ */
 
 .history-first{
-  background:#ff4d4d;
+  background:#d90000;
   color:white;
 
-  font-size:11px;
+  font-size:12px;
   font-weight:700;
 
-  padding:3px 8px;
+  padding:4px 10px;
 
-  border-radius:5px;
+  border-radius:4px;
+
+  line-height:1;
 }
 
 /* リンク */
@@ -2648,6 +2650,18 @@ font-size:18px;
 
 .history-category-icon{
   font-size:14px;
+}
+
+/* 日付＋カテゴリ */
+
+.history-meta-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  margin-bottom:8px;
+
+  flex-wrap:wrap;
 }
  
 </style>
@@ -5499,21 +5513,26 @@ async function loadHistoryTimeline(){
         <div class="history-card"
           style="border-left-color:${color}">
 
-          ${
-            category
-            ? `
-            <div class="history-category">
-              <span class="material-symbols-outlined history-category-icon">
-                sell
-              </span>
-              ${category}
-            </div>
-            `
-            : ``
-          }
+          <div class="history-meta-row">
 
-          <div class="history-date">
-            ${date}
+            <div class="history-date">
+              ${date}
+            </div>
+
+            ${
+              category
+              ? `
+              <div class="history-category">
+                <span class="material-symbols-outlined history-category-icon">
+                  sell
+                </span>
+
+                ${category}
+              </div>
+              `
+              : ``
+            }
+
           </div>
 
           <div class="history-title-row">
