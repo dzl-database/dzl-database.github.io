@@ -3583,6 +3583,8 @@ function showSection(sectionId, updateHash = true){
     loadNewsPage();
   }
 
+  window.scrollTo(0, 0);
+
 }
 
 function openMenuModal(){
@@ -5183,6 +5185,8 @@ function switchAboutTab(tabId, updateHash = true){
     location.hash =
       `about-${tabMap[tabId]}`;
   }
+
+  window.scrollTo(0, 0);
 
 }
 
