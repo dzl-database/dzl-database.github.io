@@ -2562,7 +2562,7 @@ font-size:18px;
 
   padding:3px 8px;
 
-  border-radius:999px;
+  border-radius:5px;
 }
 
 /* リンク */
@@ -2606,6 +2606,22 @@ font-size:18px;
     padding:14px;
   }
 
+}
+
+.history-link a{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+
+  font-size:13px;
+  color:#666;
+
+  text-decoration:none;
+  word-break:break-all;
+}
+
+.history-link-icon{
+  font-size:15px;
 }
  
 </style>
@@ -5431,7 +5447,7 @@ async function loadHistoryTimeline(){
 
     let html = "";
 
-    rows.reverse().forEach(row=>{
+    rows.forEach(row=>{
 
       const cols = row.split(",");
 
@@ -5462,15 +5478,15 @@ async function loadHistoryTimeline(){
 
           <div class="history-title-row">
 
-            <div class="history-title">
-              ${title}
-            </div>
-
             ${
               first === "初"
               ? `<div class="history-first">初</div>`
               : ``
             }
+
+            <div class="history-title">
+              ${title}
+            </div>
 
           </div>
 
@@ -5480,7 +5496,13 @@ async function loadHistoryTimeline(){
             <div class="history-link">
               <a href="${link}"
                  target="_blank">
+
+                <span class="material-symbols-outlined history-link-icon">
+                  open_in_new
+                </span>
+
                 ${linkTitle || "リンクを開く"}
+
               </a>
             </div>
             `
