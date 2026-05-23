@@ -2706,6 +2706,82 @@ font-size:18px;
 
   color:#222;
 }
+
+/* =========================
+   一番上へボタン
+========================= */
+
+.history-top-btn{
+  position:fixed;
+
+  right:22px;
+  bottom:24px;
+
+  width:52px;
+  height:52px;
+
+  border:none;
+  border-radius:50%;
+
+  background:#d90000;
+  color:white;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 4px 14px rgba(0,0,0,0.18);
+
+  z-index:999;
+
+  opacity:0;
+  visibility:hidden;
+
+  transform:translateY(12px);
+
+  transition:
+    opacity 0.25s,
+    transform 0.25s,
+    visibility 0.25s;
+}
+
+/* 表示 */
+
+.history-top-btn.show{
+  opacity:1;
+  visibility:visible;
+
+  transform:translateY(0);
+}
+
+/* hover */
+
+.history-top-btn:hover{
+  background:#b80000;
+}
+
+/* アイコン */
+
+.history-top-btn .material-symbols-outlined{
+  font-size:30px;
+}
+
+/* スマホ */
+
+@media(max-width:700px){
+
+  .history-top-btn{
+    right:14px;
+    bottom:18px;
+
+    width:46px;
+    height:46px;
+  }
+
+}
  
 </style>
 </head>
@@ -3124,6 +3200,17 @@ font-size:18px;
         </div>
 
       </div>
+
+      <!-- 一番上へ -->
+      <button id="historyTopBtn"
+        class="history-top-btn"
+        onclick="scrollHistoryTop()">
+
+        <span class="material-symbols-outlined">
+          keyboard_arrow_up
+        </span>
+
+      </button>
 
     </div>
 
@@ -5732,9 +5819,67 @@ function scrollToHistoryYear(year){
   }
 
 }
+
+/* =========================
+   一番上へスクロール
+========================= */
+
+function scrollHistoryTop(){
+
+  const tab =
+    document.getElementById("historyTab");
+
+  if(tab){
+
+    const top =
+      tab.getBoundingClientRect().top
+      + window.pageYOffset
+      - 90;
+
+    window.scrollTo({
+      top: top,
+      behavior:"smooth"
+    });
+
+  }
+
+}
+
+/* =========================
+   ボタン表示制御
+========================= */
+
+window.addEventListener("scroll", ()=>{
+
+  const btn =
+    document.getElementById("historyTopBtn");
+
+  const historyTab =
+    document.getElementById("historyTab");
+
+  if(!btn || !historyTab) return;
+
+  /* Historyタブ開いてる？ */
+  const isActive =
+    historyTab.classList.contains("active");
+
+  /* スクロール量 */
+  const show =
+    window.scrollY > 500;
+
+  if(isActive && show){
+
+    btn.classList.add("show");
+
+  }else{
+
+    btn.classList.remove("show");
+
+  }
+
+});
  
 /* 起動 */
-
 loadHistoryTimeline();
                
 loadNews();
