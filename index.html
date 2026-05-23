@@ -3087,11 +3087,11 @@ font-size:18px;
 
   <!-- タブボタン -->
   <div class="about-tabs">
-    <button class="tab-btn tab-about active" onclick="switchAboutTab('aboutTab')">About</button>
-    <button class="tab-btn tab-member" onclick="switchAboutTab('memberTab')">Member</button>
-    <button class="tab-btn tab-portal" onclick="switchAboutTab('portalTab')">Portal</button>
-    <button class="tab-btn tab-channel" onclick="switchAboutTab('channelTab')">Channel</button>
-    <button class="tab-btn tab-history" onclick="switchAboutTab('historyTab')">History</button>
+    <button class="tab-btn tab-about active" data-tab="aboutTab" onclick="switchAboutTab('aboutTab')">About</button>
+    <button class="tab-btn tab-member" data-tab="memberTab" onclick="switchAboutTab('memberTab')">Member</button>
+    <button class="tab-btn tab-portal" data-tab="portalTab" onclick="switchAboutTab('portalTab')">Portal</button>
+    <button class="tab-btn tab-channel" data-tab="channelTab" onclick="switchAboutTab('channelTab')">Channel</button>
+    <button class="tab-btn tab-history" data-tab="historyTab" onclick="switchAboutTab('historyTab')">History</button>
   </div>
 
   <!-- 中身 -->
@@ -5144,7 +5144,7 @@ function switchAboutTab(tabId, updateHash = true){
 
   // ボタンactive
   const btn = document.querySelector(
-    `[onclick*="${tabId}"]`
+    `[data-tab="${tabId}"]`
   );
 
   if(btn){
