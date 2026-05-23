@@ -5713,9 +5713,18 @@ function scrollToHistoryYear(year){
 
   if(target){
 
-    target.scrollIntoView({
-      behavior:"smooth",
-      block:"start"
+    /* ヘッダー分の余白 */
+    const offset = 128;
+
+    /* 要素位置取得 */
+    const top =
+      target.getBoundingClientRect().top
+      + window.pageYOffset
+      - offset;
+
+    window.scrollTo({
+      top: top,
+      behavior:"smooth"
     });
 
   }
