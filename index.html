@@ -2432,6 +2432,181 @@ font-size:18px;
   }
 
 }
+
+/* =========================
+   ドズル社年表
+========================= */
+
+.history-intro{
+  margin-bottom:18px;
+  color:#666;
+  font-size:14px;
+}
+
+/* 全体 */
+
+.history-timeline{
+  position:relative;
+  padding-left:38px;
+}
+
+/* 左の縦線 */
+
+.history-timeline::before{
+  content:"";
+
+  position:absolute;
+  left:12px;
+  top:0;
+  bottom:0;
+
+  width:4px;
+  border-radius:999px;
+
+  background:#ddd;
+}
+
+/* 1件 */
+
+.history-item{
+  position:relative;
+
+  margin-bottom:22px;
+
+  opacity:0;
+  transform:translateY(24px);
+
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+
+/* 表示時 */
+
+.history-item.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* 丸 */
+
+.history-dot{
+  position:absolute;
+
+  left:-32px;
+  top:18px;
+
+  width:18px;
+  height:18px;
+
+  border-radius:50%;
+  background:white;
+
+  border:4px solid #999;
+
+  z-index:2;
+}
+
+/* カード */
+
+.history-card{
+  background:white;
+
+  border-radius:16px;
+
+  padding:16px 18px;
+
+  border-left:6px solid #222;
+
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* 日付 */
+
+.history-date{
+  font-size:13px;
+  font-weight:700;
+
+  color:#777;
+
+  margin-bottom:8px;
+}
+
+/* タイトル行 */
+
+.history-title-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  flex-wrap:wrap;
+}
+
+/* タイトル */
+
+.history-title{
+  font-size:24px;
+  font-weight:800;
+
+  color:#222;
+}
+
+/* 初バッジ */
+
+.history-first{
+  background:#ff4d4d;
+  color:white;
+
+  font-size:11px;
+  font-weight:700;
+
+  padding:3px 8px;
+
+  border-radius:999px;
+}
+
+/* リンク */
+
+.history-link{
+  margin-top:12px;
+}
+
+.history-link a{
+  font-size:13px;
+  color:#666;
+
+  text-decoration:none;
+  word-break:break-all;
+}
+
+.history-link a:hover{
+  text-decoration:underline;
+}
+
+/* スマホ */
+
+@media(max-width:700px){
+
+  .history-timeline{
+    padding-left:30px;
+  }
+
+  .history-dot{
+    left:-26px;
+
+    width:15px;
+    height:15px;
+  }
+
+  .history-title{
+    font-size:18px;
+  }
+
+  .history-card{
+    padding:14px;
+  }
+
+}
  
 </style>
 </head>
@@ -2834,7 +3009,19 @@ font-size:18px;
     </div>
 
     <div id="historyTab" class="tab-content">
-      <p>Historyページは作成中です！</p>
+
+      <div class="history-intro">
+        ドズル社の歴史を時系列でまとめています。
+      </div>
+
+      <div id="historyTimeline" class="history-timeline">
+
+        <div class="history-loading">
+          年表を読み込み中...
+        </div>
+
+      </div>
+
     </div>
 
   </div>
@@ -5206,6 +5393,157 @@ loadTodayEvent();
 
 setInterval(updateDashboardClock, 1000);
 setInterval(updateCountdown, 1000);
+
+/* =========================
+   ドズル社 年表
+========================= */
+
+const HISTORY_CSV =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vQxedYEVWEoSt0nOsPLScn4qxcYh9eWu2EVRVVBXRfhHzgeGpyoP2SZ0PmMuOJQGytZ623VH25rmlQ9/pub?gid=0&single=true&output=csv";
+
+/* 色 */
+
+const historyColors = {
+  "ドズル社":"#222",
+  "ドズル":"#C80000",
+  "ぼんじゅうる":"#733C93",
+  "おんりー":"#FCC700",
+  "おらふくん":"#54C3F1",
+  "おおはらMEN":"#EB6D9A"
+};
+
+/* 読み込み */
+
+async function loadHistoryTimeline(){
+
+  const container =
+    document.getElementById("historyTimeline");
+
+  try{
+
+    const res = await fetch(HISTORY_CSV);
+    const text = await res.text();
+
+    const rows = text.trim().split("\n");
+
+    /* ヘッダー除外 */
+    rows.shift();
+
+    let html = "";
+
+    rows.reverse().forEach(row=>{
+
+      const cols = row.split(",");
+
+      const date = cols[0] || "";
+      const title = cols[1] || "";
+      const first = cols[2] || "";
+      const colorName = cols[3] || "";
+      const link = cols[4] || "";
+      const linkTitle = cols[5] || "";
+
+      const color =
+        historyColors[colorName] || "#999";
+
+      html += `
+
+      <div class="history-item">
+
+        <div class="history-dot"
+          style="border-color:${color}">
+        </div>
+
+        <div class="history-card"
+          style="border-left-color:${color}">
+
+          <div class="history-date">
+            ${date}
+          </div>
+
+          <div class="history-title-row">
+
+            <div class="history-title">
+              ${title}
+            </div>
+
+            ${
+              first === "初"
+              ? `<div class="history-first">初</div>`
+              : ``
+            }
+
+          </div>
+
+          ${
+            link
+            ? `
+            <div class="history-link">
+              <a href="${link}"
+                 target="_blank">
+                ${linkTitle || "リンクを開く"}
+              </a>
+            </div>
+            `
+            : ``
+          }
+
+        </div>
+
+      </div>
+
+      `;
+
+    });
+
+    container.innerHTML = html;
+
+    setupHistoryFade();
+
+  }catch(err){
+
+    console.error(err);
+
+    container.innerHTML = `
+      <div class="no-event-message">
+        年表を読み込めませんでした。
+      </div>
+    `;
+  }
+
+}
+
+/* フェード表示 */
+
+function setupHistoryFade(){
+
+  const items =
+    document.querySelectorAll(".history-item");
+
+  const observer = new IntersectionObserver(entries=>{
+
+    entries.forEach(entry=>{
+
+      if(entry.isIntersecting){
+
+        entry.target.classList.add("show");
+
+      }
+
+    });
+
+  },{
+    threshold:0.12
+  });
+
+  items.forEach(item=>{
+    observer.observe(item);
+  });
+
+}
+
+/* 起動 */
+
+loadHistoryTimeline();
                
 loadNews();
 loadTodayContent();
