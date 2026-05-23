@@ -5143,11 +5143,68 @@ function switchAboutTab(tabId){
   });
 
   // 対象表示
-  document.getElementById(tabId).classList.add("active");
+  document.getElementById(tabId)
+    .classList.add("active");
 
-  // 押されたボタンをactiveに
+  // 押されたボタンactive
   event.target.classList.add("active");
+
+  /* 保存 */
+  localStorage.setItem(
+    "activeAboutTab",
+    tabId
+  );
+
 }
+
+/* =========================
+   Aboutタブ復元
+========================= */
+
+window.addEventListener("load", ()=>{
+
+  const savedTab =
+    localStorage.getItem(
+      "activeAboutTab"
+    );
+
+  if(savedTab){
+
+    // 全タブ非表示
+    document.querySelectorAll(".tab-content")
+      .forEach(el=>{
+        el.classList.remove("active");
+      });
+
+    // 全ボタン非active
+    document.querySelectorAll(".tab-btn")
+      .forEach(btn=>{
+        btn.classList.remove("active");
+      });
+
+    // タブ表示
+    const targetTab =
+      document.getElementById(savedTab);
+
+    if(targetTab){
+
+      targetTab.classList.add("active");
+
+      // ボタン側もactive
+      const btn =
+        document.querySelector(
+          `[onclick="switchAboutTab('${savedTab}')"]`
+        );
+
+      if(btn){
+        btn.classList.add("active");
+      }
+
+    }
+
+  }
+
+});
 
 const cardState = {
   bg: 1,
