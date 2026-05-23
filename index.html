@@ -3557,7 +3557,22 @@ function showSection(sectionId, updateHash = true){
 
   // URL変更
   if(updateHash){
-    location.hash = sectionId;
+
+    // homeだけはハッシュなし
+    if(sectionId === "home"){
+
+      history.replaceState(
+        null,
+        "",
+        location.pathname
+      );
+
+    }else{
+
+      location.hash = sectionId;
+
+    }
+
   }
 
   if(sectionId==="mylist"){
@@ -5961,6 +5976,12 @@ window.addEventListener("hashchange", ()=>{
     location.hash.replace("#","");
 
   if(hash.startsWith("about-")){
+
+    // ハッシュなし → home
+    if(!hash){
+      showSection("home", false);
+      return;
+    }
 
     const tabName =
       hash.replace("about-","");
