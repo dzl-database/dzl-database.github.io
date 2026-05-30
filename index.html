@@ -3532,6 +3532,8 @@ font-size:18px;
 </footer>
 
 <script>
+history.scrollRestoration = "manual";
+ 
 function showSection(sectionId, updateHash = true){
 
   document.querySelectorAll('.section').forEach(section=>{
@@ -3586,6 +3588,10 @@ function showSection(sectionId, updateHash = true){
   if(sectionId==="news"){
     loadNewsPage();
   }
+
+  requestAnimationFrame(() => {
+    window.scrollTo(0, 0);
+  });
 
 }
 
