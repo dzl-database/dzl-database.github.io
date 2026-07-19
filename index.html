@@ -2675,6 +2675,29 @@ font-size:18px;
   }
 
 }
+
+.goods-section{
+
+  margin-top:18px;
+  padding-top:14px;
+
+  border-top:1px solid #ececec;
+
+}
+
+.goods-section-title{
+
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+
+  font-size:18px;
+  font-weight:700;
+
+  margin-bottom:10px;
+
+}
  
 </style>
 </head>
@@ -3859,31 +3882,7 @@ fetch(goodsURL)
 
         <div class="event-info">
 
-          <div class="goods-extra">
-
-            <span class="goods-badge type">
-              ${item.sale_type || ""}
-            </span>
-
-            ${item.shipping ? `
-              <span class="goods-badge shipping">
-                ${item.shipping}
-              </span>
-            ` : ""}
-
-          </div>
-
           <h3 class="event-title">${item.title}</h3>
-
-          <p class="event-meta">
-            <span class="material-symbols-outlined meta-icon">schedule</span>
-            ${formatGoodsPeriod(item)}
-          </p>
-
-          <p class="event-meta">
-            <span class="material-symbols-outlined meta-icon">store</span>
-            ${item.online_name || ""}
-          </p>
 
           <p class="event-meta">
             <span class="material-symbols-outlined meta-icon">description</span>
@@ -3895,7 +3894,68 @@ fetch(goodsURL)
             販売状態：${status}
           </p>
 
+          ${item.onsite_start_date ? `
+          <div class="goods-section">
+
+            <div class="goods-section-title">
+              現地
+            </div>
+
+            <p class="event-meta">
+              <span class="material-symbols-outlined meta-icon">schedule</span>
+              ${formatPeriod(
+                item.onsite_start_date,
+                item.onsite_start_time,
+                item.onsite_end_date,
+                item.onsite_end_time
+              )}
+            </p>
+
+            <p class="event-meta">
+              <span class="material-symbols-outlined meta-icon">store</span>
+              ${item.onsite_location || ""}
+            </p>
+
+          </div>
+          ` : ""}
+
+          ${item.online_start_date ? `
+          <div class="goods-section">
+
+            <div class="goods-section-title">
+
+              通販
+
+              ${item.sale_type
+                ? `<span class="goods-badge type">${item.sale_type}</span>`
+                : ""}
+
+              ${item.shipping
+                ? `<span class="goods-badge shipping">${item.shipping}</span>`
+                : ""}
+
+            </div>
+
+            <p class="event-meta">
+              <span class="material-symbols-outlined meta-icon">schedule</span>
+              ${formatPeriod(
+                item.online_start_date,
+                item.online_start_time,
+                item.online_end_date,
+                item.online_end_time
+              )}
+            </p>
+
+            <p class="event-meta">
+              <span class="material-symbols-outlined meta-icon">store</span>
+              ${item.online_name || ""}
+            </p>
+
+          </div>
+          ` : ""}
+
           <div class="event-links">
+
             ${item.online_url ? `
               <a href="${item.online_url}" target="_blank" class="event-link-btn">
                 ご購入はこちら
@@ -3907,6 +3967,7 @@ fetch(goodsURL)
                 商品説明ページ
               </a>
             ` : ""}
+
           </div>
 
           <div class="event-actions">
@@ -3919,10 +3980,12 @@ fetch(goodsURL)
             <select class="event-status"
               onchange="saveGoodsStatus('${item.title}', this.value)">
               <option value="">選択しない</option>
-              <option value="予定" ${getGoodsStatus(item.title)==="予定"?"selected":""}>
+              <option value="予定"
+                ${getGoodsStatus(item.title)==="予定"?"selected":""}>
                 購入予定
               </option>
-              <option value="済" ${getGoodsStatus(item.title)==="済"?"selected":""}>
+              <option value="済"
+                ${getGoodsStatus(item.title)==="済"?"selected":""}>
                 購入済
               </option>
             </select>
