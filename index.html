@@ -514,36 +514,51 @@ box-shadow:0 2px 8px rgba(0,0,0,0.05);
 }
 
 .event-links{
-  margin:10px 0;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:18px;
 }
 
 .event-link-btn{
-  display:inline-block;
-  padding:8px 14px;
-  background:black;
-  color:white;
-  border-radius:8px;
-  text-decoration:none;
-  margin-right:8px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+
+    padding:11px 18px;
+
+    border-radius:999px;
+
+    text-decoration:none;
+
+    background:#111;
+    color:white;
+
+    font-size:14px;
+    font-weight:700;
+
+    transition:.2s;
+}
+
+.event-link-btn:hover{
+
+    background:#333;
+    transform:translateY(-2px);
+
 }
 
 .event-link-btn.gray{
-  background:#555;
+
+    background:#ececec;
+    color:#222;
+
 }
 
-@media(max-width:768px){
+.event-link-btn.gray:hover{
 
-  .event-links{
-    display:flex;
-    gap:8px;
-  }
-
-  .event-link-btn{
-    flex:none;               /* ← これ重要 */
-    padding:8px 12px;        /* 少しだけ小さめ */
-    text-align:center;
-    white-space:nowrap;      /* 折り返さない */
-  }
+    background:#dcdcdc;
 
 }
   
@@ -3749,49 +3764,23 @@ fetch(eventsURL).then(r=>r.text()).then(text=>{
 
         <div class="event-links">
           ${event.special_url && event.special_url.trim() !== "" ? 
-            `<a href="${event.special_url.trim()}" target="_blank" class="event-link-btn">
-              特設サイト
-            </a>` 
+            `<span class="material-symbols-outlined">
+            travel_explore
+            </span>
+
+            <span>特設</span>` 
           : ""}
 
           ${event.official_url && event.official_url.trim() !== "" ? 
-            `<a href="${event.official_url.trim()}" target="_blank" class="event-link-btn gray">
-              公式サイト
-            </a>` 
+            `<span class="material-symbols-outlined">
+            language
+            </span>
+
+            <span>公式</span>` 
           : ""}
         </div>
 
         <div class="event-actions">
-
-          <div class="event-actions-top">
-
-            <button class="fav-btn ${isFav(event.title) ? 'active' : ''}"
-              onclick="toggleFavorite('${event.title}')">
-              ♡ お気に入り
-            </button>
-
-            <select class="event-status"
-              onchange="saveStatus('${event.title}', this.value)">
-              <option value="">選択しない</option>
-              <option value="予定" ${getStatus(event.title)==="予定"?"selected":""}>参加予定</option>
-              <option value="済" ${getStatus(event.title)==="済"?"selected":""}>参加済</option>
-            </select>
-
-          </div>
-
-          <button class="calendar-btn"
-            onclick="openCalendarModal(
-              '${event.title}',
-              '${event.start_date}',
-              '${event.end_date}',
-              '${event.location}',
-              '${event.description || ""}'
-            )">
-            <span class="material-symbols-outlined">
-              event_available
-            </span>
-            Googleカレンダーに追加
-          </button>
 
           ${createLikeButton(event.id)}
 
@@ -3963,43 +3952,28 @@ fetch(goodsURL)
           <div class="event-links">
 
             ${item.online_url ? `
-              <a href="${item.online_url}" target="_blank" class="event-link-btn">
-                ご購入はこちら
-              </a>
+              <span class="material-symbols-outlined">
+              shopping_cart
+              </span>
+
+              <span>購入</span>
             ` : ""}
 
             ${item.detail_link ? `
-              <a href="${item.detail_link}" target="_blank" class="event-link-btn gray">
-                商品説明ページ
-              </a>
+              <span class="material-symbols-outlined">
+              info
+              </span>
+
+              <span>詳細</span>
             ` : ""}
 
           </div>
 
           <div class="event-actions">
 
-            <button class="fav-btn ${isGoodsFav(item.title) ? 'active' : ''}"
-              onclick="toggleGoodsFavorite('${item.title}')">
-              ♡ お気に入り
-            </button>
-
-            <select class="event-status"
-              onchange="saveGoodsStatus('${item.title}', this.value)">
-              <option value="">選択しない</option>
-              <option value="予定"
-                ${getGoodsStatus(item.title)==="予定"?"selected":""}>
-                購入予定
-              </option>
-              <option value="済"
-                ${getGoodsStatus(item.title)==="済"?"selected":""}>
-                購入済
-              </option>
-            </select>
-
             ${createLikeButton(item.id)}
 
           </div>
-
         </div>
       </div>
       `;
