@@ -2677,26 +2677,120 @@ font-size:18px;
 }
 
 .goods-section{
-
   margin-top:18px;
   padding-top:14px;
-
   border-top:1px solid #ececec;
-
 }
 
 .goods-section-title{
-
   display:flex;
   align-items:center;
   gap:8px;
   flex-wrap:wrap;
-
   font-size:18px;
   font-weight:700;
-
   margin-bottom:10px;
+}
 
+.event-card-new{
+  background:#fff;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 4px 14px rgba(0,0,0,.08);
+  transition:.2s;
+}
+
+.event-card-new:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
+
+.event-info{
+  padding:14px;
+}
+
+.event-title{
+  font-size:17px;
+  font-weight:700;
+  line-height:1.45;
+  margin:8px 0;
+}
+
+.card-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+
+.card-tag{
+  background:#eef4ff;
+  color:#3b82f6;
+  font-size:11px;
+  padding:3px 8px;
+  border-radius:999px;
+  font-weight:600;
+}
+
+.event-meta{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin:6px 0;
+  font-size:13px;
+  color:#555;
+  line-height:1.5;
+}
+
+.meta-icon{
+  font-size:18px;
+  color:#888;
+}
+
+.sale-now{
+  color:#0f9d58;
+  font-weight:700;
+}
+
+.sale-before{
+  color:#f59e0b;
+  font-weight:700;
+}
+
+.sale-end{
+  color:#888;
+  font-weight:700;
+}
+
+.goods-type-list{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+  flex-wrap:wrap;
+}
+
+.goods-type{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  font-size:12px;
+  color:#555;
+}
+
+.card-footer{
+  margin-top:14px;
+  padding-top:10px;
+  border-top:1px solid #eee;
+}
+
+.detail-link{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:4px;
+  text-decoration:none;
+  color:#2563eb;
+  font-size:13px;
+  font-weight:600;
 }
  
 </style>
@@ -3857,107 +3951,64 @@ fetch(goodsURL)
 
       html += `
       <div class="event-card-new">
-
+      
         ${createImageCarousel(item)}
-
+      
         <div class="event-info">
-
-          <div class="card-tags">
-
-            ${item.series
-              ? `<span class="card-tag">#${item.series}</span>`
-              : ""}
-
-            ${item.category
-              ? `<span class="card-tag">#${item.category}</span>`
-              : ""}
-
-          </div>
-
-          <h3 class="event-title">${item.title}</h3>
-
-          <p class="event-meta">
-            <span class="material-symbols-outlined meta-icon">description</span>
-            ${item.description || ""}
-          </p>
-
+      
           <p class="event-meta ${statusClass}">
             <span class="material-symbols-outlined meta-icon">sell</span>
             販売状態：${status}
           </p>
-
-          ${item.onsite_start_date ? `
-          <div class="goods-section">
-
-            <div class="goods-section-title">
-              現地
-            </div>
-
-            <p class="event-meta">
-              <span class="material-symbols-outlined meta-icon">schedule</span>
-              ${formatPeriod(
-                item.onsite_start_date,
-                item.onsite_start_time,
-                item.onsite_end_date,
-                item.onsite_end_time
-              )}
-            </p>
-
+      
+          <div class="card-tags">
+      
+            ${item.series
+              ? `<span class="card-tag">#${item.series}</span>`
+              : ""}
+      
+            ${item.category
+              ? `<span class="card-tag">#${item.category}</span>`
+              : ""}
+      
           </div>
-          ` : ""}
-
-          ${item.online_start_date ? `
-          <div class="goods-section">
-
-            <div class="goods-section-title">
-
-              通販
-
-              ${item.sale_type
-                ? `<span class="goods-badge type">${item.sale_type}</span>`
-                : ""}
-
-              ${item.shipping
-                ? `<span class="goods-badge shipping">${item.shipping}</span>`
-                : ""}
-
-            </div>
-
-            <p class="event-meta">
-              <span class="material-symbols-outlined meta-icon">schedule</span>
-              ${formatPeriod(
-                item.online_start_date,
-                item.online_start_time,
-                item.online_end_date,
-                item.online_end_time
-              )}
-            </p>
-
-            <p class="event-meta">
-              <span class="material-symbols-outlined meta-icon">store</span>
-              ${item.online_name || ""}
-            </p>
-
+      
+          <h3 class="event-title">${item.title}</h3>
+      
+          <div class="goods-type-list">
+      
+            ${item.onsite_start_date ? `
+              <span class="goods-type">
+                <span class="material-symbols-outlined">store</span>
+                現地販売
+              </span>
+            ` : ""}
+      
+            ${item.online_start_date ? `
+              <span class="goods-type">
+                <span class="material-symbols-outlined">language</span>
+                通販
+              </span>
+            ` : ""}
+      
           </div>
-          ` : ""}
-
+      
           <div class="card-footer">
-
-            <a
-              href="#${item.id}"
-              class="detail-link">
-
+      
+            <a href="#${item.id}" class="detail-link">
+      
               詳細を見る
-
+      
               <span class="material-symbols-outlined">
                 arrow_forward_ios
               </span>
-
+      
             </a>
-
+      
           </div>
-
+      
         </div>
+      
       </div>
       `;
     });
