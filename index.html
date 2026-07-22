@@ -2550,219 +2550,6 @@ font-size:18px;
   }
 
 }
-
-/* ==========================
-   画像カルーセル
-========================== */
-
-.event-img-box{
-  width:280px;
-  flex-shrink:0;
-}
-
-.carousel{
-  position:relative;
-  width:100%;
-  aspect-ratio:16 / 9;
-  overflow:hidden;
-  border-radius:12px;
-  background:#f5f5f5;
-}
-
-.carousel-image{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-
-  opacity:0;
-  transition:.35s;
-}
-
-.carousel-image.active{
-  opacity:1;
-}
-
-.event-img-new{
-  width:100%;
-  aspect-ratio:16 / 9;
-  object-fit:cover;
-  border-radius:12px;
-}
-
-.carousel-prev,
-.carousel-next{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  width:36px;
-  height:36px;
-  border:none;
-  border-radius:50%;
-  background:rgba(0,0,0,.45);
-  color:#fff;
-  cursor:pointer;
-  z-index:5;
-  transition:.2s;
-}
-
-.carousel-prev:hover,
-.carousel-next:hover{
-  background:rgba(0,0,0,.7);
-}
-
-.carousel-prev{
-  left:8px;
-}
-
-.carousel-next{
-  right:8px;
-}
-
-.carousel-dots{
-  position:absolute;
-  left:50%;
-  bottom:10px;
-  transform:translateX(-50%);
-  display:flex;
-  gap:8px;
-  z-index:5;
-}
-
-.carousel-dot{
-  width:9px;
-  height:9px;
-  border-radius:50%;
-  background:#ffffff66;
-}
-
-.carousel-dot.active{
-  background:white;
-}
-
-@media(max-width:768px){
-  .event-img-box{
-    width:100%;
-  }
-}
-
-.goods-section{
-  margin-top:18px;
-  padding-top:14px;
-  border-top:1px solid #ececec;
-}
-
-.goods-section-title{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  flex-wrap:wrap;
-  font-size:18px;
-  font-weight:700;
-  margin-bottom:10px;
-}
-
-.event-card-new{
-  background:#fff;
-  border-radius:16px;
-  overflow:hidden;
-  box-shadow:0 4px 14px rgba(0,0,0,.08);
-  transition:.2s;
-}
-
-.event-card-new:hover{
-  transform:translateY(-3px);
-  box-shadow:0 8px 24px rgba(0,0,0,.12);
-}
-
-.event-info{
-  padding:14px;
-}
-
-.event-title{
-  font-size:17px;
-  font-weight:700;
-  line-height:1.45;
-  margin:8px 0;
-}
-
-.card-tags{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-}
-
-.card-tag{
-  background:#eef4ff;
-  color:#3b82f6;
-  font-size:11px;
-  padding:3px 8px;
-  border-radius:999px;
-  font-weight:600;
-}
-
-.event-meta{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  margin:6px 0;
-  font-size:13px;
-  color:#555;
-  line-height:1.5;
-}
-
-.meta-icon{
-  font-size:18px;
-  color:#888;
-}
-
-.sale-now{
-  color:#0f9d58;
-  font-weight:700;
-}
-
-.sale-before{
-  color:#f59e0b;
-  font-weight:700;
-}
-
-.sale-end{
-  color:#888;
-  font-weight:700;
-}
-
-.goods-type-list{
-  display:flex;
-  gap:10px;
-  margin-top:10px;
-  flex-wrap:wrap;
-}
-
-.goods-type{
-  display:flex;
-  align-items:center;
-  gap:4px;
-  font-size:12px;
-  color:#555;
-}
-
-.card-footer{
-  margin-top:14px;
-  padding-top:10px;
-  border-top:1px solid #eee;
-}
-
-.detail-link{
-  display:flex;
-  justify-content:flex-end;
-  align-items:center;
-  gap:4px;
-  text-decoration:none;
-  color:#2563eb;
-  font-size:13px;
-  font-weight:600;
-}
  
 </style>
 </head>
@@ -2921,17 +2708,11 @@ font-size:18px;
 
 <div id="event" class="section">
 <h2>イベント情報</h2>
-<div class="no-event-message">
-  現在ページリニューアル中のため、表記がおかしいことがございます。また、情報の更新を一時中断しております。
-</div>
 <div id="eventList"></div>
 </div>
 
 <div id="goods" class="section">
 <h2>グッズ情報</h2>
-<div class="no-event-message">
-  現在ページリニューアル中のため、表記がおかしいことがございます。また、情報の更新を一時中断しております。
-</div>
 <div id="goodsList"></div>
 </div>
 
@@ -3521,6 +3302,72 @@ function formatDate(dateStr){
 const d=new Date(dateStr);
 return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
 }
+
+function formatEventPeriod(start, end){
+
+  if(!end || end.trim() === ""){
+    // 終了日なし
+    return `${formatDate(start)}〜`;
+  }
+
+  if(start === end){
+    // 同日
+    return formatDate(start);
+  }
+
+  // 通常
+  return `${formatDate(start)}〜${formatDate(end)}`;
+}
+  
+function getGoodsStatus(start, end){
+
+  if(!start || !end) return "販売終了";
+
+  const now = new Date();
+  const startTime = new Date(start);
+  const endTime = new Date(end);
+
+  if(now < startTime){
+    return "販売前";
+  }
+
+  if(now >= startTime && now <= endTime){
+    return "販売中";
+  }
+
+  return "販売終了";
+}
+
+function formatGoodsDateTime(startStr, endStr){
+
+  if(!startStr) return "";
+
+  function formatOne(dateStr){
+
+    const date = new Date(dateStr);
+    if(isNaN(date)) return dateStr; // 不正データ対策
+
+    const y = date.getFullYear();
+    const m = date.getMonth() + 1;
+    const d = date.getDate();
+    const day = ["日","月","火","水","木","金","土"][date.getDay()];
+
+    const hh = String(date.getHours()).padStart(2,"0");
+    const mm = String(date.getMinutes()).padStart(2,"0");
+
+    return `${y}年${m}月${d}日(${day})${hh}:${mm}`;
+  }
+
+  const startText = formatOne(startStr);
+
+  if(!endStr || endStr.trim()===""){
+    return `${startText}～`;
+  }
+
+  const endText = formatOne(endStr);
+
+  return `${startText}～${endText}`;
+}
   
 function loadTodayContent(){
 
@@ -3773,7 +3620,18 @@ const todayBox=document.getElementById("todayBox");
 fetch(eventsURL).then(r=>r.text()).then(text=>{
 
   const data = parseCSV(text);
-  data.sort((a,b)=>new Date(a.start_date) - new Date(b.start_date));
+  data.sort((a,b)=>new Date(b.start_date) - new Date(a.start_date));
+
+  let nearest = null;
+  let nearestTime = Infinity;
+
+  let nearestEnd = null;
+  let nearestEndTime = Infinity;
+
+  // 日本時間の今日（YYYY-MM-DD）
+  const todayStr = new Date().toLocaleDateString("sv-SE", {
+    timeZone: "Asia/Tokyo"
+  });
 
   let eventHTML = "";
 
@@ -3782,8 +3640,42 @@ fetch(eventsURL).then(r=>r.text()).then(text=>{
     /* =========================
        日付表示テキスト作成
     ========================== */
-    let dateText = formatEventDate(event);
+    let dateText = formatEventPeriod(event.start_date, event.end_date);
 
+    /* =========================
+       最新イベント判定
+    ========================== */
+    const startStr = event.start_date;
+    const startTime = new Date(startStr + "T00:00:00+09:00").getTime();
+
+    if(startStr >= todayStr && startTime < nearestTime){
+      nearestTime = startTime;
+      nearest = event;
+    }
+
+    /* =========================
+       終了間近イベント判定（開催中のみ）
+    ========================== */
+    if(event.end_date && event.end_date.trim() !== ""){
+
+      const startStr = event.start_date;
+      const endStr   = event.end_date;
+
+      const startTime = new Date(startStr + "T00:00:00+09:00").getTime();
+      const endTime   = new Date(endStr   + "T23:59:59+09:00").getTime();
+      const now       = Date.now();
+
+      // ✅ 開催中のみ対象
+      const isOngoing = startTime <= now && endTime >= now;
+
+      if(isOngoing){
+        // ✅ 一番終了が近いものを選ぶ
+        if(endTime < nearestEndTime){
+          nearestEndTime = endTime;
+          nearestEnd = event;
+        }
+      }
+    }
     /* =========================
        イベント一覧カード生成
     ========================== */
@@ -3791,21 +3683,11 @@ fetch(eventsURL).then(r=>r.text()).then(text=>{
     eventHTML += `
     <div class="event-card-new">
 
-      ${createImageCarousel(event)}
+      <div class="event-img-box">
+        <img src="${event.image}" class="event-img-new">
+      </div>
 
       <div class="event-info">
-
-        <div class="card-tags">
-
-          ${event.series
-            ? `<span class="card-tag">#${event.series}</span>`
-            : ""}
-
-          ${event.category
-            ? `<span class="card-tag">#${event.category}</span>`
-            : ""}
-
-        </div>
 
         <h3 class="event-title">${event.title}</h3>
 
@@ -3819,22 +3701,60 @@ fetch(eventsURL).then(r=>r.text()).then(text=>{
           ${event.location}
         </p>
 
-        <div class="card-footer">
+        <p class="event-meta">
+          <span class="material-symbols-outlined meta-icon">description</span>
+          ${event.note || ""}
+        </p>
 
-          <a
-            href="#${event.id}"
-            class="detail-link">
+        <div class="event-links">
+          ${event.link1 && event.link1.trim() !== "" ? 
+            `<a href="${event.link1.trim()}" target="_blank" class="event-link-btn">
+              特設サイト
+            </a>` 
+          : ""}
 
-            詳細を見る
-
-            <span class="material-symbols-outlined">
-              arrow_forward_ios
-            </span>
-
-          </a>
-
+          ${event.link2 && event.link2.trim() !== "" ? 
+            `<a href="${event.link2.trim()}" target="_blank" class="event-link-btn gray">
+              公式サイト
+            </a>` 
+          : ""}
         </div>
 
+        <div class="event-actions">
+
+          <div class="event-actions-top">
+
+            <button class="fav-btn ${isFav(event.title) ? 'active' : ''}"
+              onclick="toggleFavorite('${event.title}')">
+              ♡ お気に入り
+            </button>
+
+            <select class="event-status"
+              onchange="saveStatus('${event.title}', this.value)">
+              <option value="">選択しない</option>
+              <option value="予定" ${getStatus(event.title)==="予定"?"selected":""}>参加予定</option>
+              <option value="済" ${getStatus(event.title)==="済"?"selected":""}>参加済</option>
+            </select>
+
+          </div>
+
+          <button class="calendar-btn"
+            onclick="openCalendarModal(
+              '${event.title}',
+              '${event.start_date}',
+              '${event.end_date}',
+              '${event.location}',
+              '${event.note || ""}'
+            )">
+            <span class="material-symbols-outlined">
+              event_available
+            </span>
+            Googleカレンダーに追加
+          </button>
+
+          ${createLikeButton(event.id)}
+
+        </div>
       </div>
     </div>
     `;
@@ -3844,57 +3764,119 @@ fetch(eventsURL).then(r=>r.text()).then(text=>{
   // 一覧表示
   document.getElementById("eventList").innerHTML = eventHTML;
 
-  setupCarousel();
+  /* =========================
+     最新イベント表示
+  ========================== */
+  if(nearest){
+
+    document.getElementById("latestEvent").innerHTML = `
+      <div class="latest-wrapper">
+
+        <div id="countdown" class="latest-countdown"></div>
+
+        <div class="latest-flex">
+
+          <img src="${nearest.image}" class="latest-thumb">
+
+          <div class="latest-meta">
+
+            <h3 class="latest-title">${nearest.title}</h3>
+
+            <p class="meta-row">
+              <span class="material-symbols-outlined meta-icon">calendar_month</span>
+              ${formatEventPeriod(nearest.start_date, nearest.end_date)}
+            </p>
+
+            <p class="meta-row">
+              <span class="material-symbols-outlined meta-icon">location_on</span>
+              ${nearest.location}
+            </p>
+
+            <p class="meta-row">
+              <span class="material-symbols-outlined meta-icon">description</span>
+              ${nearest.note || ""}
+            </p>
+
+            <p class="latest-note">
+              公式リンク・マイリスト追加はイベントページをご覧ください
+            </p>
+
+          </div>
+        </div>
+
+      </div>
+    `;
+
+    startCountdown(nearest.start_date);
+    
+  } else {
+
+    document.getElementById("latestEvent").innerHTML = `
+      <div class="no-event-message">
+        開催前のイベントがありません
+      </div>
+    `;
+
+  }
+
+  /* =========================
+     終了間近イベント表示
+  ========================== */
+  if(nearestEnd){
+
+    document.getElementById("endingSoonEvent").innerHTML = `
+      <div class="latest-wrapper">
+
+        <div id="endingCountdown" class="latest-countdown"></div>
+
+        <div class="latest-flex">
+
+          <img src="${nearestEnd.image}" class="latest-thumb">
+
+          <div class="latest-meta">
+
+            <h3 class="latest-title">${nearestEnd.title}</h3>
+
+            <p class="meta-row">
+              <span class="material-symbols-outlined meta-icon">calendar_month</span>
+              ${formatEventPeriod(nearestEnd.start_date, nearestEnd.end_date)}
+            </p>
+
+            <p class="meta-row">
+              <span class="material-symbols-outlined meta-icon">location_on</span>
+              ${nearestEnd.location}
+            </p>
+
+            <p class="meta-row">
+              <span class="material-symbols-outlined meta-icon">description</span>
+              ${nearestEnd.note || ""}
+            </p>
+
+            <p class="latest-note">
+              公式リンク・マイリスト追加はイベントページをご覧ください
+            </p>
+
+          </div>
+        </div>
+
+      </div>
+    `;
+
+    startEndingCountdown(nearestEnd.end_date);
+    
+  } else {
+
+    document.getElementById("endingSoonEvent").innerHTML = `
+      <div class="no-event-message">
+        開催中のイベントがありません
+      </div>
+    `;
+
+  }
 
 });
 
-function formatEventDate(event){
-
-  const startDate = event.start_date || "";
-  const endDate   = event.end_date || "";
-
-  const startTime = event.start_time || "";
-  const endTime   = event.end_time || "";
-
-  // 常設（終了日なし）
-  if(!endDate){
-    return startTime
-      ? `${startDate} ${startTime}～（常設）`
-      : `${startDate}（常設）`;
-  }
-
-  // 1日限定
-  if(startDate === endDate){
-
-    if(startTime && endTime){
-      return `${startDate} ${startTime}〜${endTime}`;
-    }
-
-    if(startTime){
-      return `${startDate} ${startTime}〜`;
-    }
-
-    return startDate;
-  }
-
-  // 複数日
-  let text = startDate;
-
-  if(startTime){
-    text += ` ${startTime}`;
-  }
-
-  text += " ～ ";
-
-  text += endDate;
-
-  if(endTime){
-    text += ` ${endTime}`;
-  }
-
-  return text;
-}
- 
+  
 fetch(goodsURL)
   .then(res => res.text())
   .then(text => {
@@ -3903,7 +3885,7 @@ fetch(goodsURL)
 
     // 🔥 ステータス自動判定
     data.forEach(item=>{
-      item.autoStatus = getGoodsSaleStatus(item);
+      item.autoStatus = getGoodsSaleStatus(item.start_datetime, item.end_datetime);
     });
 
     // 🔥 並び替え
@@ -3922,331 +3904,94 @@ fetch(goodsURL)
 
       html += `
       <div class="event-card-new">
-      
-        ${createImageCarousel(item)}
-      
+
+        <div class="event-img-box">
+          <img src="${item.image}" class="event-img-new">
+        </div>
+
         <div class="event-info">
-      
+
+          <div class="goods-extra">
+
+            <span class="goods-badge type">
+              ${item.sale_type || ""}
+            </span>
+
+            ${item.shipping ? `
+              <span class="goods-badge shipping">
+                ${item.shipping}
+              </span>
+            ` : ""}
+
+          </div>
+
+          <h3 class="event-title">${item.series}</h3>
+
+          <p class="event-meta">
+            <span class="material-symbols-outlined meta-icon">schedule</span>
+            ${formatGoodsDateTime(item.start_datetime, item.end_datetime)}
+          </p>
+
+          <p class="event-meta">
+            <span class="material-symbols-outlined meta-icon">store</span>
+            ${item.site_name || ""}
+          </p>
+
+          <p class="event-meta">
+            <span class="material-symbols-outlined meta-icon">description</span>
+            ${item.description || ""}
+          </p>
+
           <p class="event-meta ${statusClass}">
             <span class="material-symbols-outlined meta-icon">sell</span>
             販売状態：${status}
           </p>
-      
-          <div class="card-tags">
-      
-            ${item.series
-              ? `<span class="card-tag">#${item.series}</span>`
-              : ""}
-      
-            ${item.category
-              ? `<span class="card-tag">#${item.category}</span>`
-              : ""}
-      
-          </div>
-      
-          <h3 class="event-title">${item.title}</h3>
-      
-          <div class="goods-type-list">
-      
-            ${item.onsite_start_date ? `
-              <span class="goods-type">
-                <span class="material-symbols-outlined">store</span>
-                現地販売
-              </span>
+
+          <div class="event-links">
+            ${item.link1 ? `
+              <a href="${item.link1}" target="_blank" class="event-link-btn">
+                ご購入はこちら
+              </a>
             ` : ""}
-      
-            ${item.online_start_date ? `
-              <span class="goods-type">
-                <span class="material-symbols-outlined">language</span>
-                通販
-              </span>
+
+            ${item.link2 ? `
+              <a href="${item.link2}" target="_blank" class="event-link-btn gray">
+                商品説明ページ
+              </a>
             ` : ""}
-      
           </div>
-      
-          <div class="card-footer">
-      
-            <a href="#${item.id}" class="detail-link">
-      
-              詳細を見る
-      
-              <span class="material-symbols-outlined">
-                arrow_forward_ios
-              </span>
-      
-            </a>
-      
+
+          <div class="event-actions">
+
+            <button class="fav-btn ${isGoodsFav(item.series) ? 'active' : ''}"
+              onclick="toggleGoodsFavorite('${item.series}')">
+              ♡ お気に入り
+            </button>
+
+            <select class="event-status"
+              onchange="saveGoodsStatus('${item.series}', this.value)">
+              <option value="">選択しない</option>
+              <option value="予定" ${getGoodsStatus(item.series)==="予定"?"selected":""}>
+                購入予定
+              </option>
+              <option value="済" ${getGoodsStatus(item.series)==="済"?"selected":""}>
+                購入済
+              </option>
+            </select>
+
+            ${createLikeButton(item.id)}
+
           </div>
-      
+
         </div>
-      
       </div>
       `;
     });
 
     document.getElementById("goodsList").innerHTML = html;
-
-    setupCarousel();
     
   });
-
-function formatPeriod(startDate, startTime, endDate, endTime){
-
-  if(!startDate) return "";
-
-  // 常設
-  if(!endDate){
-    return startTime
-      ? `${startDate} ${startTime}～（常設）`
-      : `${startDate}（常設）`;
-  }
-
-  // 1日限定
-  if(startDate === endDate){
-
-    if(startTime && endTime){
-      return `${startDate} ${startTime}〜${endTime}`;
-    }
-
-    if(startTime){
-      return `${startDate} ${startTime}〜`;
-    }
-
-    return startDate;
-  }
-
-  // 複数日
-  let text = startDate;
-
-  if(startTime){
-    text += ` ${startTime}`;
-  }
-
-  text += " ～ ";
-
-  text += endDate;
-
-  if(endTime){
-    text += ` ${endTime}`;
-  }
-
-  return text;
-}
-
-
-function formatGoodsPeriod(item){
-
-  let html = "";
-
-  // 現地販売
-  if(item.onsite_start_date){
-
-    html += `
-      <div>
-        <strong>現地</strong><br>
-        ${formatPeriod(
-          item.onsite_start_date,
-          item.onsite_start_time,
-          item.onsite_end_date,
-          item.onsite_end_time
-        )}
-      </div>
-    `;
-  }
-
-  // 通販
-  if(item.online_start_date){
-
-    html += `
-      <div style="margin-top:8px;">
-        <strong>通販</strong><br>
-        ${formatPeriod(
-          item.online_start_date,
-          item.online_start_time,
-          item.online_end_date,
-          item.online_end_time
-        )}
-      </div>
-    `;
-  }
-
-  return html;
-}
-
-
-function getGoodsSaleStatus(item){
-
-  const now = new Date();
-
-  const dates = [];
-
-  // 現地
-  if(item.onsite_start_date){
-
-    dates.push({
-      start:new Date(item.onsite_start_date + "T" + (item.onsite_start_time || "00:00")),
-      end:item.onsite_end_date
-        ? new Date(item.onsite_end_date + "T" + (item.onsite_end_time || "23:59"))
-        : null
-    });
-
-  }
-
-  // 通販
-  if(item.online_start_date){
-
-    dates.push({
-      start:new Date(item.online_start_date + "T" + (item.online_start_time || "00:00")),
-      end:item.online_end_date
-        ? new Date(item.online_end_date + "T" + (item.online_end_time || "23:59"))
-        : null
-    });
-
-  }
-
-  let before = false;
-  let selling = false;
-
-  for(const d of dates){
-
-    if(now < d.start){
-      before = true;
-      continue;
-    }
-
-    if(d.end === null){
-      selling = true;
-      continue;
-    }
-
-    if(now <= d.end){
-      selling = true;
-    }
-
-  }
-
-  if(selling) return "販売中";
-  if(before) return "販売前";
-
-  return "販売終了";
-
-}
-
-function createImageCarousel(item){
-
-  // 空白を除いて画像だけ取り出す
-  const images = [
-    item.image1,
-    item.image2,
-    item.image3,
-    item.image4
-  ].filter(img => img && img.trim() !== "");
-
-  // 画像1枚だけなら今まで通り
-  if(images.length <= 1){
-
-    return `
-      <div class="event-img-box">
-        <img src="${images[0]}" class="event-img-new">
-      </div>
-    `;
-
-  }
-
-  // 2枚以上ならカルーセル
-  let slides = "";
-  let dots = "";
-
-  images.forEach((img,index)=>{
-
-    slides += `
-      <img
-        src="${img}"
-        class="carousel-image ${index===0 ? "active" : ""}"
-      >
-    `;
-
-    dots += `
-      <span
-        class="carousel-dot ${index===0 ? "active" : ""}"
-      ></span>
-    `;
-
-  });
-
-  return `
-
-  <div class="event-img-box">
-
-    <div class="carousel">
-
-        ${slides}
-
-        <button type="button" class="carousel-prev">❮</button>
-
-        <button type="button" class="carousel-next">❯</button>
-
-        <div class="carousel-dots">
-          ${dots}
-        </div>
-
-    </div>
-
-  </div>
-
-  `;
-
-}
-
-function setupCarousel(){
-
-  document.querySelectorAll(".carousel").forEach(carousel=>{
-
-    const images = carousel.querySelectorAll(".carousel-image");
-    const dots   = carousel.querySelectorAll(".carousel-dot");
-
-    if(images.length <= 1) return;
-
-    let index = 0;
-
-    function showImage(i){
-
-      images.forEach(img=>img.classList.remove("active"));
-      dots.forEach(dot=>dot.classList.remove("active"));
-
-      images[i].classList.add("active");
-      dots[i].classList.add("active");
-
-    }
-
-    carousel.querySelector(".carousel-next").addEventListener("click",()=>{
-
-      index++;
-
-      if(index >= images.length){
-        index = 0;
-      }
-
-      showImage(index);
-
-    });
-
-    carousel.querySelector(".carousel-prev").addEventListener("click",()=>{
-
-      index--;
-
-      if(index < 0){
-        index = images.length - 1;
-      }
-
-      showImage(index);
-
-    });
-
-  });
-
-}
- 
+  
 fetch(plannedURL).then(r=>r.text()).then(text=>{
 const data=parseCSV(text);
 
@@ -4276,6 +4021,96 @@ if(box2) box2.innerHTML += html;
 
 });
 });
+
+  
+function startCountdown(eventDateStr){
+
+  const eventDate = new Date(eventDateStr + "T00:00:00+09:00");
+
+  const timer = setInterval(()=>{
+
+    const now = new Date();
+
+    // 🔥 日本時間で今日の日付を取得
+    const todayStr = now.toLocaleDateString("sv-SE", { timeZone: "Asia/Tokyo" });
+    const eventStr = eventDateStr; // 例: "2026-02-28"
+
+    // 🔥 今日が開催日なら
+    if(todayStr === eventStr){
+      document.getElementById("countdown").innerHTML =
+        `<span class="material-symbols-outlined countdown-icon">timer</span>
+         本日開催！`;
+      clearInterval(timer);
+      return;
+    }
+
+    const diff = eventDate - now;
+
+    // 🔥 開催日を過ぎたら何も表示しない
+    if(diff < 0){
+      document.getElementById("countdown").innerHTML = "";
+      clearInterval(timer);
+      return;
+    }
+
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const minutes = Math.floor((diff % 3600000) / 60000);
+    const seconds = Math.floor((diff % 60000) / 1000);
+
+    document.getElementById("countdown").innerHTML =
+      `<span class="material-symbols-outlined countdown-icon">calendar_clock</span>
+       あと ${days}日 ${hours}時間 ${minutes}分 ${seconds}秒 で開催！`;
+
+  },1000);
+}
+
+function startEndingCountdown(endDate){
+
+  function update(){
+
+    const now = new Date();
+
+    const todayStr =
+      now.getFullYear() + "-" +
+      String(now.getMonth()+1).padStart(2,"0") + "-" +
+      String(now.getDate()).padStart(2,"0");
+
+    const countdownEl = document.getElementById("endingCountdown");
+
+    // 🔴 今日が終了日
+    if(todayStr === endDate){
+      countdownEl.innerHTML =
+        `<span class="material-symbols-outlined countdown-icon">timer</span>
+         本日終了！`;
+      return;
+    }
+
+    // 🟠 まだ終了日前
+    const end = new Date(endDate + "T00:00:00+09:00");
+    const diff = end.getTime() - now.getTime();
+
+    if(diff > 0){
+
+      const days = Math.floor(diff / (1000*60*60*24));
+      const hours = Math.floor((diff / (1000*60*60)) % 24);
+      const minutes = Math.floor((diff / (1000*60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      countdownEl.innerHTML =
+        `<span class="material-symbols-outlined countdown-icon">calendar_clock</span>
+         あと ${days}日 ${hours}時間 ${minutes}分 ${seconds}秒 で最終日！`;
+
+      return;
+    }
+
+    // ⚫ 翌日になったら次のイベントへ
+    location.reload();
+  }
+
+  update();
+  setInterval(update,1000);
+}
   
 function getYouTubeThumbnail(url){
 
