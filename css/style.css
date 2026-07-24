@@ -159,7 +159,7 @@ margin:10px 0;
 border-radius:6px;
 }
 
-.event-btn{
+.main-btn{
   margin-top:15px;
   padding:12px 22px;
   border:none;
@@ -171,12 +171,12 @@ border-radius:6px;
   transition:0.3s;
 }
 
-.event-btn:hover{
+.main-btn:hover{
   transform:translateY(-2px);
   box-shadow:0 5px 15px rgba(0,0,0,0.2);
 }
 
-.event-btn.joined{
+.main-btn.joined{
   background:#0a8f2a;
 }
 
