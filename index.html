@@ -219,10 +219,63 @@
 </div>
 
 <div id="goods" class="section">
-<h2>グッズ情報</h2>
-  <div class="no-event-message">
-    大変申し訳ございませんが、現在リニューアル中のため表示はありません。
+
+  <h2>グッズ情報</h2>
+
+  <!-- 検索・絞り込み -->
+  <div id="goodsSearchArea">
+
+    <input
+      type="text"
+      id="goodsSearchInput"
+      placeholder="キーワード検索">
+
+    <select id="goodsSeriesFilter">
+      <option value="">すべてのシリーズ</option>
+    </select>
+
+    <select id="goodsCategoryFilter">
+      <option value="">すべてのカテゴリ</option>
+    </select>
+
   </div>
+
+  <!-- 販売中 -->
+  <h3>販売中</h3>
+  <div id="goodsNowList">
+    <div class="no-event-message">
+      データを読み込み中...
+    </div>
+  </div>
+
+  <!-- 販売予定 -->
+  <h3>販売予定</h3>
+  <div id="goodsFutureList">
+    <div class="no-event-message">
+      データを読み込み中...
+    </div>
+  </div>
+
+  <!-- 販売終了 -->
+  <h3>販売終了</h3>
+  <div id="goodsPastList">
+    <div class="no-event-message">
+      データを読み込み中...
+    </div>
+  </div>
+
+</div>
+
+<div id="goodsDetail" class="section">
+
+  <div id="goodsDetailContent">
+
+    <div class="no-event-message">
+      グッズ情報を読み込み中...
+    </div>
+
+  </div>
+
 </div>
 
 <div id="lives" class="section">
