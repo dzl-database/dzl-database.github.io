@@ -159,10 +159,51 @@
 </div>
 
 <div id="event" class="section">
-<h2>イベント情報</h2>
-  <div class="no-event-message">
-    大変申し訳ございませんが、現在リニューアル中のため表示はありません。
+
+  <h2>イベント情報</h2>
+
+  <!-- 検索・絞り込み -->
+  <div id="eventSearchArea">
+
+    <input
+      type="text"
+      id="eventSearchInput"
+      placeholder="キーワード検索">
+
+    <select id="eventSeriesFilter">
+      <option value="">すべてのシリーズ</option>
+    </select>
+
+    <select id="eventCategoryFilter">
+      <option value="">すべてのカテゴリ</option>
+    </select>
+
   </div>
+
+  <!-- 開催中 -->
+  <h3>開催中</h3>
+  <div id="eventNowList">
+    <div class="no-event-message">
+      データを読み込み中...
+    </div>
+  </div>
+
+  <!-- 開催予定 -->
+  <h3>開催予定</h3>
+  <div id="eventFutureList">
+    <div class="no-event-message">
+      データを読み込み中...
+    </div>
+  </div>
+
+  <!-- 開催終了 -->
+  <h3>開催終了</h3>
+  <div id="eventPastList">
+    <div class="no-event-message">
+      データを読み込み中...
+    </div>
+  </div>
+
 </div>
 
 <div id="goods" class="section">
