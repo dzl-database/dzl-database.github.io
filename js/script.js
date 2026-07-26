@@ -2,6 +2,8 @@ history.scrollRestoration = "manual";
  
 function showSection(sectionId, updateHash = true){
 
+  console.log("showSection:", sectionId);
+
   document.querySelectorAll('.section').forEach(section=>{
     section.classList.remove('active');
   });

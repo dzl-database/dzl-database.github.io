@@ -134,7 +134,7 @@ function showEventDetail(id){
 
     <h2>${event.title}</h2>
 
-    <p>${formatEventDate(event)}</p>
+    <p>${formatEventPeriod(event)}</p>
 
     <p>${event.location}</p>
 
