@@ -1897,10 +1897,98 @@ window.addEventListener("hashchange", ()=>{
   showSection(hash, false);
 
 });
+
+// =========================
+// 日本時間の日付フォーマット
+// =========================
+
+function formatJapaneseDate(dateStr){
+
+  if(!dateStr) return "";
+
+  const date = new Date(dateStr + "T00:00:00+09:00");
+
+  const week = [
+    "日",
+    "月",
+    "火",
+    "水",
+    "木",
+    "金",
+    "土"
+  ];
+
+  return `${date.getFullYear()}年${date.getMonth()+1}月${date.getDate()}日(${week[date.getDay()]})`;
+
+}
+
+// =========================
+// イベント期間表示
+// =========================
+
+function formatEventPeriod(event){
+
+  const startDate = formatJapaneseDate(event.start_date);
+  const endDate   = formatJapaneseDate(event.end_date);
+
+  const startTime = event.start_time?.trim();
+  const endTime   = event.end_time?.trim();
+
+  // 開始日のみ
+  if(!event.end_date){
+
+    if(startTime){
+
+      return `${startDate} ${startTime}～`;
+
+    }
+
+    return startDate;
+
+  }
+
+  // 同じ日
+  if(event.start_date === event.end_date){
+
+    if(startTime && endTime){
+
+      return `${startDate} ${startTime}～${endTime}`;
+
+    }
+
+    if(startTime){
+
+      return `${startDate} ${startTime}～`;
+
+    }
+
+    return startDate;
+
+  }
+
+  // 日付が違う
+
+  let startText = startDate;
+  let endText = endDate;
+
+  if(startTime){
+
+    startText += ` ${startTime}`;
+
+  }
+
+  if(endTime){
+
+    endText += ` ${endTime}`;
+
+  }
+
+  return `${startText}～${endText}`;
+
+}
  
 loadNews();
 loadTodayContent();
 loadAllLikes();
 loadYouTubeStats();
 
-console.log("script.js 読み込み");

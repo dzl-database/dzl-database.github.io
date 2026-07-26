@@ -1,4 +1,3 @@
-console.log("event.js 読み込み成功");
 
 // イベントページ専用のJavaScript
 
@@ -92,7 +91,7 @@ function createEventCard(event){
       calendar_month
     </span>
 
-    ${event.start_date}
+    ${formatEventPeriod(event)}
 
   </p>
 
