@@ -1,4 +1,7 @@
+console.log("event.js 読み込み成功");
+
 // イベントページ専用のJavaScript
+
 fetch(eventsURL)
   .then(res => res.text())
   .then(text => {
