@@ -1835,6 +1835,24 @@ window.addEventListener("DOMContentLoaded", ()=>{
     return;
   }
 
+  // イベント詳細
+  if(hash.startsWith("event_")){
+
+    showEventDetail(hash);
+
+    return;
+
+  }
+
+  // グッズ詳細
+  if(hash.startsWith("goods_")){
+
+    showGoodsDetail(hash);
+
+    return;
+
+  }
+
   // About系
   if(hash.startsWith("about-")){
 
@@ -1873,6 +1891,24 @@ window.addEventListener("hashchange", ()=>{
     if(!hash){
       showSection("home", false);
       return;
+    }
+
+    // イベント詳細
+    if(hash.startsWith("event_")){
+
+      showEventDetail(hash);
+
+      return;
+
+    }
+
+    // グッズ詳細
+    if(hash.startsWith("goods_")){
+
+      showGoodsDetail(hash);
+
+      return;
+
     }
 
     const tabName =

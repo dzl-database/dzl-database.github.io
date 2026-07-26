@@ -1,13 +1,15 @@
 
 // イベントページ専用のJavaScript
 
+let eventData = [];
+
 fetch(eventsURL)
   .then(res => res.text())
   .then(text => {
 
-    const events = parseCSV(text);
+    eventData = parseCSV(text);
 
-    renderEventList(events);
+    renderEventList(eventData);
 
   });
 
@@ -57,7 +59,9 @@ function createEventCard(event){
 
   return `
 
-<div class="event-card">
+<div
+  class="event-card"
+  onclick="openEventDetail('${event.id}')">
 
   <div class="event-tags">
 
@@ -114,5 +118,42 @@ function createEventCard(event){
 </div>
 
 `;
+
+}
+
+function showEventDetail(id){
+
+  const event =
+    eventData.find(e => e.id === id);
+
+  if(!event){
+    return;
+  }
+
+  document.getElementById("eventDetailContent").innerHTML = `
+
+    <h2>${event.title}</h2>
+
+    <p>${formatEventDate(event)}</p>
+
+    <p>${event.location}</p>
+
+    <p>${event.description}</p>
+
+  `;
+
+  showSection("eventDetail", false);
+
+}
+
+function openEventDetail(id){
+
+  history.pushState(
+    null,
+    "",
+    "#" + id
+  );
+
+  showEventDetail(id);
 
 }
