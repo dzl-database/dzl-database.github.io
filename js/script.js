@@ -2,8 +2,6 @@ history.scrollRestoration = "manual";
  
 function showSection(sectionId, updateHash = true){
 
-  console.log("showSection:", sectionId);
-
   document.querySelectorAll('.section').forEach(section=>{
     section.classList.remove('active');
   });
@@ -1884,55 +1882,49 @@ window.addEventListener("DOMContentLoaded", ()=>{
 
 window.addEventListener("hashchange", ()=>{
 
-  const hash =
-    location.hash.replace("#","");
+  const hash = location.hash.replace("#","");
 
+  // ハッシュなし
+  if(!hash){
+    showSection("home", false);
+    return;
+  }
+
+  // イベント詳細
+  if(hash.startsWith("event_")){
+    showEventDetail(hash);
+    return;
+  }
+
+  // グッズ詳細
+  if(hash.startsWith("goods_")){
+    showGoodsDetail(hash);
+    return;
+  }
+
+  // About
   if(hash.startsWith("about-")){
 
-    // ハッシュなし → home
-    if(!hash){
-      showSection("home", false);
-      return;
-    }
-
-    // イベント詳細
-    if(hash.startsWith("event_")){
-
-      showEventDetail(hash);
-
-      return;
-
-    }
-
-    // グッズ詳細
-    if(hash.startsWith("goods_")){
-
-      showGoodsDetail(hash);
-
-      return;
-
-    }
-
-    const tabName =
-      hash.replace("about-","");
+    const tabName = hash.replace("about-","");
 
     const tabMap = {
-      about: "aboutTab",
-      member: "memberTab",
-      portal: "portalTab",
-      channel: "channelTab",
-      history: "historyTab"
+      about:"aboutTab",
+      member:"memberTab",
+      portal:"portalTab",
+      channel:"channelTab",
+      history:"historyTab"
     };
 
     const tabId = tabMap[tabName];
 
     if(tabId){
-      switchAboutTab(tabId, false);
+      switchAboutTab(tabId,false);
       return;
     }
+
   }
 
-  showSection(hash, false);
+  showSection(hash,false);
 
 });
 

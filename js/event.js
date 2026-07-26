@@ -4,14 +4,20 @@
 let eventData = [];
 
 fetch(eventsURL)
-  .then(res => res.text())
-  .then(text => {
+.then(res=>res.text())
+.then(text=>{
 
     eventData = parseCSV(text);
 
     renderEventList(eventData);
 
-  });
+    const hash = location.hash.replace("#","");
+
+    if(hash.startsWith("event_")){
+        showEventDetail(hash);
+    }
+
+});
 
 function renderEventList(events){
 
