@@ -1902,3 +1902,5 @@ loadNews();
 loadTodayContent();
 loadAllLikes();
 loadYouTubeStats();
+
+console.log("script.js 読み込み");
