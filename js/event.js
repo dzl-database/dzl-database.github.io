@@ -188,10 +188,9 @@ function showEventDetail(id){
 
     </div>
 
-    <div class="event-iframely">
-
-      ${event.iframely_embed || ""}
-
+    <div
+      id="eventIframely"
+      class="event-iframely">
     </div>
 
     <div class="event-detail-section">
@@ -276,6 +275,10 @@ function showEventDetail(id){
 
   </div>
 
+  <div id="eventX1" class="event-x"></div>
+
+  <div id="eventX2" class="event-x"></div>
+
   <div id="relatedEvents"></div>
 
   <div id="relatedGoods"></div>
@@ -283,6 +286,21 @@ function showEventDetail(id){
   `;
 
   showSection("eventDetail", false);
+
+  renderEmbed(
+    "eventIframely",
+    event.iframely_embed
+  );
+
+  renderEmbed(
+    "eventX1",
+    event.x_embed_1
+  );
+
+  renderEmbed(
+    "eventX2",
+    event.x_embed_2
+  );
 
 }
 
@@ -295,5 +313,47 @@ function openEventDetail(id){
   );
 
   showEventDetail(id);
+
+}
+
+function renderEmbed(id, html){
+
+  const box = document.getElementById(id);
+
+  if(!box){
+    return;
+  }
+
+  if(!html){
+
+    box.style.display = "none";
+    return;
+
+  }
+
+  box.style.display = "";
+
+  box.innerHTML = html;
+
+  box.querySelectorAll("script").forEach(oldScript=>{
+
+    const newScript =
+      document.createElement("script");
+
+    [...oldScript.attributes].forEach(attr=>{
+
+      newScript.setAttribute(
+        attr.name,
+        attr.value
+      );
+
+    });
+
+    newScript.text =
+      oldScript.text;
+
+    oldScript.replaceWith(newScript);
+
+  });
 
 }
