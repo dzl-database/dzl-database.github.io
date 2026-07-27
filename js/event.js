@@ -140,13 +140,145 @@ function showEventDetail(id){
 
   document.getElementById("eventDetailContent").innerHTML = `
 
-    <h2>${event.title}</h2>
+  <button class="back-btn"
+    onclick="showSection('event')">
 
-    <p>${formatEventPeriod(event)}</p>
+    <span class="material-symbols-outlined">
+      arrow_back
+    </span>
 
-    <p>${event.location}</p>
+    イベント一覧へ戻る
 
-    <p>${event.description}</p>
+  </button>
+
+  <div class="event-detail-card">
+
+    <div class="event-detail-header">
+
+      <div>
+
+        <div class="event-tags">
+
+          ${event.series ? `<span class="event-tag">#${event.series}</span>` : ""}
+
+          ${event.category ? `<span class="event-tag">#${event.category}</span>` : ""}
+
+        </div>
+
+        <h1 class="event-detail-title">
+
+          ${event.title}
+
+        </h1>
+
+        <div class="event-updated">
+
+          更新日：
+          ${formatJapaneseDate(event.updated_at)}
+
+        </div>
+
+      </div>
+
+      <div class="event-like-area">
+
+        👍 0
+
+      </div>
+
+    </div>
+
+    <div class="event-iframely">
+
+      ${event.iframely_embed || ""}
+
+    </div>
+
+    <div class="event-detail-section">
+
+      <h3>
+
+        <span class="material-symbols-outlined">
+          description
+        </span>
+
+        イベント概要
+
+      </h3>
+
+      <p>${event.description}</p>
+
+    </div>
+
+    <div class="event-detail-section">
+
+      <h3>
+
+        <span class="material-symbols-outlined">
+          calendar_month
+        </span>
+
+        開催期間
+
+      </h3>
+
+      <p>${formatEventPeriod(event)}</p>
+
+    </div>
+
+    <div class="event-detail-section">
+
+      <h3>
+
+        <span class="material-symbols-outlined">
+          location_on
+        </span>
+
+        会場
+
+      </h3>
+
+      <p>${event.location}</p>
+
+    </div>
+
+    <div class="event-detail-section">
+
+      <h3>
+
+        <span class="material-symbols-outlined">
+          language
+        </span>
+
+        リンク
+
+      </h3>
+
+      <div class="detail-link-buttons">
+
+        ${event.special_url
+          ? `<a class="main-btn" target="_blank"
+              href="${event.special_url}">
+              特設サイト
+            </a>`
+          : ""}
+
+        ${event.official_url
+          ? `<a class="main-btn" target="_blank"
+              href="${event.official_url}">
+              公式サイト
+            </a>`
+          : ""}
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="relatedEvents"></div>
+
+  <div id="relatedGoods"></div>
 
   `;
 
