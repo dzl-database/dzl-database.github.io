@@ -32,18 +32,20 @@ function renderEventList(events){
     const start = new Date(event.start_date + "T00:00:00");
     const end = event.end_date
       ? new Date(event.end_date + "T23:59:59")
-      : start;
+      : null;
 
     if(start > today){
 
       future.push(event);
 
-    }else if(end < today){
+    }else if(end && end < today){
 
+      // 終了日がある場合だけ終了判定
       past.push(event);
 
     }else{
 
+      // 終了日なし＝開催中扱い
       now.push(event);
 
     }

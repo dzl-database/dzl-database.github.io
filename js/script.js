@@ -1964,7 +1964,7 @@ function formatEventPeriod(event){
   const startTime = event.start_time?.trim();
   const endTime   = event.end_time?.trim();
 
-  // 開始日のみ
+  // 終了日なし（終了日未定・常設）
   if(!event.end_date){
 
     if(startTime){
@@ -1973,7 +1973,7 @@ function formatEventPeriod(event){
 
     }
 
-    return startDate;
+    return `${startDate}～`;
 
   }
 
