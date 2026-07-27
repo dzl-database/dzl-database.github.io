@@ -94,22 +94,75 @@ const GAS_URL = "https://script.google.com/macros/s/AKfycbwtbohoKr3svQsqGLq1Ces4
   
 function parseCSV(text){
 
-  const rows = text.trim().split("\n");
-  const headers = rows.shift().split(",");
+  const rows = [];
+  let row = [];
+  let value = "";
+  let inQuotes = false;
 
-  return rows.map(row=>{
+  for(let i = 0; i < text.length; i++){
 
-    const values = row.split(","); // ← シンプルにする
+    const c = text[i];
+    const next = text[i + 1];
 
-    let obj = {};
+    if(c === '"'){
+
+      // "" → "
+      if(inQuotes && next === '"'){
+        value += '"';
+        i++;
+      }else{
+        inQuotes = !inQuotes;
+      }
+
+    }else if(c === "," && !inQuotes){
+
+      row.push(value);
+      value = "";
+
+    }else if((c === "\n" || c === "\r") && !inQuotes){
+
+      if(c === "\r" && next === "\n"){
+        i++;
+      }
+
+      row.push(value);
+
+      rows.push(row);
+
+      row = [];
+      value = "";
+
+    }else{
+
+      value += c;
+
+    }
+
+  }
+
+  if(value !== "" || row.length){
+
+    row.push(value);
+    rows.push(row);
+
+  }
+
+  const headers = rows.shift();
+
+  return rows.map(values=>{
+
+    const obj = {};
 
     headers.forEach((header,i)=>{
-      obj[header.trim()] = values[i] ? values[i].replace(/^"|"$/g,"") : "";
+
+      obj[header.trim()] = values[i] || "";
+
     });
 
     return obj;
 
   });
+
 }
 
 function formatDate(dateStr){
