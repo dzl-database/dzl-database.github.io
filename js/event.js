@@ -279,6 +279,8 @@ function showEventDetail(id){
 
   <div id="eventX2" class="event-x"></div>
 
+  <div id="eventX3" class="event-x"></div>
+
   <div id="relatedEvents"></div>
 
   <div id="relatedGoods"></div>
@@ -301,6 +303,23 @@ function showEventDetail(id){
     "eventX2",
     event.x_embed_2
   );
+
+  renderEmbed(
+    "eventX3",
+    event.x_embed_3
+  );
+
+  if(window.twttr?.widgets){
+
+    window.twttr.widgets.load();
+
+  }
+
+  if(window.iframely){
+
+    window.iframely.load();
+
+  }
 
 }
 
