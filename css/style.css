@@ -2782,3 +2782,75 @@ font-size:26px;
   }
 
 }
+
+.related-title{
+
+  margin:40px 0 15px;
+
+  font-size:22px;
+
+}
+
+.related-list{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:14px;
+
+}
+
+.related-card{
+
+  background:#fff;
+
+  border-radius:14px;
+
+  padding:18px;
+
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+
+  cursor:pointer;
+
+  transition:.2s;
+
+}
+
+.related-card:hover{
+
+  transform:translateY(-2px);
+
+}
+
+.related-card-title{
+
+  font-size:18px;
+
+  font-weight:bold;
+
+  margin:10px 0;
+
+}
+
+.related-card-date{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:6px;
+
+  color:#666;
+
+}
+
+.related-more{
+
+  margin-top:12px;
+
+  color:#0084ff;
+
+  font-weight:bold;
+
+}

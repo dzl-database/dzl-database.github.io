@@ -361,6 +361,10 @@ function showEventDetail(id){
 
   loadAllLikes();
 
+  renderRelatedEvents(event);
+
+  renderRelatedGoods(event);
+
 }
 
 function openEventDetail(id){
@@ -458,5 +462,98 @@ function shareToLine(id){
     "_blank"
 
   );
+
+}
+
+function renderRelatedEvents(event){
+
+  const list = eventData.filter(e=>
+
+    e.id !== event.id &&
+    e.series &&
+    e.series === event.series
+
+  );
+
+  const area =
+    document.getElementById("relatedEvents");
+
+  if(list.length===0){
+
+    area.innerHTML="";
+
+    return;
+
+  }
+
+  area.innerHTML=`
+
+    <h2 class="related-title">
+
+      関連イベント
+
+    </h2>
+
+    <div class="related-list">
+
+      ${list.map(createRelatedEventCard).join("")}
+
+    </div>
+
+  `;
+
+}
+
+function createRelatedEventCard(event){
+
+  return `
+
+<div
+  class="related-card"
+  onclick="openEventDetail('${event.id}')">
+
+  <div class="event-tags">
+
+    ${
+      event.series
+      ? `<span class="event-tag">#${event.series}</span>`
+      : ""
+    }
+
+    ${
+      event.category
+      ? `<span class="event-tag">#${event.category}</span>`
+      : ""
+    }
+
+  </div>
+
+  <div class="related-card-title">
+
+    ${event.title}
+
+  </div>
+
+  <div class="related-card-date">
+
+    <span class="material-symbols-outlined">
+
+      calendar_month
+
+    </span>
+
+    ${formatEventPeriod(event)}
+
+  </div>
+
+  <div class="related-more">
+
+    ▶ 詳細を見る
+
+  </div>
+
+</div>
+
+`;
 
 }
