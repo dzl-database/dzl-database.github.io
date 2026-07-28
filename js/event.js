@@ -271,6 +271,44 @@ function showEventDetail(id){
 
       </div>
 
+      <h3>
+
+        <span class="material-symbols-outlined">
+          share
+        </span>
+
+        共有
+
+      </h3>
+
+      <div class="detail-link-buttons">
+
+        <button
+          class="main-btn"
+          onclick="shareToX(event.id)">
+
+          Xで共有
+
+        </button>
+
+        <button
+          class="main-btn"
+          onclick="shareToLine(event.id)">
+
+          LINEで共有
+
+        </button>
+
+      </div>
+
+      <button
+        class="main-btn"
+        onclick="openCalendarModal(event.id)">
+
+        Googleカレンダーに追加
+
+      </button>
+
     </div>
 
   </div>
@@ -376,5 +414,49 @@ function renderEmbed(id, html){
     oldScript.replaceWith(newScript);
 
   });
+
+}
+
+function shareToX(id){
+
+  const event =
+    eventData.find(e=>e.id===id);
+
+  if(!event) return;
+
+  const url =
+    location.origin +
+    location.pathname +
+    "#" +
+    id;
+
+  const text =
+    `${event.title}`;
+
+  window.open(
+    "https://twitter.com/intent/tweet"
+    + "?text=" + encodeURIComponent(text)
+    + "&url=" + encodeURIComponent(url),
+    "_blank"
+  );
+
+}
+
+function shareToLine(id){
+
+  const url =
+    location.origin +
+    location.pathname +
+    "#" +
+    id;
+
+  window.open(
+
+    "https://social-plugins.line.me/lineit/share?url="
+    + encodeURIComponent(url),
+
+    "_blank"
+
+  );
 
 }
