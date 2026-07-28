@@ -285,7 +285,7 @@ function showEventDetail(id){
 
         <button
           class="main-btn"
-          onclick="shareToX(event.id)">
+          onclick="shareToX('${event.id}')">
 
           Xで共有
 
@@ -293,7 +293,7 @@ function showEventDetail(id){
 
         <button
           class="main-btn"
-          onclick="shareToLine(event.id)">
+          onclick="shareToLine('${event.id}')">
 
           LINEで共有
 
@@ -303,7 +303,7 @@ function showEventDetail(id){
 
       <button
         class="main-btn"
-        onclick="openCalendarModal(event.id)">
+        onclick="openCalendarModal('${event.id}')">
 
         Googleカレンダーに追加
 
