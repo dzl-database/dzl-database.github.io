@@ -182,7 +182,7 @@ function showEventDetail(id){
 
       <div class="event-like-area">
 
-        👍 0
+        ${createLikeButton(event.id)}
 
       </div>
 
@@ -320,6 +320,8 @@ function showEventDetail(id){
     window.iframely.load();
 
   }
+
+  loadAllLikes();
 
 }
 
