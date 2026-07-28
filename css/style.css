@@ -2750,3 +2750,35 @@ font-size:26px;
 }
 
 }
+
+.event-like-area{
+
+  display:flex;
+  justify-content:flex-end;
+
+}
+
+@media (min-width:768px){
+
+  .event-detail-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+
+  }
+
+  .event-like-area{
+
+    flex-shrink:0;
+    margin-left:20px;
+
+  }
+
+  .event-like-area .like-btn{
+
+    position:static;
+
+  }
+
+}
