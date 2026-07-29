@@ -1382,7 +1382,7 @@ function openCardTool(){
             作成したカードの画像のダウンロードが始まります
           </p>
 
-          <button onclick="shareToX()" class="card-btn x-btn">
+          <button onclick="shareCardToX()" class="card-btn x-btn">
             Xに投稿する
           </button>
           <p class="card-note">
@@ -1568,7 +1568,7 @@ async function downloadCard(){
   }, "image/jpeg", 0.8); // ← JPEG＋画質指定
 }
 
-function shareToX(){
+function shareCardToX(){
 
   const text = `非公式ファンサイトで #ドズル社自己紹介カード を作成しました！
 https://dzl-database.github.io/
