@@ -450,19 +450,25 @@ ${url}
 
 function shareToLine(id){
 
+  const event =
+    eventData.find(e => e.id === id);
+
+  if(!event) return;
+
   const url =
     location.origin +
     location.pathname +
     "#" +
     id;
 
+  const text =
+`${event.title}
+${url}`;
+
   window.open(
-
-    "https://social-plugins.line.me/lineit/share?url="
-    + encodeURIComponent(url),
-
+    "https://line.me/R/msg/text/?"
+    + encodeURIComponent(text),
     "_blank"
-
   );
 
 }
