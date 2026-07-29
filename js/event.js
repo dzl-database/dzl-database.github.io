@@ -301,14 +301,6 @@ function showEventDetail(id){
 
       </div>
 
-      <button
-        class="main-btn"
-        onclick="openCalendarModal('${event.id}')">
-
-        Googleカレンダーに追加
-
-      </button>
-
       <button class="calendar-btn"
         onclick="openCalendarModal(
           '${event.title}',
