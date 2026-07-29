@@ -309,6 +309,20 @@ function showEventDetail(id){
 
       </button>
 
+      <button class="calendar-btn"
+        onclick="openCalendarModal(
+          '${event.title}',
+          '${event.start_date}',
+          '${event.end_date}',
+          '${event.location}',
+          '${event.note || ""}'
+        )">
+        <span class="material-symbols-outlined">
+          event_available
+        </span>
+        Googleカレンダーに追加
+      </button>
+
     </div>
 
   </div>
