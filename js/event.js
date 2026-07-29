@@ -435,12 +435,17 @@ function shareToX(id){
     id;
 
   const text =
-    `${event.title}`;
+  `${event.title}
+
+  ▼非公式ファンサイトでイベントの詳細を見る
+
+  ${url}
+
+  #ドズル社データベース`;
 
   window.open(
     "https://twitter.com/intent/tweet"
-    + "?text=" + encodeURIComponent(text)
-    + "&url=" + encodeURIComponent(url),
+    + "?text=" + encodeURIComponent(text),
     "_blank"
   );
 
