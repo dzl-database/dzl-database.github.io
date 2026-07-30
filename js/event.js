@@ -319,11 +319,25 @@ function showEventDetail(id){
 
   </div>
 
-  <div id="eventX1" class="event-x"></div>
+  <details class="event-x-area">
 
-  <div id="eventX2" class="event-x"></div>
+  <summary>
 
-  <div id="eventX3" class="event-x"></div>
+  公式X
+
+  </summary>
+
+    <div class="event-x-grid">
+
+      <div id="eventX1" class="event-x"></div>
+
+      <div id="eventX2" class="event-x"></div>
+
+      <div id="eventX3" class="event-x"></div>
+
+    </div>
+
+  </details>
 
   <div id="relatedEvents"></div>
 
