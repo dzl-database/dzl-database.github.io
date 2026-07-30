@@ -334,11 +334,11 @@ function showEventDetail(id){
 
           </div>
 
-          <span class="event-x-open">
+          <div class="event-x-open">
 
             ▶ さらに表示
 
-          </span>
+          </div>
 
         </summary>
 

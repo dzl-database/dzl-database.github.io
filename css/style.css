@@ -2902,11 +2902,10 @@ font-size:26px;
 .event-x-summary{
 
   display:flex;
-  justify-content:space-between;
-  align-items:center;
+  flex-direction:column;
+  align-items:flex-start;
 
   cursor:pointer;
-
   list-style:none;
 
   padding:10px 0;
@@ -2931,6 +2930,8 @@ font-size:26px;
 }
 
 .event-x-open{
+
+  margin-top:4px;
 
   color:#666;
   font-size:14px;
