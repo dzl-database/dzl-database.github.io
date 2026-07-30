@@ -301,7 +301,7 @@ function showEventDetail(id){
 
       </div>
 
-      <button class="calendar-btn"
+      <button class="main-btn"
         onclick="openCalendarModal(
           '${event.title}',
           '${event.start_date}',

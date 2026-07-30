@@ -180,6 +180,10 @@ border-radius:6px;
   background:#0a8f2a;
 }
 
+.main-btn .material-symbols-outlined{
+  font-size:18px;
+}
+
 .event-button-area{
   display:flex;
   gap:12px;
