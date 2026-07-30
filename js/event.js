@@ -317,27 +317,46 @@ function showEventDetail(id){
 
     </div>
 
-  </div>
 
-  <details class="event-x-area">
+    <div class="event-detail-section">
 
-  <summary>
+      <details class="event-x-area">
 
-  公式X
+        <summary class="event-x-summary">
 
-  </summary>
+          <div class="event-x-title">
 
-    <div class="event-x-grid">
+            <span class="material-symbols-outlined">
+              forum
+            </span>
 
-      <div id="eventX1" class="event-x"></div>
+            <span>公式X</span>
 
-      <div id="eventX2" class="event-x"></div>
+          </div>
 
-      <div id="eventX3" class="event-x"></div>
+          <span class="event-x-open">
+
+            ▶ さらに表示
+
+          </span>
+
+        </summary>
+
+        <div class="event-x-grid">
+
+          <div id="eventX1" class="event-x"></div>
+
+          <div id="eventX2" class="event-x"></div>
+
+          <div id="eventX3" class="event-x"></div>
+
+        </div>
+
+      </details>
 
     </div>
 
-  </details>
+  </div>
 
   <div id="relatedEvents"></div>
 
