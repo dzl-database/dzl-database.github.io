@@ -440,6 +440,28 @@ function showGoodsDetail(id){
 
             </p>
 
+            ${goods.onsite_start_date ? `
+
+            <button
+              class="main-btn"
+              onclick="openCalendarModal(
+                '${goods.title}（現地販売）',
+                '${goods.onsite_start_date}',
+                '${goods.onsite_end_date}',
+                '${goods.onsite_location}',
+                ''
+              )">
+
+              <span class="material-symbols-outlined">
+                event_available
+              </span>
+
+              Googleカレンダーに追加
+
+            </button>
+
+            ` : ""}
+
           </div>
           `
           : ""
@@ -516,10 +538,66 @@ function showGoodsDetail(id){
               : ""
             }
 
+            ${goods.online_start_date ? `
+
+            <button
+              class="main-btn"
+              onclick="openCalendarModal(
+                '${goods.title}（通販）',
+                '${goods.online_start_date}',
+                '${goods.online_end_date}',
+                '${goods.online_name}',
+                ''
+              )">
+
+              <span class="material-symbols-outlined">
+                event_available
+              </span>
+
+              Googleカレンダーに追加
+
+            </button>
+
+            ` : ""}
+
           </div>
           `
           : ""
         }
+
+      </div>
+
+    </div>
+
+    <div class="event-detail-section">
+
+      <h3>
+
+        <span class="material-symbols-outlined">
+          share
+        </span>
+
+        共有
+
+      </h3>
+
+      <div class="detail-link-buttons">
+
+        <button
+          class="main-btn"
+          onclick="shareGoodsToX('${goods.id}')">
+
+          Xで共有
+
+        </button>
+
+        <button
+          class="main-btn"
+          onclick="shareGoodsToLine('${goods.id}')">
+
+          LINEで共有
+
+        </button>
 
       </div>
 
@@ -622,6 +700,58 @@ function openGoodsDetail(id){
   );
 
   showGoodsDetail(id);
+
+}
+
+function shareGoodsToX(id){
+
+  const goods =
+    goodsData.find(g => g.id === id);
+
+  if(!goods) return;
+
+  const url =
+    location.origin +
+    location.pathname +
+    "#" +
+    id;
+
+  const text =
+`${goods.title}
+▼非公式ファンサイトでグッズの詳細を見る
+${url}
+#ドズル社データベース`;
+
+  window.open(
+    "https://twitter.com/intent/tweet"
+    + "?text=" + encodeURIComponent(text),
+    "_blank"
+  );
+
+}
+
+function shareGoodsToLine(id){
+
+  const goods =
+    goodsData.find(g => g.id === id);
+
+  if(!goods) return;
+
+  const url =
+    location.origin +
+    location.pathname +
+    "#" +
+    id;
+
+  const text =
+`${goods.title}
+${url}`;
+
+  window.open(
+    "https://line.me/R/msg/text/?"
+    + encodeURIComponent(text),
+    "_blank"
+  );
 
 }
 
