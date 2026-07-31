@@ -646,3 +646,111 @@ function renderRelatedGoods(event){
   `;
 
 }
+
+function createRelatedGoodsCard(goods){
+
+  return `
+
+<div
+  class="related-card"
+  onclick="openGoodsDetail('${goods.id}')">
+
+  <div class="event-tags">
+
+    ${
+      goods.series
+      ? `<span class="event-tag">#${goods.series}</span>`
+      : ""
+    }
+
+    ${
+      goods.category
+      ? `<span class="event-tag">#${goods.category}</span>`
+      : ""
+    }
+
+  </div>
+
+  <div class="related-card-title">
+
+    ${goods.title}
+
+  </div>
+
+  ${
+    goods.onsite_start_date
+    ? `
+    <div class="related-card-date">
+
+      <strong>現地</strong>
+
+      <span class="material-symbols-outlined">
+        calendar_month
+      </span>
+
+      ${formatGoodsPeriod(
+        goods.onsite_start_date,
+        goods.onsite_start_time,
+        goods.onsite_end_date,
+        goods.onsite_end_time
+      )}
+
+    </div>
+
+    <div class="related-card-date">
+
+      <span class="material-symbols-outlined">
+        store
+      </span>
+
+      ${goods.onsite_location}
+
+    </div>
+    `
+    : ""
+  }
+
+  ${
+    goods.online_start_date
+    ? `
+    <div class="related-card-date">
+
+      <strong>通販</strong>
+
+      <span class="material-symbols-outlined">
+        calendar_month
+      </span>
+
+      ${formatGoodsPeriod(
+        goods.online_start_date,
+        goods.online_start_time,
+        goods.online_end_date,
+        goods.online_end_time
+      )}
+
+    </div>
+
+    <div class="related-card-date">
+
+      <span class="material-symbols-outlined">
+        shopping_cart
+      </span>
+
+      ${goods.online_name}
+
+    </div>
+    `
+    : ""
+  }
+
+  <div class="related-more">
+
+    ▶ 詳細を見る
+
+  </div>
+
+</div>
+
+`;
+
+}
