@@ -285,39 +285,65 @@ function showEventDetail(id){
 
       </h3>
 
-      <div class="detail-link-buttons">
+      <div class="share-buttons">
 
         <button
-          class="main-btn"
+          class="share-btn share-btn-x"
           onclick="shareToX('${event.id}')">
 
-          Xで共有
+          <img
+            src="images/x-logo-white.svg"
+            class="share-logo">
+
+          <span>
+
+            Xで共有する
+
+          </span>
 
         </button>
 
         <button
-          class="main-btn"
+          class="share-btn share-btn-line"
           onclick="shareToLine('${event.id}')">
 
-          LINEで共有
+          <img
+            src="images/line-logo.svg"
+            class="share-logo">
+
+          <span>
+
+            LINEで共有する
+
+          </span>
+
+        </button>
+
+        <button
+          class="share-btn share-btn-calendar"
+          onclick="openCalendarModal(
+            '${event.title}',
+            '${event.start_date}',
+            '${event.end_date}',
+            '${event.location}',
+            '${event.note || ""}'
+          )">
+
+          <span class="material-symbols-outlined">
+
+            event_available
+
+          </span>
+
+          <span>
+
+            Google カレンダーに追加
+
+          </span>
 
         </button>
 
       </div>
-
-      <button class="main-btn"
-        onclick="openCalendarModal(
-          '${event.title}',
-          '${event.start_date}',
-          '${event.end_date}',
-          '${event.location}',
-          '${event.note || ""}'
-        )">
-        <span class="material-symbols-outlined">
-          event_available
-        </span>
-        Googleカレンダーに追加
-      </button>
 
     </div>
 

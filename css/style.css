@@ -3017,6 +3017,112 @@ font-size:18px;
 
 }
 
+.share-buttons{
+
+  display:flex;
+  flex-direction:column;
+
+  gap:12px;
+
+  margin-top:14px;
+
+}
+
+.share-btn{
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  gap:12px;
+
+  width:100%;
+
+  padding:14px 18px;
+
+  border:none;
+  border-radius:14px;
+
+  font-size:15px;
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:.25s;
+
+}
+
+.share-btn:hover{
+
+  transform:translateY(-2px);
+
+  box-shadow:0 8px 20px rgba(0,0,0,.12);
+
+}
+
+.share-logo{
+
+  width:22px;
+  height:22px;
+
+  object-fit:contain;
+
+  flex-shrink:0;
+
+}
+
+.share-btn-x{
+
+  background:#000;
+
+  color:#fff;
+
+}
+
+.share-btn-x:hover{
+
+  background:#222;
+
+}
+
+.share-btn-line{
+
+  background:#06C755;
+
+  color:#fff;
+
+}
+
+.share-btn-line:hover{
+
+  background:#04b74d;
+
+}
+
+.share-btn-calendar{
+
+  background:#fff8ef;
+
+  border:1px solid #ffd08a;
+
+  color:#ff9800;
+
+}
+
+.share-btn-calendar:hover{
+
+  background:#fff3df;
+
+}
+
+.share-btn-calendar .material-symbols-outlined{
+
+  color:#ff9800;
+
+  font-size:22px;
+
+}
+
 /* ===========================
    新グッズページ
 =========================== */
