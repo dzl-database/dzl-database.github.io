@@ -476,9 +476,9 @@ function showGoodsDetail(id){
             ${goods.onsite_start_date ? `
 
             <button
-              class="main-btn"
+              class="goods-action-btn"
               onclick="openCalendarModal(
-                '${goods.title}（通販）',
+                '${goods.title}（現地販売）',
                 '${goods.online_start_date}',
                 '${goods.online_end_date}',
                 '${goods.online_name}',
@@ -574,7 +574,7 @@ function showGoodsDetail(id){
             ${goods.online_start_date ? `
 
             <button
-              class="main-btn"
+              class="goods-action-btn"
               onclick="openCalendarModal(
                 '${goods.title}（通販）',
                 '${goods.online_start_date}',
