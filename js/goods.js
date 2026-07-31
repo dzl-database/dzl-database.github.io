@@ -388,6 +388,39 @@ function showGoodsDetail(id){
 
       <p>${goods.description}</p>
 
+      ${
+        goods.detail_link
+        ? `
+        <a
+          class="goods-detail-link"
+          href="${goods.detail_link}"
+          target="_blank">
+
+          <span class="material-symbols-outlined">
+            open_in_new
+          </span>
+
+          <div>
+
+            <div class="goods-detail-link-title">
+
+              商品説明ページ
+
+            </div>
+
+            <div class="goods-detail-link-sub">
+
+              公式サイトで詳しく見る
+
+            </div>
+
+          </div>
+
+        </a>
+        `
+        : ""
+      }
+
     </div>
 
     <div class="event-detail-section">
