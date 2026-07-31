@@ -3040,15 +3040,20 @@ font-size:18px;
 
   padding:14px 18px;
 
-  border:none;
   border-radius:14px;
+
+  border:1px solid #e5e5e5;
+
+  background:#fff;
+
+  color:#333;
 
   font-size:15px;
   font-weight:700;
 
   cursor:pointer;
 
-  transition:.25s;
+  transition:.2s;
 
 }
 
@@ -3056,7 +3061,7 @@ font-size:18px;
 
   transform:translateY(-2px);
 
-  box-shadow:0 8px 20px rgba(0,0,0,.12);
+  box-shadow:0 8px 18px rgba(0,0,0,.08);
 
 }
 
@@ -3073,43 +3078,41 @@ font-size:18px;
 
 .share-btn-x{
 
-  background:#000;
-
-  color:#fff;
+  border-color:#ddd;
 
 }
 
 .share-btn-x:hover{
 
-  background:#222;
+  border-color:#000;
 
 }
 
 .share-btn-line{
 
-  background:#06C755;
-
-  color:#fff;
+  border-color:#d8f2df;
 
 }
 
 .share-btn-line:hover{
 
-  background:#04b74d;
+  border-color:#06C755;
 
 }
 
 .share-btn-calendar{
 
-  background:#fff8ef;
+  border-color:#ffe0b2;
 
-  border:1px solid #ffd08a;
+  background:#fff8ef;
 
   color:#ff9800;
 
 }
 
 .share-btn-calendar:hover{
+
+  border-color:#ff9800;
 
   background:#fff3df;
 
@@ -3118,8 +3121,6 @@ font-size:18px;
 .share-btn-calendar .material-symbols-outlined{
 
   color:#ff9800;
-
-  font-size:22px;
 
 }
 
