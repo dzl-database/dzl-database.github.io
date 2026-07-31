@@ -2667,7 +2667,7 @@ margin-bottom:25px;
 
 margin:6px 0 8px;
 
-font-size:32px;
+font-size:26px;
 
 line-height:1.4;
 
@@ -2733,9 +2733,14 @@ align-items:center;
 gap:8px;
 
 margin-bottom:8px;
+margin-top:0px
 
-font-size:20px;
+font-size:18px;
 
+}
+
+.event-detail-section .material-symbols-outlined{
+  font-size:22px;
 }
 
 .detail-link-buttons{
@@ -2931,9 +2936,9 @@ font-size:26px;
 
 .event-x-open{
 
-  margin-top:4px;
+  margin-top:8px;
 
-  color:#666;
+  color:#222;
   font-size:14px;
 
 }
@@ -2948,7 +2953,7 @@ font-size:26px;
 
   content:"▼ 閉じる";
   font-size:14px;
-  color:#666;
+  color:#222;
 
 }
 

@@ -271,6 +271,10 @@ function showEventDetail(id){
 
       </div>
 
+    </div>
+      
+    <div class="event-detail-section">
+
       <h3>
 
         <span class="material-symbols-outlined">
