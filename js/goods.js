@@ -200,75 +200,97 @@ function createGoodsCard(goods){
 
   </div>
 
-  <p>
-
-    ${goods.description}
-
-  </p>
-
   <div class="goods-card-info">
 
-    <div class="goods-row">
+    ${
+      goods.onsite_start_date
+      ? `
+      <div class="goods-row">
 
-      <span class="goods-label">
+        <span class="goods-label">
 
-        現地
+          <strong>現地</strong>
 
-      </span>
-
-      <div>
+        </span>
 
         <div>
 
-          ${formatGoodsPeriod(
-            goods.onsite_start_date,
-            goods.onsite_start_time,
-            goods.onsite_end_date,
-            goods.onsite_end_time
-          )}
+          <div class="event-meta-row">
 
-        </div>
+            <span class="material-symbols-outlined">
+              calendar_month
+            </span>
 
-        <div class="goods-place">
+            ${formatGoodsPeriod(
+              goods.onsite_start_date,
+              goods.onsite_start_time,
+              goods.onsite_end_date,
+              goods.onsite_end_time
+            )}
 
-          ${goods.onsite_location || "―"}
+          </div>
+
+          <div class="event-meta-row">
+
+            <span class="material-symbols-outlined">
+              store
+            </span>
+
+            ${goods.onsite_location}
+
+          </div>
 
         </div>
 
       </div>
+      `
+      : ""
+    }
 
-    </div>
+    ${
+      goods.online_start_date
+      ? `
+      <div class="goods-row">
 
-    <div class="goods-row">
+        <span class="goods-label">
 
-      <span class="goods-label">
+          <strong>通販</strong>
 
-        通販
-
-      </span>
-
-      <div>
+        </span>
 
         <div>
 
-          ${formatGoodsPeriod(
-            goods.online_start_date,
-            goods.online_start_time,
-            goods.online_end_date,
-            goods.online_end_time
-          )}
+          <div class="event-meta-row">
 
-        </div>
+            <span class="material-symbols-outlined">
+              calendar_month
+            </span>
 
-        <div class="goods-place">
+            ${formatGoodsPeriod(
+              goods.online_start_date,
+              goods.online_start_time,
+              goods.online_end_date,
+              goods.online_end_time
+            )}
 
-          ${goods.online_name || "―"}
+          </div>
+
+          <div class="event-meta-row">
+
+            <span class="material-symbols-outlined">
+              shopping_cart
+            </span>
+
+            ${goods.online_name}
+
+          </div>
 
         </div>
 
       </div>
-
-    </div>
+      `
+      : ""
+    }
 
   </div>
 
