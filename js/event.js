@@ -521,8 +521,14 @@ function renderRelatedEvents(event){
   const list = eventData.filter(e=>
 
     e.id !== event.id &&
-    e.series &&
-    e.series === event.series
+
+    (
+
+      (e.series && e.series===event.series) ||
+
+      (e.category && e.category===event.category)
+
+    )
 
   );
 
@@ -613,8 +619,15 @@ function renderRelatedGoods(event){
 
   const list = goodsData.filter(g=>
 
-    g.series &&
-    g.series===event.series
+    g.id !== event.id &&
+
+    (
+
+      (g.series && g.series===event.series) ||
+
+      (g.category && g.category===event.category)
+
+    )
 
   );
 
@@ -680,9 +693,13 @@ function createRelatedGoodsCard(goods){
   ${
     goods.onsite_start_date
     ? `
-    <div class="related-card-date">
+    <div class="related-card-label">
 
       <strong>現地</strong>
+
+    </div>
+
+    <div class="related-card-date">
 
       <span class="material-symbols-outlined">
         calendar_month
@@ -713,9 +730,13 @@ function createRelatedGoodsCard(goods){
   ${
     goods.online_start_date
     ? `
-    <div class="related-card-date">
+    <div class="related-card-label">
 
       <strong>通販</strong>
+
+    </div>
+
+    <div class="related-card-date">
 
       <span class="material-symbols-outlined">
         calendar_month
