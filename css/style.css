@@ -3028,6 +3028,38 @@ font-size:18px;
 
 }
 
+.share-btn{
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  gap:12px;
+
+  width:100%;
+
+  padding:14px 18px;
+
+  border:none;
+  border-radius:14px;
+
+  font-size:15px;
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:.25s;
+
+}
+
+.share-btn:hover{
+
+  transform:translateY(-2px);
+
+  box-shadow:0 8px 20px rgba(0,0,0,.12);
+
+}
+
 .share-logo{
 
   width:22px;
@@ -3085,44 +3117,10 @@ font-size:18px;
 
 .share-btn-calendar .material-symbols-outlined{
 
-  color:#4285F4;   /* Googleっぽい青 */
-  font-size:24px;
+  color:#ff9800;
 
-}
+  font-size:22px;
 
-.share-btn{
-  display:flex;
-  align-items:center;
-  gap:12px;
-
-  width:100%;
-  margin-top:10px;
-  padding:14px 18px;
-
-  background:#fff;
-  border:1px solid #e5e7eb;
-  border-radius:14px;
-
-  font-size:15px;
-  font-weight:700;
-  color:#222;
-  text-decoration:none;
-  cursor:pointer;
-
-  transition:.2s;
-}
-
-.share-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 6px 18px rgba(0,0,0,.08);
-  border-color:#cfd8dc;
-}
-
-.share-btn img{
-  width:24px;
-  height:24px;
-  object-fit:contain;
-  flex-shrink:0;
 }
 
 /* ===========================
