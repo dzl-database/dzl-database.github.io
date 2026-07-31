@@ -2548,7 +2548,7 @@ font-size:18px;
 
 
 /* ===========================
-   イベント一覧
+   新イベントページ
 =========================== */
 
 .event-list{
@@ -3014,5 +3014,85 @@ font-size:18px;
 
   display:flex;
   justify-content:center;
+
+}
+
+/* ===========================
+   新グッズページ
+=========================== */
+
+.goods-sale-list{
+
+  display:grid;
+  gap:16px;
+  margin-top:12px;
+
+}
+
+.goods-sale-card{
+
+  background:#fafafa;
+  border:1px solid #ececec;
+  border-radius:14px;
+  padding:18px;
+
+}
+
+.goods-sale-title{
+
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+
+  font-size:18px;
+  font-weight:bold;
+
+  margin-bottom:12px;
+
+}
+
+.goods-sale-card p{
+
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+
+  margin:8px 0;
+
+}
+
+.goods-sale-card
+.material-symbols-outlined{
+
+  font-size:20px;
+  color:#666;
+
+}
+
+.goods-badge{
+
+  display:inline-flex;
+  align-items:center;
+
+  padding:2px 10px;
+
+  border-radius:999px;
+
+  background:#ffe7b3;
+  color:#7a4d00;
+
+  font-size:12px;
+  font-weight:bold;
+
+}
+
+@media(min-width:768px){
+
+  .goods-sale-list{
+
+    grid-template-columns:1fr 1fr;
+
+  }
 
 }

@@ -398,84 +398,130 @@ function showGoodsDetail(id){
           store
         </span>
 
-        現地販売
+        販売情報
 
       </h3>
 
-      <p>
-
-        ${formatGoodsPeriod(
-          goods.onsite_start_date,
-          goods.onsite_start_time,
-          goods.onsite_end_date,
-          goods.onsite_end_time
-        )}
-
-      </p>
-
-      <p>${goods.onsite_location}</p>
-
-    </div>
-
-    <div class="event-detail-section">
-
-      <h3>
-
-        <span class="material-symbols-outlined">
-          shopping_cart
-        </span>
-
-        通販
+      <div class="goods-sale-list">
 
         ${
-          goods.sale_type
-          ? `<span class="goods-badge">
-              ${goods.sale_type}
-            </span>`
+          goods.onsite_start_date
+          ? `
+          <div class="goods-sale-card">
+
+            <div class="goods-sale-title">
+
+              現地販売
+
+            </div>
+
+            <p>
+
+              <span class="material-symbols-outlined">
+                calendar_month
+              </span>
+
+              ${formatGoodsPeriod(
+                goods.onsite_start_date,
+                goods.onsite_start_time,
+                goods.onsite_end_date,
+                goods.onsite_end_time
+              )}
+
+            </p>
+
+            <p>
+
+              <span class="material-symbols-outlined">
+                store
+              </span>
+
+              ${goods.onsite_location}
+
+            </p>
+
+          </div>
+          `
           : ""
         }
 
         ${
-          goods.shipping
-          ? `<span class="goods-badge">
-              ${goods.shipping}
-            </span>`
+          goods.online_start_date
+          ? `
+          <div class="goods-sale-card">
+
+            <div class="goods-sale-title">
+
+              通販
+
+              ${
+                goods.sale_type
+                ? `<span class="goods-badge">
+                    ${goods.sale_type}
+                  </span>`
+                : ""
+              }
+
+              ${
+                goods.shipping
+                ? `<span class="goods-badge">
+                    ${goods.shipping}
+                  </span>`
+                : ""
+              }
+
+            </div>
+
+            <p>
+
+              <span class="material-symbols-outlined">
+                calendar_month
+              </span>
+
+              ${formatGoodsPeriod(
+                goods.online_start_date,
+                goods.online_start_time,
+                goods.online_end_date,
+                goods.online_end_time
+              )}
+
+            </p>
+
+            <p>
+
+              <span class="material-symbols-outlined">
+                shopping_cart
+              </span>
+
+              ${goods.online_name}
+
+            </p>
+
+            ${
+              goods.online_url
+              ? `
+              <div class="detail-link-buttons">
+
+                <a
+                  class="main-btn"
+                  href="${goods.online_url}"
+                  target="_blank">
+
+                  通販サイト
+
+                </a>
+
+              </div>
+              `
+              : ""
+            }
+
+          </div>
+          `
           : ""
         }
 
-      </h3>
-
-      <p>
-
-        ${formatGoodsPeriod(
-          goods.online_start_date,
-          goods.online_start_time,
-          goods.online_end_date,
-          goods.online_end_time
-        )}
-
-      </p>
-
-      <p>${goods.online_name}</p>
-
-      ${
-        goods.online_url
-        ? `
-        <div class="detail-link-buttons">
-
-          <a
-            class="main-btn"
-            href="${goods.online_url}"
-            target="_blank">
-
-            通販サイト
-
-          </a>
-
-        </div>
-        `
-        : ""
-      }
+      </div>
 
     </div>
 
