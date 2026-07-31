@@ -479,9 +479,9 @@ function showGoodsDetail(id){
               class="goods-action-btn"
               onclick="openCalendarModal(
                 '${goods.title}（現地販売）',
-                '${goods.online_start_date}',
-                '${goods.online_end_date}',
-                '${goods.online_name}',
+                '${goods.onsite_start_date}',
+                '${goods.onsite_end_date}',
+                '${goods.onsite_location}',
                 ''
               )">
 
