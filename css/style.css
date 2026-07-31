@@ -3163,3 +3163,46 @@ font-size:18px;
   color:#777;
 
 }
+
+.goods-action-btn{
+
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+
+  margin-top:12px;
+  padding:8px 14px;
+
+  border:1px solid #e3e3e3;
+  border-radius:999px;
+
+  background:#fff;
+
+  color:#555;
+  font-size:14px;
+  font-weight:600;
+
+  text-decoration:none;
+  cursor:pointer;
+
+  transition:.2s;
+
+}
+
+.goods-action-btn:hover{
+
+  background:#fff7ef;
+
+  border-color:#ffb74d;
+
+  color:#ff9800;
+
+}
+
+.goods-action-btn .material-symbols-outlined{
+
+  font-size:18px;
+
+  color:#ff9800;
+
+}

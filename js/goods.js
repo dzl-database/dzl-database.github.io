@@ -478,10 +478,10 @@ function showGoodsDetail(id){
             <button
               class="main-btn"
               onclick="openCalendarModal(
-                '${goods.title}（現地販売）',
-                '${goods.onsite_start_date}',
-                '${goods.onsite_end_date}',
-                '${goods.onsite_location}',
+                '${goods.title}（通販）',
+                '${goods.online_start_date}',
+                '${goods.online_end_date}',
+                '${goods.online_name}',
                 ''
               )">
 
@@ -489,7 +489,7 @@ function showGoodsDetail(id){
                 event_available
               </span>
 
-              Googleカレンダーに追加
+              Google カレンダーに追加
 
             </button>
 
@@ -555,18 +555,18 @@ function showGoodsDetail(id){
             ${
               goods.online_url
               ? `
-              <div class="detail-link-buttons">
+              <a
+                class="goods-action-btn"
+                href="${goods.online_url}"
+                target="_blank">
 
-                <a
-                  class="main-btn"
-                  href="${goods.online_url}"
-                  target="_blank">
+                <span class="material-symbols-outlined">
+                  open_in_new
+                </span>
 
-                  通販サイト
+                サイトを見る
 
-                </a>
-
-              </div>
+              </a>
               `
               : ""
             }
@@ -587,7 +587,7 @@ function showGoodsDetail(id){
                 event_available
               </span>
 
-              Googleカレンダーに追加
+              Google カレンダーに追加
 
             </button>
 
