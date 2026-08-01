@@ -132,18 +132,22 @@ function renderGoodsList(goods){
     // どちらか販売中
     if(onsiteNow || onlineNow){
 
+      item.sortDate = latestStart;
+
       now.push(item);
       return;
 
     }
 
     // まだどちらも始まっていない
-    const nextStart =
+    const latestStart =
       [onsiteStart, onlineStart]
       .filter(Boolean)
-      .sort((a,b)=>a-b)[0];
+      .sort((a,b)=>b-a)[0];
 
-    if(nextStart && nextStart > today){
+    item.sortDate = latestStart;
+
+    if(latestStart && latestStart > today){
 
       future.push(item);
 
@@ -154,6 +158,10 @@ function renderGoodsList(goods){
     }
 
   });
+
+  now.sort((a,b)=>b.sortDate-a.sortDate);
+  future.sort((a,b)=>b.sortDate-a.sortDate);
+  past.sort((a,b)=>b.sortDate-a.sortDate);
 
   document.getElementById("goodsNowList").innerHTML =
     now.length

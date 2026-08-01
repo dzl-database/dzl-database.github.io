@@ -52,6 +52,18 @@ function renderEventList(events){
 
   });
 
+  now.sort((a, b) =>
+    new Date(b.start_date) - new Date(a.start_date)
+  );
+
+  future.sort((a, b) =>
+    new Date(b.start_date) - new Date(a.start_date)
+  );
+
+  past.sort((a, b) =>
+    new Date(b.start_date) - new Date(a.start_date)
+  );
+
   document.getElementById("eventNowList").innerHTML =
     now.length
       ? now.map(createEventCard).join("")
