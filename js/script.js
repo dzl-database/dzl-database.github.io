@@ -1439,7 +1439,7 @@ async function drawCanvas(){
 
   // 背景画像
   const img = new Image();
-  img.src = `bg${cardState.bg}.jpg`;
+  img.src = `images/bg${cardState.bg}.jpg`;
 
   // 🔥 画像読み込みもawait
   await new Promise((resolve) => {

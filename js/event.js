@@ -292,7 +292,7 @@ function showEventDetail(id){
           onclick="shareToX('${event.id}')">
 
           <img
-            src="images/x-logo-white.svg"
+            src="images/x-logo.png"
             class="share-logo">
 
           <span>
@@ -308,7 +308,7 @@ function showEventDetail(id){
           onclick="shareToLine('${event.id}')">
 
           <img
-            src="images/line-logo.svg"
+            src="images/line-logo.png"
             class="share-logo">
 
           <span>
