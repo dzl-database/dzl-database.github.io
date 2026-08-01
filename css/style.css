@@ -3039,7 +3039,7 @@ font-size:18px;
   gap:12px;
 
   width:260px;   /* 好みで250～280pxくらい */
-  height:45px;
+  height:50px;
 
   padding:14px 18px;
 
@@ -3064,6 +3064,7 @@ font-size:18px;
   .share-btn{
     padding:8px 18px;
     font-size:14px;
+    height:45px;
   }
 }
 
