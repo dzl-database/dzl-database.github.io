@@ -155,7 +155,7 @@ function showEventDetail(id){
 
     <div class="event-detail-header">
 
-      <div>
+      <div class="event-detail-top">
 
         <div class="event-tags">
 
@@ -165,24 +165,24 @@ function showEventDetail(id){
 
         </div>
 
-        <h1 class="event-detail-title">
+        <div class="event-like-area">
 
-          ${event.title}
-
-        </h1>
-
-        <div class="event-updated">
-
-          更新日：
-          ${formatJapaneseDate(event.updated_at)}
+          ${createLikeButton(event.id)}
 
         </div>
 
       </div>
 
-      <div class="event-like-area">
+      <h1 class="event-detail-title">
 
-        ${createLikeButton(event.id)}
+        ${event.title}
+
+      </h1>
+
+      <div class="event-updated">
+
+        更新日：
+        ${formatJapaneseDate(event.updated_at)}
 
       </div>
 

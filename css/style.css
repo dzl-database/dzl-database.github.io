@@ -2677,15 +2677,21 @@ box-shadow:0 4px 18px rgba(0,0,0,.08);
 
 .event-detail-header{
 
-display:flex;
+  margin-bottom:25px;
 
-justify-content:space-between;
+}
 
-align-items:flex-start;
+.event-detail-top{
 
-gap:20px;
+  display:flex;
 
-margin-bottom:25px;
+  justify-content:space-between;
+
+  align-items:flex-start;
+
+  gap:16px;
+
+  margin-bottom:14px;
 
 }
 
@@ -2709,11 +2715,7 @@ font-size:14px;
 
 .event-like-area{
 
-font-size:22px;
-
-font-weight:bold;
-
-white-space:nowrap;
+  flex-shrink:0;
 
 }
 
@@ -2807,49 +2809,11 @@ padding:20px;
 
 }
 
-.event-detail-header{
-
-flex-direction:column;
-
-}
-
 .event-detail-title{
 
 font-size:18px;
 
 }
-
-}
-
-.event-like-area{
-
-  display:flex;
-  justify-content:flex-end;
-
-}
-
-@media (min-width:768px){
-
-  .event-detail-header{
-
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-
-  }
-
-  .event-like-area{
-
-    flex-shrink:0;
-    margin-left:20px;
-
-  }
-
-  .event-like-area .like-btn{
-
-    position:static;
-
-  }
 
 }
 

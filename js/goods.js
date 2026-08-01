@@ -332,7 +332,7 @@ function showGoodsDetail(id){
 
     <div class="event-detail-header">
 
-      <div>
+      <div class="event-detail-top">
 
         <div class="event-tags">
 
@@ -346,24 +346,24 @@ function showGoodsDetail(id){
 
         </div>
 
-        <h1 class="event-detail-title">
+        <div class="event-like-area">
 
-          ${goods.title}
-
-        </h1>
-
-        <div class="event-updated">
-
-          更新日：
-          ${formatJapaneseDate(goods.updated_at)}
-
+          ${createLikeButton(goods.id)}
+          
         </div>
 
       </div>
 
-      <div class="event-like-area">
+      <h1 class="event-detail-title">
 
-        ${createLikeButton(goods.id)}
+        ${goods.title}
+
+      </h1>
+
+      <div class="event-updated">
+
+        更新日：
+        ${formatJapaneseDate(goods.updated_at)}
 
       </div>
 
