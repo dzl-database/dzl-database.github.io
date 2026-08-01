@@ -1180,10 +1180,33 @@ function loadNews(){
     // ★ここを丸ごと置き換え
     document.getElementById("newsBox").innerHTML = `
       <div class="news-section-title">
-        <span class="material-symbols-outlined">
-          campaign
-        </span>
-        ドズル社の最新ニュース
+
+        <div class="news-title-left">
+
+          <span class="material-symbols-outlined">
+            campaign
+          </span>
+
+          <span>
+            ドズル社の最新ニュース
+          </span>
+
+        </div>
+
+        <button
+          class="news-archive-btn"
+          onclick="showSection('news')">
+
+          <span class="archive-text">
+            ニュースアーカイブを開く
+          </span>
+
+          <span class="material-symbols-outlined">
+            chevron_right
+          </span>
+
+        </button>
+
       </div>
 
       <div class="news-scroll-box">
