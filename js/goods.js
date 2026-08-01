@@ -669,7 +669,7 @@ function showGoodsDetail(id){
 
         <details
           class="event-x-area"
-          onchange="toggleXButton(this)">
+          ontoggle="toggleXButton(this)">
 
           <summary class="event-x-summary">
 
@@ -753,6 +753,15 @@ function showGoodsDetail(id){
   renderRelatedEvents(goods);
 
   renderRelatedGoods(goods);
+
+  const details =
+    document.querySelector(".event-x-area");
+
+  if(details){
+
+    toggleXButton(details);
+
+  }
 
 }
 

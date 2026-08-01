@@ -436,7 +436,7 @@ function showEventDetail(id){
 
         <details
           class="event-x-area"
-          onchange="toggleXButton(this)">
+          ontoggle="toggleXButton(this)">
 
           <summary class="event-x-summary">
 
@@ -520,6 +520,15 @@ function showEventDetail(id){
   renderRelatedEvents(event);
 
   renderRelatedGoods(event);
+
+  const details =
+    document.querySelector(".event-x-area");
+
+  if(details){
+
+    toggleXButton(details);
+
+  }
 
 }
 
@@ -904,7 +913,7 @@ function toggleXButton(details){
   if(details.open){
 
     icon.textContent =
-      "expand_less";
+      "keyboard_arrow_up";
 
     text.textContent =
       "閉じる";
@@ -912,7 +921,7 @@ function toggleXButton(details){
   }else{
 
     icon.textContent =
-      "expand_more";
+      "keyboard_arrow_down";
 
     text.textContent =
       "ポストを見る";
