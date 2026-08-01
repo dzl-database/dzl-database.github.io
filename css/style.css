@@ -3731,7 +3731,7 @@ font-size:18px;
 
   text-decoration:none;
 
-  border-bottom:1px solid #D90000;
+  border-bottom:2px solid #D90000;
 
   transition:.2s;
 
@@ -3751,7 +3751,7 @@ font-size:18px;
 
   padding-top:18px;
 
-  border-top:1px solid #e5e5e5;
+  border-top:1px solid #666;
 
   line-height:1.9;
 
