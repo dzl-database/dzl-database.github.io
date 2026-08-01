@@ -3022,6 +3022,8 @@ font-size:18px;
   display:flex;
   flex-direction:column;
 
+  align-items:flex-start;
+
   gap:12px;
 
   margin-top:14px;
@@ -3032,11 +3034,11 @@ font-size:18px;
 
   display:flex;
   align-items:center;
-  justify-content:center;
+  justify-content:flex-start;
 
   gap:12px;
 
-  width:100%;
+  width:260px;   /* 好みで250～280pxくらい */
 
   padding:14px 18px;
 
@@ -3133,6 +3135,16 @@ font-size:18px;
 
   color:#ff9800;
   font-size:26px;
+
+}
+
+.share-btn img,
+.share-btn .material-symbols-outlined{
+
+  width:26px;
+  min-width:26px;
+
+  text-align:center;
 
 }
 
