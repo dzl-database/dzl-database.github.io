@@ -253,7 +253,7 @@ function loadTodayContent(){
       if(!data.length) return;
 
       const random = data[Math.floor(Math.random()*data.length)];
-      const thumb = getYouTubeThumbnail(random.url);
+      const embed = getYouTubeEmbed(random.embed_url);
 
       todayBox.innerHTML = `
 
@@ -264,19 +264,19 @@ function loadTodayContent(){
           ランダムドズル社データ【動画】
         </div>
 
-        <div class="random-card ${thumb ? "" : "no-image"}">
+        <div class="random-card ${embed ? "" : "no-image"}">
 
-          ${thumb ? `
+          ${embed ? `
             <div class="random-thumb-box">
-              <img src="${thumb}" class="random-thumb">
+              ${embed}
             </div>
           ` : ""}
 
           <div class="random-content">
             <p class="random-title">${random.title}</p>
 
-            ${random.url && random.url.trim() !== "" ?
-              `<a href="${random.url}" target="_blank" class="random-link">
+            ${random.embed_url && random.embed_url.trim() !== "" ?
+              `<a href="${random.embed_url}" target="_blank" class="random-link">
                 <span class="material-symbols-outlined link-icon">
                   open_in_new
                 </span>
@@ -308,7 +308,7 @@ function loadTodayContent(){
 
       const random = data[Math.floor(Math.random()*data.length)];
 
-      const thumb = random.url ? getYouTubeThumbnail(random.url) : null;
+      const embed = getYouTubeEmbed(random.embed_url);
 
       todayBox.innerHTML = `
 
@@ -319,11 +319,11 @@ function loadTodayContent(){
           ランダムドズル社データ【用語】
         </div>
 
-        <div class="random-card ${thumb ? "" : "no-image"}">
+        <div class="random-card ${embed ? "" : "no-image"}">
 
-          ${thumb ? `
+          ${embed ? `
             <div class="random-thumb-box">
-              <img src="${thumb}" class="random-thumb">
+              ${embed}
             </div>
           ` : ""}
 
@@ -337,8 +337,8 @@ function loadTodayContent(){
               </p>
             ` : ""}
 
-            ${random.url && random.url.trim() !== "" ? `
-              <a href="${random.url}" target="_blank" class="random-link">
+            ${random.embed_url && random.embed_url.trim() !== "" ? `
+              <a href="${random.embed_url}" target="_blank" class="random-link">
                 <span class="material-symbols-outlined link-icon">
                   open_in_new
                 </span>
@@ -371,7 +371,7 @@ function loadTodayContent(){
 
       const random = data[Math.floor(Math.random()*data.length)];
 
-      const thumb = random.url ? getYouTubeThumbnail(random.url) : null;
+      const embed = getYouTubeEmbed(random.embed_url);
 
       todayBox.innerHTML = `
 
@@ -382,11 +382,11 @@ function loadTodayContent(){
           ランダムドズル社データ【キャラ】
         </div>
 
-        <div class="random-card ${thumb ? "" : "no-image"}">
+        <div class="random-card ${embed ? "" : "no-image"}">
 
-          ${thumb ? `
+          ${embed ? `
             <div class="random-thumb-box">
-              <img src="${thumb}" class="random-thumb">
+              ${embed}
             </div>
           ` : ""}
 
@@ -404,8 +404,8 @@ function loadTodayContent(){
               </p>
             ` : ""}
 
-            ${random.url && random.url.trim() !== "" ? `
-              <a href="${random.url}" target="_blank" class="random-link">
+            ${random.embed_url && random.embed_url.trim() !== "" ? `
+              <a href="${random.embed_url}" target="_blank" class="random-link">
                 <span class="material-symbols-outlined link-icon">
                   open_in_new
                 </span>
@@ -438,6 +438,9 @@ function loadTodayContent(){
 
       const random = data[Math.floor(Math.random()*data.length)];
 
+      const embed =
+        getYouTubeEmbed(random.embed_url);
+
       todayBox.innerHTML = `
 
         <div class="random-section-title">
@@ -447,7 +450,13 @@ function loadTodayContent(){
           ランダムドズル社データ【シリーズ】
         </div>
 
-        <div class="random-card no-image">
+        <div class="random-card ${embed ? "" : "no-image"}">
+
+          ${embed ? `
+          <div class="random-thumb-box">
+            ${embed}
+          </div>
+          ` : ""}
 
           <div class="random-content">
 
@@ -459,8 +468,8 @@ function loadTodayContent(){
               </p>
             ` : ""}
 
-            ${random.playlist && random.playlist.trim() !== "" ? `
-              <a href="${random.playlist}" target="_blank" class="random-link">
+            ${random.playlist_url && random.playlist_url.trim() !== "" ? `
+              <a href="${random.playlist_url}" target="_blank" class="random-link">
                 <span class="material-symbols-outlined link-icon">
                   open_in_new
                 </span>
@@ -487,6 +496,45 @@ function loadTodayContent(){
 }
   
 const todayBox=document.getElementById("todayBox");
+
+function getYouTubeEmbed(url){
+
+  if(!url) return "";
+
+  let videoId = null;
+
+  // watch?v=
+  if(url.includes("watch?v=")){
+    videoId = url.split("watch?v=")[1].split("&")[0];
+  }
+
+  // youtu.be
+  else if(url.includes("youtu.be/")){
+    videoId = url.split("youtu.be/")[1].split("?")[0];
+  }
+
+  // embed
+  else if(url.includes("/embed/")){
+    videoId = url.split("/embed/")[1].split("?")[0];
+  }
+
+  if(!videoId){
+    return "";
+  }
+
+  return `
+    <iframe
+      class="random-video"
+      src="https://www.youtube.com/embed/${videoId}"
+      title="YouTube video player"
+      loading="lazy"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen>
+    </iframe>
+  `;
+
+}
   
 fetch(plannedURL).then(r=>r.text()).then(text=>{
 const data=parseCSV(text);
@@ -517,27 +565,6 @@ if(box2) box2.innerHTML += html;
 
 });
 });
-  
-function getYouTubeThumbnail(url){
-
-if(!url) return "";
-
-// 通常のwatch?v=形式
-let videoId = null;
-
-if(url.includes("watch?v=")){
-videoId = url.split("watch?v=")[1].split("&")[0];
-}
-
-// youtu.be形式
-if(url.includes("youtu.be/")){
-videoId = url.split("youtu.be/")[1].split("?")[0];
-}
-
-if(!videoId) return "";
-
-return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-}
   
 function filterPlanned(status){
 

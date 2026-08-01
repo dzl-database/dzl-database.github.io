@@ -1458,6 +1458,18 @@ box-shadow:0 2px 8px rgba(0,0,0,0.05);
   margin-top:4px;
 }
 
+.random-video{
+
+  width:100%;
+  aspect-ratio:16 / 9;
+
+  border:none;
+  border-radius:12px;
+
+  display:block;
+
+}
+
 .like-btn{
   display:inline-flex;
   align-items:center;
