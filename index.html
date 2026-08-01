@@ -162,26 +162,43 @@
 
   <h2>イベント情報</h2>
 
-  <!-- 検索・絞り込み -->
-  <div id="eventSearchArea">
+  <!-- ジャンプボタン -->
+  <div class="jump-buttons">
 
-    <input
-      type="text"
-      id="eventSearchInput"
-      placeholder="キーワード検索">
+    <button onclick="scrollToGroup('eventNowTitle')">
 
-    <select id="eventSeriesFilter">
-      <option value="">すべてのシリーズ</option>
-    </select>
+      <span class="material-symbols-outlined">
+        event_available
+      </span>
 
-    <select id="eventCategoryFilter">
-      <option value="">すべてのカテゴリ</option>
-    </select>
+      開催中
+
+    </button>
+
+    <button onclick="scrollToGroup('eventFutureTitle')">
+
+      <span class="material-symbols-outlined">
+        calendar_clock
+      </span>
+
+      開催予定
+
+    </button>
+
+    <button onclick="scrollToGroup('eventPastTitle')">
+
+      <span class="material-symbols-outlined">
+        event_busy
+      </span>
+
+      開催終了
+
+    </button>
 
   </div>
 
   <!-- 開催中 -->
-  <h3 class="event-group-title">
+  <h3 id="eventNowTitle" class="event-group-title">
 
     <span class="material-symbols-outlined">
       event_available
@@ -198,7 +215,7 @@
   </div>
 
   <!-- 開催予定 -->
-  <h3 class="event-group-title">
+  <h3 id="eventFutureTitle" class="event-group-title">
 
     <span class="material-symbols-outlined">
       calendar_clock
@@ -215,7 +232,7 @@
   </div>
 
   <!-- 開催終了 -->
-  <h3 class="event-group-title">
+  <h3 id="eventPastTitle" class="event-group-title">
 
     <span class="material-symbols-outlined">
       event_busy
@@ -249,26 +266,43 @@
 
   <h2>グッズ情報</h2>
 
-  <!-- 検索・絞り込み -->
-  <div id="goodsSearchArea">
+  <!-- ジャンプボタン -->
+  <div class="jump-buttons">
 
-    <input
-      type="text"
-      id="goodsSearchInput"
-      placeholder="キーワード検索">
+    <button onclick="scrollToGroup('goodsNowTitle')">
 
-    <select id="goodsSeriesFilter">
-      <option value="">すべてのシリーズ</option>
-    </select>
+      <span class="material-symbols-outlined">
+        event_available
+      </span>
 
-    <select id="goodsCategoryFilter">
-      <option value="">すべてのカテゴリ</option>
-    </select>
+      販売中
+
+    </button>
+
+    <button onclick="scrollToGroup('goodsFutureTitle')">
+
+      <span class="material-symbols-outlined">
+        calendar_clock
+      </span>
+
+      販売予定
+
+    </button>
+
+    <button onclick="scrollToGroup('goodsPastTitle')">
+
+      <span class="material-symbols-outlined">
+        event_busy
+      </span>
+
+      販売終了
+
+    </button>
 
   </div>
 
   <!-- 販売中 -->
-  <h3 class="event-group-title">
+  <h3 id="goodsNowTitle" class="event-group-title">
 
     <span class="material-symbols-outlined">
       event_available
@@ -285,7 +319,7 @@
   </div>
 
   <!-- 販売予定 -->
-  <h3 class="event-group-title">
+  <h3 id="goodsFutureTitle" class="event-group-title">
 
     <span class="material-symbols-outlined">
       calendar_clock
@@ -302,7 +336,7 @@
   </div>
 
   <!-- 販売終了 -->
-  <h3 class="event-group-title">
+  <h3 id="goodsPastTitle" class="event-group-title">
 
     <span class="material-symbols-outlined">
       event_busy

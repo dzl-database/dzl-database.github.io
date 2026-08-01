@@ -3320,6 +3320,59 @@ font-size:18px;
 
 }
 
+.jump-buttons{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:10px;
+
+  margin:18px 0 28px;
+
+}
+
+.jump-buttons button{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:6px;
+
+  padding:10px 16px;
+
+  border:none;
+
+  border-radius:999px;
+
+  background:#fff7ed;
+
+  color:#ff9800;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:.2s;
+
+}
+
+.jump-buttons button:hover{
+
+  background:#ff9800;
+
+  color:#fff;
+
+}
+
+.jump-buttons
+.material-symbols-outlined{
+
+  font-size:20px;
+
+}
+
 /* ===========================
    新グッズページ
 =========================== */

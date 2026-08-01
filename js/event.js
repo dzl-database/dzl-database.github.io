@@ -968,3 +968,35 @@ function toggleXButton(details){
   }
 
 }
+
+function scrollToGroup(id){
+
+  const target =
+    document.getElementById(id);
+
+  if(!target){
+    return;
+  }
+
+  const header =
+    document.querySelector("header");
+
+  const headerHeight =
+    header
+      ? header.offsetHeight
+      : 0;
+
+  const y =
+    target.getBoundingClientRect().top +
+    window.pageYOffset -
+    headerHeight -
+    12;
+
+  window.scrollTo({
+
+    top:y,
+    behavior:"smooth"
+
+  });
+
+}
