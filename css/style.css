@@ -1565,6 +1565,18 @@ font-size:18px;
   padding-top: 6px;    /* 上の余白 */
   padding-bottom: 8px; /* 下の余白 */
 }
+
+#aboutSite h2 {
+  font-size: 22px;
+  margin-top: 40px;
+  margin-bottom: 15px;
+  padding-left: 12px;
+  border-left: 5px solid #d90000;
+  position: relative;
+
+  padding-top: 6px;    /* 上の余白 */
+  padding-bottom: 8px; /* 下の余白 */
+}
   
 /* ===== 説明ボックス ===== */
 .guide-box {
@@ -3635,9 +3647,36 @@ font-size:18px;
 
 }
 
+.policy-card{
+
+  margin-top:18px;
+  padding:24px;
+
+  background:#fff;
+
+  border:1px solid #e5e5e5;
+  border-radius:16px;
+
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+
+}
+
+.policy-card strong{
+
+  color:#222;
+  font-weight:700;
+
+}
+
 .policy-item{
 
-  margin-top:28px;
+  margin-top:30px;
+
+}
+
+.policy-item:first-child{
+
+  margin-top:22px;
 
 }
 
@@ -3647,34 +3686,73 @@ font-size:18px;
   align-items:center;
   gap:8px;
 
-  margin-bottom:14px;
+  margin:0 0 14px;
 
   font-size:19px;
+  font-weight:700;
+
+  color:#D90000;
+
+}
+
+.policy-item .material-symbols-outlined{
+
+  font-size:24px;
+  color:#D90000;
 
 }
 
 .policy-item p{
 
   margin:12px 0;
+
   line-height:1.9;
+  color:#333;
 
 }
 
 .policy-links{
 
-  margin:10px 0 0 22px;
+  margin:12px 0 0 22px;
+  padding:0;
 
 }
 
 .policy-links li{
 
-  margin:8px 0;
+  margin:10px 0;
+
+}
+
+.policy-card a{
+
+  color:#444;
+  font-weight:600;
+
+  text-decoration:none;
+
+  border-bottom:1px solid #D90000;
+
+  transition:.2s;
+
+}
+
+.policy-card a:hover{
+
+  color:#D90000;
+
+  border-bottom-color:#D90000;
 
 }
 
 .policy-note{
 
-  margin-top:22px;
+  margin-top:28px;
+
+  padding-top:18px;
+
+  border-top:1px solid #e5e5e5;
+
   line-height:1.9;
 
 }
