@@ -614,21 +614,37 @@ function showGoodsDetail(id){
 
       </h3>
 
-      <div class="detail-link-buttons">
+      <div class="share-buttons">
 
         <button
-          class="main-btn"
+          class="share-btn share-btn-x"
           onclick="shareGoodsToX('${goods.id}')">
 
-          Xで共有
+          <img
+            src="images/x-logo.png"
+            class="share-logo-x">
+
+          <span>
+
+            Xで共有する
+
+          </span>
 
         </button>
 
         <button
-          class="main-btn"
+          class="share-btn share-btn-line"
           onclick="shareGoodsToLine('${goods.id}')">
 
-          LINEで共有
+          <img
+            src="images/line-logo.png"
+            class="share-logo-line">
+
+          <span>
+
+            LINEで共有する
+
+          </span>
 
         </button>
 
