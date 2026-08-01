@@ -2937,11 +2937,11 @@ font-size:18px;
 
   align-items:center;
 
-  gap:8px;
+  gap:6px;
 
   margin-top:12px;
 
-  padding:10px 18px;
+  padding:8px 15px;
 
   border-radius:999px;
 
@@ -2963,11 +2963,11 @@ font-size:18px;
 
 .event-x-summary:hover{
 
-  background:#111;
+  background:#fff8ef;
 
-  color:#fff;
+  border-color:#ff9800;
 
-  border-color:#111;
+  color:#ff9800;
 
 }
 
@@ -2979,7 +2979,17 @@ font-size:18px;
 
 .event-x-toggle-icon{
 
-  font-size:20px;
+  font-size:18px;
+
+}
+
+.event-x-toggle-text{
+
+  font-size:13px;
+
+  font-weight:600;
+
+  line-height:1;
 
 }
 
