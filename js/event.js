@@ -419,44 +419,61 @@ function showEventDetail(id){
 
     </div>
 
+    ${
+      event.x_embed_1
+      ? `
+      <div class="event-detail-section">
 
-    <div class="event-detail-section">
+        <details class="event-x-area">
 
-      <details class="event-x-area">
+          <summary class="event-x-summary">
 
-        <summary class="event-x-summary">
+            <div class="event-x-title">
 
-          <div class="event-x-title">
+              <span class="material-symbols-outlined">
 
-            <span class="material-symbols-outlined">
-              forum
-            </span>
+                forum
 
-            <span>公式X</span>
+              </span>
+
+              <span>公式X</span>
+
+            </div>
+
+            <div class="event-x-toggle">
+
+              <span class="material-symbols-outlined">
+
+                visibility
+
+              </span>
+
+              <span class="event-x-toggle-text">
+
+                ポストを見る
+
+              </span>
+
+            </div>
+
+          </summary>
+
+          <div class="event-x-grid">
+
+            <div id="eventX1" class="event-x"></div>
+
+            <div id="eventX2" class="event-x"></div>
+
+            <div id="eventX3" class="event-x"></div>
 
           </div>
 
-          <div class="event-x-open">
+        </details>
 
-            ▶ さらに表示
-
-          </div>
-
-        </summary>
-
-        <div class="event-x-grid">
-
-          <div id="eventX1" class="event-x"></div>
-
-          <div id="eventX2" class="event-x"></div>
-
-          <div id="eventX3" class="event-x"></div>
-
-        </div>
-
-      </details>
-
-    </div>
+      </div>
+      `
+      : ""
+    }
 
   </div>
 

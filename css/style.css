@@ -2934,19 +2934,65 @@ font-size:18px;
 .event-x-summary{
 
   display:flex;
-  flex-direction:column;
-  align-items:flex-start;
+
+  justify-content:space-between;
+
+  align-items:center;
 
   cursor:pointer;
+
   list-style:none;
 
-  padding:10px 0;
+  padding:4px 0;
 
 }
 
 .event-x-summary::-webkit-details-marker{
 
   display:none;
+
+}
+
+.event-x-toggle{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  padding:8px 14px;
+
+  border-radius:999px;
+
+  background:#f7f7f7;
+
+  border:1px solid #e6e6e6;
+
+  font-size:14px;
+
+  font-weight:600;
+
+  color:#333;
+
+  transition:.2s;
+
+}
+
+.event-x-summary:hover .event-x-toggle{
+
+  background:#111;
+
+  color:#fff;
+
+  border-color:#111;
+
+}
+
+.event-x-toggle
+.material-symbols-outlined{
+
+  font-size:20px;
 
 }
 
@@ -2994,6 +3040,41 @@ font-size:18px;
 
   display:flex;
   justify-content:center;
+
+}
+
+.event-x-area[open]
+.event-x-toggle{
+
+  background:#fff5e8;
+
+  border-color:#ffcb7d;
+
+  color:#ff9800;
+
+}
+
+.event-x-area[open]
+.event-x-toggle-text{
+
+  font-size:0;
+
+}
+
+.event-x-area[open]
+.event-x-toggle-text::after{
+
+  content:"閉じる";
+
+  font-size:14px;
+
+}
+
+.event-x-area[open]
+.event-x-toggle
+.material-symbols-outlined::before{
+
+  content:"expand_less";
 
 }
 
