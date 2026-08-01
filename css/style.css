@@ -2717,6 +2717,22 @@ font-size:14px;
 
   flex-shrink:0;
 
+  display:flex;
+
+  justify-content:flex-end;
+
+  align-items:flex-start;
+
+}
+
+@media (min-width:768px){
+
+  .event-like-area .like-btn{
+
+    position:static;
+
+  }
+
 }
 
 .event-iframely{
