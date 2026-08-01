@@ -421,7 +421,7 @@ function showGoodsDetail(id){
     </div>
 
     <div
-      id="eventIframely"
+      id="goodsIframely"
       class="event-iframely">
     </div>
 
