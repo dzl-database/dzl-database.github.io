@@ -3324,12 +3324,19 @@ font-size:18px;
 
   display:flex;
 
-  flex-wrap: nowrap; /* 改行させない */
+  flex-wrap: nowrap;
 
   gap:10px;
 
   margin:18px 0 28px;
 
+}
+
+@media(max-width:768px){
+  .jump-buttons{
+    gap:4px;
+    white-space:nowrap;
+  }
 }
 
 .jump-buttons button{
