@@ -990,7 +990,7 @@ function scrollToGroup(id){
     target.getBoundingClientRect().top +
     window.pageYOffset -
     headerHeight -
-    12;
+    75;
 
   window.scrollTo({
 
@@ -998,5 +998,50 @@ function scrollToGroup(id){
     behavior:"smooth"
 
   });
+
+}
+
+function scrollToTop(){
+
+  window.scrollTo({
+
+    top:0,
+    behavior:"smooth"
+
+  });
+
+}
+
+window.addEventListener("scroll", togglePageTopButton);
+
+function togglePageTopButton(){
+
+  const btn =
+    document.getElementById("pageTopBtn");
+
+  if(!btn){
+    return;
+  }
+
+  const eventActive =
+    document.getElementById("event")
+      .classList.contains("active");
+
+  const goodsActive =
+    document.getElementById("goods")
+      .classList.contains("active");
+
+  if(
+    (eventActive || goodsActive) &&
+    window.scrollY > 300
+  ){
+
+    btn.classList.add("show");
+
+  }else{
+
+    btn.classList.remove("show");
+
+  }
 
 }

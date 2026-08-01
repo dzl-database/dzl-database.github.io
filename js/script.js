@@ -56,7 +56,11 @@ function showSection(sectionId, updateHash = true){
   }
 
   requestAnimationFrame(() => {
+
     window.scrollTo(0, 0);
+
+    togglePageTopButton();
+
   });
 
 }

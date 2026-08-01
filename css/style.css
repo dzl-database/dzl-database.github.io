@@ -3373,6 +3373,62 @@ font-size:18px;
 
 }
 
+.page-top-btn{
+
+  position:fixed;
+
+  right:20px;
+  bottom:24px;
+
+  width:54px;
+  height:54px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:none;
+  border-radius:50%;
+
+  background:#ff9800;
+  color:#fff;
+
+  cursor:pointer;
+
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
+
+  opacity:0;
+  visibility:hidden;
+
+  transform:translateY(20px);
+
+  transition:.25s;
+
+  z-index:900;
+
+}
+
+.page-top-btn.show{
+
+  opacity:1;
+  visibility:visible;
+
+  transform:none;
+
+}
+
+.page-top-btn:hover{
+
+  background:#ffb13b;
+
+}
+
+.page-top-btn .material-symbols-outlined{
+
+  font-size:28px;
+
+}
+
 /* ===========================
    新グッズページ
 =========================== */
