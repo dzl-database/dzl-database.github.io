@@ -657,37 +657,35 @@ function showGoodsDetail(id){
       ? `
       <div class="event-detail-section">
 
-        <details class="event-x-area">
+        <h3>
+
+          <span class="material-symbols-outlined">
+            forum
+          </span>
+
+          公式X
+
+        </h3>
+
+        <details
+          class="event-x-area"
+          onchange="toggleXButton(this)">
 
           <summary class="event-x-summary">
 
-            <div class="event-x-title">
+            <span
+              class="material-symbols-outlined event-x-toggle-icon">
 
-              <span class="material-symbols-outlined">
+              expand_more
 
-                forum
+            </span>
 
-              </span>
+            <span
+              class="event-x-toggle-text">
 
-              <span>公式X</span>
+              ポストを見る
 
-            </div>
-
-            <div class="event-x-toggle">
-
-              <span class="material-symbols-outlined">
-
-                visibility
-
-              </span>
-
-              <span class="event-x-toggle-text">
-
-                ポストを見る
-
-              </span>
-
-            </div>
+            </span>
 
           </summary>
 
