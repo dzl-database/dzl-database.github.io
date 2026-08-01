@@ -3634,3 +3634,47 @@ font-size:18px;
   color:#ff9800;
 
 }
+
+.policy-item{
+
+  margin-top:28px;
+
+}
+
+.policy-item h3{
+
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  margin-bottom:14px;
+
+  font-size:19px;
+
+}
+
+.policy-item p{
+
+  margin:12px 0;
+  line-height:1.9;
+
+}
+
+.policy-links{
+
+  margin:10px 0 0 22px;
+
+}
+
+.policy-links li{
+
+  margin:8px 0;
+
+}
+
+.policy-note{
+
+  margin-top:22px;
+  line-height:1.9;
+
+}
