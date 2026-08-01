@@ -3039,6 +3039,7 @@ font-size:18px;
   gap:12px;
 
   width:260px;   /* 好みで250～280pxくらい */
+  height:45px;
 
   padding:14px 18px;
 
@@ -3057,6 +3058,13 @@ font-size:18px;
 
   transition:.2s;
 
+}
+
+@media(max-width:768px){
+  .share-btn{
+    padding:8px 18px;
+    font-size:14px;
+  }
 }
 
 .share-btn:hover{
@@ -3256,6 +3264,13 @@ font-size:18px;
 
   transition:.2s;
 
+}
+
+@media(max-width:768px){
+  .goods-detail-link{
+    margin-top:14px;
+    padding:10px 20px;
+  }
 }
 
 .goods-detail-link:hover{
