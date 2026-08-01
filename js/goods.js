@@ -117,6 +117,11 @@ function renderGoodsList(goods){
         ? new Date(item.online_end_date + "T23:59:59")
         : null;
 
+    const latestStart =
+      [onsiteStart, onlineStart]
+      .filter(Boolean)
+      .sort((a,b)=>b-a)[0];
+
     // 現地販売中
     const onsiteNow =
       onsiteStart &&
@@ -140,11 +145,6 @@ function renderGoodsList(goods){
     }
 
     // まだどちらも始まっていない
-    const latestStart =
-      [onsiteStart, onlineStart]
-      .filter(Boolean)
-      .sort((a,b)=>b-a)[0];
-
     item.sortDate = latestStart;
 
     if(latestStart && latestStart > today){
