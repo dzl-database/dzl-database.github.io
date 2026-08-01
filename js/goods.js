@@ -421,9 +421,27 @@ function showGoodsDetail(id){
     </div>
 
     <div
-      id="goodsIframely"
+      id="eventIframely"
       class="event-iframely">
     </div>
+
+    ${
+      goods.iframely_embed
+      ? `
+      <button
+        class="iframely-info-btn"
+        onclick="openIframelyInfoModal()">
+
+        <span class="material-symbols-outlined">
+          info
+        </span>
+
+        この画像について
+
+      </button>
+      `
+      : ""
+    }
 
     <div class="event-detail-section">
 

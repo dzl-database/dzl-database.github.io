@@ -1062,6 +1062,76 @@
   </div>
 </div>
 
+<div
+  id="iframelyInfoModal"
+  class="simple-modal">
+
+  <div class="simple-modal-box">
+
+    <button
+      class="simple-close"
+      onclick="closeIframelyInfoModal()">
+
+      <span class="material-symbols-outlined">
+        close
+      </span>
+
+    </button>
+
+    <div class="simple-modal-icon">
+
+      <span class="material-symbols-outlined">
+        image
+      </span>
+
+    </div>
+
+    <h3>この画像について</h3>
+
+    <p>
+
+      この画像は
+      <strong>Iframely</strong>
+      という外部の安全な共有システムを利用して表示しています。
+
+    </p>
+
+    <p>
+
+      画像を保存・転載しているものではなく、
+      公式サイトの情報を共有する仕組みを利用しています。
+
+    </p>
+
+    <p>
+
+      詳しい運営方針や画像の取り扱いについては、
+      下のページをご覧ください。
+
+    </p>
+
+    <button
+      class="policy-open-btn"
+      onclick="
+        closeIframelyInfoModal();
+        showSection('aboutSite');
+        window.scrollTo(0,0);
+      ">
+
+      <span class="material-symbols-outlined">
+
+        policy
+
+      </span>
+
+      運営方針を開く
+
+    </button>
+
+  </div>
+
+</div>
+
 <button
   id="pageTopBtn"
   class="page-top-btn"

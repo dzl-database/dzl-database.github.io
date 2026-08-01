@@ -232,6 +232,24 @@ function showEventDetail(id){
       class="event-iframely">
     </div>
 
+    ${
+      event.iframely_embed
+      ? `
+      <button
+        class="iframely-info-btn"
+        onclick="openIframelyInfoModal()">
+
+        <span class="material-symbols-outlined">
+          info
+        </span>
+
+        この画像について
+
+      </button>
+      `
+      : ""
+    }
+
     <div class="event-detail-section">
 
       <h3>
@@ -1043,5 +1061,21 @@ function togglePageTopButton(){
     btn.classList.remove("show");
 
   }
+
+}
+
+function openIframelyInfoModal(){
+
+  document
+    .getElementById("iframelyInfoModal")
+    .classList.add("show");
+
+}
+
+function closeIframelyInfoModal(){
+
+  document
+    .getElementById("iframelyInfoModal")
+    .classList.remove("show");
 
 }
