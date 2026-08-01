@@ -246,7 +246,7 @@ function showEventDetail(id){
       <h3>
 
         <span class="material-symbols-outlined">
-          language
+          link_2
         </span>
 
         リンク
