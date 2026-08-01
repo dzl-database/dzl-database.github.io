@@ -990,7 +990,7 @@ function scrollToGroup(id){
     target.getBoundingClientRect().top +
     window.pageYOffset -
     headerHeight -
-    75;
+    90;
 
   window.scrollTo({
 

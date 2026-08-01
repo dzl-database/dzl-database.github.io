@@ -3324,7 +3324,7 @@ font-size:18px;
 
   display:flex;
 
-  flex-wrap:wrap;
+  flex-wrap: nowrap; /* 改行させない */
 
   gap:10px;
 
