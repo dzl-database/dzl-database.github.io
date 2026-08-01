@@ -29,6 +29,21 @@ function renderEventList(events){
 
   events.forEach(event=>{
 
+    // 一覧に表示しない
+    if(event.status === "非表示"){
+
+      return;
+
+    }
+
+    // 強制的に開催終了へ
+    if(event.status === "終了"){
+
+      past.push(event);
+      return;
+
+    }
+
     const start = new Date(event.start_date + "T00:00:00");
     const end = event.end_date
       ? new Date(event.end_date + "T23:59:59")

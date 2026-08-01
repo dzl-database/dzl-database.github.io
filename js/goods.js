@@ -97,6 +97,37 @@ function renderGoodsList(goods){
 
   goods.forEach(item=>{
 
+    // 一覧に表示しない
+    if(item.status === "非表示"){
+
+      return;
+
+    }
+
+    // 強制的に販売終了へ
+    if(item.status === "終了"){
+
+      const onsiteStart =
+        item.onsite_start_date
+          ? new Date(item.onsite_start_date + "T00:00:00")
+          : null;
+
+      const onlineStart =
+        item.online_start_date
+          ? new Date(item.online_start_date + "T00:00:00")
+          : null;
+
+      item.sortDate =
+        [onsiteStart, onlineStart]
+          .filter(Boolean)
+          .sort((a,b)=>b-a)[0];
+
+      past.push(item);
+
+      return;
+
+    }
+
     const onsiteStart =
       item.onsite_start_date
         ? new Date(item.onsite_start_date + "T00:00:00")
