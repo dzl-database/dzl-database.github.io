@@ -163,15 +163,15 @@ function renderGoodsList(goods){
         </div>`;
 
   document.getElementById("goodsFutureList").innerHTML =
-    now.length
-      ? now.map(createGoodsCard).join("")
+    future.length
+      ? future.map(createGoodsCard).join("")
       : `<div class="no-event-message">
           該当するグッズがありません
         </div>`;
 
   document.getElementById("goodsPastList").innerHTML =
-    now.length
-      ? now.map(createGoodsCard).join("")
+    past.length
+      ? past.map(createGoodsCard).join("")
       : `<div class="no-event-message">
           該当するグッズがありません
         </div>`;

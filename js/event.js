@@ -60,15 +60,15 @@ function renderEventList(events){
         </div>`;
 
   document.getElementById("eventFutureList").innerHTML =
-    now.length
-      ? now.map(createEventCard).join("")
+    future.length
+      ? future.map(createEventCard).join("")
       : `<div class="no-event-message">
           該当するイベントがありません
         </div>`;
 
   document.getElementById("eventPastList").innerHTML =
-    now.length
-      ? now.map(createEventCard).join("")
+    past.length
+      ? past.map(createEventCard).join("")
       : `<div class="no-event-message">
           該当するイベントがありません
         </div>`;
