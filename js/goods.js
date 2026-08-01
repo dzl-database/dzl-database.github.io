@@ -156,13 +156,25 @@ function renderGoodsList(goods){
   });
 
   document.getElementById("goodsNowList").innerHTML =
-    now.map(createGoodsCard).join("");
+    now.length
+      ? now.map(createGoodsCard).join("")
+      : `<div class="no-event-message">
+          該当するグッズがありません
+        </div>`;
 
   document.getElementById("goodsFutureList").innerHTML =
-    future.map(createGoodsCard).join("");
+    now.length
+      ? now.map(createGoodsCard).join("")
+      : `<div class="no-event-message">
+          該当するグッズがありません
+        </div>`;
 
   document.getElementById("goodsPastList").innerHTML =
-    past.map(createGoodsCard).join("");
+    now.length
+      ? now.map(createGoodsCard).join("")
+      : `<div class="no-event-message">
+          該当するグッズがありません
+        </div>`;
 
 }
 

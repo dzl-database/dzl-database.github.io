@@ -53,13 +53,25 @@ function renderEventList(events){
   });
 
   document.getElementById("eventNowList").innerHTML =
-    now.map(createEventCard).join("");
+    now.length
+      ? now.map(createEventCard).join("")
+      : `<div class="no-event-message">
+          該当するイベントがありません
+        </div>`;
 
   document.getElementById("eventFutureList").innerHTML =
-    future.map(createEventCard).join("");
+    now.length
+      ? now.map(createEventCard).join("")
+      : `<div class="no-event-message">
+          該当するイベントがありません
+        </div>`;
 
   document.getElementById("eventPastList").innerHTML =
-    past.map(createEventCard).join("");
+    now.length
+      ? now.map(createEventCard).join("")
+      : `<div class="no-event-message">
+          該当するイベントがありません
+        </div>`;
 
 }
 
