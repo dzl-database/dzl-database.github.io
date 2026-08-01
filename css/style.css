@@ -3157,6 +3157,140 @@ font-size:18px;
 
 }
 
+.event-link-list{
+
+  display:flex;
+  flex-wrap:wrap;
+
+  gap:14px;
+
+  margin-top:14px;
+
+}
+
+.event-link-card{
+
+  display:flex;
+  align-items:center;
+
+  gap:14px;
+
+  flex:1 1 300px;
+
+  min-height:78px;
+
+  padding:16px 18px;
+
+  border-radius:16px;
+
+  text-decoration:none;
+
+  color:#333;
+
+  background:linear-gradient(
+    135deg,
+    #ffffff,
+    #fafafa
+  );
+
+  border:1px solid #ececec;
+
+  transition:.25s;
+
+  box-sizing:border-box;
+
+}
+
+.event-link-card:hover{
+
+  transform:translateY(-3px);
+
+  border-color:#ffb74d;
+
+  box-shadow:
+    0 12px 28px
+    rgba(255,152,0,.15);
+
+}
+
+.event-link-icon{
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  width:48px;
+  height:48px;
+
+  border-radius:14px;
+
+  background:#fff4e6;
+
+  color:#ff9800;
+
+  flex-shrink:0;
+
+}
+
+.event-link-icon
+.material-symbols-outlined{
+
+  font-size:28px;
+
+}
+
+.event-link-body{
+
+  flex:1;
+
+}
+
+.event-link-title{
+
+  font-size:16px;
+  font-weight:700;
+
+}
+
+.event-link-sub{
+
+  margin-top:3px;
+
+  font-size:13px;
+
+  color:#777;
+
+}
+
+.event-link-arrow{
+
+  color:#bbb;
+
+  font-size:24px;
+
+  transition:.2s;
+
+}
+
+.event-link-card:hover
+.event-link-arrow{
+
+  color:#ff9800;
+
+  transform:translateX(3px);
+
+}
+
+@media(max-width:640px){
+
+  .event-link-card{
+
+    flex:1 1 100%;
+
+  }
+
+}
+
 /* ===========================
    新グッズページ
 =========================== */

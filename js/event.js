@@ -253,21 +253,93 @@ function showEventDetail(id){
 
       </h3>
 
-      <div class="detail-link-buttons">
+      <div class="event-link-list">
 
-        ${event.special_url
-          ? `<a class="main-btn" target="_blank"
-              href="${event.special_url}">
-              特設サイト
-            </a>`
-          : ""}
+        ${
+          event.special_url
+          ? `
+          <a
+            class="event-link-card"
+            href="${event.special_url}"
+            target="_blank">
 
-        ${event.official_url
-          ? `<a class="main-btn" target="_blank"
-              href="${event.official_url}">
-              公式サイト
-            </a>`
-          : ""}
+            <div class="event-link-icon">
+
+              <span class="material-symbols-outlined">
+                rocket_launch
+              </span>
+
+            </div>
+
+            <div class="event-link-body">
+
+              <div class="event-link-title">
+
+                特設サイト
+
+              </div>
+
+              <div class="event-link-sub">
+
+                イベント特設ページを見る
+
+              </div>
+
+            </div>
+
+            <span class="material-symbols-outlined event-link-arrow">
+
+              open_in_new
+
+            </span>
+
+          </a>
+          `
+          : ""
+        }
+
+        ${
+          event.official_url
+          ? `
+          <a
+            class="event-link-card"
+            href="${event.official_url}"
+            target="_blank">
+
+            <div class="event-link-icon">
+
+              <span class="material-symbols-outlined">
+                language
+              </span>
+
+            </div>
+
+            <div class="event-link-body">
+
+              <div class="event-link-title">
+
+                公式サイト
+
+              </div>
+
+              <div class="event-link-sub">
+
+                公式ホームページを見る
+
+              </div>
+
+            </div>
+
+            <span class="material-symbols-outlined event-link-arrow">
+
+              open_in_new
+
+            </span>
+
+          </a>
+          `
+          : ""
+        }
 
       </div>
 
