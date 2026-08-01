@@ -3065,10 +3065,21 @@ font-size:18px;
 
 }
 
-.share-logo{
+.share-logo-x{
 
   width:22px;
   height:22px;
+
+  object-fit:contain;
+
+  flex-shrink:0;
+
+}
+
+.share-logo-line{
+
+  width:26px;
+  height:26px;
 
   object-fit:contain;
 
@@ -3121,6 +3132,7 @@ font-size:18px;
 .share-btn-calendar .material-symbols-outlined{
 
   color:#ff9800;
+  font-size:26px;
 
 }
 

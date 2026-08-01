@@ -293,7 +293,7 @@ function showEventDetail(id){
 
           <img
             src="images/x-logo.png"
-            class="share-logo">
+            class="share-logo-x">
 
           <span>
 
@@ -309,7 +309,7 @@ function showEventDetail(id){
 
           <img
             src="images/line-logo.png"
-            class="share-logo">
+            class="share-logo-line">
 
           <span>
 
