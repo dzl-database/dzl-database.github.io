@@ -990,6 +990,583 @@ body{
 #howto h2{
   text-align: center;
 }
+
+/* =====================================================
+   新・詳細パネル
+   ===================================================== */
+
+
+/* -----------------------------------------------------
+   ヒーロー
+   ----------------------------------------------------- */
+
+.new-detail-hero{
+  background: linear-gradient(
+    135deg,
+    #ed1c24,
+    #ff3b3f
+  ) !important;
+
+  padding-bottom: 14px;
+}
+
+
+/* -----------------------------------------------------
+   詳細パネル本体
+   ----------------------------------------------------- */
+
+.new-detail-main{
+  background: #f5f6f8;
+  padding: 0 0 24px 0;
+}
+
+
+/* -----------------------------------------------------
+   スポット情報
+   ----------------------------------------------------- */
+
+.spot-event-section{
+  background: #ed1c24;
+  padding: 0 16px 8px;
+}
+
+
+.spot-event-title{
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+
+.spot-event-card{
+  background: #fff;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+
+/* -----------------------------------------------------
+   イベント件数
+   ----------------------------------------------------- */
+
+.spot-event-summary{
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+
+.event-active-count{
+  color: #ed1c24;
+}
+
+
+/* -----------------------------------------------------
+   イベント一覧
+   ----------------------------------------------------- */
+
+.spot-event-list{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+
+.spot-event-item{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  font-size: 14px;
+}
+
+
+.spot-event-name{
+  flex: 1;
+  min-width: 0;
+  line-height: 1.4;
+}
+
+
+.spot-event-status{
+  flex-shrink: 0;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+
+/* 開催中 */
+
+.status-active{
+  color: #ed1c24;
+}
+
+
+/* 開催前 */
+
+.status-before{
+  color: #e09b00;
+}
+
+
+/* 開催終了 */
+
+.status-ended{
+  color: #777;
+}
+
+
+/* 状態不明 */
+
+.status-unknown{
+  color: #777;
+}
+
+
+/* -----------------------------------------------------
+   アクションボタン
+   ----------------------------------------------------- */
+
+.new-detail-actions{
+  background: #ed1c24;
+
+  display: grid;
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 5px;
+
+  padding: 0 8px 8px;
+}
+
+
+.new-detail-actions .detail-btn{
+  min-width: 0;
+
+  border: none;
+  border-radius: 18px;
+
+  background: #fff;
+
+  color: #222;
+
+  height: 36px;
+
+  padding: 0 4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 3px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+.new-detail-actions
+.detail-btn
+.material-symbols-outlined{
+  font-size: 18px;
+}
+
+
+.new-detail-actions
+.detail-btn:hover{
+  background: #eeeeee;
+}
+
+
+/* -----------------------------------------------------
+   詳細セクション
+   ----------------------------------------------------- */
+
+.new-detail-main .detail-section{
+  margin: 0;
+  padding: 14px 16px 0;
+}
+
+
+.new-detail-main .detail-section-title{
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  margin-bottom: 7px;
+}
+
+
+/* -----------------------------------------------------
+   現地メモ
+   ----------------------------------------------------- */
+
+.memo-section{
+  padding-top: 14px !important;
+}
+
+
+.memo-section-title{
+  justify-content: space-between;
+}
+
+
+.memo-post-small{
+  border: none;
+  background: transparent;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  display: flex;
+  align-items: center;
+
+  gap: 2px;
+
+  cursor: pointer;
+
+  color: #111;
+}
+
+
+.memo-post-small
+.material-symbols-outlined{
+  font-size: 20px;
+}
+
+
+/* -----------------------------------------------------
+   メモタイムライン
+   ----------------------------------------------------- */
+
+.memo-timeline{
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+
+.memo-item{
+  position: relative;
+
+  background: #fff;
+
+  border-radius: 8px;
+
+  padding: 10px;
+
+  box-sizing: border-box;
+}
+
+
+.memo-latest{
+  font-size: 14px;
+
+  margin-bottom: 0;
+
+  border-radius: 8px;
+}
+
+
+.memo-history{
+  margin-left: 30px;
+
+  border-radius: 0 8px 8px 8px;
+
+  font-size: 12px;
+
+  margin-top: 0;
+}
+
+
+/* 過去メモの左側ライン */
+
+.memo-history::before{
+  content: "";
+
+  position: absolute;
+
+  left: -16px;
+  top: -18px;
+
+  width: 16px;
+  height: 38px;
+
+  border-left: 1.5px solid #333;
+  border-bottom: 1.5px solid #333;
+
+  border-radius: 0 0 0 10px;
+}
+
+
+/* 最新メモと過去メモの間 */
+
+.memo-latest + .memo-history{
+  margin-top: 0;
+}
+
+
+/* メモタイトル */
+
+.memo-heading{
+  font-weight: 700;
+
+  line-height: 1.45;
+
+  margin-bottom: 3px;
+}
+
+
+.memo-latest .memo-heading{
+  font-size: 14px;
+}
+
+
+.memo-history .memo-heading{
+  font-size: 12px;
+}
+
+
+/* メモ本文 */
+
+.memo-content{
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+
+.memo-history .memo-content{
+  font-size: 12px;
+}
+
+
+/* メモなし */
+
+.memo-empty{
+  background: #fff;
+
+  border-radius: 8px;
+
+  padding: 14px;
+
+  color: #777;
+
+  font-size: 13px;
+
+  text-align: center;
+}
+
+
+/* -----------------------------------------------------
+   リンク
+   ----------------------------------------------------- */
+
+.link-section{
+  padding-top: 14px !important;
+}
+
+
+.detail-links{
+  display: flex;
+  flex-direction: column;
+
+  background: #fff;
+
+  border-radius: 8px;
+
+  overflow: hidden;
+}
+
+
+.detail-link-item{
+  display: grid;
+
+  grid-template-columns:
+    58px
+    minmax(0, 1fr)
+    22px;
+
+  align-items: center;
+
+  gap: 6px;
+
+  min-height: 42px;
+
+  padding: 6px 10px;
+
+  box-sizing: border-box;
+
+  color: #222;
+
+  text-decoration: none;
+
+  font-size: 13px;
+}
+
+
+.detail-link-item + .detail-link-item{
+  border-top: 1px solid #eeeeee;
+}
+
+
+.detail-link-label{
+  font-weight: 700;
+}
+
+
+.detail-link-url{
+  min-width: 0;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
+
+  color: #222;
+}
+
+
+.detail-link-arrow{
+  font-size: 18px;
+}
+
+
+/* -----------------------------------------------------
+   下部フォームボタン
+   ----------------------------------------------------- */
+
+.detail-form-buttons{
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 7px;
+
+  padding: 14px 16px 0;
+}
+
+
+.detail-big-btn{
+  width: 75%;
+
+  margin: 0 auto;
+
+  height: 45px;
+
+  border: none;
+
+  border-radius: 24px;
+
+  background: #fff;
+
+  color: #111;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow: none;
+}
+
+
+.detail-big-btn:hover{
+  background: #eeeeee;
+}
+
+
+/* -----------------------------------------------------
+   下部情報
+   ----------------------------------------------------- */
+
+.detail-info-bottom{
+  padding: 18px 20px 0;
+}
+
+
+.bottom-info-row{
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    1fr;
+
+  align-items: end;
+
+  gap: 10px;
+
+  font-size: 12px;
+
+  line-height: 1.4;
+}
+
+
+.bottom-info-row + .bottom-info-row{
+  margin-top: 2px;
+}
+
+
+.bottom-info-label{
+  color: #222;
+}
+
+
+.bottom-info-value{
+  text-align: right;
+  color: #222;
+}
+
+
+/* -----------------------------------------------------
+   スマートフォン
+   ----------------------------------------------------- */
+
+@media (max-width: 600px){
+
+  .new-detail-actions{
+    gap: 4px;
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+
+  .new-detail-actions .detail-btn{
+    font-size: 11px;
+  }
+
+
+  .spot-event-section{
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+
+  .spot-event-item{
+    font-size: 13px;
+  }
+
+
+  .memo-history{
+    margin-left: 24px;
+  }
+
+
+  .detail-big-btn{
+    width: 82%;
+  }
+
+}
    
 </style>
 </head>
@@ -1736,42 +2313,56 @@ let dataList = [];
 // =======================
 // CSV取得
 // =======================
-fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS-mAknXEbape8065ZFUgQ0sYVab31C0ZbYIOAzqjZtuj-pAFPcAeA4eg3f8ZeD0K-bTd51A19iNMQH/pub?gid=0&single=true&output=csv")
-  .then(res => res.text())
+fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQYy_PtEIhPRx7qC-n0Yjan12MtkNoeAXnYyjMEBTDP7Lv_gfI2TLKSXnS07AvfDt9B3iNVz5Nie27_/pub?gid=2121528304&single=true&output=csv")
+  .then(res => {
+
+    if(!res.ok){
+      throw new Error("CSVの取得に失敗しました");
+    }
+
+    return res.text();
+
+  })
   .then(text => {
 
     const parsed = Papa.parse(text, {
-      header: true,     // 1行目をヘッダーとして扱う
+      header: true,
       skipEmptyLines: true
     });
 
     dataList = parsed.data;
 
-    let usedPositions = {}; // ← 追加（座標管理）
+    // =========================
+    // 同じ座標の管理
+    // =========================
+    let usedPositions = {};
 
     dataList.forEach(item => {
 
       let lat = parseFloat(item["緯度"]);
       let lng = parseFloat(item["経度"]);
 
-      // ✔ 正しいチェック
       if(isNaN(lat) || isNaN(lng)) return;
 
       // =========================
-      // ★ 同じ座標チェック
+      // 同じ座標チェック
       // =========================
       const key = lat.toFixed(6) + "," + lng.toFixed(6);
 
       if(usedPositions[key]){
+
         usedPositions[key]++;
 
-        // ✔ ランダムにズラす（自然）
+        // 同じ場所に複数スポットがある場合は少しずらす
         const offset = (Math.random() - 0.5) * 0.0002;
 
         lat += offset;
         lng += offset;
+
       }else{
+
         usedPositions[key] = 1;
+
       }
 
       // =========================
@@ -1785,178 +2376,964 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS-mAknXEbape8065ZFUgQ0sY
         openDetail(item);
       });
 
-      markers.push({ marker, data: item });
+      markers.push({
+        marker: marker,
+        data: item
+      });
+
     });
+
+  })
+  .catch(error => {
+
+    console.error("CSV読み込みエラー:", error);
 
   });
    
+// ======================================================
+// 詳細パネル
+// ======================================================
+
 function openDetail(data){
 
   const panel = document.getElementById("detailBody");
   panel.innerHTML = "";
 
-  const category = data["カテゴリ"];
+  const category = data["カテゴリ"] || "";
+  const placeName = data["場所名"] || "";
+  const address = data["住所"] || "";
+  const lat = parseFloat(data["緯度"]);
+  const lng = parseFloat(data["経度"]);
+
   const style = getCategoryStyle(category);
 
-  // ===== ヒーロー =====
+  // ====================================================
+  // イベント情報を作成
+  // ====================================================
+
+  const events = getEvents(data);
+
+  // ====================================================
+  // ヒーロー
+  // ====================================================
+
   const hero = document.createElement("div");
-  hero.className = "detail-hero";
-  hero.style.background = `linear-gradient(135deg, #d90000, #ff6b6b)`;
+
+  hero.className = "detail-hero new-detail-hero";
 
   hero.innerHTML = `
-    <!-- ★閉じるボタン -->
-    <button class="detail-close-btn" onclick="closeDetail()">
-     <span class="material-symbols-outlined">close</span>
+
+    <!-- 閉じるボタン -->
+    <button
+      class="detail-close-btn"
+      onclick="closeDetail()"
+      aria-label="閉じる"
+    >
+      <span class="material-symbols-outlined">close</span>
     </button>
 
-    <div class="category-badge" style="background:${style.color}">
-      <span class="material-symbols-outlined">${style.icon}</span>
-       ${category || ""}
+    <!-- カテゴリ -->
+    <div
+      class="category-badge"
+      style="background:${escapeHtml(style.color)}"
+    >
+      <span class="material-symbols-outlined">
+        ${escapeHtml(style.icon)}
+      </span>
+
+      ${escapeHtml(category)}
     </div>
 
+    <!-- 場所名 -->
     <div class="detail-hero-title">
-      ${data["場所名"] || ""}
+      ${escapeHtml(placeName)}
     </div>
 
+    <!-- 住所 -->
     <div class="detail-hero-address">
-      ${data["住所"] || ""}
+      ${escapeHtml(address)}
     </div>
 
-    ${data["開催状況"] ? `
-      <div class="status-badge">
-        ${data["開催状況"]}
-      </div>
-    ` : ""}
-
-    <div class="detail-actions">
-
-      <button class="detail-btn main" onclick="goMap(${data["緯度"]}, ${data["経度"]})">
-        <span class="material-symbols-outlined">map</span>
-        <span class="label">マップ</span>
-      </button>
-
-      <button class="detail-btn sub" onclick="openRoute('${data["住所"]}')">
-        <span class="material-symbols-outlined">directions_car</span>
-        <span class="label">経路</span>
-      </button>
-
-      ${data["関連URL"] ? `
-        <button class="detail-btn sub" onclick="window.open('${data["関連URL"]}')">
-          <span class="material-symbols-outlined">link</span>
-          <span class="label">リンク</span>
-        </button>
-      ` : ""}
-
-      <button class="detail-btn sub" onclick="openEditForm()">
-        <span class="material-symbols-outlined">edit</span>
-        <span class="label">修正</span>
-      </button>
-
-    </div>
   `;
 
   panel.appendChild(hero);
 
-  // ===== メイン =====
+
+  // ====================================================
+  // メイン
+  // ====================================================
+
   const main = document.createElement("div");
-  main.className = "detail-main";
 
-  // 概要
-  if(data["説明・詳細"]){
-    main.innerHTML += `
-      <div class="detail-section">
-        <div class="detail-section-title">
-          <span class="material-symbols-outlined">article</span>
-          概要
+  main.className = "detail-main new-detail-main";
+
+
+  // ====================================================
+  // スポット情報
+  // イベントがある場合だけ表示
+  // ====================================================
+
+  if(events.length > 0){
+
+    const activeCount = events.filter(
+      event => event.status === "開催中"
+    ).length;
+
+    const eventSection = document.createElement("div");
+
+    eventSection.className = "spot-event-section";
+
+    let eventHTML = "";
+
+    events.forEach(event => {
+
+      eventHTML += `
+
+        <div class="spot-event-item">
+
+          <div class="spot-event-name">
+            ${escapeHtml(event.name)}
+          </div>
+
+          <div class="spot-event-status ${getStatusClass(event.status)}">
+            ${escapeHtml(event.status || "状態不明")}
+          </div>
+
         </div>
-        <div class="detail-section-content">
-          ${data["説明・詳細"]}
-        </div>
+
+      `;
+
+    });
+
+
+    eventSection.innerHTML = `
+
+      <div class="spot-event-title">
+        スポット情報
       </div>
+
+      <div class="spot-event-card">
+
+        <div class="spot-event-summary">
+
+          イベント${events.length}件中
+          <span class="event-active-count">
+            ${activeCount}件開催中
+          </span>
+
+        </div>
+
+        <div class="spot-event-list">
+          ${eventHTML}
+        </div>
+
+      </div>
+
     `;
+
+    main.appendChild(eventSection);
+
   }
 
-  // ===== メタ情報（イベント名・更新日時）=====
-  if(data["イベント名"] || data["更新日時"]){
-    main.innerHTML += `
-      <div class="detail-section">
-        <div class="detail-section-title">
-          <span class="material-symbols-outlined">event</span>
-          イベント情報
-        </div>
 
-        <div class="info-list">
+  // ====================================================
+  // アクションボタン
+  // ====================================================
 
-          ${data["イベント名"] ? `
-            <div class="info-item">
-              <div class="info-label">イベント名</div>
-              <div class="info-value">${data["イベント名"]}</div>
-            </div>
-          ` : ""}
+  const actions = document.createElement("div");
 
-          ${data["更新日時"] ? `
-            <div class="info-item">
-              <div class="info-label">更新日時</div>
-              <div class="info-value">${data["更新日時"]}</div>
-            </div>
-          ` : ""}
+  actions.className = "detail-actions new-detail-actions";
 
-        </div>
-      </div>
-    `;
-  }
+  actions.innerHTML = `
 
-  // 情報まとめ
-  main.innerHTML += `
-    <div class="detail-section">
-      <div class="detail-section-title">
-        <span class="material-symbols-outlined">info</span>
-        情報
-      </div>
+    <!-- 経路 -->
+    <button
+      class="detail-btn sub"
+      onclick="openRoute(${JSON.stringify(address)})"
+    >
+      <span class="material-symbols-outlined">
+        directions_car
+      </span>
 
-      <div class="info-list">
-        ${category ? `
-          <div class="info-item">
-            <div class="info-label">カテゴリ</div>
-            <div class="info-value">${category}</div>
-          </div>
-        ` : ""}
+      <span class="label">
+        経路
+      </span>
+    </button>
 
-        ${data["開催状況"] ? `
-          <div class="info-item">
-            <div class="info-label">状態</div>
-            <div class="info-value">${data["開催状況"]}</div>
-          </div>
-        ` : ""}
-      </div>
-    </div>
+
+    <!-- 共有：今後実装 -->
+    <button
+      class="detail-btn sub"
+      onclick="futureFeature('共有')"
+    >
+      <span class="material-symbols-outlined">
+        share
+      </span>
+
+      <span class="label">
+        共有
+      </span>
+    </button>
+
+
+    <!-- マップ拡大 -->
+    <button
+      class="detail-btn sub"
+      onclick="goMap(${lat}, ${lng})"
+    >
+      <span class="material-symbols-outlined">
+        map
+      </span>
+
+      <span class="label">
+        マップ拡大
+      </span>
+    </button>
+
+
+    <!-- フォーム：今後実装 -->
+    <button
+      class="detail-btn sub"
+      onclick="futureFeature('フォーム')"
+    >
+      <span class="material-symbols-outlined">
+        edit
+      </span>
+
+      <span class="label">
+        フォーム
+      </span>
+    </button>
+
   `;
+
+  main.appendChild(actions);
+
+
+  // ====================================================
+  // 現地メモ
+  // ====================================================
+
+  const memos = getLocalMemos(data);
+
+  const memoSection = document.createElement("div");
+
+  memoSection.className = "detail-section memo-section";
+
+
+  let memoHTML = "";
+
+  if(memos.length > 0){
+
+    memos.forEach((memo, index) => {
+
+      const isLatest = index === 0;
+
+      memoHTML += `
+
+        <div class="
+          memo-item
+          ${isLatest ? "memo-latest" : "memo-history"}
+        ">
+
+          <div class="memo-heading">
+
+            ${isLatest
+              ? `メモ${memo.number} (最新)`
+              : `メモ${memo.number}`
+            }
+
+            ${memo.date
+              ? ` - ${escapeHtml(memo.date)}`
+              : ""
+            }
+
+          </div>
+
+          <div class="memo-content">
+            ${formatMemoText(memo.content)}
+          </div>
+
+        </div>
+
+      `;
+
+    });
+
+  }else{
+
+    memoHTML = `
+      <div class="memo-empty">
+        現地メモはまだありません。
+      </div>
+    `;
+
+  }
+
+
+  memoSection.innerHTML = `
+
+    <div class="detail-section-title memo-section-title">
+
+      <span>
+        現地メモ
+      </span>
+
+      <!-- 今後実装 -->
+      <button
+        class="memo-post-small"
+        onclick="futureFeature('最新の状況を投稿')"
+      >
+        最新の状況を投稿する
+        <span class="material-symbols-outlined">
+          add
+        </span>
+      </button>
+
+    </div>
+
+    <div class="memo-timeline">
+      ${memoHTML}
+    </div>
+
+  `;
+
+  main.appendChild(memoSection);
+
+
+  // ====================================================
+  // リンク
+  // ====================================================
+
+  const urls = getRelatedUrls(data["関連URL"]);
+
+  if(urls.length > 0){
+
+    const linkSection = document.createElement("div");
+
+    linkSection.className = "detail-section link-section";
+
+    let linkHTML = "";
+
+    urls.forEach((url, index) => {
+
+      linkHTML += `
+
+        <a
+          class="detail-link-item"
+          href="${escapeHtml(url)}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+
+          <span class="detail-link-label">
+            リンク${index + 1}
+          </span>
+
+          <span class="detail-link-url">
+            ${escapeHtml(url)}
+          </span>
+
+          <span class="material-symbols-outlined detail-link-arrow">
+            arrow_forward
+          </span>
+
+        </a>
+
+      `;
+
+    });
+
+
+    linkSection.innerHTML = `
+
+      <div class="detail-section-title">
+        <span class="material-symbols-outlined">
+          link
+        </span>
+
+        リンク
+      </div>
+
+      <div class="detail-links">
+        ${linkHTML}
+      </div>
+
+    `;
+
+    main.appendChild(linkSection);
+
+  }
+
+
+  // ====================================================
+  // 下部フォームボタン
+  // ====================================================
+
+  const formButtons = document.createElement("div");
+
+  formButtons.className = "detail-form-buttons";
+
+  formButtons.innerHTML = `
+
+    <!-- 今後実装 -->
+    <button
+      class="detail-big-btn"
+      onclick="futureFeature('現地メモ 投稿')"
+    >
+      現地メモ 投稿
+    </button>
+
+
+    <!-- 今後実装 -->
+    <button
+      class="detail-big-btn"
+      onclick="futureFeature('情報修正依頼・報告')"
+    >
+      情報修正依頼・報告
+    </button>
+
+  `;
+
+  main.appendChild(formButtons);
+
+
+  // ====================================================
+  // スポット情報
+  // ====================================================
+
+  const infoSection = document.createElement("div");
+
+  infoSection.className = "detail-info-bottom";
+
+
+  const createdDate = formatCreatedDate(
+    data["新規投稿日"]
+  );
+
+
+  infoSection.innerHTML = `
+
+    <div class="bottom-info-row">
+
+      <div class="bottom-info-label">
+        カテゴリ
+      </div>
+
+      <div class="bottom-info-value">
+        ${escapeHtml(category)}
+      </div>
+
+    </div>
+
+
+    <div class="bottom-info-row">
+
+      <div class="bottom-info-label">
+        スポット作成日
+      </div>
+
+      <div class="bottom-info-value">
+        ${escapeHtml(createdDate)}
+      </div>
+
+    </div>
+
+  `;
+
+  main.appendChild(infoSection);
+
+
+  // ====================================================
+  // パネルへ追加
+  // ====================================================
 
   panel.appendChild(main);
 
-  document.getElementById("detailPanel").classList.add("active");
+  document
+    .getElementById("detailPanel")
+    .classList.add("active");
+
 }
+
+
+// ======================================================
+// イベント取得
+// ======================================================
+
+function getEvents(data){
+
+  const eventText = (data["イベント名"] || "").trim();
+
+  if(!eventText){
+    return [];
+  }
+
+
+  // 全角「｜」で分割
+  const eventNames = eventText
+    .split("｜")
+    .map(value => value.trim());
+
+
+  const manualStatusText =
+    (data["手動開催状況"] || "").trim();
+
+
+  const manualStatuses = manualStatusText
+    ? manualStatusText
+        .split("｜")
+        .map(value => value.trim())
+    : [];
+
+
+  const startDate = normalizeDateOnly(
+    data["開始日"]
+  );
+
+  const endDate = normalizeDateOnly(
+    data["終了日"]
+  );
+
+
+  // 開始日・終了日の両方がある場合のみ
+  // 自動判定を使用する
+  const canUseAutoStatus =
+    startDate !== "" &&
+    endDate !== "";
+
+
+  return eventNames
+    .filter(name => name !== "")
+    .map((name, index) => {
+
+      let status = "";
+
+
+      // ==============================================
+      // 日付による自動判定
+      // ==============================================
+
+      if(canUseAutoStatus){
+
+        status = getAutoEventStatus(
+          startDate,
+          endDate
+        );
+
+      }
+
+      // ==============================================
+      // 日付による自動判定ができない場合
+      // 手動開催状況を使用
+      // ==============================================
+
+      else if(manualStatuses[index]){
+
+        status = manualStatuses[index];
+
+      }
+
+
+      return {
+        name: name,
+        status: status
+      };
+
+    });
+
+}
+
+
+// ======================================================
+// 自動開催状況判定
+// 日本時間の日付のみを使用
+// ======================================================
+
+function getAutoEventStatus(startDate, endDate){
+
+  const today = getJapanToday();
+
+
+  if(today < startDate){
+
+    return "開催前";
+
+  }
+
+
+  if(today > endDate){
+
+    return "開催終了";
+
+  }
+
+
+  return "開催中";
+
+}
+
+
+// ======================================================
+// 日本時間の「今日」を YYYY-MM-DD で取得
+// ======================================================
+
+function getJapanToday(){
+
+  const formatter = new Intl.DateTimeFormat(
+    "ja-JP",
+    {
+      timeZone: "Asia/Tokyo",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }
+  );
+
+
+  const parts = formatter.formatToParts(
+    new Date()
+  );
+
+
+  const year = parts.find(
+    part => part.type === "year"
+  ).value;
+
+  const month = parts.find(
+    part => part.type === "month"
+  ).value;
+
+  const day = parts.find(
+    part => part.type === "day"
+  ).value;
+
+
+  return `${year}-${month}-${day}`;
+
+}
+
+
+// ======================================================
+// 日付を YYYY-MM-DD に統一
+// ======================================================
+
+function normalizeDateOnly(value){
+
+  if(!value){
+    return "";
+  }
+
+
+  const text = String(value).trim();
+
+
+  // 2026/07/01
+  // 2026-07-01
+  // 2026.07.01
+  const match = text.match(
+    /^(\d{4})[\/\-.](\d{1,2})[\/\-.](\d{1,2})/
+  );
+
+
+  if(!match){
+    return "";
+  }
+
+
+  const year = match[1];
+
+  const month = String(
+    match[2]
+  ).padStart(2, "0");
+
+  const day = String(
+    match[3]
+  ).padStart(2, "0");
+
+
+  return `${year}-${month}-${day}`;
+
+}
+
+
+// ======================================================
+// 現地メモ取得
+// 「現地メモ日時-n」「現地メモ内容-n」を自動検出
+// ======================================================
+
+function getLocalMemos(data){
+
+  const memos = [];
+
+  Object.keys(data).forEach(key => {
+
+    const match = key.match(
+      /^現地メモ日時-(\d+)$/
+    );
+
+
+    if(!match){
+      return;
+    }
+
+
+    const number = Number(match[1]);
+
+
+    if(!Number.isFinite(number)){
+      return;
+    }
+
+
+    const date = (
+      data[`現地メモ日時-${number}`] || ""
+    ).trim();
+
+
+    const content = (
+      data[`現地メモ内容-${number}`] || ""
+    ).trim();
+
+
+    // 日時・内容のどちらか片方でも存在すれば
+    // メモとして扱う
+    if(date !== "" || content !== ""){
+
+      memos.push({
+        number: number,
+        date: date,
+        content: content
+      });
+
+    }
+
+  });
+
+
+  // 番号が大きいものほど新しい
+  memos.sort(
+    (a, b) => b.number - a.number
+  );
+
+
+  return memos;
+
+}
+
+
+// ======================================================
+// 関連URLを取得
+// ======================================================
+
+function getRelatedUrls(value){
+
+  if(!value){
+    return [];
+  }
+
+
+  return String(value)
+    .split("｜")
+    .map(url => url.trim())
+    .filter(url => url !== "");
+
+}
+
+
+// ======================================================
+// ステータスの色分け用クラス
+// ======================================================
+
+function getStatusClass(status){
+
+  switch(status){
+
+    case "開催中":
+      return "status-active";
+
+    case "開催前":
+      return "status-before";
+
+    case "開催終了":
+      return "status-ended";
+
+    default:
+      return "status-unknown";
+
+  }
+
+}
+
+
+// ======================================================
+// メモ本文の表示
+// HTMLとして解釈させず、安全に表示
+// 改行は <br> に変換
+// ======================================================
+
+function formatMemoText(text){
+
+  if(!text){
+    return "";
+  }
+
+
+  return escapeHtml(text)
+    .replace(/\r\n/g, "<br>")
+    .replace(/\n/g, "<br>")
+    .replace(/\r/g, "<br>");
+
+}
+
+
+// ======================================================
+// HTMLエスケープ
+// CSVの内容を安全に表示するために使用
+// ======================================================
+
+function escapeHtml(value){
+
+  if(value === null || value === undefined){
+    return "";
+  }
+
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+// ======================================================
+// スポット作成日の表示
+// YYYY/MM/DD にする
+// ======================================================
+
+function formatCreatedDate(value){
+
+  if(!value){
+    return "";
+  }
+
+
+  const normalized = normalizeDateOnly(value);
+
+
+  if(!normalized){
+    return String(value);
+  }
+
+
+  const [year, month, day] =
+    normalized.split("-");
+
+
+  return `${year}/${month}/${day}`;
+
+}
+
+
+// ======================================================
+// 詳細パネルを閉じる
+// ======================================================
 
 function closeDetail(){
-  document.getElementById("detailPanel").classList.remove("active");
+
+  document
+    .getElementById("detailPanel")
+    .classList.remove("active");
+
 }
 
+
+// ======================================================
+// マップ拡大
+// ======================================================
+
 function goMap(lat, lng){
-  map.setView([lat, lng], 17);
+
+  if(
+    !Number.isFinite(Number(lat)) ||
+    !Number.isFinite(Number(lng))
+  ){
+    return;
+  }
+
+
+  // 詳細パネルを閉じる
+  closeDetail();
+
+
+  // 地図をその場所へ移動
+  map.setView(
+    [
+      Number(lat),
+      Number(lng)
+    ],
+    17
+  );
+
 }
+
+
+// ======================================================
+// Google Maps 経路検索
+// ======================================================
 
 function openRoute(address){
 
   if(!address){
+
     alert("住所が登録されていません");
+
     return;
+
   }
 
-  const encoded = encodeURIComponent(address);
 
-  const url = `https://www.google.com/maps/dir/?api=1&destination=${encoded}`;
+  const encoded =
+    encodeURIComponent(address);
 
-  window.open(url, "_blank");
+
+  const url =
+    `https://www.google.com/maps/dir/?api=1&destination=${encoded}`;
+
+
+  window.open(
+    url,
+    "_blank",
+    "noopener,noreferrer"
+  );
+
+}
+
+
+// ======================================================
+// 今後実装するボタン用
+// ======================================================
+
+function futureFeature(featureName){
+
+  // ================================================
+  // TODO:
+  // ここに今後、各機能を実装する
+  //
+  // 例：
+  // ・共有
+  // ・フォーム
+  // ・現地メモ 投稿
+  // ・情報修正依頼・報告
+  // ================================================
+
+  console.log(
+    `${featureName}：今後実装予定です。`
+  );
+
 }
 
 function openSearchModal(){
