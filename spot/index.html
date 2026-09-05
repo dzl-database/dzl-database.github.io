@@ -995,575 +995,835 @@ body{
    新・詳細パネル
    ===================================================== */
 
+/* -----------------------------------------------------
+   詳細パネル全体
+   ----------------------------------------------------- */
+
+.detail-panel{
+  position:fixed;
+  top:72px;
+  left:-360px;
+
+  width:340px;
+  height:calc(100% - 90px);
+
+  background:transparent;
+  box-shadow:none;
+
+  z-index:1500;
+  transition:0.3s;
+
+  display:flex;
+}
+
+.detail-panel.active{
+  left:16px;
+}
+
+
+/* -----------------------------------------------------
+   パネル内部
+   ----------------------------------------------------- */
+
+.detail-inner{
+  width:100%;
+  height:100%;
+
+  background:#f5f6f8;
+
+  border:2px solid #d90000;
+  border-radius:10px;
+
+  box-shadow:0 6px 16px rgba(0,0,0,0.12);
+
+  overflow:hidden;
+
+  display:flex;
+  flex-direction:column;
+}
+
+
+/* -----------------------------------------------------
+   スクロール領域
+   ----------------------------------------------------- */
+
+#detailBody{
+  overflow-y:auto;
+  flex:1;
+
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+
+#detailBody::-webkit-scrollbar{
+  display:none;
+}
+
+
+/* =====================================================
+   上半分
+   ===================================================== */
 
 /* -----------------------------------------------------
    ヒーロー
    ----------------------------------------------------- */
 
 .new-detail-hero{
-  background: linear-gradient(
+  background:linear-gradient(
     135deg,
-    #ed1c24,
-    #ff3b3f
+    #ed1c24 0%,
+    #ff3b3f 100%
   ) !important;
 
-  padding-bottom: 14px;
+  padding:16px 18px 14px;
+
+  color:#fff;
+
+  position:relative;
 }
 
 
 /* -----------------------------------------------------
-   詳細パネル本体
+   閉じるボタン
    ----------------------------------------------------- */
 
-.new-detail-main{
-  background: #f5f6f8;
-  padding: 0 0 24px 0;
+.detail-close-btn{
+  position:absolute;
+
+  top:10px;
+  right:10px;
+
+  width:36px;
+  height:36px;
+
+  border:none;
+  border-radius:50%;
+
+  background:rgba(255,255,255,0.92);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+
+  z-index:2;
+}
+
+.detail-close-btn .material-symbols-outlined{
+  font-size:20px;
+  color:#333;
 }
 
 
 /* -----------------------------------------------------
+   カテゴリ
+   ----------------------------------------------------- */
+
+.category-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+
+  padding:6px 10px;
+
+  border-radius:999px;
+
+  font-size:12px;
+  font-weight:bold;
+
+  color:#fff;
+
+  border:2px solid #fff;
+
+  box-shadow:0 2px 6px rgba(0,0,0,0.15);
+
+  backdrop-filter:blur(4px);
+}
+
+.category-badge .material-symbols-outlined{
+  font-size:16px;
+}
+
+
+/* -----------------------------------------------------
+   場所名
+   ----------------------------------------------------- */
+
+.detail-hero-title{
+  font-size:19px;
+  font-weight:bold;
+
+  line-height:1.4;
+
+  margin:8px 45px 4px 0;
+}
+
+
+/* -----------------------------------------------------
+   住所
+   ----------------------------------------------------- */
+
+.detail-hero-address{
+  font-size:13px;
+  line-height:1.5;
+
+  color:#fff;
+
+  opacity:0.95;
+
+  padding-right:25px;
+}
+
+
+/* =====================================================
    スポット情報
-   ----------------------------------------------------- */
+   ===================================================== */
 
 .spot-event-section{
-  background: #ed1c24;
-  padding: 0 16px 8px;
+  background:linear-gradient(
+    135deg,
+    #ed1c24 0%,
+    #ff3b3f 100%
+  );
+
+  padding:0 16px 10px;
 }
 
+
+/* タイトル */
 
 .spot-event-title{
-  color: #fff;
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 6px;
+  color:#fff;
+
+  font-size:16px;
+  font-weight:700;
+
+  margin:0 0 7px;
 }
 
+
+/* イベントカード */
 
 .spot-event-card{
-  background: #fff;
-  border-radius: 8px;
-  padding: 10px 12px;
+  background:#fff;
+
+  border-radius:10px;
+
+  padding:11px 12px;
+
+  box-sizing:border-box;
 }
 
 
-/* -----------------------------------------------------
-   イベント件数
-   ----------------------------------------------------- */
+/* 件数 */
 
 .spot-event-summary{
-  font-size: 15px;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 8px;
-}
+  font-size:15px;
+  font-weight:700;
 
+  text-align:center;
+
+  margin-bottom:8px;
+}
 
 .event-active-count{
-  color: #ed1c24;
+  color:#ed1c24;
 }
 
 
-/* -----------------------------------------------------
-   イベント一覧
-   ----------------------------------------------------- */
+/* イベント一覧 */
 
 .spot-event-list{
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  display:flex;
+  flex-direction:column;
+
+  gap:7px;
 }
 
+
+/* イベント1件 */
 
 .spot-event-item{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  display:flex;
 
-  font-size: 14px;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:10px;
+
+  font-size:14px;
 }
 
+
+/* イベント名 */
 
 .spot-event-name{
-  flex: 1;
-  min-width: 0;
-  line-height: 1.4;
+  flex:1;
+  min-width:0;
+
+  line-height:1.4;
+
+  word-break:break-word;
 }
 
+
+/* 開催状況 */
 
 .spot-event-status{
-  flex-shrink: 0;
-  font-weight: 700;
-  white-space: nowrap;
+  flex-shrink:0;
+
+  font-weight:700;
+
+  white-space:nowrap;
 }
-
-
-/* 開催中 */
 
 .status-active{
-  color: #ed1c24;
+  color:#ed1c24;
 }
-
-
-/* 開催前 */
 
 .status-before{
-  color: #e09b00;
+  color:#e09b00;
 }
-
-
-/* 開催終了 */
 
 .status-ended{
-  color: #777;
+  color:#777;
 }
-
-
-/* 状態不明 */
 
 .status-unknown{
-  color: #777;
+  color:#777;
 }
 
 
-/* -----------------------------------------------------
+/* =====================================================
    アクションボタン
-   ----------------------------------------------------- */
+   ===================================================== */
 
 .new-detail-actions{
-  background: #ed1c24;
+  background:linear-gradient(
+    135deg,
+    #ed1c24 0%,
+    #ff3b3f 100%
+  );
 
-  display: grid;
-  grid-template-columns:
-    repeat(4, 1fr);
+  display:grid;
 
-  gap: 5px;
+  grid-template-columns:repeat(4, 1fr);
 
-  padding: 0 8px 8px;
+  gap:6px;
+
+  padding:0 8px 10px;
+
+  box-sizing:border-box;
 }
 
+
+/* ボタン */
 
 .new-detail-actions .detail-btn{
-  min-width: 0;
+  min-width:0;
 
-  border: none;
-  border-radius: 18px;
+  height:40px;
 
-  background: #fff;
+  padding:0 4px;
 
-  color: #222;
+  border:none;
+  border-radius:20px;
 
-  height: 36px;
+  background:#fff;
 
-  padding: 0 4px;
+  color:#222;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display:flex;
 
-  gap: 3px;
+  flex-direction:row;
 
-  font-size: 12px;
-  font-weight: 700;
+  align-items:center;
+  justify-content:center;
 
-  cursor: pointer;
+  gap:4px;
+
+  font-size:11px;
+  font-weight:700;
+
+  cursor:pointer;
+
+  box-shadow:0 2px 5px rgba(0,0,0,0.08);
+
+  transition:background 0.2s;
+}
+
+.new-detail-actions .detail-btn:hover{
+  background:#eeeeee;
+}
+
+.new-detail-actions .detail-btn .material-symbols-outlined{
+  font-size:18px;
+  margin:0;
 }
 
 
-.new-detail-actions
-.detail-btn
-.material-symbols-outlined{
-  font-size: 18px;
+/* =====================================================
+   下半分
+   ===================================================== */
+
+.new-detail-main{
+  background:#f5f6f8;
+
+  padding:0 0 24px 0;
+
+  margin-top:0;
+
+  border-radius:0;
+
+  display:flex;
+  flex-direction:column;
+
+  gap:0;
 }
 
 
-.new-detail-actions
-.detail-btn:hover{
-  background: #eeeeee;
-}
-
-
-/* -----------------------------------------------------
-   詳細セクション
-   ----------------------------------------------------- */
+/* =====================================================
+   詳細セクション共通
+   ===================================================== */
 
 .new-detail-main .detail-section{
-  margin: 0;
-  padding: 14px 16px 0;
+  background:transparent;
+
+  margin:0;
+
+  padding:14px 16px 0;
+
+  box-shadow:none;
+
+  border-radius:0;
 }
 
+
+/* セクションタイトル */
 
 .new-detail-main .detail-section-title{
-  font-size: 16px;
-  font-weight: 700;
-  color: #111;
+  font-size:16px;
 
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  font-weight:700;
 
-  margin-bottom: 7px;
+  color:#111;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:5px;
+
+  margin:0 0 8px;
 }
 
 
-/* -----------------------------------------------------
+/* =====================================================
    現地メモ
-   ----------------------------------------------------- */
+   ===================================================== */
 
 .memo-section{
-  padding-top: 14px !important;
+  padding-top:16px !important;
 }
 
+
+/* タイトル部分 */
 
 .memo-section-title{
-  justify-content: space-between;
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:10px;
+
+  background:transparent;
 }
 
+
+/* 「最新の状況を投稿する ＋」 */
 
 .memo-post-small{
-  border: none;
-  background: transparent;
+  border:none;
 
-  font-size: 13px;
-  font-weight: 700;
+  background:transparent;
 
-  display: flex;
-  align-items: center;
+  padding:0;
 
-  gap: 2px;
+  color:#111;
 
-  cursor: pointer;
+  font-size:13px;
+  font-weight:700;
 
-  color: #111;
+  display:flex;
+
+  align-items:center;
+
+  justify-content:flex-end;
+
+  gap:2px;
+
+  white-space:nowrap;
+
+  cursor:pointer;
+}
+
+.memo-post-small .material-symbols-outlined{
+  font-size:20px;
 }
 
 
-.memo-post-small
-.material-symbols-outlined{
-  font-size: 20px;
-}
-
-
-/* -----------------------------------------------------
-   メモタイムライン
-   ----------------------------------------------------- */
+/* =====================================================
+   現地メモ一覧
+   ===================================================== */
 
 .memo-timeline{
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
+  display:flex;
 
+  flex-direction:column;
 
-.memo-item{
-  position: relative;
-
-  background: #fff;
-
-  border-radius: 8px;
-
-  padding: 10px;
-
-  box-sizing: border-box;
-}
-
-
-.memo-latest{
-  font-size: 14px;
-
-  margin-bottom: 0;
-
-  border-radius: 8px;
-}
-
-
-.memo-history{
-  margin-left: 30px;
-
-  border-radius: 0 8px 8px 8px;
-
-  font-size: 12px;
-
-  margin-top: 0;
-}
-
-
-/* 過去メモの左側ライン */
-
-.memo-history::before{
-  content: "";
-
-  position: absolute;
-
-  left: -16px;
-  top: -18px;
-
-  width: 16px;
-  height: 38px;
-
-  border-left: 1.5px solid #333;
-  border-bottom: 1.5px solid #333;
-
-  border-radius: 0 0 0 10px;
-}
-
-
-/* 最新メモと過去メモの間 */
-
-.memo-latest + .memo-history{
-  margin-top: 0;
-}
-
-
-/* メモタイトル */
-
-.memo-heading{
-  font-weight: 700;
-
-  line-height: 1.45;
-
-  margin-bottom: 3px;
-}
-
-
-.memo-latest .memo-heading{
-  font-size: 14px;
-}
-
-
-.memo-history .memo-heading{
-  font-size: 12px;
-}
-
-
-/* メモ本文 */
-
-.memo-content{
-  line-height: 1.5;
-  word-break: break-word;
-}
-
-
-.memo-history .memo-content{
-  font-size: 12px;
-}
-
-
-/* メモなし */
-
-.memo-empty{
-  background: #fff;
-
-  border-radius: 8px;
-
-  padding: 14px;
-
-  color: #777;
-
-  font-size: 13px;
-
-  text-align: center;
+  gap:8px;
 }
 
 
 /* -----------------------------------------------------
-   リンク
+   メモカード
    ----------------------------------------------------- */
 
-.link-section{
-  padding-top: 14px !important;
+.memo-item{
+  position:relative;
+
+  width:100%;
+
+  box-sizing:border-box;
+
+  background:#fff;
+
+  border-radius:10px;
+
+  padding:11px 12px;
+
+  box-shadow:0 2px 7px rgba(0,0,0,0.05);
 }
 
+
+/* 最新メモ */
+
+.memo-latest{
+  margin:0;
+}
+
+
+/* 過去メモ */
+
+.memo-history{
+  margin:0;
+
+  font-size:13px;
+}
+
+
+/* -----------------------------------------------------
+   メモ見出し
+   ----------------------------------------------------- */
+
+.memo-heading{
+  font-weight:700;
+
+  line-height:1.45;
+
+  margin-bottom:5px;
+}
+
+.memo-latest .memo-heading{
+  font-size:14px;
+}
+
+.memo-history .memo-heading{
+  font-size:13px;
+}
+
+
+/* -----------------------------------------------------
+   メモ本文
+   ----------------------------------------------------- */
+
+.memo-content{
+  font-size:13px;
+
+  line-height:1.6;
+
+  word-break:break-word;
+}
+
+.memo-latest .memo-content{
+  font-size:14px;
+}
+
+.memo-history .memo-content{
+  font-size:13px;
+}
+
+
+/* -----------------------------------------------------
+   メモなし
+   ----------------------------------------------------- */
+
+.memo-empty{
+  background:#fff;
+
+  border-radius:10px;
+
+  padding:14px;
+
+  color:#777;
+
+  font-size:13px;
+
+  text-align:center;
+
+  box-shadow:0 2px 7px rgba(0,0,0,0.05);
+}
+
+
+/* =====================================================
+   リンク
+   ===================================================== */
+
+.link-section{
+  padding-top:16px !important;
+}
+
+
+/* リンクタイトルはカード外 */
+
+.link-section .detail-section-title{
+  background:transparent;
+
+  margin-bottom:8px;
+}
+
+
+/* リンクカード */
 
 .detail-links{
-  display: flex;
-  flex-direction: column;
+  display:flex;
 
-  background: #fff;
+  flex-direction:column;
 
-  border-radius: 8px;
+  background:#fff;
 
-  overflow: hidden;
+  border-radius:10px;
+
+  overflow:hidden;
+
+  box-shadow:0 2px 7px rgba(0,0,0,0.05);
 }
 
 
+/* リンク1件 */
+
 .detail-link-item{
-  display: grid;
+  display:grid;
 
   grid-template-columns:
     58px
-    minmax(0, 1fr)
+    minmax(0,1fr)
     22px;
 
-  align-items: center;
+  align-items:center;
 
-  gap: 6px;
+  gap:6px;
 
-  min-height: 42px;
+  min-height:42px;
 
-  padding: 6px 10px;
+  padding:6px 10px;
 
-  box-sizing: border-box;
+  box-sizing:border-box;
 
-  color: #222;
+  color:#222;
 
-  text-decoration: none;
+  text-decoration:none;
 
-  font-size: 13px;
+  font-size:13px;
 }
-
 
 .detail-link-item + .detail-link-item{
-  border-top: 1px solid #eeeeee;
+  border-top:1px solid #eeeeee;
 }
-
 
 .detail-link-label{
-  font-weight: 700;
+  font-weight:700;
 }
-
 
 .detail-link-url{
-  min-width: 0;
+  min-width:0;
 
-  overflow: hidden;
+  overflow:hidden;
 
-  white-space: nowrap;
+  white-space:nowrap;
 
-  text-overflow: ellipsis;
+  text-overflow:ellipsis;
 
-  color: #222;
+  color:#222;
 }
-
 
 .detail-link-arrow{
-  font-size: 18px;
+  font-size:18px;
 }
 
 
-/* -----------------------------------------------------
+/* =====================================================
    下部フォームボタン
-   ----------------------------------------------------- */
+   ===================================================== */
 
 .detail-form-buttons{
-  display: flex;
+  display:flex;
 
-  flex-direction: column;
+  flex-direction:column;
 
-  gap: 7px;
+  gap:8px;
 
-  padding: 14px 16px 0;
+  padding:16px 16px 0;
 }
 
 
 .detail-big-btn{
-  width: 75%;
+  width:78%;
 
-  margin: 0 auto;
+  margin:0 auto;
 
-  height: 45px;
+  height:45px;
 
-  border: none;
+  border:none;
 
-  border-radius: 24px;
+  border-radius:24px;
 
-  background: #fff;
+  background:#fff;
 
-  color: #111;
+  color:#111;
 
-  font-size: 14px;
+  font-size:14px;
+  font-weight:700;
 
-  font-weight: 700;
+  cursor:pointer;
 
-  cursor: pointer;
-
-  box-shadow: none;
+  box-shadow:0 2px 7px rgba(0,0,0,0.04);
 }
-
 
 .detail-big-btn:hover{
-  background: #eeeeee;
+  background:#eeeeee;
 }
 
 
-/* -----------------------------------------------------
+/* =====================================================
    下部情報
-   ----------------------------------------------------- */
+   ===================================================== */
 
 .detail-info-bottom{
-  padding: 18px 20px 0;
+  padding:18px 20px 0;
 }
 
 
 .bottom-info-row{
-  display: grid;
+  display:grid;
 
-  grid-template-columns:
-    1fr
-    1fr;
+  grid-template-columns:1fr 1fr;
 
-  align-items: end;
+  align-items:end;
 
-  gap: 10px;
+  gap:10px;
 
-  font-size: 12px;
+  font-size:12px;
 
-  line-height: 1.4;
+  line-height:1.5;
 }
-
 
 .bottom-info-row + .bottom-info-row{
-  margin-top: 2px;
+  margin-top:3px;
 }
-
 
 .bottom-info-label{
-  color: #222;
+  color:#222;
 }
-
 
 .bottom-info-value{
-  text-align: right;
-  color: #222;
+  text-align:right;
+
+  color:#222;
 }
 
 
-/* -----------------------------------------------------
+/* =====================================================
    スマートフォン
-   ----------------------------------------------------- */
+   ===================================================== */
 
-@media (max-width: 600px){
+@media(max-width:600px){
 
-  .new-detail-actions{
-    gap: 4px;
-    padding-left: 6px;
-    padding-right: 6px;
+  .detail-panel{
+    left:-100%;
+    width:calc(100% - 20px);
+    max-width:340px;
   }
 
-
-  .new-detail-actions .detail-btn{
-    font-size: 11px;
+  .detail-panel.active{
+    left:10px;
   }
 
+  .new-detail-hero{
+    padding:14px 14px 12px;
+  }
+
+  .detail-hero-title{
+    font-size:18px;
+  }
 
   .spot-event-section{
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left:12px;
+    padding-right:12px;
   }
-
 
   .spot-event-item{
-    font-size: 13px;
+    font-size:13px;
   }
 
-
-  .memo-history{
-    margin-left: 24px;
+  .new-detail-actions{
+    gap:4px;
+    padding-left:6px;
+    padding-right:6px;
   }
 
+  .new-detail-actions .detail-btn{
+    height:38px;
+    font-size:10px;
+  }
+
+  .new-detail-actions .detail-btn .material-symbols-outlined{
+    font-size:17px;
+  }
+
+  .memo-section-title{
+    align-items:center;
+  }
+
+  .memo-post-small{
+    font-size:12px;
+  }
+
+  .memo-latest .memo-content{
+    font-size:13px;
+  }
+
+  .memo-history .memo-content{
+    font-size:12px;
+  }
 
   .detail-big-btn{
-    width: 82%;
+    width:82%;
   }
 
 }
@@ -2402,13 +2662,14 @@ function openDetail(data){
   const category = data["カテゴリ"] || "";
   const placeName = data["場所名"] || "";
   const address = data["住所"] || "";
+
   const lat = parseFloat(data["緯度"]);
   const lng = parseFloat(data["経度"]);
 
   const style = getCategoryStyle(category);
 
   // ====================================================
-  // イベント情報を作成
+  // イベント情報
   // ====================================================
 
   const events = getEvents(data);
@@ -2432,6 +2693,7 @@ function openDetail(data){
       <span class="material-symbols-outlined">close</span>
     </button>
 
+
     <!-- カテゴリ -->
     <div
       class="category-badge"
@@ -2444,10 +2706,12 @@ function openDetail(data){
       ${escapeHtml(category)}
     </div>
 
+
     <!-- 場所名 -->
     <div class="detail-hero-title">
       ${escapeHtml(placeName)}
     </div>
+
 
     <!-- 住所 -->
     <div class="detail-hero-address">
@@ -2470,7 +2734,7 @@ function openDetail(data){
 
   // ====================================================
   // スポット情報
-  // イベントがある場合だけ表示
+  // イベントがある場合のみ表示
   // ====================================================
 
   if(events.length > 0){
@@ -2482,6 +2746,7 @@ function openDetail(data){
     const eventSection = document.createElement("div");
 
     eventSection.className = "spot-event-section";
+
 
     let eventHTML = "";
 
@@ -2517,6 +2782,7 @@ function openDetail(data){
         <div class="spot-event-summary">
 
           イベント${events.length}件中
+
           <span class="event-active-count">
             ${activeCount}件開催中
           </span>
@@ -2579,7 +2845,7 @@ function openDetail(data){
     <!-- マップ拡大 -->
     <button
       class="detail-btn sub"
-      onclick="goMap(${lat}, ${lng})"
+      onclick="goMap(${Number.isFinite(lat) ? lat : "NaN"}, ${Number.isFinite(lng) ? lng : "NaN"})"
     >
       <span class="material-symbols-outlined">
         map
@@ -2623,6 +2889,7 @@ function openDetail(data){
 
   let memoHTML = "";
 
+
   if(memos.length > 0){
 
     memos.forEach((memo, index) => {
@@ -2638,14 +2905,16 @@ function openDetail(data){
 
           <div class="memo-heading">
 
-            ${isLatest
-              ? `メモ${memo.number} (最新)`
-              : `メモ${memo.number}`
+            ${
+              isLatest
+                ? `メモ${memo.number} (最新)`
+                : `メモ${memo.number}`
             }
 
-            ${memo.date
-              ? ` - ${escapeHtml(memo.date)}`
-              : ""
+            ${
+              memo.date
+                ? ` - ${escapeHtml(memo.date)}`
+                : ""
             }
 
           </div>
@@ -2663,9 +2932,11 @@ function openDetail(data){
   }else{
 
     memoHTML = `
+
       <div class="memo-empty">
         現地メモはまだありません。
       </div>
+
     `;
 
   }
@@ -2673,13 +2944,13 @@ function openDetail(data){
 
   memoSection.innerHTML = `
 
+    <!-- タイトルはカード外 -->
     <div class="detail-section-title memo-section-title">
 
       <span>
         現地メモ
       </span>
 
-      <!-- 今後実装 -->
       <button
         class="memo-post-small"
         onclick="futureFeature('最新の状況を投稿')"
@@ -2692,6 +2963,8 @@ function openDetail(data){
 
     </div>
 
+
+    <!-- メモごとに独立したカード -->
     <div class="memo-timeline">
       ${memoHTML}
     </div>
@@ -2713,7 +2986,9 @@ function openDetail(data){
 
     linkSection.className = "detail-section link-section";
 
+
     let linkHTML = "";
+
 
     urls.forEach((url, index) => {
 
@@ -2747,14 +3022,19 @@ function openDetail(data){
 
     linkSection.innerHTML = `
 
+      <!-- リンクのタイトルはカード外 -->
       <div class="detail-section-title">
+
         <span class="material-symbols-outlined">
           link
         </span>
 
         リンク
+
       </div>
 
+
+      <!-- リンクカード -->
       <div class="detail-links">
         ${linkHTML}
       </div>
@@ -2799,7 +3079,7 @@ function openDetail(data){
 
 
   // ====================================================
-  // スポット情報
+  // 下部情報
   // ====================================================
 
   const infoSection = document.createElement("div");
@@ -3297,7 +3577,7 @@ function openRoute(address){
 
 
   const encoded =
-    encodeURIComponent(address);
+    encodeURIComponent(String(address));
 
 
   const url =
