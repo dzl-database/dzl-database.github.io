@@ -1020,47 +1020,21 @@ body{
   left:16px;
 }
 
-
-/* -----------------------------------------------------
-   パネル内部
-   ----------------------------------------------------- */
-
-.detail-inner{
-  width:100%;
-  height:100%;
-
-  background:#f5f6f8;
-
-  border:2px solid #d90000;
-  border-radius:10px;
-
-  box-shadow:0 6px 16px rgba(0,0,0,0.12);
-
-  overflow:hidden;
-
-  display:flex;
-  flex-direction:column;
-}
-
 /* =====================================================
-   詳細パネル上部：1つの連続したグラデーション
+   詳細パネル上部：可変高さのグラデーション
    ===================================================== */
 
-.detail-inner{
-  background:#f5f6f8;
+.detail-top-area{
+  width:100%;
+  box-sizing:border-box;
 
-  /*
-   * 上から約430pxを1本のグラデーションにする
-   * カテゴリ部分が濃く、下に行くほど少し明るくなる
-   */
-  background-image:linear-gradient(
+  background:linear-gradient(
     135deg,
     #ed1c24 0%,
     #ff3b3f 100%
   );
 
-  background-repeat:no-repeat;
-  background-size:100% 430px;
+  color:#fff;
 }
 
 
@@ -2764,6 +2738,10 @@ function openDetail(data){
   const panel = document.getElementById("detailBody");
   panel.innerHTML = "";
 
+  const topArea = document.createElement("div");
+
+  topArea.className = "detail-top-area";
+
   const category = data["カテゴリ"] || "";
   const placeName = data["場所名"] || "";
   const address = data["住所"] || "";
@@ -2825,7 +2803,7 @@ function openDetail(data){
 
   `;
 
-  panel.appendChild(hero);
+  topArea.appendChild(hero);
 
 
   // ====================================================
@@ -2902,7 +2880,7 @@ function openDetail(data){
 
     `;
 
-    main.appendChild(eventSection);
+    topArea.appendChild(eventSection);
 
   }
 
@@ -2978,7 +2956,7 @@ function openDetail(data){
 
   `;
 
-  main.appendChild(actions);
+  topArea.appendChild(actions);
 
 
   // ====================================================
@@ -3232,9 +3210,10 @@ function openDetail(data){
   // ====================================================
   // パネルへ追加
   // ====================================================
-
+   
+  panel.appendChild(topArea);
   panel.appendChild(main);
-
+   
   document
     .getElementById("detailPanel")
     .classList.add("active");
