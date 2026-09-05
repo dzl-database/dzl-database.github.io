@@ -1042,6 +1042,27 @@ body{
   flex-direction:column;
 }
 
+/* =====================================================
+   詳細パネル上部：1つの連続したグラデーション
+   ===================================================== */
+
+.detail-inner{
+  background:#f5f6f8;
+
+  /*
+   * 上から約430pxを1本のグラデーションにする
+   * カテゴリ部分が濃く、下に行くほど少し明るくなる
+   */
+  background-image:linear-gradient(
+    135deg,
+    #ed1c24 0%,
+    #ff3b3f 100%
+  );
+
+  background-repeat:no-repeat;
+  background-size:100% 430px;
+}
+
 
 /* -----------------------------------------------------
    スクロール領域
@@ -1069,11 +1090,7 @@ body{
    ----------------------------------------------------- */
 
 .new-detail-hero{
-  background:linear-gradient(
-    135deg,
-    #ed1c24 0%,
-    #ff3b3f 100%
-  ) !important;
+  background:transparent !important;
 
   padding:16px 18px 14px;
 
@@ -1183,15 +1200,11 @@ body{
    ===================================================== */
 
 .spot-event-section{
-  background:linear-gradient(
-    135deg,
-    #ed1c24 0%,
-    #ff3b3f 100%
-  );
+  background:transparent;
 
   padding:0 16px 10px;
+  padding-bottom:0;
 }
-
 
 /* タイトル */
 
@@ -1302,11 +1315,7 @@ body{
    ===================================================== */
 
 .new-detail-actions{
-  background:linear-gradient(
-    135deg,
-    #ed1c24 0%,
-    #ff3b3f 100%
-  );
+  background:transparent;
 
   display:grid;
 
@@ -1317,6 +1326,8 @@ body{
   padding:0 8px 10px;
 
   box-sizing:border-box;
+
+  margin-top:0 !important;
 }
 
 
@@ -1482,11 +1493,38 @@ body{
    ===================================================== */
 
 .memo-timeline{
-  display:flex;
+  position:relative;
 
+  display:flex;
   flex-direction:column;
 
-  gap:8px;
+  gap:10px;
+
+  /*
+   * 左側にタイムライン用のスペースを確保
+   */
+  padding-left:22px;
+}
+
+
+/* -----------------------------------------------------
+   縦につながる線
+   ----------------------------------------------------- */
+
+.memo-timeline::before{
+  content:"";
+
+  position:absolute;
+
+  left:7px;
+  top:8px;
+  bottom:8px;
+
+  width:2px;
+
+  background:#d9dde3;
+
+  border-radius:2px;
 }
 
 
@@ -1511,14 +1549,62 @@ body{
 }
 
 
-/* 最新メモ */
+/* -----------------------------------------------------
+   タイムラインの丸
+   ----------------------------------------------------- */
+
+.memo-item::before{
+  content:"";
+
+  position:absolute;
+
+  left:-22px;
+  top:17px;
+
+  width:12px;
+  height:12px;
+
+  box-sizing:border-box;
+
+  background:#fff;
+
+  border:3px solid #ed1c24;
+
+  border-radius:50%;
+
+  z-index:1;
+}
+
+
+/* -----------------------------------------------------
+   最新メモ
+   ----------------------------------------------------- */
 
 .memo-latest{
   margin:0;
 }
 
 
-/* 過去メモ */
+/* 最新メモの丸を少し強調 */
+
+.memo-latest::before{
+  width:14px;
+  height:14px;
+
+  left:-23px;
+  top:16px;
+
+  background:#ed1c24;
+
+  border:3px solid #fff;
+
+  box-shadow:0 0 0 2px #ed1c24;
+}
+
+
+/* -----------------------------------------------------
+   過去メモ
+   ----------------------------------------------------- */
 
 .memo-history{
   margin:0;
@@ -1589,6 +1675,25 @@ body{
   box-shadow:0 2px 7px rgba(0,0,0,0.05);
 }
 
+@media(max-width:600px){
+
+  .memo-timeline{
+    padding-left:20px;
+  }
+
+  .memo-timeline::before{
+    left:6px;
+  }
+
+  .memo-item::before{
+    left:-20px;
+  }
+
+  .memo-latest::before{
+    left:-21px;
+  }
+
+}
 
 /* =====================================================
    リンク
