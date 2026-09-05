@@ -8,6 +8,10 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <link rel="icon" href="../favicon.png" type="image/png">
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -30,7 +34,7 @@ html, body{
 }
 
 body{
-  font-family: sans-serif;
+  font-family:"M PLUS 1", sans-serif;
 }
    
 .content{
@@ -1912,6 +1916,33 @@ body{
   }
 
 }
+
+.spot-event-title{
+  display:flex;
+  align-items:center;
+  gap:5px;
+
+  color:#fff;
+
+  font-size:16px;
+  font-weight:700;
+
+  margin:0 0 7px;
+}
+
+.spot-event-title .material-symbols-outlined{
+  font-size:20px;
+}
+
+.memo-title-text{
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+
+.memo-title-text .material-symbols-outlined{
+  font-size:20px;
+}
    
 </style>
 </head>
@@ -2863,7 +2894,10 @@ function openDetail(data){
     eventSection.innerHTML = `
 
       <div class="spot-event-title">
-        スポット情報
+        <span class="material-symbols-outlined">
+          event_note
+        </span>
+        <span>スポット情報</span>
       </div>
 
       <div class="spot-event-card">
@@ -3035,6 +3069,10 @@ function openDetail(data){
 
     <!-- タイトルはカード外 -->
     <div class="detail-section-title memo-section-title">
+
+      <span class="material-symbols-outlined">
+        edit_note
+      </span>
 
       <span>
         現地メモ
@@ -3538,8 +3576,8 @@ function getStatusClass(status){
 
 // ======================================================
 // メモ本文の表示
-// HTMLとして解釈させず、安全に表示
-// 改行は <br> に変換
+// 許可するHTMLタグ：<br> / <b> / </b>
+// 改行にも対応
 // ======================================================
 
 function formatMemoText(text){
@@ -3548,11 +3586,40 @@ function formatMemoText(text){
     return "";
   }
 
+  let result = escapeHtml(text);
 
-  return escapeHtml(text)
+  // ------------------------------------------
+  // 許可するタグだけHTMLとして復元
+  // ------------------------------------------
+
+  // <br>
+  result = result.replace(
+    /&lt;br\s*\/?&gt;/gi,
+    "<br>"
+  );
+
+  // <b>
+  result = result.replace(
+    /&lt;b&gt;/gi,
+    "<b>"
+  );
+
+  // </b>
+  result = result.replace(
+    /&lt;\/b&gt;/gi,
+    "</b>"
+  );
+
+  // ------------------------------------------
+  // スプレッドシート上の通常の改行にも対応
+  // ------------------------------------------
+
+  result = result
     .replace(/\r\n/g, "<br>")
     .replace(/\n/g, "<br>")
     .replace(/\r/g, "<br>");
+
+  return result;
 
 }
 
