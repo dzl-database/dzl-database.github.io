@@ -6865,7 +6865,24 @@ async function handleSpotPostSubmit(
           memo,
 
         relatedUrl:
-          relatedUrl
+          relatedUrl,
+      
+        confirmations: {
+          noPersonalInfo:
+            document.getElementById("postConfirmPersonal").checked,
+      
+          noIdentification:
+            document.getElementById("postConfirmIdentify").checked,
+      
+          noPrivateSightings:
+            document.getElementById("postConfirmPrivate").checked,
+      
+          relatedInfo:
+            document.getElementById("postConfirmUnrelated").checked,
+      
+          noTrouble:
+            document.getElementById("postConfirmTrouble").checked
+        }
 
       });
 
@@ -6876,33 +6893,33 @@ async function handleSpotPostSubmit(
 
     if(
       !result ||
-      !result.ok
+      !result.success
     ){
-
+   
       if(
         result &&
         result.error === "DUPLICATE"
       ){
-
+   
         setPostFormStatus(
           "同じ場所・内容のスポットがすでに登録されている可能性があります。",
           "error"
         );
-
+   
       }else{
-
+    
         setPostFormStatus(
           result?.message ||
           "投稿に失敗しました。時間をおいてもう一度お試しください。",
           "error"
         );
-
+   
       }
-
+    
       button.disabled = false;
-
+   
       return;
-
+   
     }
 
 
@@ -6922,8 +6939,8 @@ async function handleSpotPostSubmit(
 
     const found =
       await reloadSpotDataUntilFound(
-        result.spotId,
-        result.spot
+        result.data.spotId,
+        null
       );
 
 
