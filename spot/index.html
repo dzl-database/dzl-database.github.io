@@ -5821,7 +5821,7 @@ async function postToGas(payload){
 
   if(
     !GAS_WEB_APP_URL ||
-    GAS_WEB_APP_URL.includes("https://script.google.com/macros/s/AKfycbyubKG7_D_b1YtOew4ySdUfjnHtDx9mzHrlLZzgv3j6z93IZXpMnTkljRc67s8HQYNA/exec")
+    GAS_WEB_APP_URL.includes("ここにデプロイID")
   ){
 
     throw new Error(
@@ -5836,11 +5836,6 @@ async function postToGas(payload){
     {
       method: "POST",
 
-      /*
-       * application/json にすると
-       * CORSのpreflightが発生する可能性があるため、
-       * text/plain でJSONを送信します。
-       */
       headers: {
         "Content-Type":
           "text/plain;charset=utf-8"
@@ -5867,7 +5862,6 @@ async function postToGas(payload){
   return result;
 
 }
-
 
 // ======================================================
 // 投稿フォームを開く
@@ -6248,6 +6242,7 @@ async function requestPostAddress(
         action: "geocode",
 
         lat: lat,
+
         lng: lng
 
       });
@@ -6257,14 +6252,26 @@ async function requestPostAddress(
     if(
       requestId !== postGeocodeRequestId
     ){
+
       return;
+
     }
 
 
+    // GASの返却形式：
+    // {
+    //   success: true,
+    //   message: "...",
+    //   data: {
+    //     address: "..."
+    //   }
+    // }
+
     if(
       result &&
-      result.ok &&
-      result.address
+      result.success &&
+      result.data &&
+      result.data.address
     ){
 
       document
@@ -6272,7 +6279,7 @@ async function requestPostAddress(
           "postAddress"
         )
         .value =
-          result.address;
+          result.data.address;
 
 
       note.textContent =
