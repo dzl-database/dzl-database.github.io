@@ -8,6 +8,8 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <link rel="icon" href="../favicon.png" type="image/png">
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -1915,6 +1917,993 @@ body{
 .memo-title-text .material-symbols-outlined{
   font-size:18px;
 }
+
+/* ======================================================
+   新規スポット投稿フォーム
+   ====================================================== */
+
+:root {
+  --spot-accent: #D90000;
+  --spot-accent-dark: #B80000;
+  --spot-accent-light: #FFF0F0;
+}
+
+
+/* フォント */
+body,
+button,
+input,
+select,
+textarea,
+.leaflet-container {
+  font-family: "M PLUS 1", sans-serif;
+}
+
+
+/* =========================
+   投稿モーダル
+   ========================= */
+
+.post-modal-content {
+  width: min(94vw, 560px);
+  max-height: 90vh;
+  overflow-y: auto;
+  text-align: left;
+  padding: 0;
+  border-radius: 18px;
+}
+
+
+/* ヘッダー */
+
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 20px 20px 16px;
+
+  border-bottom: 1px solid #eee;
+}
+
+
+.post-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+
+.post-title > .material-symbols-outlined {
+  color: var(--spot-accent);
+  font-size: 30px;
+}
+
+
+.post-title h3 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  color: #222;
+}
+
+
+.post-title p {
+  margin: 4px 0 0;
+  color: #777;
+  font-size: 12px;
+}
+
+
+.post-close-btn {
+  flex: 0 0 auto;
+
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #f5f5f5;
+  color: #444;
+
+  cursor: pointer;
+
+  transition:
+    background .2s,
+    color .2s;
+}
+
+
+.post-close-btn:hover {
+  background: var(--spot-accent-light);
+  color: var(--spot-accent);
+}
+
+
+/* =========================
+   フォーム本体
+   ========================= */
+
+.post-form {
+  padding: 20px;
+}
+
+
+.post-field {
+  margin-bottom: 18px;
+}
+
+
+.post-field > label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+
+.post-required,
+.post-optional {
+  display: inline-block;
+
+  margin-left: 6px;
+  padding: 2px 6px;
+
+  border-radius: 4px;
+
+  font-size: 10px;
+  font-weight: 600;
+}
+
+
+.post-required {
+  background: var(--spot-accent);
+  color: #fff;
+}
+
+
+.post-optional {
+  background: #eee;
+  color: #777;
+}
+
+
+/* =========================
+   入力欄
+   ========================= */
+
+.post-form input[type="text"],
+.post-form input[type="date"],
+.post-form select,
+.post-form textarea {
+
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 11px 12px;
+
+  border: 1px solid #d7d7d7;
+  border-radius: 9px;
+
+  background: #fff;
+  color: #222;
+
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color .18s,
+    box-shadow .18s,
+    background .18s;
+}
+
+
+/* ホバー */
+
+.post-form input[type="text"]:hover,
+.post-form input[type="date"]:hover,
+.post-form select:hover,
+.post-form textarea:hover {
+  border-color: var(--spot-accent);
+}
+
+
+/* フォーカス */
+
+.post-form input[type="text"]:focus,
+.post-form input[type="date"]:focus,
+.post-form select:focus,
+.post-form textarea:focus {
+
+  border-color: var(--spot-accent);
+
+  box-shadow:
+    0 0 0 3px rgba(217, 0, 0, 0.10);
+}
+
+
+/* プレースホルダー */
+
+.post-form input::placeholder,
+.post-form textarea::placeholder {
+  color: #aaa;
+}
+
+
+/* テキストエリア */
+
+.post-form textarea {
+  resize: vertical;
+  min-height: 90px;
+  line-height: 1.6;
+}
+
+
+/* =========================
+   補足テキスト
+   ========================= */
+
+.post-help {
+  margin: 6px 0 0;
+
+  color: #777;
+
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+
+.post-event-help {
+  margin-top: -4px;
+  margin-bottom: 16px;
+}
+
+
+/* =========================
+   マップ選択ボタン
+   ========================= */
+
+.post-map-select-btn {
+
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  padding: 12px;
+
+  border: 1px solid var(--spot-accent);
+  border-radius: 9px;
+
+  background: #fff;
+  color: var(--spot-accent);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background .18s,
+    color .18s;
+}
+
+
+.post-map-select-btn:hover {
+  background: var(--spot-accent);
+  color: #fff;
+}
+
+
+.post-map-select-btn .material-symbols-outlined {
+  font-size: 20px;
+}
+
+
+/* =========================
+   選択位置
+   ========================= */
+
+.post-location-summary {
+
+  margin-top: 8px;
+  padding: 9px 10px;
+
+  border-radius: 7px;
+
+  background: #f7f7f7;
+  color: #777;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+
+.post-location-summary.selected {
+  background: var(--spot-accent-light);
+  color: var(--spot-accent);
+}
+
+
+/* =========================
+   イベントボックス
+   ========================= */
+
+.post-event-box {
+
+  margin: 8px 0 20px;
+  padding: 16px;
+
+  border: 1px solid #eee;
+  border-radius: 12px;
+
+  background: #fafafa;
+}
+
+
+.post-event-heading {
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 10px;
+}
+
+
+.post-event-heading > .material-symbols-outlined {
+  color: var(--spot-accent);
+  font-size: 22px;
+}
+
+
+.post-event-heading div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+
+.post-event-heading strong {
+  font-size: 15px;
+}
+
+
+.post-event-heading span {
+  font-size: 10px;
+  color: #888;
+}
+
+
+.post-event-box .post-field:last-child {
+  margin-bottom: 0;
+}
+
+
+/* =========================
+   日付
+   ========================= */
+
+.post-date-row {
+
+  display: grid;
+
+  grid-template-columns: 1fr auto 1fr;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+
+.post-date-row > span {
+  color: #777;
+  font-size: 13px;
+}
+
+
+/* =========================
+   送信状態
+   ========================= */
+
+.post-form-status {
+
+  min-height: 20px;
+
+  margin: 4px 0 12px;
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+
+.post-form-status.error {
+  padding: 10px 12px;
+
+  border-radius: 8px;
+
+  background: #fff0f0;
+  color: #c00000;
+}
+
+
+.post-form-status.loading {
+  color: #666;
+}
+
+
+/* =========================
+   投稿ボタン
+   ========================= */
+
+.post-submit-btn {
+
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  padding: 13px 16px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: var(--spot-accent);
+  color: #fff;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background .18s,
+    transform .1s,
+    opacity .18s;
+}
+
+
+.post-submit-btn:hover {
+  background: var(--spot-accent-dark);
+}
+
+
+.post-submit-btn:active {
+  transform: translateY(1px);
+}
+
+
+.post-submit-btn:disabled {
+  opacity: .55;
+  cursor: wait;
+}
+
+
+/* =========================
+   ハニーポット
+   ========================= */
+
+.post-honeypot {
+
+  position: absolute;
+
+  left: -9999px;
+
+  width: 1px;
+  height: 1px;
+
+  overflow: hidden;
+}
+
+
+/* =========================
+   場所選択マップ
+   ========================= */
+
+.post-map-picker-modal {
+  z-index: 3000;
+}
+
+
+.post-map-picker-content {
+
+  width: min(94vw, 720px);
+
+  padding: 0;
+
+  overflow: hidden;
+
+  border-radius: 16px;
+}
+
+
+.post-picker-header {
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  padding: 15px 16px;
+
+  border-bottom: 1px solid #eee;
+}
+
+
+.post-picker-header strong {
+  font-size: 16px;
+}
+
+
+.post-picker-header p {
+
+  margin: 3px 0 0;
+
+  color: #777;
+  font-size: 11px;
+}
+
+
+#postPickerMap {
+
+  width: 100%;
+  height: 390px;
+}
+
+
+.post-picker-bottom {
+
+  padding: 12px 16px 16px;
+
+  background: #fff;
+}
+
+
+.post-picker-coordinate {
+
+  margin-bottom: 10px;
+
+  padding: 8px 10px;
+
+  border-radius: 7px;
+
+  background: #f7f7f7;
+
+  color: #666;
+
+  font-size: 11px;
+}
+
+
+.post-picker-confirm-btn {
+
+  width: 100%;
+
+  padding: 12px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: var(--spot-accent);
+  color: #fff;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+.post-picker-confirm-btn:hover {
+  background: var(--spot-accent-dark);
+}
+
+
+/* =========================
+   投稿完了通知
+   ========================= */
+
+.post-toast {
+
+  position: fixed;
+
+  left: 50%;
+  bottom: 24px;
+
+  z-index: 5000;
+
+  transform: translate(-50%, 20px);
+
+  width: min(90vw, 480px);
+
+  box-sizing: border-box;
+
+  padding: 13px 16px;
+
+  border-radius: 10px;
+
+  background: #222;
+  color: #fff;
+
+  text-align: center;
+
+  font-size: 13px;
+  line-height: 1.5;
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition:
+    opacity .2s,
+    transform .2s;
+}
+
+
+.post-toast.show {
+
+  opacity: 1;
+
+  transform: translate(-50%, 0);
+}
+
+
+/* ======================================================
+   詳細パネル上部：赤グラデーション
+   ====================================================== */
+
+.detail-top-area {
+
+  background:
+    linear-gradient(
+      135deg,
+      #A90000 0%,
+      #D90000 48%,
+      #FFF0F0 100%
+    ) !important;
+
+  color: #fff;
+}
+
+
+/*
+ * ヒーロー・イベント・アクションを
+ * ひと続きのグラデーションにする
+ */
+
+.detail-top-area .detail-hero,
+.detail-top-area .new-detail-hero,
+.detail-top-area .spot-event-section,
+.detail-top-area .new-detail-actions {
+
+  background: transparent !important;
+}
+
+
+/* 古い白背景などをリセット */
+
+.detail-top-area .detail-hero {
+  box-shadow: none !important;
+}
+
+
+/* アクションボタン */
+
+.detail-top-area .new-detail-actions {
+
+  margin-top: 0 !important;
+
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 8px;
+
+  padding: 12px 16px 18px;
+}
+
+
+.detail-top-area .new-detail-actions .detail-btn {
+
+  min-width: 0;
+
+  border: 1px solid rgba(255,255,255,.55) !important;
+
+  background: rgba(255,255,255,.14) !important;
+
+  color: #fff !important;
+
+  backdrop-filter: blur(3px);
+}
+
+
+.detail-top-area .new-detail-actions .detail-btn:hover {
+
+  background: rgba(255,255,255,.26) !important;
+}
+
+
+/* イベントタイトル */
+
+.detail-top-area .spot-event-title {
+  color: #fff !important;
+}
+
+
+/* イベントカード */
+
+.detail-top-area .spot-event-card {
+
+  background: #fff;
+
+  color: #333;
+
+  border-radius: 12px;
+}
+
+
+/* ======================================================
+   現地メモ
+   ====================================================== */
+
+.new-detail-main {
+
+  margin-top: 0 !important;
+
+  background: #f5f6f8 !important;
+}
+
+
+.memo-section {
+
+  background: transparent !important;
+
+  padding: 18px 16px !important;
+}
+
+
+.memo-section-title {
+
+  margin-bottom: 10px;
+}
+
+
+.memo-timeline {
+
+  display: flex !important;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+  position: static !important;
+}
+
+
+.memo-timeline::before,
+.memo-item::before,
+.memo-item::after {
+
+  display: none !important;
+}
+
+
+.memo-item {
+
+  position: static !important;
+
+  margin: 0 !important;
+
+  padding: 13px 14px;
+
+  background: #fff;
+
+  border: 1px solid #eee;
+
+  border-radius: 11px;
+
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+}
+
+
+.memo-heading {
+
+  color: #666;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  margin-bottom: 7px;
+}
+
+
+.memo-content {
+
+  color: #333;
+
+  font-size: 13px;
+
+  line-height: 1.7;
+}
+
+
+/* 最新メモ */
+
+.memo-latest {
+
+  border-color: rgba(217,0,0,.18);
+
+  box-shadow:
+    0 2px 7px rgba(217,0,0,.06);
+}
+
+
+/* 最新状況ボタン */
+
+.memo-post-small {
+
+  border: 1px solid var(--spot-accent) !important;
+
+  color: var(--spot-accent) !important;
+
+  background: #fff !important;
+}
+
+
+.memo-post-small:hover {
+
+  background: var(--spot-accent) !important;
+
+  color: #fff !important;
+}
+
+
+/* ======================================================
+   リンク
+   ====================================================== */
+
+.link-section {
+
+  background: transparent !important;
+
+  padding: 0 16px 18px !important;
+}
+
+
+.detail-links {
+
+  background: #fff;
+
+  border-radius: 11px;
+
+  overflow: hidden;
+}
+
+
+.detail-link-item {
+
+  display: grid;
+
+  grid-template-columns: 55px 1fr 24px;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 13px;
+
+  border-bottom: 1px solid #eee;
+
+  text-decoration: none;
+
+  color: #333;
+}
+
+
+.detail-link-item:last-child {
+  border-bottom: none;
+}
+
+
+.detail-link-item:hover {
+  background: #fff7f7;
+}
+
+
+.detail-link-label {
+
+  color: var(--spot-accent);
+
+  font-size: 12px;
+
+  font-weight: 700;
+}
+
+
+.detail-link-url {
+
+  min-width: 0;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  color: #666;
+
+  font-size: 11px;
+}
+
+
+.detail-link-arrow {
+  color: var(--spot-accent);
+}
+
+
+/* ======================================================
+   スマホ
+   ====================================================== */
+
+@media (max-width: 600px) {
+
+  .post-modal-content {
+    width: 94vw;
+    max-height: 88vh;
+  }
+
+  .post-form {
+    padding: 16px;
+  }
+
+  .post-header {
+    padding: 16px;
+  }
+
+  .post-title h3 {
+    font-size: 17px;
+  }
+
+  #postPickerMap {
+    height: 55vh;
+    min-height: 300px;
+  }
+
+  .detail-top-area .new-detail-actions {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .detail-top-area .new-detail-actions .detail-btn {
+    padding-left: 3px !important;
+    padding-right: 3px !important;
+  }
+
+  .detail-top-area .new-detail-actions .detail-btn .material-symbols-outlined {
+    font-size: 19px;
+  }
+
+  .detail-top-area .new-detail-actions .detail-btn .label {
+    font-size: 10px;
+  }
+
+}
    
 </style>
 </head>
@@ -1976,7 +2965,7 @@ body{
     <h2>使い方ガイド</h2>
 
     <p class="howto-lead">
-      非公式ファンサイト「ドズル社マップplus」の基本的な使い方を紹介します！<br>
+      非公式ファンサイト「ドズル社スポット」の基本的な使い方を紹介します！<br>
       初めての方はぜひご覧ください！
     </p>
 
@@ -2120,10 +3109,14 @@ body{
 <div id="terms" class="section">
   <div class="content">
 
-    <h2>ドズル社マップplus ご利用ガイド（利用規約）</h2>
+    <h2>ドズル社スポット ご利用ガイド（利用規約）</h2>
 
     <p>
-      本サービス「ドズル社マップplus」は、ドズル社ファン個人による
+      2026年5月にリリースした「ドズル社マップplus」は、2026年9月にサイト名を「ドズル社スポット」に改称しました。
+    </p>
+
+    <p>
+      本サービス「ドズル社スポット」は、ドズル社ファン個人による
       非公式・非公認のファンサイト「ドズル社データベース」が運営するサービスです。<br>
       株式会社ドズル様とは一切関係ございませんので、あらかじめご了承ください。
     </p>
@@ -2191,7 +3184,7 @@ body{
     <h3>■ お問い合わせについて</h3>
     <ul>
       <li>
-        「ドズル社マップplus」に関係するものは全てこちらから：
+        「ドズル社スポット」に関係するものは全てこちらから：
         <a href="https://forms.gle/zRNh95SmFFXqaffT7" target="_blank">
           専用フォーム
         </a>
@@ -2287,30 +3280,365 @@ body{
 
 </div>
 
-<!-- ===== 追加確認モーダル ===== -->
-<div id="addModal" class="modal" onclick="closeAddModal(event)">
+<!-- ===== 新規スポット投稿モーダル ===== -->
+<div id="postModal" class="modal" onclick="closePostModal(event)">
 
-  <div class="modal-content" onclick="event.stopPropagation()">
+  <div class="modal-content post-modal-content" onclick="event.stopPropagation()">
 
-    <div class="search-header">
+    <!-- ヘッダー -->
+    <div class="post-header">
 
-      <div class="search-title">
-        <span class="material-symbols-outlined">edit</span>
-        <h3 style="margin:0;">新規情報の追加・修正</h3>
+      <div class="post-title">
+        <span class="material-symbols-outlined">add_location_alt</span>
+        <div>
+          <h3>新規スポット投稿</h3>
+          <p>新しいスポットの情報をお寄せください</p>
+        </div>
       </div>
+
+      <button
+        type="button"
+        class="post-close-btn"
+        onclick="closePostModal()"
+        aria-label="閉じる"
+      >
+        <span class="material-symbols-outlined">close</span>
+      </button>
 
     </div>
 
-    <p>Googleフォームが開きます。<br>よろしいですか？</p>
 
-    <div class="modal-actions">
-      <button class="btn btn-cancel" onclick="closeAddModal()">戻る</button>
-      <button class="btn btn-main" onclick="openForm()">開く</button>
+    <!-- 投稿フォーム -->
+    <form id="spotPostForm" class="post-form" novalidate>
+
+      <!-- ハニーポット：通常のユーザーには見えません -->
+      <div class="post-honeypot" aria-hidden="true">
+        <label>
+          会社名
+          <input
+            type="text"
+            id="postWebsite"
+            name="website"
+            tabindex="-1"
+            autocomplete="off"
+          >
+        </label>
+      </div>
+
+
+      <!-- 場所名 -->
+      <div class="post-field">
+
+        <label for="postPlaceName">
+          場所名
+          <span class="post-required">必須</span>
+        </label>
+
+        <input
+          type="text"
+          id="postPlaceName"
+          maxlength="100"
+          placeholder="例：〇〇駅"
+          required
+        >
+
+      </div>
+
+
+      <!-- カテゴリ -->
+      <div class="post-field">
+
+        <label for="postCategory">
+          カテゴリ
+          <span class="post-required">必須</span>
+        </label>
+
+        <select id="postCategory" required>
+
+          <option value="">カテゴリを選択してください</option>
+
+          <option value="グッズ">グッズ</option>
+          <option value="飲食">飲食</option>
+          <option value="コンビニ">コンビニ</option>
+          <option value="カプセルトイ">カプセルトイ</option>
+          <option value="ゲームセンター">ゲームセンター</option>
+          <option value="その他">その他</option>
+
+        </select>
+
+      </div>
+
+
+      <!-- 場所 -->
+      <div class="post-field">
+
+        <label>
+          スポットの場所
+          <span class="post-required">必須</span>
+        </label>
+
+        <button
+          type="button"
+          class="post-map-select-btn"
+          onclick="openPostMapPicker()"
+        >
+          <span class="material-symbols-outlined">map</span>
+          マップ上で場所を選択
+        </button>
+
+        <div
+          id="postLocationSummary"
+          class="post-location-summary"
+        >
+          まだ場所が選択されていません
+        </div>
+
+      </div>
+
+
+      <!-- 住所 -->
+      <div class="post-field">
+
+        <label for="postAddress">
+          住所
+          <span class="post-optional">任意</span>
+        </label>
+
+        <input
+          type="text"
+          id="postAddress"
+          maxlength="300"
+          placeholder="マップ選択後に自動取得されます"
+        >
+
+        <p id="postAddressNote" class="post-help">
+          マップから自動取得します。取得できない場合は手入力できます。
+        </p>
+
+      </div>
+
+
+      <!-- イベント -->
+      <div class="post-event-box">
+
+        <div class="post-event-heading">
+          <span class="material-symbols-outlined">event</span>
+          <div>
+            <strong>イベント情報</strong>
+            <span>任意</span>
+          </div>
+        </div>
+
+        <p class="post-help post-event-help">
+          イベント名を入力する場合は、開催状況または開催期間も入力してください。
+        </p>
+
+
+        <!-- イベント名 -->
+        <div class="post-field">
+
+          <label for="postEventName">
+            イベント名
+            <span class="post-optional">任意</span>
+          </label>
+
+          <input
+            type="text"
+            id="postEventName"
+            maxlength="300"
+            placeholder="例：ドズル社〇周年イベント"
+          >
+
+        </div>
+
+
+        <!-- 手動開催状況 -->
+        <div class="post-field">
+
+          <label for="postManualStatus">
+            手動開催状況
+            <span class="post-optional">任意</span>
+          </label>
+
+          <select id="postManualStatus">
+
+            <option value="">指定しない</option>
+            <option value="開催前">開催前</option>
+            <option value="開催中">開催中</option>
+            <option value="開催終了">開催終了</option>
+
+          </select>
+
+        </div>
+
+
+        <!-- 開催期間 -->
+        <div class="post-field">
+
+          <label>
+            開催期間
+            <span class="post-optional">任意</span>
+          </label>
+
+          <div class="post-date-row">
+
+            <input
+              type="date"
+              id="postStartDate"
+            >
+
+            <span>～</span>
+
+            <input
+              type="date"
+              id="postEndDate"
+            >
+
+          </div>
+
+          <p class="post-help">
+            開始日・終了日の両方を入力すると、サイト上では日付による自動判定が優先されます。
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- 現地メモ -->
+      <div class="post-field">
+
+        <label for="postMemo">
+          現地メモ
+          <span class="post-optional">任意</span>
+        </label>
+
+        <textarea
+          id="postMemo"
+          maxlength="2000"
+          rows="5"
+          placeholder="現地の状況や在庫状況などがあれば入力してください"
+        ></textarea>
+
+        <p class="post-help">
+          投稿時の日付を「現地メモ日時-1」として自動記録します。
+        </p>
+
+      </div>
+
+
+      <!-- 関連URL -->
+      <div class="post-field">
+
+        <label for="postRelatedUrl">
+          関連URL
+          <span class="post-optional">任意</span>
+        </label>
+
+        <textarea
+          id="postRelatedUrl"
+          maxlength="1000"
+          rows="3"
+          placeholder="https://example.com"
+        ></textarea>
+
+        <p class="post-help">
+          複数ある場合は「｜」で区切ってください。
+        </p>
+
+      </div>
+
+
+      <!-- エラー・状態 -->
+      <div
+        id="postFormStatus"
+        class="post-form-status"
+        role="status"
+        aria-live="polite"
+      ></div>
+
+
+      <!-- 送信 -->
+      <button
+        type="submit"
+        id="postSubmitButton"
+        class="post-submit-btn"
+      >
+        <span class="material-symbols-outlined">send</span>
+        投稿する
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<!-- ===== 投稿場所選択マップ ===== -->
+<div
+  id="postMapPickerModal"
+  class="modal post-map-picker-modal"
+  onclick="closePostMapPicker(event)"
+>
+
+  <div
+    class="modal-content post-map-picker-content"
+    onclick="event.stopPropagation()"
+  >
+
+    <div class="post-picker-header">
+
+      <div>
+        <strong>場所を選択</strong>
+        <p>スポットの位置をマップ上でタップしてください</p>
+      </div>
+
+      <button
+        type="button"
+        onclick="closePostMapPicker()"
+        class="post-close-btn"
+      >
+        <span class="material-symbols-outlined">close</span>
+      </button>
+
+    </div>
+
+
+    <div id="postPickerMap"></div>
+
+
+    <div class="post-picker-bottom">
+
+      <div
+        id="postPickerCoordinate"
+        class="post-picker-coordinate"
+      >
+        場所が選択されていません
+      </div>
+
+      <button
+        type="button"
+        class="post-picker-confirm-btn"
+        onclick="confirmPostMapLocation()"
+      >
+        この場所を選択
+      </button>
+
     </div>
 
   </div>
 
 </div>
+
+
+<!-- 投稿完了などの通知 -->
+<div
+  id="postToast"
+  class="post-toast"
+  role="status"
+  aria-live="polite"
+></div>
 
 <!-- ===== 検索モーダル ===== -->
 <div id="searchModal" class="modal" onclick="closeSearchModal(event)">
@@ -2462,6 +3790,19 @@ function goHome(){
   location.href = "/";
 }
 
+// ======================================================
+// 新規スポット投稿 - GAS設定
+// ======================================================
+
+// GAS Webアプリの「/exec」URLをここに入れる
+const GAS_WEB_APP_URL =
+  "https://script.google.com/macros/s/AKfycbyubKG7_D_b1YtOew4ySdUfjnHtDx9mzHrlLZzgv3j6z93IZXpMnTkljRc67s8HQYNA/exec";
+
+// 投稿者を識別するための簡易ID
+// 個人情報ではなく、ブラウザごとにランダム生成されるIDです。
+const POST_CLIENT_ID_KEY =
+  "dzl_spot_post_client_id_v1";
+   
 const categories = [
   {name:"グッズ", color:"#C80000"},
   {name:"飲食", color:"#733C93"},
@@ -2564,35 +3905,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
 function applyFilter(){
 
-  const selectedCats = Array.from(
-    document.querySelectorAll("#categoryFilter .toggle-item.active")
-  ).map(el => el.dataset.value);
-
-  const selectedStatus = Array.from(
-    document.querySelectorAll("#statusFilter .toggle-item.active")
-  ).map(el => el.dataset.value);
-
-  // 全削除
-  markers.forEach(obj=>{
-    map.removeLayer(obj.marker);
-  });
-
-  // 条件一致のみ
-  markers.forEach(obj=>{
-
-    const cat = obj.data["カテゴリ"];
-    const status = obj.data["開催状況"];
-
-    if(
-      selectedCats.includes(cat) &&
-      selectedStatus.includes(status)
-    ){
-      obj.marker.addTo(map);
-    }
-
-  });
+  applyCurrentFilterToMarkers();
 
   closeFilterForce();
+
 }
 
 // =======================
@@ -2658,83 +3974,340 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 let markers = [];
 let dataList = [];
 
-// =======================
-// CSV取得
-// =======================
-fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQYy_PtEIhPRx7qC-n0Yjan12MtkNoeAXnYyjMEBTDP7Lv_gfI2TLKSXnS07AvfDt9B3iNVz5Nie27_/pub?gid=2121528304&single=true&output=csv")
-  .then(res => {
+// ======================================================
+// スポットCSV
+// ======================================================
 
-    if(!res.ok){
-      throw new Error("CSVの取得に失敗しました");
+const SPOT_CSV_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQYy_PtEIhPRx7qC-n0Yjan12MtkNoeAXnYyjMEBTDP7Lv_gfI2TLKSXnS07AvfDt9B3iNVz5Nie27_/pub?gid=2121528304&single=true&output=csv";
+
+
+// ======================================================
+// CSV読み込み
+// ======================================================
+
+async function loadSpotData(){
+
+  const cacheBuster =
+    `_=${Date.now()}`;
+
+
+  const csvUrl =
+    SPOT_CSV_URL +
+    (SPOT_CSV_URL.includes("?") ? "&" : "?") +
+    cacheBuster;
+
+
+  const response =
+    await fetch(
+      csvUrl,
+      {
+        cache: "no-store"
+      }
+    );
+
+
+  if(!response.ok){
+
+    throw new Error(
+      "CSVの取得に失敗しました"
+    );
+
+  }
+
+
+  const text =
+    await response.text();
+
+
+  const parsed =
+    Papa.parse(
+      text,
+      {
+        header: true,
+        skipEmptyLines: true
+      }
+    );
+
+
+  if(parsed.errors && parsed.errors.length){
+
+    console.warn(
+      "CSV解析警告:",
+      parsed.errors
+    );
+
+  }
+
+
+  const newDataList =
+    parsed.data;
+
+
+  const newMarkers = [];
+
+
+  // ==============================================
+  // 同じ座標の管理
+  // ==============================================
+
+  const usedPositions = {};
+
+
+  newDataList.forEach(item => {
+
+    let lat =
+      parseFloat(item["緯度"]);
+
+
+    let lng =
+      parseFloat(item["経度"]);
+
+
+    if(
+      !Number.isFinite(lat) ||
+      !Number.isFinite(lng)
+    ){
+
+      return;
+
     }
 
-    return res.text();
 
-  })
-  .then(text => {
+    const key =
+      lat.toFixed(6) +
+      "," +
+      lng.toFixed(6);
 
-    const parsed = Papa.parse(text, {
-      header: true,
-      skipEmptyLines: true
-    });
 
-    dataList = parsed.data;
+    if(
+      usedPositions[key]
+    ){
 
-    // =========================
-    // 同じ座標の管理
-    // =========================
-    let usedPositions = {};
+      usedPositions[key]++;
 
-    dataList.forEach(item => {
 
-      let lat = parseFloat(item["緯度"]);
-      let lng = parseFloat(item["経度"]);
+      const offset =
+        (Math.random() - 0.5) *
+        0.0002;
 
-      if(isNaN(lat) || isNaN(lng)) return;
 
-      // =========================
-      // 同じ座標チェック
-      // =========================
-      const key = lat.toFixed(6) + "," + lng.toFixed(6);
+      lat += offset;
+      lng += offset;
 
-      if(usedPositions[key]){
+    }else{
 
-        usedPositions[key]++;
+      usedPositions[key] = 1;
 
-        // 同じ場所に複数スポットがある場合は少しずらす
-        const offset = (Math.random() - 0.5) * 0.0002;
+    }
 
-        lat += offset;
-        lng += offset;
 
-      }else{
+    // ============================================
+    // マーカー
+    // ============================================
 
-        usedPositions[key] = 1;
+    const marker =
+      L.marker(
+        [lat, lng],
+        {
+          icon:
+            getIcon(item["カテゴリ"])
+        }
+      );
+
+
+    marker.on(
+      "click",
+      () => {
+
+        openDetail(item);
 
       }
+    );
 
-      // =========================
-      // マーカー生成
-      // =========================
-      const marker = L.marker([lat, lng], {
-        icon: getIcon(item["カテゴリ"])
-      }).addTo(map);
 
-      marker.on("click", () => {
-        openDetail(item);
-      });
+    newMarkers.push({
 
-      markers.push({
-        marker: marker,
-        data: item
-      });
+      marker: marker,
+
+      data: item
 
     });
 
-  })
+  });
+
+
+  // ==============================================
+  // 古いマーカーを削除
+  // ==============================================
+
+  markers.forEach(obj => {
+
+    try {
+
+      map.removeLayer(
+        obj.marker
+      );
+
+    } catch(error){
+
+      console.warn(
+        "マーカー削除エラー:",
+        error
+      );
+
+    }
+
+  });
+
+
+  markers =
+    newMarkers;
+
+
+  dataList =
+    newDataList;
+
+
+  // ==============================================
+  // 現在のフィルターを適用
+  // ==============================================
+
+  applyCurrentFilterToMarkers();
+
+
+  return dataList;
+
+}
+
+
+// ======================================================
+// 現在のフィルター状態を取得して適用
+// ======================================================
+
+function applyCurrentFilterToMarkers(){
+
+  const categoryItems =
+    document.querySelectorAll(
+      "#categoryFilter .toggle-item"
+    );
+
+
+  const statusItems =
+    document.querySelectorAll(
+      "#statusFilter .toggle-item"
+    );
+
+
+  // フィルターUIがまだ生成されていない場合
+  // → 全件表示
+  if(
+    categoryItems.length === 0 ||
+    statusItems.length === 0
+  ){
+
+    markers.forEach(obj => {
+
+      obj.marker.addTo(map);
+
+    });
+
+    return;
+
+  }
+
+
+  const selectedCats =
+    Array.from(
+      document.querySelectorAll(
+        "#categoryFilter .toggle-item.active"
+      )
+    ).map(
+      el => el.dataset.value
+    );
+
+
+  const selectedStatuses =
+    Array.from(
+      document.querySelectorAll(
+        "#statusFilter .toggle-item.active"
+      )
+    ).map(
+      el => el.dataset.value
+    );
+
+
+  markers.forEach(obj => {
+
+    const category =
+      obj.data["カテゴリ"];
+
+
+    const status =
+      getPrimarySpotStatus(
+        obj.data
+      );
+
+
+    const show =
+      selectedCats.includes(category) &&
+      selectedStatuses.includes(status);
+
+
+    if(show){
+
+      obj.marker.addTo(map);
+
+    }else{
+
+      map.removeLayer(
+        obj.marker
+      );
+
+    }
+
+  });
+
+}
+
+
+// ======================================================
+// スポットの代表開催状況
+// ======================================================
+
+function getPrimarySpotStatus(
+  data
+){
+
+  const events =
+    getEvents(data);
+
+
+  if(
+    !events.length
+  ){
+
+    return "";
+
+  }
+
+
+  return events[0].status || "";
+
+}
+
+
+// ======================================================
+// 初回読み込み
+// ======================================================
+
+loadSpotData()
   .catch(error => {
 
-    console.error("CSV読み込みエラー:", error);
+    console.error(
+      "CSV読み込みエラー:",
+      error
+    );
 
   });
    
@@ -3247,84 +4820,119 @@ function openDetail(data){
 
 function getEvents(data){
 
-  const eventText = (data["イベント名"] || "").trim();
+  const eventText =
+    (data["イベント名"] || "").trim();
+
 
   if(!eventText){
+
     return [];
+
   }
 
 
   // 全角「｜」で分割
-  const eventNames = eventText
-    .split("｜")
-    .map(value => value.trim());
+  const eventNames =
+    eventText
+      .split("｜")
+      .map(
+        value => value.trim()
+      )
+      .filter(
+        value => value !== ""
+      );
 
 
   const manualStatusText =
     (data["手動開催状況"] || "").trim();
 
 
-  const manualStatuses = manualStatusText
-    ? manualStatusText
-        .split("｜")
-        .map(value => value.trim())
-    : [];
+  const manualStatuses =
+    manualStatusText
+      ? manualStatusText
+          .split("｜")
+          .map(
+            value => value.trim()
+          )
+      : [];
 
 
-  const startDate = normalizeDateOnly(
-    data["開始日"]
-  );
-
-  const endDate = normalizeDateOnly(
-    data["終了日"]
-  );
+  const startDate =
+    normalizeDateOnly(
+      data["開始日"]
+    );
 
 
-  // 開始日・終了日の両方がある場合のみ
-  // 自動判定を使用する
+  const endDate =
+    normalizeDateOnly(
+      data["終了日"]
+    );
+
+
+  // 開始日・終了日の両方がある場合
+  // 自動判定を使用
   const canUseAutoStatus =
     startDate !== "" &&
     endDate !== "";
 
 
-  return eventNames
-    .filter(name => name !== "")
-    .map((name, index) => {
+  return eventNames.map(
+    (name, index) => {
 
       let status = "";
 
 
-      // ==============================================
+      // =========================================
       // 日付による自動判定
-      // ==============================================
+      // =========================================
 
       if(canUseAutoStatus){
 
-        status = getAutoEventStatus(
-          startDate,
-          endDate
-        );
+        status =
+          getAutoEventStatus(
+            startDate,
+            endDate
+          );
 
       }
 
-      // ==============================================
-      // 日付による自動判定ができない場合
-      // 手動開催状況を使用
-      // ==============================================
+      // =========================================
+      // 手動開催状況
+      // =========================================
 
-      else if(manualStatuses[index]){
+      else if(manualStatuses.length){
 
-        status = manualStatuses[index];
+        /*
+         * 手動状況が1つだけなら
+         * すべてのイベントに適用
+         */
+        if(
+          manualStatuses.length === 1
+        ){
+
+          status =
+            manualStatuses[0];
+
+        }else{
+
+          status =
+            manualStatuses[index] || "";
+
+        }
 
       }
 
 
       return {
+
         name: name,
+
         status: status
+
       };
 
-    });
+    }
+  );
 
 }
 
@@ -3409,15 +5017,14 @@ function normalizeDateOnly(value){
   }
 
 
-  const text = String(value).trim();
+  const text =
+    String(value).trim();
 
 
-  // 2026/07/01
-  // 2026-07-01
-  // 2026.07.01
-  const match = text.match(
-    /^(\d{4})[\/\-.](\d{1,2})[\/\-.](\d{1,2})/
-  );
+  const match =
+    text.match(
+      /^(\d{4})[\/\-.](\d{1,2})[\/\-.](\d{1,2})/
+    );
 
 
   if(!match){
@@ -3425,15 +5032,18 @@ function normalizeDateOnly(value){
   }
 
 
-  const year = match[1];
+  const year =
+    match[1];
 
-  const month = String(
-    match[2]
-  ).padStart(2, "0");
 
-  const day = String(
-    match[3]
-  ).padStart(2, "0");
+  const month =
+    String(match[2])
+      .padStart(2, "0");
+
+
+  const day =
+    String(match[3])
+      .padStart(2, "0");
 
 
   return `${year}-${month}-${day}`;
@@ -3519,8 +5129,13 @@ function getRelatedUrls(value){
 
   return String(value)
     .split("｜")
-    .map(url => url.trim())
-    .filter(url => url !== "");
+    .map(
+      url => url.trim()
+    )
+    .filter(
+      url =>
+        /^https?:\/\//i.test(url)
+    );
 
 }
 
@@ -3826,21 +5441,21 @@ function showNearbyList(){
 
     // ★ここを完全に検索と揃える
     div.innerHTML = `
-      <strong>${item["場所名"] || "名称なし"}</strong>
+      <strong>${escapeHtml(item["場所名"] || "名称なし")}</strong>
 
       <div class="search-sub">
 
         ${item["住所"] ? `
           <div class="search-row">
             <span class="material-symbols-outlined">location_on</span>
-            <div>${item["住所"]}</div>
+            <div>${escapeHtml(item["住所"])}</div>
           </div>
         ` : ""}
 
         ${item["イベント名"] ? `
           <div class="search-row">
             <span class="material-symbols-outlined">event</span>
-            <div>${item["イベント名"]}</div>
+            <div>${escapeHtml(item["イベント名"])}</div>
           </div>
         ` : ""}
 
@@ -3867,7 +5482,9 @@ function showNearbyList(){
 // ② 追加モーダル
 // =======================
 function openAddModal(){
-  document.getElementById("addModal").classList.add("active");
+
+  openPostModal();
+
 }
 
 function closeAddModal(e){
@@ -3877,13 +5494,17 @@ function closeAddModal(e){
 }
 
 function openForm(){
-  window.open("https://forms.gle/zRNh95SmFFXqaffT7", "_blank");
-  closeAddModal();
+
+  openPostModal();
+
 }
 
 function openInfoForm(){
-  window.open("https://forms.gle/kam4KBRNKEbqBYr36", "_blank");
-  closeModalForce(); // ← モーダル閉じる（UX的に重要）
+
+  closeModalForce();
+
+  openPostModal();
+
 }
 
 // =======================
@@ -4055,21 +5676,21 @@ document.addEventListener("DOMContentLoaded", ()=>{
       div.className = "search-item";
 
       div.innerHTML = `
-        <strong>${item["場所名"] || "名称なし"}</strong>
+        <strong>${escapeHtml(item["場所名"] || "名称なし")}</strong>
 
         <div class="search-sub">
 
           ${item["住所"] ? `
             <div class="search-row">
               <span class="material-symbols-outlined">location_on</span>
-              <div>${item["住所"]}</div>
+              <div>${escapeHtml(item["住所"])}</div>
             </div>
           ` : ""}
 
           ${item["イベント名"] ? `
             <div class="search-row">
               <span class="material-symbols-outlined">event</span>
-              <div>${item["イベント名"]}</div>
+              <div>${escapeHtml(item["イベント名"])}</div>
             </div>
           ` : ""}
 
@@ -4108,7 +5729,6 @@ function updateSearchLabel(){
 // 提供者一覧CSV読み込み
 // =======================
 
-// ★ここに新しいCSV_URLを入れてください
 const CONTRIBUTORS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS-mAknXEbape8065ZFUgQ0sYVab31C0ZbYIOAzqjZtuj-pAFPcAeA4eg3f8ZeD0K-bTd51A19iNMQH/pub?gid=1182453185&single=true&output=csv";
 
 fetch(CONTRIBUTORS_CSV_URL)
@@ -4143,6 +5763,1167 @@ fetch(CONTRIBUTORS_CSV_URL)
     });
 
   });
+
+// ======================================================
+// 新規スポット投稿フォーム
+// ======================================================
+
+let postPickerMap = null;
+let postPickerMarker = null;
+
+let selectedPostLat = null;
+let selectedPostLng = null;
+
+let postGeocodeRequestId = 0;
+
+
+// ======================================================
+// 投稿者用ブラウザID
+// ======================================================
+
+function getPostClientId(){
+
+  try {
+
+    let id = localStorage.getItem(
+      POST_CLIENT_ID_KEY
+    );
+
+    if(!id){
+
+      id =
+        "client-" +
+        crypto.randomUUID();
+
+      localStorage.setItem(
+        POST_CLIENT_ID_KEY,
+        id
+      );
+
+    }
+
+    return id;
+
+  } catch(error){
+
+    return "client-session";
+
+  }
+
+}
+
+
+// ======================================================
+// GASへPOST
+// ======================================================
+
+async function postToGas(payload){
+
+  if(
+    !GAS_WEB_APP_URL ||
+    GAS_WEB_APP_URL.includes("https://script.google.com/macros/s/AKfycbyubKG7_D_b1YtOew4ySdUfjnHtDx9mzHrlLZzgv3j6z93IZXpMnTkljRc67s8HQYNA/exec")
+  ){
+
+    throw new Error(
+      "GAS WebアプリURLが設定されていません。"
+    );
+
+  }
+
+
+  const response = await fetch(
+    GAS_WEB_APP_URL,
+    {
+      method: "POST",
+
+      /*
+       * application/json にすると
+       * CORSのpreflightが発生する可能性があるため、
+       * text/plain でJSONを送信します。
+       */
+      headers: {
+        "Content-Type":
+          "text/plain;charset=utf-8"
+      },
+
+      body: JSON.stringify(payload)
+    }
+  );
+
+
+  if(!response.ok){
+
+    throw new Error(
+      "GASとの通信に失敗しました。"
+    );
+
+  }
+
+
+  const result =
+    await response.json();
+
+
+  return result;
+
+}
+
+
+// ======================================================
+// 投稿フォームを開く
+// ======================================================
+
+function openPostModal(){
+
+  const modal =
+    document.getElementById("postModal");
+
+  modal.classList.add("active");
+
+  resetPostForm();
+
+}
+
+
+// ======================================================
+// 投稿フォームを閉じる
+// ======================================================
+
+function closePostModal(e){
+
+  if(
+    !e ||
+    e.target === e.currentTarget
+  ){
+
+    document
+      .getElementById("postModal")
+      .classList.remove("active");
+
+  }
+
+}
+
+
+// ======================================================
+// 投稿フォームリセット
+// ======================================================
+
+function resetPostForm(){
+
+  const form =
+    document.getElementById("spotPostForm");
+
+  if(form){
+    form.reset();
+  }
+
+
+  selectedPostLat = null;
+  selectedPostLng = null;
+
+
+  document
+    .getElementById("postLocationSummary")
+    .textContent =
+      "まだ場所が選択されていません";
+
+
+  document
+    .getElementById("postLocationSummary")
+    .classList.remove("selected");
+
+
+  document
+    .getElementById("postAddressNote")
+    .textContent =
+      "マップから自動取得します。取得できない場合は手入力できます。";
+
+
+  clearPostFormStatus();
+
+}
+
+
+// ======================================================
+// フォーム状態表示
+// ======================================================
+
+function setPostFormStatus(
+  message,
+  type = ""
+){
+
+  const box =
+    document.getElementById("postFormStatus");
+
+  box.textContent = message;
+
+  box.className =
+    "post-form-status";
+
+  if(type){
+    box.classList.add(type);
+  }
+
+}
+
+
+function clearPostFormStatus(){
+
+  const box =
+    document.getElementById("postFormStatus");
+
+  box.textContent = "";
+
+  box.className =
+    "post-form-status";
+
+}
+
+
+// ======================================================
+// 投稿マップを開く
+// ======================================================
+
+function openPostMapPicker(){
+
+  const modal =
+    document.getElementById(
+      "postMapPickerModal"
+    );
+
+  modal.classList.add("active");
+
+
+  // 初回だけLeafletを生成
+  if(!postPickerMap){
+
+    postPickerMap =
+      L.map("postPickerMap", {
+        zoomControl: true
+      });
+
+
+    L.tileLayer(
+      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        attribution:
+          "&copy; OpenStreetMap"
+      }
+    ).addTo(postPickerMap);
+
+
+    postPickerMap.on(
+      "click",
+      handlePostMapClick
+    );
+
+  }
+
+
+  // 現在のメインマップ位置を基準にする
+  const center =
+    map.getCenter();
+
+
+  postPickerMap.setView(
+    [
+      center.lat,
+      center.lng
+    ],
+    Math.max(map.getZoom(), 10)
+  );
+
+
+  // 既に選択済みなら表示
+  if(
+    Number.isFinite(selectedPostLat) &&
+    Number.isFinite(selectedPostLng)
+  ){
+
+    setPostPickerMarker(
+      selectedPostLat,
+      selectedPostLng
+    );
+
+    postPickerMap.setView(
+      [
+        selectedPostLat,
+        selectedPostLng
+      ],
+      16
+    );
+
+  }
+
+
+  // 非表示→表示後のLeafletサイズ問題対策
+  setTimeout(() => {
+
+    postPickerMap.invalidateSize();
+
+  }, 100);
+
+}
+
+
+// ======================================================
+// 投稿マップを閉じる
+// ======================================================
+
+function closePostMapPicker(e){
+
+  if(
+    !e ||
+    e.target === e.currentTarget
+  ){
+
+    document
+      .getElementById(
+        "postMapPickerModal"
+      )
+      .classList.remove("active");
+
+  }
+
+}
+
+
+// ======================================================
+// マップクリック
+// ======================================================
+
+function handlePostMapClick(e){
+
+  const lat = e.latlng.lat;
+  const lng = e.latlng.lng;
+
+
+  setPostPickerMarker(
+    lat,
+    lng
+  );
+
+
+  updateSelectedPostLocation(
+    lat,
+    lng
+  );
+
+}
+
+
+// ======================================================
+// 投稿マップのマーカー
+// ======================================================
+
+function setPostPickerMarker(
+  lat,
+  lng
+){
+
+  if(postPickerMarker){
+
+    postPickerMarker.setLatLng(
+      [lat, lng]
+    );
+
+  }else{
+
+    postPickerMarker =
+      L.marker(
+        [lat, lng]
+      ).addTo(postPickerMap);
+
+  }
+
+}
+
+
+// ======================================================
+// 選択座標を更新
+// ======================================================
+
+function updateSelectedPostLocation(
+  lat,
+  lng
+){
+
+  selectedPostLat = lat;
+  selectedPostLng = lng;
+
+
+  const summary =
+    document.getElementById(
+      "postLocationSummary"
+    );
+
+
+  summary.textContent =
+    `選択地点：${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+
+
+  summary.classList.add(
+    "selected"
+  );
+
+
+  const coordinate =
+    document.getElementById(
+      "postPickerCoordinate"
+    );
+
+
+  coordinate.textContent =
+    `緯度 ${lat.toFixed(6)} / 経度 ${lng.toFixed(6)}`;
+
+
+  // 住所自動取得
+  requestPostAddress(
+    lat,
+    lng
+  );
+
+}
+
+
+// ======================================================
+// 選択地点を確定
+// ======================================================
+
+function confirmPostMapLocation(){
+
+  if(
+    !Number.isFinite(selectedPostLat) ||
+    !Number.isFinite(selectedPostLng)
+  ){
+
+    alert(
+      "マップ上でスポットの場所を選択してください。"
+    );
+
+    return;
+
+  }
+
+
+  document
+    .getElementById(
+      "postMapPickerModal"
+    )
+    .classList.remove("active");
+
+}
+
+
+// ======================================================
+// GASで住所を取得
+// ======================================================
+
+async function requestPostAddress(
+  lat,
+  lng
+){
+
+  const requestId =
+    ++postGeocodeRequestId;
+
+
+  const note =
+    document.getElementById(
+      "postAddressNote"
+    );
+
+
+  note.textContent =
+    "住所を取得しています…";
+
+
+  try {
+
+    const result =
+      await postToGas({
+
+        action: "geocode",
+
+        lat: lat,
+        lng: lng
+
+      });
+
+
+    // 古いリクエストなら無視
+    if(
+      requestId !== postGeocodeRequestId
+    ){
+      return;
+    }
+
+
+    if(
+      result &&
+      result.ok &&
+      result.address
+    ){
+
+      document
+        .getElementById(
+          "postAddress"
+        )
+        .value =
+          result.address;
+
+
+      note.textContent =
+        "住所を自動取得しました。必要に応じて編集できます。";
+
+    }else{
+
+      note.textContent =
+        "住所を自動取得できませんでした。必要に応じて手入力してください。";
+
+    }
+
+  } catch(error){
+
+    console.warn(
+      "住所自動取得エラー:",
+      error
+    );
+
+
+    note.textContent =
+      "住所を自動取得できませんでした。必要に応じて手入力してください。";
+
+  }
+
+}
+
+
+// ======================================================
+// 投稿フォーム送信
+// ======================================================
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    const form =
+      document.getElementById(
+        "spotPostForm"
+      );
+
+
+    if(!form){
+      return;
+    }
+
+
+    form.addEventListener(
+      "submit",
+      handleSpotPostSubmit
+    );
+
+  }
+);
+
+
+// ======================================================
+// 投稿処理
+// ======================================================
+
+async function handleSpotPostSubmit(
+  event
+){
+
+  event.preventDefault();
+
+
+  clearPostFormStatus();
+
+
+  const placeName =
+    document
+      .getElementById("postPlaceName")
+      .value
+      .trim();
+
+
+  const category =
+    document
+      .getElementById("postCategory")
+      .value
+      .trim();
+
+
+  const address =
+    document
+      .getElementById("postAddress")
+      .value
+      .trim();
+
+
+  const eventName =
+    document
+      .getElementById("postEventName")
+      .value
+      .trim();
+
+
+  const manualStatus =
+    document
+      .getElementById("postManualStatus")
+      .value
+      .trim();
+
+
+  const startDate =
+    document
+      .getElementById("postStartDate")
+      .value
+      .trim();
+
+
+  const endDate =
+    document
+      .getElementById("postEndDate")
+      .value
+      .trim();
+
+
+  const memo =
+    document
+      .getElementById("postMemo")
+      .value
+      .trim();
+
+
+  const relatedUrl =
+    document
+      .getElementById("postRelatedUrl")
+      .value
+      .trim();
+
+
+  const website =
+    document
+      .getElementById("postWebsite")
+      .value
+      .trim();
+
+
+  // ==============================================
+  // クライアント側チェック
+  // ==============================================
+
+  if(!placeName){
+
+    setPostFormStatus(
+      "場所名を入力してください。",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(!category){
+
+    setPostFormStatus(
+      "カテゴリを選択してください。",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(
+    !Number.isFinite(selectedPostLat) ||
+    !Number.isFinite(selectedPostLng)
+  ){
+
+    setPostFormStatus(
+      "マップ上でスポットの場所を選択してください。",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  // ==============================================
+  // イベント入力チェック
+  // ==============================================
+
+  if(eventName){
+
+    // イベント名あり
+    // → 手動開催状況 or 開催期間が必要
+
+    if(
+      !manualStatus &&
+      !startDate &&
+      !endDate
+    ){
+
+      setPostFormStatus(
+        "イベント名を入力した場合は、開催状況または開催期間を入力してください。",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    // 開始日・終了日の片方だけは禁止
+
+    if(
+      (startDate && !endDate) ||
+      (!startDate && endDate)
+    ){
+
+      setPostFormStatus(
+        "開催期間を入力する場合は、開始日と終了日の両方を入力してください。",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    // 日付チェック
+
+    if(
+      startDate &&
+      endDate &&
+      startDate > endDate
+    ){
+
+      setPostFormStatus(
+        "終了日は開始日以降の日付にしてください。",
+        "error"
+      );
+
+      return;
+
+    }
+
+  }
+
+
+  // ==============================================
+  // ハニーポット
+  // ==============================================
+
+  if(website){
+
+    setPostFormStatus(
+      "投稿を処理できませんでした。",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  // ==============================================
+  // 送信ボタン
+  // ==============================================
+
+  const button =
+    document.getElementById(
+      "postSubmitButton"
+    );
+
+
+  button.disabled = true;
+
+
+  setPostFormStatus(
+    "投稿内容を送信しています…",
+    "loading"
+  );
+
+
+  try {
+
+    // ============================================
+    // GASへ送信
+    // ============================================
+
+    const result =
+      await postToGas({
+
+        action: "submit",
+
+        clientId:
+          getPostClientId(),
+
+        website:
+          website,
+
+        placeName:
+          placeName,
+
+        category:
+          category,
+
+        address:
+          address,
+
+        lat:
+          selectedPostLat,
+
+        lng:
+          selectedPostLng,
+
+        eventName:
+          eventName,
+
+        manualStatus:
+          manualStatus,
+
+        startDate:
+          startDate,
+
+        endDate:
+          endDate,
+
+        memo:
+          memo,
+
+        relatedUrl:
+          relatedUrl
+
+      });
+
+
+    // ============================================
+    // GAS側で失敗
+    // ============================================
+
+    if(
+      !result ||
+      !result.ok
+    ){
+
+      if(
+        result &&
+        result.error === "DUPLICATE"
+      ){
+
+        setPostFormStatus(
+          "同じ場所・内容のスポットがすでに登録されている可能性があります。",
+          "error"
+        );
+
+      }else{
+
+        setPostFormStatus(
+          result?.message ||
+          "投稿に失敗しました。時間をおいてもう一度お試しください。",
+          "error"
+        );
+
+      }
+
+      button.disabled = false;
+
+      return;
+
+    }
+
+
+    // ============================================
+    // ★ここで初めて「投稿完了」
+    // ============================================
+
+    setPostFormStatus(
+      "投稿完了。マップを更新しています…",
+      "loading"
+    );
+
+
+    // ============================================
+    // CSVを再読み込みして新スポットを探す
+    // ============================================
+
+    const found =
+      await reloadSpotDataUntilFound(
+        result.spotId,
+        result.spot
+      );
+
+
+    // ============================================
+    // フォームを閉じる
+    // ============================================
+
+    document
+      .getElementById("postModal")
+      .classList.remove("active");
+
+
+    // ============================================
+    // マップで確認
+    // ============================================
+
+    if(found){
+
+      showPostToast(
+        "投稿完了！新しいスポットをマップに表示しました。"
+      );
+
+    }else{
+
+      showPostToast(
+        "投稿完了！保存されました。公開データへの反映に少し時間がかかる場合があります。"
+      );
+
+    }
+
+
+  } catch(error){
+
+    console.error(
+      "投稿エラー:",
+      error
+    );
+
+
+    setPostFormStatus(
+      "通信に失敗しました。時間をおいてもう一度お試しください。",
+      "error"
+    );
+
+
+    button.disabled = false;
+
+    return;
+
+  }
+
+}
+
+
+// ======================================================
+// CSV再読み込み → 投稿スポットを探す
+// ======================================================
+
+async function reloadSpotDataUntilFound(
+  spotId,
+  fallbackData
+){
+
+  const maxAttempts = 6;
+
+  const interval = 2000;
+
+
+  for(
+    let attempt = 0;
+    attempt < maxAttempts;
+    attempt++
+  ){
+
+    try {
+
+      await loadSpotData();
+
+
+      const target =
+        markers.find(
+          obj =>
+            String(
+              obj.data["スポットID"] || ""
+            ) === String(spotId)
+        );
+
+
+      if(target){
+
+        // フィルターで非表示でも
+        // 投稿直後は確認できるようにする
+        target.marker.addTo(map);
+
+
+        const markerPosition =
+          target.marker.getLatLng();
+
+
+        map.setView(
+          [
+            markerPosition.lat,
+            markerPosition.lng
+          ],
+          17
+        );
+
+
+        openDetail(
+          target.data
+        );
+
+
+        return true;
+
+      }
+
+    } catch(error){
+
+      console.warn(
+        "CSV再読み込みエラー:",
+        error
+      );
+
+    }
+
+
+    if(
+      attempt <
+      maxAttempts - 1
+    ){
+
+      await sleep(interval);
+
+    }
+
+  }
+
+
+  // ====================================================
+  // 公開CSVへの反映が遅れている場合
+  // GASから返されたデータを一時表示
+  // ====================================================
+
+  if(fallbackData){
+
+    addTemporarySubmittedSpot(
+      fallbackData
+    );
+
+    return false;
+
+  }
+
+
+  return false;
+
+}
+
+
+// ======================================================
+// 一時的な投稿スポットを表示
+// ======================================================
+
+function addTemporarySubmittedSpot(
+  data
+){
+
+  const lat =
+    parseFloat(data["緯度"]);
+
+
+  const lng =
+    parseFloat(data["経度"]);
+
+
+  if(
+    !Number.isFinite(lat) ||
+    !Number.isFinite(lng)
+  ){
+
+    return;
+
+  }
+
+
+  const marker =
+    L.marker(
+      [lat, lng],
+      {
+        icon:
+          getIcon(data["カテゴリ"])
+      }
+    ).addTo(map);
+
+
+  marker.on(
+    "click",
+    () => openDetail(data)
+  );
+
+
+  markers.push({
+
+    marker: marker,
+
+    data: data,
+
+    temporary: true
+
+  });
+
+
+  map.setView(
+    [lat, lng],
+    17
+  );
+
+
+  openDetail(data);
+
+}
+
+
+// ======================================================
+// 待機
+// ======================================================
+
+function sleep(ms){
+
+  return new Promise(
+    resolve =>
+      setTimeout(resolve, ms)
+  );
+
+}
+
+
+// ======================================================
+// 投稿完了通知
+// ======================================================
+
+function showPostToast(
+  message
+){
+
+  const toast =
+    document.getElementById(
+      "postToast"
+    );
+
+
+  toast.textContent = message;
+
+  toast.classList.add("show");
+
+
+  setTimeout(() => {
+
+    toast.classList.remove("show");
+
+  }, 5000);
+
+}
    
 </script>
   
