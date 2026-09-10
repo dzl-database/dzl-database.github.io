@@ -2706,6 +2706,162 @@ textarea,
   }
 
 }
+
+/* ======================================================
+   関連URL
+====================================================== */
+
+.post-related-url-item {
+  margin-bottom: 10px;
+}
+
+
+.post-related-url-item:last-child {
+  margin-bottom: 0;
+}
+
+
+.post-related-url-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.post-related-url-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+
+.post-related-url-row .post-close-btn {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+}
+
+
+#postRelatedUrlsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+
+#addPostRelatedUrlButton {
+  margin-top: 10px;
+}
+
+
+@media (max-width: 600px) {
+
+  .post-related-url-row {
+    gap: 6px;
+  }
+
+  .post-related-url-row .post-close-btn {
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
+  }
+
+}
+
+/* ======================================================
+   スポットの場所
+====================================================== */
+
+.post-location-box {
+
+  margin: 8px 0 20px;
+  padding: 16px;
+
+  border: 1px solid #eee;
+  border-radius: 12px;
+
+  background: #fafafa;
+}
+
+
+.post-location-heading {
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 10px;
+}
+
+
+.post-location-heading > .material-symbols-outlined {
+
+  color: var(--spot-accent);
+
+  font-size: 22px;
+
+}
+
+
+.post-location-heading > div {
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+}
+
+
+.post-location-heading strong {
+
+  font-size: 15px;
+
+}
+
+
+.post-location-help {
+
+  margin-top: -2px;
+  margin-bottom: 16px;
+
+}
+
+
+.post-location-box .post-field {
+
+  margin-bottom: 12px;
+
+}
+
+
+.post-location-map-area {
+
+  margin-top: 4px;
+
+}
+
+
+.post-location-map-area
+.post-map-select-btn {
+
+  background: #fff;
+
+}
+
+
+.post-location-map-area
+.post-map-select-btn:hover {
+
+  background: var(--spot-accent);
+  color: #fff;
+
+}
+
+
+.post-location-summary {
+
+  margin-top: 8px;
+
+}
    
 </style>
 </head>
@@ -3171,54 +3327,85 @@ textarea,
       </div>
 
 
-      <!-- 場所 -->
-      <div class="post-field">
-
-        <label>
-          スポットの場所
-          <span class="post-required">必須</span>
-        </label>
-
-        <button
-          type="button"
-          class="post-map-select-btn"
-          onclick="openPostMapPicker()"
-        >
-          <span class="material-symbols-outlined">map</span>
-          マップ上で場所を選択
-        </button>
-
-        <div
-          id="postLocationSummary"
-          class="post-location-summary"
-        >
-          まだ場所が選択されていません
+      <!-- ======================================================
+           スポットの場所
+      ====================================================== -->
+      
+      <div class="post-location-box">
+      
+        <div class="post-location-heading">
+      
+          <span class="material-symbols-outlined">
+            location_on
+          </span>
+      
+          <div>
+            <strong>スポットの場所</strong>
+            <span class="post-required">必須</span>
+          </div>
+      
         </div>
-
-      </div>
-
-
-      <!-- 住所 -->
-      <div class="post-field">
-
-        <label for="postAddress">
-          住所
-          <span class="post-optional">任意</span>
-        </label>
-
-        <input
-          type="text"
-          id="postAddress"
-          maxlength="300"
-          placeholder="マップ選択後に自動取得されます"
-        >
-
-        <p id="postAddressNote" class="post-help">
-          マップから自動取得します。取得できない場合は手入力できます。
+      
+        <p class="post-help post-location-help">
+          スポットの住所を入力してください。
+          下のマップを使うと、場所を選択して住所を自動入力できます。
         </p>
-
+      
+      
+        <!-- 住所 -->
+      
+        <div class="post-field">
+      
+          <label for="postAddress">
+            住所
+            <span class="post-required">必須</span>
+          </label>
+      
+          <input
+            type="text"
+            id="postAddress"
+            maxlength="300"
+            placeholder="例：東京都〇〇区〇〇1-2-3"
+            required
+          >
+      
+          <p
+            id="postAddressNote"
+            class="post-help"
+          >
+            マップから自動取得できます。取得できない場合は手入力してください。
+          </p>
+      
+        </div>
+      
+      
+        <!-- マップ -->
+      
+        <div class="post-location-map-area">
+      
+          <button
+            type="button"
+            class="post-map-select-btn"
+            onclick="openPostMapPicker()"
+          >
+            <span class="material-symbols-outlined">
+              map
+            </span>
+      
+            マップから住所を自動入力
+          </button>
+      
+      
+          <div
+            id="postLocationSummary"
+            class="post-location-summary"
+          >
+            マップを使う場合は、場所を選択してください
+          </div>
+      
+        </div>
+      
       </div>
-
 
       <!-- イベント -->
       <div class="post-event-box">
@@ -3234,7 +3421,7 @@ textarea,
       
         <p class="post-help post-event-help">
           イベントがないスポットは、開催状況を「開催中」として登録します。
-          イベントを登録する場合は、イベント名と開催状況または開催期間を入力してください。
+          イベントを登録する場合は、イベント名と開催状況を入力してください。
         </p>
       
       
@@ -3272,7 +3459,7 @@ textarea,
         ></textarea>
 
         <p class="post-help">
-          投稿時の日付を「現地メモ日時-1」として自動記録します。
+          投稿時の日付と時間が現地メモの投稿日時として自動記録・表示されます
         </p>
 
       </div>
@@ -6235,6 +6422,21 @@ async function handleSpotPostSubmit(
       .getElementById("postAddress")
       .value
       .trim();
+   
+  if (!address) {
+   
+    setPostFormStatus(
+      "スポットの住所を入力してください。",
+      "error"
+    );
+   
+    document
+      .getElementById("postAddress")
+      .focus();
+   
+    return;
+   
+  }
 
 　 const website =
     document
@@ -6262,42 +6464,33 @@ async function handleSpotPostSubmit(
          ?.value
          .trim() || "";
    
+   
      const manualStatus =
        item
          .querySelector(".post-event-manual-status")
          ?.value
          .trim() || "開催中";
    
-     const startDate =
-       item
-         .querySelector(".post-event-start-date")
-         ?.value
-         .trim() || "";
    
-     const endDate =
-       item
-         .querySelector(".post-event-end-date")
-         ?.value
-         .trim() || "";
-   
-   
-     // 全部空なら送信対象外
-     if (
-       !name &&
-       !startDate &&
-       !endDate
-     ) {
-   
+     // イベント名も入力されていない
+     // 完全な空欄は登録しない
+     if (!name) {
        return;
-   
      }
    
    
      events.push({
+   
        name: name,
-       manualStatus: manualStatus || "開催中",
-       startDate: startDate,
-       endDate: endDate
+   
+       manualStatus:
+         manualStatus || "開催中",
+   
+       // フォームからは開催期間を送らない
+       startDate: "",
+   
+       endDate: ""
+   
      });
    
    });
@@ -6973,9 +7166,8 @@ function createPostEventElement() {
 
   wrapper.className = "post-event-item";
 
-  wrapper.dataset.eventNumber = number;
-
   wrapper.innerHTML = `
+
     <div class="post-event-item-header">
 
       <strong>イベント${number}</strong>
@@ -6989,13 +7181,16 @@ function createPostEventElement() {
               onclick="removePostEvent(this)"
               aria-label="イベントを削除"
             >
-              <span class="material-symbols-outlined">close</span>
+              <span class="material-symbols-outlined">
+                close
+              </span>
             </button>
           `
           : ""
       }
 
     </div>
+
 
     <div class="post-field">
 
@@ -7013,6 +7208,7 @@ function createPostEventElement() {
 
     </div>
 
+
     <div class="post-field">
 
       <label>
@@ -7022,58 +7218,45 @@ function createPostEventElement() {
 
       <select class="post-event-manual-status">
 
-        <option value="開催中" selected>開催中</option>
-        <option value="開催前">開催前</option>
-        <option value="開催終了">開催終了</option>
+        <option value="開催中" selected>
+          開催中
+        </option>
+
+        <option value="開催前">
+          開催前
+        </option>
+
+        <option value="開催終了">
+          開催終了
+        </option>
 
       </select>
 
     </div>
 
-    <div class="post-field">
-
-      <label>
-        開催期間
-        <span class="post-optional">任意</span>
-      </label>
-
-      <div class="post-date-row">
-
-        <input
-          type="date"
-          class="post-event-start-date"
-        >
-
-        <span>～</span>
-
-        <input
-          type="date"
-          class="post-event-end-date"
-        >
-
-      </div>
-
-      <p class="post-help">
-        開始日・終了日の両方を入力すると、サイト上では日付による自動判定が優先されます。
-      </p>
-
-    </div>
   `;
 
   return wrapper;
+
 }
 
 
 function addPostEvent() {
 
   const container =
-    document.getElementById("postEventsContainer");
+    document.getElementById(
+      "postEventsContainer"
+    );
 
   if (!container) return;
 
-  container.appendChild(
-    createPostEventElement()
-  );
+
+  const item =
+    createPostEventElement();
+
+  container.appendChild(item);
+
+  renumberPostEvents();
 
 }
 
@@ -7099,19 +7282,46 @@ function renumberPostEvents() {
       "#postEventsContainer .post-event-item"
     );
 
+
   items.forEach((item, index) => {
+
+    const number = index + 1;
+
 
     const title =
       item.querySelector(
         ".post-event-item-header strong"
       );
 
+
     if (title) {
+
       title.textContent =
-        `イベント${index + 1}`;
+        `イベント${number}`;
+
+    }
+
+
+    const deleteButton =
+      item.querySelector(
+        ".post-event-item-header .post-close-btn"
+      );
+
+
+    if (deleteButton) {
+
+      deleteButton.style.display =
+        number === 1
+          ? "none"
+          : "flex";
+
     }
 
   });
+
+
+  postEventCount =
+    items.length;
 
 }
 
