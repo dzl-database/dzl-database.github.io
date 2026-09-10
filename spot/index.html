@@ -2904,6 +2904,123 @@ textarea,
   }
 
 }
+
+/* ======================================================
+   新規スポット投稿：送信前の確認
+====================================================== */
+
+.post-confirm-box {
+  margin-top: 22px;
+  padding: 16px;
+  background: #fff7f7;
+  border: 1px solid #f0caca;
+  border-radius: 12px;
+}
+
+
+.post-confirm-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #D90000;
+  font-size: 15px;
+}
+
+
+.post-confirm-title .material-symbols-outlined {
+  font-size: 20px;
+}
+
+
+.post-confirm-help {
+  margin: 8px 0 14px;
+  color: #666;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+
+.post-confirm-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  padding: 10px 8px;
+
+  color: #333;
+  font-size: 14px;
+  line-height: 1.6;
+
+  cursor: pointer;
+}
+
+
+.post-confirm-item + .post-confirm-item {
+  border-top: 1px solid #eeeeee;
+}
+
+
+.post-confirm-item input[type="checkbox"] {
+  flex: 0 0 auto;
+
+  width: 19px;
+  height: 19px;
+
+  margin: 2px 0 0;
+
+  accent-color: #D90000;
+
+  cursor: pointer;
+}
+
+
+.post-confirm-item span {
+  flex: 1;
+}
+
+
+.post-confirm-item small {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #777;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+
+/* 未確認時の強調 */
+.post-confirm-box.confirm-error {
+  border-color: #D90000;
+  background: #fff2f2;
+  animation: postConfirmShake 0.25s ease;
+}
+
+
+@keyframes postConfirmShake {
+
+  0% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-3px);
+  }
+
+  50% {
+    transform: translateX(3px);
+  }
+
+  75% {
+    transform: translateX(-2px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+
+}
    
 </style>
 </head>
@@ -3549,16 +3666,112 @@ textarea,
       </div>
 
 
-      <!-- エラー・状態 -->
+      <!-- ======================================================
+           送信前の確認
+      ====================================================== -->
+      
+      <div class="post-confirm-box">
+      
+        <div class="post-confirm-title">
+          <span class="material-symbols-outlined">
+            fact_check
+          </span>
+      
+          <strong>送信前のご確認</strong>
+      
+          <span class="post-required">
+            必須
+          </span>
+        </div>
+      
+      
+        <p class="post-confirm-help">
+          以下の項目をすべて確認してから投稿してください。
+        </p>
+      
+      
+        <label class="post-confirm-item">
+          <input
+            type="checkbox"
+            id="postConfirmPersonal"
+          >
+      
+          <span>
+            個人情報は入力していません。
+          </span>
+        </label>
+      
+      
+        <label class="post-confirm-item">
+          <input
+            type="checkbox"
+            id="postConfirmIdentify"
+          >
+      
+          <span>
+            特定のだれかを特定できる投稿ではありません。
+            <small>
+              ※ ただしメンバーが動画、配信で紹介していたお店など
+              （「ドズさんが配信で紹介していました」など）はOKです。
+            </small>
+          </span>
+        </label>
+      
+      
+        <label class="post-confirm-item">
+          <input
+            type="checkbox"
+            id="postConfirmPrivate"
+          >
+      
+          <span>
+            ドズル社関係者様のプライベートの目撃情報の投稿ではありません。
+          </span>
+        </label>
+      
+      
+        <label class="post-confirm-item">
+          <input
+            type="checkbox"
+            id="postConfirmUnrelated"
+          >
+      
+          <span>
+            ドズル社に関係ない情報、不確かな情報、嘘の情報ではありません。
+          </span>
+        </label>
+      
+      
+        <label class="post-confirm-item">
+          <input
+            type="checkbox"
+            id="postConfirmTrouble"
+          >
+      
+          <span>
+            だれかの迷惑になる投稿ではありません。
+          </span>
+        </label>
+      
+      </div>
+      
+      
+      <!-- ======================================================
+           エラー・状態
+      ====================================================== -->
+      
       <div
         id="postFormStatus"
         class="post-form-status"
         role="status"
         aria-live="polite"
       ></div>
-
-
-      <!-- 送信 -->
+      
+      
+      <!-- ======================================================
+           送信
+      ====================================================== -->
+      
       <button
         type="submit"
         id="postSubmitButton"
@@ -6524,6 +6737,50 @@ async function handleSpotPostSubmit(
 
   }
 
+
+  // ==============================================
+  // 送信前の確認
+  // ==============================================
+
+  const confirmItems = [
+    document.getElementById("postConfirmPersonal"),
+    document.getElementById("postConfirmIdentify"),
+    document.getElementById("postConfirmPrivate"),
+    document.getElementById("postConfirmUnrelated"),
+    document.getElementById("postConfirmTrouble")
+  ];
+
+  const confirmBox =
+    document.querySelector(".post-confirm-box");
+
+
+  const allConfirmed =
+    confirmItems.every(
+      checkbox =>
+        checkbox &&
+        checkbox.checked
+    );
+
+
+  if(!allConfirmed){
+
+    if(confirmBox){
+      confirmBox.classList.add("confirm-error");
+    }
+
+    setPostFormStatus(
+      "確認項目をすべて確認してください。",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(confirmBox){
+    confirmBox.classList.remove("confirm-error");
+  }
 
   // ==============================================
   // ハニーポット
