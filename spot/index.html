@@ -3222,88 +3222,37 @@ textarea,
 
       <!-- イベント -->
       <div class="post-event-box">
-
+      
         <div class="post-event-heading">
           <span class="material-symbols-outlined">event</span>
+      
           <div>
             <strong>イベント情報</strong>
             <span>任意</span>
           </div>
         </div>
-
+      
         <p class="post-help post-event-help">
-          イベント名を入力する場合は、開催状況または開催期間も入力してください。
+          イベントがないスポットは、開催状況を「開催中」として登録します。
+          イベントを登録する場合は、イベント名と開催状況または開催期間を入力してください。
         </p>
-
-
-        <!-- イベント名 -->
-        <div class="post-field">
-
-          <label for="postEventName">
-            イベント名
-            <span class="post-optional">任意</span>
-          </label>
-
-          <input
-            type="text"
-            id="postEventName"
-            maxlength="300"
-            placeholder="例：ドズル社〇周年イベント"
-          >
-
-        </div>
-
-
-        <!-- 手動開催状況 -->
-        <div class="post-field">
-
-          <label for="postManualStatus">
-            手動開催状況
-            <span class="post-optional">任意</span>
-          </label>
-
-          <select id="postManualStatus">
-
-            <option value="">指定しない</option>
-            <option value="開催前">開催前</option>
-            <option value="開催中">開催中</option>
-            <option value="開催終了">開催終了</option>
-
-          </select>
-
-        </div>
-
-
-        <!-- 開催期間 -->
-        <div class="post-field">
-
-          <label>
-            開催期間
-            <span class="post-optional">任意</span>
-          </label>
-
-          <div class="post-date-row">
-
-            <input
-              type="date"
-              id="postStartDate"
-            >
-
-            <span>～</span>
-
-            <input
-              type="date"
-              id="postEndDate"
-            >
-
-          </div>
-
-          <p class="post-help">
-            開始日・終了日の両方を入力すると、サイト上では日付による自動判定が優先されます。
-          </p>
-
-        </div>
-
+      
+      
+        <!-- イベント一覧 -->
+        <div id="postEventsContainer"></div>
+      
+      
+        <!-- イベント追加 -->
+        <button
+          type="button"
+          id="addPostEventButton"
+          class="post-map-select-btn"
+          onclick="addPostEvent()"
+        >
+          <span class="material-symbols-outlined">add</span>
+          イベントを追加＋
+        </button>
+      
       </div>
 
 
@@ -3331,23 +3280,28 @@ textarea,
 
       <!-- 関連URL -->
       <div class="post-field">
-
-        <label for="postRelatedUrl">
+      
+        <label>
           関連URL
           <span class="post-optional">任意</span>
         </label>
-
-        <textarea
-          id="postRelatedUrl"
-          maxlength="1000"
-          rows="3"
-          placeholder="https://example.com"
-        ></textarea>
-
+      
+        <div id="postRelatedUrlsContainer"></div>
+      
+        <button
+          type="button"
+          id="addPostRelatedUrlButton"
+          class="post-map-select-btn"
+          onclick="addPostRelatedUrl()"
+        >
+          <span class="material-symbols-outlined">add_link</span>
+          リンクをさらに追加＋
+        </button>
+      
         <p class="post-help">
-          複数ある場合は「｜」で区切ってください。
+          公式サイトやイベントページなど、関連するページがあれば入力してください。
         </p>
-
+      
       </div>
 
 
@@ -4173,27 +4127,18 @@ function applyCurrentFilterToMarkers(){
 // スポットの代表開催状況
 // ======================================================
 
-function getPrimarySpotStatus(
-  data
-){
+function getPrimarySpotStatus(data) {
 
   const events =
     getEvents(data);
 
-
-  if(
-    !events.length
-  ){
-
-    return "";
-
+  if (!events.length) {
+    return "開催中";
   }
 
-
-  return events[0].status || "";
+  return events[0].status || "開催中";
 
 }
-
 
 // ======================================================
 // 初回読み込み
@@ -4716,121 +4661,141 @@ function openDetail(data){
 // イベント取得
 // ======================================================
 
-function getEvents(data){
+function getEvents(data) {
 
   const eventText =
     (data["イベント名"] || "").trim();
 
-
-  if(!eventText){
-
-    return [];
-
-  }
-
-
-  // 全角「｜」で分割
-  const eventNames =
-    eventText
-      .split("｜")
-      .map(
-        value => value.trim()
-      )
-      .filter(
-        value => value !== ""
-      );
-
-
   const manualStatusText =
     (data["手動開催状況"] || "").trim();
 
+  const startDateText =
+    (data["開始日"] || "").trim();
+
+  const endDateText =
+    (data["終了日"] || "").trim();
+
+
+  // ====================================================
+  // イベント名
+  // ====================================================
+
+  const eventNames =
+    eventText
+      ? eventText
+          .split("｜")
+          .map(v => v.trim())
+      : [];
+
+
+  // ====================================================
+  // 開催状況
+  // ====================================================
 
   const manualStatuses =
     manualStatusText
       ? manualStatusText
           .split("｜")
-          .map(
-            value => value.trim()
-          )
+          .map(v => v.trim())
       : [];
 
 
-  const startDate =
-    normalizeDateOnly(
-      data["開始日"]
-    );
+  // ====================================================
+  // 開始日
+  // ====================================================
+
+  const startDates =
+    startDateText
+      ? startDateText
+          .split("｜")
+          .map(v => normalizeDateOnly(v.trim()))
+      : [];
 
 
-  const endDate =
-    normalizeDateOnly(
-      data["終了日"]
-    );
+  // ====================================================
+  // 終了日
+  // ====================================================
+
+  const endDates =
+    endDateText
+      ? endDateText
+          .split("｜")
+          .map(v => normalizeDateOnly(v.trim()))
+      : [];
 
 
-  // 開始日・終了日の両方がある場合
-  // 自動判定を使用
-  const canUseAutoStatus =
-    startDate !== "" &&
-    endDate !== "";
+  // ====================================================
+  // イベントがないスポット
+  // ====================================================
+
+  if (eventNames.length === 0) {
+
+    return [{
+      name: "",
+      status: "開催中",
+      startDate: "",
+      endDate: ""
+    }];
+
+  }
 
 
-  return eventNames.map(
-    (name, index) => {
+  // ====================================================
+  // イベント作成
+  // ====================================================
 
-      let status = "";
+  return eventNames.map((name, index) => {
 
-
-      // =========================================
-      // 日付による自動判定
-      // =========================================
-
-      if(canUseAutoStatus){
-
-        status =
-          getAutoEventStatus(
-            startDate,
-            endDate
-          );
-
-      }
-
-      // =========================================
-      // 手動開催状況
-      // =========================================
-
-      else if(manualStatuses.length){
-
-        /*
-         * 手動状況が1つだけなら
-         * すべてのイベントに適用
-         */
-        if(
-          manualStatuses.length === 1
-        ){
-
-          status =
-            manualStatuses[0];
-
-        }else{
-
-          status =
-            manualStatuses[index] || "";
-
-        }
-
-      }
+    const manualStatus =
+      manualStatuses.length === 1
+        ? manualStatuses[0]
+        : (manualStatuses[index] || "開催中");
 
 
-      return {
+    const startDate =
+      startDates[index] || "";
 
-        name: name,
 
-        status: status
+    const endDate =
+      endDates[index] || "";
 
-      };
+
+    let status = "";
+
+
+    // 日付が両方ある場合は自動判定
+    if (
+      startDate &&
+      endDate
+    ) {
+
+      status =
+        getAutoEventStatus(
+          startDate,
+          endDate
+        );
+
+    } else {
+
+      status =
+        manualStatus || "開催中";
 
     }
-  );
+
+
+    return {
+
+      name: name,
+
+      status: status,
+
+      startDate: startDate,
+
+      endDate: endDate
+
+    };
+
+  });
 
 }
 
@@ -5814,6 +5779,9 @@ function resetPostForm(){
   selectedPostLat = null;
   selectedPostLng = null;
 
+  // 追加
+  resetPostEvents();
+  resetPostRelatedUrls();
 
   document
     .getElementById("postLocationSummary")
@@ -6268,55 +6236,125 @@ async function handleSpotPostSubmit(
       .value
       .trim();
 
-
-  const eventName =
-    document
-      .getElementById("postEventName")
-      .value
-      .trim();
-
-
-  const manualStatus =
-    document
-      .getElementById("postManualStatus")
-      .value
-      .trim();
-
-
-  const startDate =
-    document
-      .getElementById("postStartDate")
-      .value
-      .trim();
-
-
-  const endDate =
-    document
-      .getElementById("postEndDate")
-      .value
-      .trim();
-
-
-  const memo =
-    document
-      .getElementById("postMemo")
-      .value
-      .trim();
-
-
-  const relatedUrl =
-    document
-      .getElementById("postRelatedUrl")
-      .value
-      .trim();
-
-
-  const website =
+　 const website =
     document
       .getElementById("postWebsite")
       .value
       .trim();
 
+   // ====================================================
+   // イベント取得
+   // ====================================================
+   
+   const eventItems =
+     document.querySelectorAll(
+       "#postEventsContainer .post-event-item"
+     );
+   
+   const events = [];
+   
+   
+   eventItems.forEach(item => {
+   
+     const name =
+       item
+         .querySelector(".post-event-name")
+         ?.value
+         .trim() || "";
+   
+     const manualStatus =
+       item
+         .querySelector(".post-event-manual-status")
+         ?.value
+         .trim() || "開催中";
+   
+     const startDate =
+       item
+         .querySelector(".post-event-start-date")
+         ?.value
+         .trim() || "";
+   
+     const endDate =
+       item
+         .querySelector(".post-event-end-date")
+         ?.value
+         .trim() || "";
+   
+   
+     // 全部空なら送信対象外
+     if (
+       !name &&
+       !startDate &&
+       !endDate
+     ) {
+   
+       return;
+   
+     }
+   
+   
+     events.push({
+       name: name,
+       manualStatus: manualStatus || "開催中",
+       startDate: startDate,
+       endDate: endDate
+     });
+   
+   });
+   
+   
+   // ====================================================
+   // イベントなし
+   // ====================================================
+   //
+   // イベントがなくても開催状況は開催中
+   //
+   
+   if (events.length === 0) {
+   
+     events.push({
+       name: "",
+       manualStatus: "開催中",
+       startDate: "",
+       endDate: ""
+     });
+   
+   }
+   
+   
+   // ====================================================
+   // 現地メモ
+   // ====================================================
+   
+   const memoContent =
+     document
+       .getElementById("postMemo")
+       .value
+       .trim();
+   
+   
+   // ====================================================
+   // 関連URL
+   // ====================================================
+   
+   const urlInputs =
+     document.querySelectorAll(
+       ".post-related-url"
+     );
+   
+   const relatedUrls = [];
+   
+   
+   urlInputs.forEach(input => {
+   
+     const value =
+       input.value.trim();
+   
+     if (value) {
+       relatedUrls.push(value);
+     }
+   
+   });
 
   // ==============================================
   // クライアント側チェック
@@ -6365,62 +6403,90 @@ async function handleSpotPostSubmit(
   // イベント入力チェック
   // ==============================================
 
-  if(eventName){
+   for (let i = 0; i < events.length; i++) {
+   
+     const event = events[i];
+   
+     const hasName =
+       event.name !== "";
+   
+     const hasStatus =
+       event.manualStatus !== "";
+   
+     const hasStart =
+       event.startDate !== "";
+   
+     const hasEnd =
+       event.endDate !== "";
+   
+   
+     // イベント名がある場合
+     if (
+       hasName &&
+       !hasStatus &&
+       !(hasStart && hasEnd)
+     ) {
+   
+       setPostFormStatus(
+         `イベント${i + 1}「${event.name}」の開催状況または開始日・終了日を入力してください`,
+         "error"
+       );
+   
+       return;
+   
+     }
+   
+   
+     // 日付片方だけ
+     if (
+       (hasStart && !hasEnd) ||
+       (!hasStart && hasEnd)
+     ) {
+   
+       setPostFormStatus(
+         `イベント${i + 1}の開始日と終了日は両方入力してください`,
+         "error"
+       );
+   
+       return;
+   
+     }
+   
+   
+     // 日付逆転
+     if (
+       hasStart &&
+       hasEnd &&
+       event.startDate > event.endDate
+     ) {
+   
+       setPostFormStatus(
+         `イベント${i + 1}の終了日は開始日以降にしてください`,
+         "error"
+       );
+   
+       return;
+   
+     }
+   
+   }
 
-    // イベント名あり
-    // → 手動開催状況 or 開催期間が必要
+   for (let i = 0; i < relatedUrls.length; i++) {
 
-    if(
-      !manualStatus &&
-      !startDate &&
-      !endDate
-    ){
-
-      setPostFormStatus(
-        "イベント名を入力した場合は、開催状況または開催期間を入力してください。",
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    // 開始日・終了日の片方だけは禁止
-
-    if(
-      (startDate && !endDate) ||
-      (!startDate && endDate)
-    ){
-
-      setPostFormStatus(
-        "開催期間を入力する場合は、開始日と終了日の両方を入力してください。",
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    // 日付チェック
-
-    if(
-      startDate &&
-      endDate &&
-      startDate > endDate
-    ){
-
-      setPostFormStatus(
-        "終了日は開始日以降の日付にしてください。",
-        "error"
-      );
-
-      return;
-
-    }
-
-  }
+     const url = relatedUrls[i];
+   
+     if (!/^https?:\/\/[^\s]+$/i.test(url)) {
+   
+       setPostFormStatus(
+         `関連URL${i + 1}にはhttp://またはhttps://から始まるURLを入力してください`,
+         "error"
+       );
+   
+       return;
+   
+     }
+   
+   }
 
 
   // ==============================================
@@ -6508,68 +6574,72 @@ async function handleSpotPostSubmit(
     // GASへ送信
     // ============================================
 
-    const result =
-      await postToGas({
-
-        action: "submit",
-
-        clientId:
-          getPostClientId(),
-
-        website:
-          website,
-
-        placeName:
-          placeName,
-
-        category:
-          category,
-
-        address:
-          address,
-
-        lat:
-          selectedPostLat,
-
-        lng:
-          selectedPostLng,
-
-        eventName:
-          eventName,
-
-        manualStatus:
-          manualStatus,
-
-        startDate:
-          startDate,
-
-        endDate:
-          endDate,
-
-        memo:
-          memo,
-
-        relatedUrl:
-          relatedUrl,
-      
-        confirmations: {
-          noPersonalInfo:
-            document.getElementById("postConfirmPersonal").checked,
-      
-          noIdentification:
-            document.getElementById("postConfirmIdentify").checked,
-      
-          noPrivateSightings:
-            document.getElementById("postConfirmPrivate").checked,
-      
-          relatedInfo:
-            document.getElementById("postConfirmUnrelated").checked,
-      
-          noTrouble:
-            document.getElementById("postConfirmTrouble").checked
-        }
-
-      });
+    const result = await postToGas({
+   
+      action: "submit",
+   
+      clientId: getPostClientId(),
+   
+      website: document
+        .getElementById("postWebsite")
+        .value
+        .trim(),
+   
+      placeName: document
+        .getElementById("postPlaceName")
+        .value
+        .trim(),
+    
+      category: document
+        .getElementById("postCategory")
+        .value
+        .trim(),
+   
+      address: document
+        .getElementById("postAddress")
+        .value
+        .trim(),
+   
+      lat: selectedPostLat,
+   
+      lng: selectedPostLng,
+   
+      events: events,
+   
+      memoContent: memoContent,
+   
+      relatedUrls: relatedUrls,
+   
+      confirmations: {
+   
+        noPersonalInfo:
+          document.getElementById(
+            "postConfirmPersonal"
+          ).checked,
+   
+        noIdentification:
+          document.getElementById(
+            "postConfirmIdentify"
+          ).checked,
+   
+        noPrivateSightings:
+          document.getElementById(
+            "postConfirmPrivate"
+          ).checked,
+   
+        relatedInfo:
+          document.getElementById(
+            "postConfirmUnrelated"
+          ).checked,
+   
+        noTrouble:
+          document.getElementById(
+            "postConfirmTrouble"
+          ).checked
+   
+      }
+   
+    });
 
 
     // ============================================
@@ -6888,6 +6958,269 @@ function showPostToast(
     toast.classList.remove("show");
 
   }, 5000);
+
+}
+
+let postEventCount = 0;
+
+function createPostEventElement() {
+
+  postEventCount++;
+
+  const number = postEventCount;
+
+  const wrapper = document.createElement("div");
+
+  wrapper.className = "post-event-item";
+
+  wrapper.dataset.eventNumber = number;
+
+  wrapper.innerHTML = `
+    <div class="post-event-item-header">
+
+      <strong>イベント${number}</strong>
+
+      ${
+        number > 1
+          ? `
+            <button
+              type="button"
+              class="post-close-btn"
+              onclick="removePostEvent(this)"
+              aria-label="イベントを削除"
+            >
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          `
+          : ""
+      }
+
+    </div>
+
+    <div class="post-field">
+
+      <label>
+        イベント名
+        <span class="post-optional">任意</span>
+      </label>
+
+      <input
+        type="text"
+        class="post-event-name"
+        maxlength="300"
+        placeholder="例：ドズル社〇周年イベント"
+      >
+
+    </div>
+
+    <div class="post-field">
+
+      <label>
+        手動開催状況
+        <span class="post-optional">任意</span>
+      </label>
+
+      <select class="post-event-manual-status">
+
+        <option value="開催中" selected>開催中</option>
+        <option value="開催前">開催前</option>
+        <option value="開催終了">開催終了</option>
+
+      </select>
+
+    </div>
+
+    <div class="post-field">
+
+      <label>
+        開催期間
+        <span class="post-optional">任意</span>
+      </label>
+
+      <div class="post-date-row">
+
+        <input
+          type="date"
+          class="post-event-start-date"
+        >
+
+        <span>～</span>
+
+        <input
+          type="date"
+          class="post-event-end-date"
+        >
+
+      </div>
+
+      <p class="post-help">
+        開始日・終了日の両方を入力すると、サイト上では日付による自動判定が優先されます。
+      </p>
+
+    </div>
+  `;
+
+  return wrapper;
+}
+
+
+function addPostEvent() {
+
+  const container =
+    document.getElementById("postEventsContainer");
+
+  if (!container) return;
+
+  container.appendChild(
+    createPostEventElement()
+  );
+
+}
+
+
+function removePostEvent(button) {
+
+  const item =
+    button.closest(".post-event-item");
+
+  if (!item) return;
+
+  item.remove();
+
+  renumberPostEvents();
+
+}
+
+
+function renumberPostEvents() {
+
+  const items =
+    document.querySelectorAll(
+      "#postEventsContainer .post-event-item"
+    );
+
+  items.forEach((item, index) => {
+
+    const title =
+      item.querySelector(
+        ".post-event-item-header strong"
+      );
+
+    if (title) {
+      title.textContent =
+        `イベント${index + 1}`;
+    }
+
+  });
+
+}
+
+
+function resetPostEvents() {
+
+  postEventCount = 0;
+
+  const container =
+    document.getElementById("postEventsContainer");
+
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  addPostEvent();
+
+}
+
+let postRelatedUrlCount = 0;
+
+function createPostRelatedUrlElement() {
+
+  postRelatedUrlCount++;
+
+  const number = postRelatedUrlCount;
+
+  const wrapper =
+    document.createElement("div");
+
+  wrapper.className = "post-related-url-item";
+
+  wrapper.innerHTML = `
+
+    <div class="post-related-url-row">
+
+      <input
+        type="url"
+        class="post-related-url"
+        maxlength="1000"
+        placeholder="https://example.com"
+      >
+
+      ${
+        number > 1
+          ? `
+            <button
+              type="button"
+              class="post-close-btn"
+              onclick="removePostRelatedUrl(this)"
+              aria-label="リンクを削除"
+            >
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          `
+          : ""
+      }
+
+    </div>
+
+  `;
+
+  return wrapper;
+
+}
+
+
+function addPostRelatedUrl() {
+
+  const container =
+    document.getElementById(
+      "postRelatedUrlsContainer"
+    );
+
+  if (!container) return;
+
+  container.appendChild(
+    createPostRelatedUrlElement()
+  );
+
+}
+
+
+function removePostRelatedUrl(button) {
+
+  const item =
+    button.closest(".post-related-url-item");
+
+  if (!item) return;
+
+  item.remove();
+
+}
+
+
+function resetPostRelatedUrls() {
+
+  postRelatedUrlCount = 0;
+
+  const container =
+    document.getElementById(
+      "postRelatedUrlsContainer"
+    );
+
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  addPostRelatedUrl();
 
 }
    
