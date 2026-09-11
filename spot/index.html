@@ -2711,15 +2711,23 @@ textarea,
    関連URL
 ====================================================== */
 
+/* URL一覧 */
+
+#postRelatedUrlsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+/* URL 1件分 */
+
 .post-related-url-item {
-  margin-bottom: 10px;
+  margin: 0;
 }
 
 
-.post-related-url-item:last-child {
-  margin-bottom: 0;
-}
-
+/* 入力欄＋削除ボタン */
 
 .post-related-url-row {
   display: flex;
@@ -2728,30 +2736,78 @@ textarea,
 }
 
 
-.post-related-url-row input {
+/* URL入力欄 */
+
+.post-related-url {
   flex: 1;
   min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 11px 12px;
+
+  border: 1px solid #d7d7d7;
+  border-radius: 9px;
+
+  background: #fff;
+  color: #222;
+
+  font-family: "M PLUS 1", sans-serif;
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color .18s,
+    box-shadow .18s,
+    background .18s;
 }
 
+
+/* ホバー */
+
+.post-related-url:hover {
+  border-color: var(--spot-accent);
+}
+
+
+/* フォーカス */
+
+.post-related-url:focus {
+  border-color: var(--spot-accent);
+
+  box-shadow:
+    0 0 0 3px rgba(217, 0, 0, 0.10);
+}
+
+
+/* プレースホルダー */
+
+.post-related-url::placeholder {
+  color: #aaa;
+}
+
+
+/* 削除ボタン */
 
 .post-related-url-row .post-close-btn {
+
   width: 36px;
   height: 36px;
+
   flex: 0 0 36px;
+
 }
 
 
-#postRelatedUrlsContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
+/* 「リンクをさらに追加＋」ボタン */
 
 #addPostRelatedUrlButton {
   margin-top: 10px;
 }
 
+
+/* スマホ */
 
 @media (max-width: 600px) {
 
@@ -2759,10 +2815,17 @@ textarea,
     gap: 6px;
   }
 
+  .post-related-url {
+    font-size: 16px;
+  }
+
   .post-related-url-row .post-close-btn {
+
     width: 34px;
     height: 34px;
-    flex-basis: 34px;
+
+    flex: 0 0 34px;
+
   }
 
 }
@@ -3347,8 +3410,9 @@ textarea,
         </div>
       
         <p class="post-help post-location-help">
-          スポットの住所を入力してください。
-          下のマップを使うと、場所を選択して住所を自動入力できます。
+          マップ上でスポットの場所を選択してください。
+          選択すると住所が自動入力されます。
+          住所は必須です。
         </p>
       
       
@@ -3373,7 +3437,7 @@ textarea,
             id="postAddressNote"
             class="post-help"
           >
-            マップから自動取得できます。取得できない場合は手入力してください。
+            マップで場所を選択すると、住所が自動入力されます。
           </p>
       
         </div>
@@ -3392,7 +3456,7 @@ textarea,
               map
             </span>
       
-            マップから住所を自動入力
+            マップでスポットの場所を選択
           </button>
       
       
@@ -3400,7 +3464,7 @@ textarea,
             id="postLocationSummary"
             class="post-location-summary"
           >
-            マップを使う場合は、場所を選択してください
+            マップ上でスポットの場所を選択してください
           </div>
       
         </div>
