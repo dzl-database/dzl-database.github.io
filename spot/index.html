@@ -6048,7 +6048,7 @@ function resetPostForm(){
   document
     .getElementById("postAddressNote")
     .textContent =
-      "マップから自動取得します。取得できない場合は手入力できます。";
+      "マップで場所を選択すると、住所が自動入力されます。";
 
 
   clearPostFormStatus();
@@ -6405,7 +6405,7 @@ async function requestPostAddress(
     }else{
 
       note.textContent =
-        "住所を自動取得できませんでした。必要に応じて手入力してください。";
+        "住所を自動取得できませんでした。時間をおいてもう一度お試しください。";
 
     }
 
@@ -6418,7 +6418,7 @@ async function requestPostAddress(
 
 
     note.textContent =
-      "住所を自動取得できませんでした。必要に応じて手入力してください。";
+      "住所を自動取得できませんでした。時間をおいてもう一度お試しください。";
 
   }
 
