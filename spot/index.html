@@ -2198,6 +2198,8 @@ textarea,
   transition:
     background .18s,
     color .18s;
+
+  margin: 16px 0 1px;
 }
 
 
@@ -2322,7 +2324,7 @@ textarea,
 
   min-height: 20px;
 
-  margin: 4px 0 12px;
+  margin: 12px 0 12px;
 
   font-size: 13px;
   line-height: 1.6;
@@ -3414,7 +3416,32 @@ textarea,
           選択すると住所が自動入力されます。
           住所は必須です。
         </p>
+
+        <!-- マップ -->
       
+        <div class="post-location-map-area">
+      
+          <button
+            type="button"
+            class="post-map-select-btn"
+            onclick="openPostMapPicker()"
+          >
+            <span class="material-symbols-outlined">
+              map
+            </span>
+      
+            マップでスポットの場所を選択
+          </button>
+      
+      
+          <div
+            id="postLocationSummary"
+            class="post-location-summary"
+          >
+            マップ上でスポットの場所を選択してください
+          </div>
+      
+        </div>      
       
         <!-- 住所 -->
       
@@ -3441,33 +3468,7 @@ textarea,
           </p>
       
         </div>
-      
-      
-        <!-- マップ -->
-      
-        <div class="post-location-map-area">
-      
-          <button
-            type="button"
-            class="post-map-select-btn"
-            onclick="openPostMapPicker()"
-          >
-            <span class="material-symbols-outlined">
-              map
-            </span>
-      
-            マップでスポットの場所を選択
-          </button>
-      
-      
-          <div
-            id="postLocationSummary"
-            class="post-location-summary"
-          >
-            マップ上でスポットの場所を選択してください
-          </div>
-      
-        </div>
+
       
       </div>
 
@@ -3501,7 +3502,7 @@ textarea,
           onclick="addPostEvent()"
         >
           <span class="material-symbols-outlined">add</span>
-          イベントを追加＋
+          イベントをさらに追加
         </button>
       
       </div>
@@ -3546,7 +3547,7 @@ textarea,
           onclick="addPostRelatedUrl()"
         >
           <span class="material-symbols-outlined">add_link</span>
-          リンクをさらに追加＋
+          リンクをさらに追加
         </button>
       
         <p class="post-help">
