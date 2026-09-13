@@ -3606,6 +3606,12 @@ textarea,
               required
             >
 
+            <p
+              id="postAddressNote"
+              class="post-help"
+            >
+              住所を入力して「住所から緯度・経度を自動入力」を押してください。
+            </p>
 
             <button
               type="button"
@@ -3619,36 +3625,6 @@ textarea,
               住所から緯度・経度を自動取得
             </button>
 
-
-            <p
-              id="postAddressNote"
-              class="post-help"
-            >
-              住所を入力して「住所から緯度・経度を自動入力」を押してください。
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <!-- ====================================================
-            現在の位置情報
-        ===================================================== -->
-
-        <div class="post-location-status">
-
-          <span class="material-symbols-outlined">
-            pin_drop
-          </span>
-
-          <div>
-            <strong>位置情報について</strong>
-
-            <p>
-              マップまたは住所から位置情報を取得すると、
-              投稿時にスポットの位置が登録されます。
-            </p>
           </div>
 
         </div>
@@ -6232,7 +6208,7 @@ function resetPostForm(){
   document
     .getElementById("postAddressNote")
     .textContent =
-      "このボタンを押すと、緯度・経度を自動で取得できます。";
+      "住所を入力して「住所から緯度・経度を自動入力」を押してください。";
 
 
   clearPostFormStatus();
