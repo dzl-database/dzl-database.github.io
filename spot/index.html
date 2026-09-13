@@ -3025,6 +3025,106 @@ textarea,
   font-size: 12px;
   line-height: 1.6;
 }
+
+/* ======================================================
+   イベント情報
+====================================================== */
+
+/* イベント1つ分の枠 */
+.post-event-item {
+  position: relative;
+  margin-top: 18px;
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid #dbe2ea;
+  border-radius: 14px;
+  box-sizing: border-box;
+}
+
+/* イベント番号＋削除ボタン */
+.post-event-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+/* 「イベント1」「イベント2」 */
+.post-event-item-header strong {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  color: #1e293b;
+  font-size: 18px;
+  font-weight: 700;
+  box-sizing: border-box;
+}
+
+/* イベント削除ボタン */
+.post-event-item-header .post-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+
+  padding: 0;
+  margin: 0;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 50%;
+
+  background: #ffffff;
+  color: #475569;
+
+  cursor: pointer;
+
+  box-sizing: border-box;
+}
+
+/* 削除ボタンのアイコン */
+.post-event-item-header .post-close-btn
+.material-symbols-outlined {
+  font-size: 22px;
+  line-height: 1;
+}
+
+/* 削除ボタン：マウスを乗せたとき */
+.post-event-item-header .post-close-btn:hover {
+  background: #fef2f2;
+  border-color: #ef4444;
+  color: #dc2626;
+}
+
+/* 削除ボタン：押しているとき */
+.post-event-item-header .post-close-btn:active {
+  transform: scale(0.95);
+}
+
+
+/* イベント内の入力欄 */
+.post-event-item .post-field {
+  margin-top: 0;
+}
+
+.post-event-item .post-field + .post-field {
+  margin-top: 18px;
+}
+
+
+/* ======================================================
+   イベント追加ボタンとの間隔
+====================================================== */
+
+#addPostEventButton {
+  margin-top: 16px;
+}
    
 </style>
 </head>
