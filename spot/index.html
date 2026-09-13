@@ -2927,6 +2927,104 @@ textarea,
   margin-top: 8px;
 
 }
+
+/* ======================================================
+   スポットの場所：選択方法
+====================================================== */
+
+.post-location-method {
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  margin-top: 16px;
+}
+
+.post-location-method-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.post-location-method-title > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.post-location-step {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 700;
+}
+
+.post-location-method-title strong {
+  font-size: 15px;
+}
+
+.post-location-method-title > div > span {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.post-location-or {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.post-location-or::before,
+.post-location-or::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.post-location-status {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 12px 14px;
+  background: #eff6ff;
+  border-radius: 10px;
+  color: #334155;
+}
+
+.post-location-status
+  .material-symbols-outlined {
+  color: #2563eb;
+  flex-shrink: 0;
+}
+
+.post-location-status strong {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 13px;
+}
+
+.post-location-status p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+}
    
 </style>
 </head>
@@ -3390,37 +3488,58 @@ textarea,
         </select>
 
       </div>
-
-
+      
       <!-- ======================================================
-           スポットの場所
+          スポットの場所
       ====================================================== -->
-      
+
       <div class="post-location-box">
-      
+
+        <!-- 見出し -->
         <div class="post-location-heading">
-      
+
           <span class="material-symbols-outlined">
             location_on
           </span>
-      
+
           <div>
             <strong>スポットの場所</strong>
             <span class="post-required">必須</span>
           </div>
-      
+
         </div>
-      
+
+
+        <!-- 説明 -->
         <p class="post-help post-location-help">
-          マップ上でスポットの場所を選択してください。
-          選択すると住所が自動入力されます。
-          住所は必須です。
+          スポットの場所は、<strong>マップから選択</strong>するか、
+          <strong>住所を入力して自動取得</strong>できます。
+          どちらか一方の方法で位置情報を登録してください。
         </p>
 
-        <!-- マップ -->
-      
-        <div class="post-location-map-area">
-      
+
+        <!-- ====================================================
+            ① マップから選択
+        ===================================================== -->
+
+        <div class="post-location-method">
+
+          <div class="post-location-method-title">
+            <span class="post-location-step">①</span>
+
+            <div>
+              <strong>マップから場所を選択</strong>
+              <span>おすすめ</span>
+            </div>
+          </div>
+
+
+          <p class="post-help">
+            マップを開いて、スポットの場所をタップしてください。
+            住所も自動入力されます。
+          </p>
+
+
           <button
             type="button"
             class="post-map-select-btn"
@@ -3429,47 +3548,110 @@ textarea,
             <span class="material-symbols-outlined">
               map
             </span>
-      
+
             マップでスポットの場所を選択
           </button>
-      
-      
+
+
+          <!-- 選択した位置 -->
           <div
             id="postLocationSummary"
             class="post-location-summary"
           >
-            マップ上でスポットの場所を選択してください
+            まだ場所が選択されていません
           </div>
-      
-        </div>      
-      
-        <!-- 住所 -->
-      
-        <div class="post-field">
-      
-          <label for="postAddress">
-            住所
-            <span class="post-required">必須</span>
-          </label>
-      
-          <input
-            type="text"
-            id="postAddress"
-            maxlength="300"
-            placeholder="例：東京都〇〇区〇〇1-2-3"
-            required
-          >
-      
-          <p
-            id="postAddressNote"
-            class="post-help"
-          >
-            マップで場所を選択すると、住所が自動入力されます。
-          </p>
-      
+
         </div>
 
-      
+
+        <!-- 区切り -->
+        <div class="post-location-or">
+          <span>または</span>
+        </div>
+
+
+        <!-- ====================================================
+            ② 住所から自動取得
+        ===================================================== -->
+
+        <div class="post-location-method">
+
+          <div class="post-location-method-title">
+            <span class="post-location-step">②</span>
+
+            <div>
+              <strong>住所から位置情報を取得</strong>
+            </div>
+          </div>
+
+
+          <p class="post-help">
+            住所を入力してボタンを押すと、緯度・経度を自動で取得します。
+          </p>
+
+
+          <div class="post-field">
+
+            <label for="postAddress">
+              住所
+              <span class="post-required">必須</span>
+            </label>
+
+            <input
+              type="text"
+              id="postAddress"
+              maxlength="300"
+              placeholder="例：東京都〇〇区〇〇1-2-3"
+              required
+            >
+
+
+            <button
+              type="button"
+              class="post-map-select-btn"
+              onclick="requestPostCoordinatesFromAddress()"
+            >
+              <span class="material-symbols-outlined">
+                location_searching
+              </span>
+
+              住所から緯度・経度を自動入力
+            </button>
+
+
+            <p
+              id="postAddressNote"
+              class="post-help"
+            >
+              住所を入力して「住所から緯度・経度を自動入力」を押してください。
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- ====================================================
+            現在の位置情報
+        ===================================================== -->
+
+        <div class="post-location-status">
+
+          <span class="material-symbols-outlined">
+            pin_drop
+          </span>
+
+          <div>
+            <strong>位置情報について</strong>
+
+            <p>
+              マップまたは住所から位置情報を取得すると、
+              投稿時にスポットの位置が登録されます。
+            </p>
+          </div>
+
+        </div>
+
       </div>
 
       <!-- イベント -->
@@ -6425,6 +6607,205 @@ async function requestPostAddress(
 
 }
 
+// ======================================================
+// GASで住所から緯度・経度を取得
+// ======================================================
+
+async function requestPostCoordinatesFromAddress(){
+
+  const addressInput =
+    document.getElementById("postAddress");
+
+  const note =
+    document.getElementById("postAddressNote");
+
+  if(!addressInput){
+    return;
+  }
+
+  const address =
+    addressInput.value.trim();
+
+
+  // --------------------------------------------
+  // 住所未入力
+  // --------------------------------------------
+
+  if(!address){
+
+    setPostFormStatus(
+      "先に住所を入力してください。",
+      "error"
+    );
+
+    addressInput.focus();
+
+    return;
+
+  }
+
+
+  // --------------------------------------------
+  // 検索中
+  // --------------------------------------------
+
+  setPostFormStatus(
+    "住所から緯度・経度を検索しています…",
+    "loading"
+  );
+
+  note.textContent =
+    "住所から位置情報を取得しています…";
+
+
+  // 古いリクエストを無効化
+  const requestId =
+    ++postGeocodeRequestId;
+
+
+  try{
+
+    const result =
+      await postToGas({
+
+        action: "geocodeAddress",
+
+        address: address
+
+      });
+
+
+    // 古いリクエストなら無視
+    if(
+      requestId !== postGeocodeRequestId
+    ){
+
+      return;
+
+    }
+
+
+    // ------------------------------------------
+    // 成功
+    // ------------------------------------------
+
+    if(
+      result &&
+      result.success &&
+      result.data &&
+      Number.isFinite(
+        Number(result.data.lat)
+      ) &&
+      Number.isFinite(
+        Number(result.data.lng)
+      )
+    ){
+
+      selectedPostLat =
+        Number(result.data.lat);
+
+      selectedPostLng =
+        Number(result.data.lng);
+
+
+      // 場所の概要を更新
+
+      const summary =
+        document.getElementById(
+          "postLocationSummary"
+        );
+
+
+      if(summary){
+
+        summary.textContent =
+          `住所から取得：${selectedPostLat.toFixed(6)}, ${selectedPostLng.toFixed(6)}`;
+
+        summary.classList.add(
+          "selected"
+        );
+
+      }
+
+
+      // 座標表示も更新
+
+      const coordinate =
+        document.getElementById(
+          "postPickerCoordinate"
+        );
+
+
+      if(coordinate){
+
+        coordinate.textContent =
+          `緯度 ${selectedPostLat.toFixed(6)} / 経度 ${selectedPostLng.toFixed(6)}`;
+
+      }
+
+
+      note.textContent =
+        "緯度・経度を自動入力しました。必要に応じてマップから位置を調整できます。";
+
+
+      clearPostFormStatus();
+
+
+      // ----------------------------------------
+      // マップ側にも反映
+      // ----------------------------------------
+
+      if(postPickerMap){
+
+        setPostPickerMarker(
+          selectedPostLat,
+          selectedPostLng
+        );
+
+      }
+
+
+      return;
+
+    }
+
+
+    // ------------------------------------------
+    // 住所を特定できなかった
+    // ------------------------------------------
+
+    note.textContent =
+      "住所から場所を特定できませんでした。住所を確認するか、マップから場所を選択してください。";
+
+
+    setPostFormStatus(
+      result?.message ||
+      "住所から場所を特定できませんでした。",
+      "error"
+    );
+
+
+  }catch(error){
+
+    console.warn(
+      "住所→緯度・経度取得エラー:",
+      error
+    );
+
+
+    note.textContent =
+      "緯度・経度を自動取得できませんでした。時間をおいてもう一度お試しください。";
+
+
+    setPostFormStatus(
+      "緯度・経度の取得に失敗しました。時間をおいてもう一度お試しください。",
+      "error"
+    );
+
+  }
+
+}
+
 
 // ======================================================
 // 投稿フォーム送信
@@ -6648,7 +7029,7 @@ async function handleSpotPostSubmit(
   ){
 
     setPostFormStatus(
-      "マップ上でスポットの場所を選択してください。",
+      "スポットの位置情報を取得してください。住所から「緯度・経度を自動入力」するか、マップから場所を選択してください。",
       "error"
     );
 
@@ -7498,6 +7879,85 @@ function resetPostRelatedUrls() {
   addPostRelatedUrl();
 
 }
+
+// ======================================================
+// 住所手動変更時
+// ======================================================
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    const addressInput =
+      document.getElementById("postAddress");
+
+    if(!addressInput){
+      return;
+    }
+
+
+    addressInput.addEventListener(
+      "input",
+      () => {
+
+        // マップ選択などで取得した
+        // 以前の座標を無効化
+
+        selectedPostLat = null;
+        selectedPostLng = null;
+
+
+        const summary =
+          document.getElementById(
+            "postLocationSummary"
+          );
+
+
+        if(summary){
+
+          summary.textContent =
+            "住所を入力したら「緯度・経度を自動入力」を押してください。";
+
+          summary.classList.remove(
+            "selected"
+          );
+
+        }
+
+
+        const coordinate =
+          document.getElementById(
+            "postPickerCoordinate"
+          );
+
+
+        if(coordinate){
+
+          coordinate.textContent =
+            "場所が選択されていません";
+
+        }
+
+
+        const note =
+          document.getElementById(
+            "postAddressNote"
+          );
+
+
+        if(note){
+
+          note.textContent =
+            "住所を変更した場合は、「緯度・経度を自動入力」を押してください。";
+
+        }
+
+      }
+
+    );
+
+  }
+);
    
 </script>
   
