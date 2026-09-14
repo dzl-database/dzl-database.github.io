@@ -3047,7 +3047,7 @@ textarea,
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 
 /* 「イベント1」「イベント2」 */
@@ -3059,7 +3059,7 @@ textarea,
   border-radius: 8px;
   background: #f1f5f9;
   color: #1e293b;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 700;
   box-sizing: border-box;
 }
@@ -3850,23 +3850,7 @@ textarea,
             個人情報は入力していません。
           </span>
         </label>
-      
-      
-        <label class="post-confirm-item">
-          <input
-            type="checkbox"
-            id="postConfirmIdentify"
-          >
-      
-          <span>
-            特定のだれかを特定できる投稿ではありません。
-            <small>
-              ※ ただしメンバーが動画、配信で紹介していたお店など
-              （「ドズさんが配信で紹介していました」など）はOKです。
-            </small>
-          </span>
-        </label>
-      
+
       
         <label class="post-confirm-item">
           <input
@@ -7211,7 +7195,6 @@ async function handleSpotPostSubmit(
 
   const confirmItems = [
     document.getElementById("postConfirmPersonal"),
-    document.getElementById("postConfirmIdentify"),
     document.getElementById("postConfirmPrivate"),
     document.getElementById("postConfirmUnrelated"),
     document.getElementById("postConfirmTrouble")
@@ -7327,32 +7310,27 @@ async function handleSpotPostSubmit(
       relatedUrls: relatedUrls,
    
       confirmations: {
-   
+
         noPersonalInfo:
           document.getElementById(
             "postConfirmPersonal"
           ).checked,
-   
-        noIdentification:
-          document.getElementById(
-            "postConfirmIdentify"
-          ).checked,
-   
+
         noPrivateSightings:
           document.getElementById(
             "postConfirmPrivate"
           ).checked,
-   
+
         relatedInfo:
           document.getElementById(
             "postConfirmUnrelated"
           ).checked,
-   
+
         noTrouble:
           document.getElementById(
             "postConfirmTrouble"
           ).checked
-   
+
       }
    
     });
