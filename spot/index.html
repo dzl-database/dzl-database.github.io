@@ -6271,29 +6271,131 @@ function resetPostForm(){
   }
 
 
+  // ------------------------------------------
+  // 位置情報をリセット
+  // ------------------------------------------
+
   selectedPostLat = null;
   selectedPostLng = null;
 
-  // 追加
+  // 進行中の住所・座標取得リクエストを無効化
+  postGeocodeRequestId++;
+
+
+  // ------------------------------------------
+  // 投稿マップの古いピンを削除
+  // ------------------------------------------
+
+  if(
+    postPickerMarker &&
+    postPickerMap
+  ){
+
+    postPickerMap.removeLayer(
+      postPickerMarker
+    );
+
+  }
+
+  postPickerMarker = null;
+
+
+  // ------------------------------------------
+  // イベント・関連URLをリセット
+  // ------------------------------------------
+
   resetPostEvents();
   resetPostRelatedUrls();
 
-  document
-    .getElementById("postLocationSummary")
-    .textContent =
+
+  // ------------------------------------------
+  // 場所表示をリセット
+  // ------------------------------------------
+
+  const locationSummary =
+    document.getElementById(
+      "postLocationSummary"
+    );
+
+  if(locationSummary){
+
+    locationSummary.textContent =
       "まだ場所が選択されていません";
 
+    locationSummary.classList.remove(
+      "selected"
+    );
 
-  document
-    .getElementById("postLocationSummary")
-    .classList.remove("selected");
+  }
 
 
-  document
-    .getElementById("postAddressNote")
-    .textContent =
+  const coordinate =
+    document.getElementById(
+      "postPickerCoordinate"
+    );
+
+  if(coordinate){
+
+    coordinate.textContent =
+      "場所が選択されていません";
+
+  }
+
+
+  // ------------------------------------------
+  // 住所関連表示をリセット
+  // ------------------------------------------
+
+  const addressNote =
+    document.getElementById(
+      "postAddressNote"
+    );
+
+  if(addressNote){
+
+    addressNote.textContent =
       "住所を入力して「住所から緯度・経度を自動入力」を押してください。";
 
+  }
+
+
+  // ------------------------------------------
+  // 送信ボタンをリセット
+  // ------------------------------------------
+
+  const submitButton =
+    document.getElementById(
+      "postSubmitButton"
+    );
+
+  if(submitButton){
+
+    submitButton.disabled = false;
+
+  }
+
+
+  // ------------------------------------------
+  // 確認チェックのエラー表示を解除
+  // ------------------------------------------
+
+  const confirmBox =
+    document.querySelector(
+      ".post-confirm-box"
+    );
+
+  if(confirmBox){
+
+    confirmBox.classList.remove(
+      "confirm-error"
+    );
+
+  }
+
+
+  // ------------------------------------------
+  // 状態表示をリセット
+  // ------------------------------------------
 
   clearPostFormStatus();
 
@@ -7391,6 +7493,13 @@ async function handleSpotPostSubmit(
         result.data.spotId,
         null
       );
+
+
+    // ============================================
+    // 投稿フォームを完全にリセット
+    // ============================================
+
+    resetPostForm();
 
 
     // ============================================
