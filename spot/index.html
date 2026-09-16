@@ -3125,6 +3125,49 @@ textarea,
 #addPostEventButton {
   margin-top: 16px;
 }
+
+.post-location-address-display {
+  min-height: 56px;
+  padding: 14px 16px;
+  margin-top: 8px;
+
+  display: flex;
+  align-items: center;
+
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+
+  color: #333;
+  font-size: 16px;
+  line-height: 1.6;
+
+  box-sizing: border-box;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.post-location-external-form {
+  margin-top: 14px;
+  text-align: center;
+}
+
+.post-location-external-link {
+  display: inline-block;
+
+  color: #777;
+  font-size: 14px;
+  line-height: 1.5;
+
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  cursor: pointer;
+}
+
+.post-location-external-link:hover {
+  color: #333;
+}
    
 </style>
 </head>
@@ -3639,14 +3682,6 @@ textarea,
             マップ上でスポットの場所を選択してください
           </div>
 
-
-          <div
-            id="postPickerCoordinate"
-            class="post-location-coordinate"
-          >
-            場所が選択されていません
-          </div>
-
         </div>
 
 
@@ -3684,12 +3719,8 @@ textarea,
             href="ADRESS_FORM_LINK"
             target="_blank"
             rel="noopener noreferrer"
-            class="post-map-select-btn"
+            class="post-location-external-link"
           >
-            <span class="material-symbols-outlined">
-              open_in_new
-            </span>
-
             マップ上で場所を見つけられない場合
           </a>
 
@@ -4310,7 +4341,7 @@ function restorePostFormDraft(){
 
     const coordinate =
       document.getElementById(
-        "postPickerCoordinate"
+        "postMapCoordinate"
       );
 
 
@@ -6906,7 +6937,7 @@ function resetPostForm(){
 
   const coordinate =
     document.getElementById(
-      "postPickerCoordinate"
+      "postMapCoordinate"
     );
 
   if(coordinate){
@@ -7090,6 +7121,20 @@ function openPostMapPicker(){
       selectedPostLng
     );
 
+
+    const coordinate =
+      document.getElementById(
+        "postMapCoordinate"
+      );
+
+    if(coordinate){
+
+      coordinate.textContent =
+        `緯度 ${selectedPostLat.toFixed(6)} / 経度 ${selectedPostLng.toFixed(6)}`;
+
+    }
+
+
     postPickerMap.setView(
       [
         selectedPostLat,
@@ -7197,6 +7242,10 @@ function updateSelectedPostLocation(
   selectedPostLng = lng;
 
 
+  // ----------------------------------------------
+  // 投稿フォーム側の選択地点表示
+  // ----------------------------------------------
+
   const summary =
     document.getElementById(
       "postLocationSummary"
@@ -7214,9 +7263,13 @@ function updateSelectedPostLocation(
   }
 
 
+  // ----------------------------------------------
+  // マップ選択画面の座標表示
+  // ----------------------------------------------
+
   const coordinate =
     document.getElementById(
-      "postPickerCoordinate"
+      "postMapCoordinate"
     );
 
   if(coordinate){
@@ -7227,7 +7280,10 @@ function updateSelectedPostLocation(
   }
 
 
+  // ----------------------------------------------
   // マップで選択した地点から住所を自動取得
+  // ----------------------------------------------
+
   requestPostAddress(
     lat,
     lng
