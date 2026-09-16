@@ -3595,9 +3595,7 @@ textarea,
 
       <div class="post-location-box">
 
-        <!-- 見出し -->
         <div class="post-location-heading">
-
           <span class="material-symbols-outlined">
             location_on
           </span>
@@ -3606,206 +3604,34 @@ textarea,
             <strong>スポットの場所</strong>
             <span class="post-required">必須</span>
           </div>
-
         </div>
 
 
-        <!-- 説明 -->
-        <p class="post-help post-location-help">
-          マップまたは住所からスポットの場所を登録できます。
-          住所から取得した場合も、最後にマップで位置を確認・調整できます。
-        </p>
+        <div class="post-location-method-select">
 
-
-        <!-- ====================================================
-            入力方法
-        ===================================================== -->
-
-        <div class="post-field">
-
-          <label for="postLocationMethod">
-            入力方法を選択
-            <span class="post-required">必須</span>
+          <label>
+            <input
+              type="radio"
+              name="postLocationMethod"
+              value="map"
+              checked
+            >
+            マップから場所を選択
           </label>
 
-          <select
-            id="postLocationMethod"
-          >
-            <option value="map">
-              マップから場所を選択
-            </option>
-
-            <option value="address">
-              住所から位置情報を取得
-            </option>
-          </select>
-
-        </div>
-
-
-        <!-- ====================================================
-            マップから選択
-        ===================================================== -->
-
-        <div
-          id="postLocationMapMethod"
-          class="post-location-method"
-        >
-
-          <div class="post-location-method-title">
-
-            <span class="post-location-step">
-              ①
-            </span>
-
-            <div>
-              <strong>マップから場所を選択</strong>
-            </div>
-
-          </div>
-
-
-          <p class="post-help">
-            マップを開いて、スポットの場所をタップしてください。
-            住所も自動入力されます。
-          </p>
-
-
-          <button
-            type="button"
-            class="post-map-select-btn"
-            onclick="openPostMapPicker()"
-          >
-
-            <span class="material-symbols-outlined">
-              map
-            </span>
-
-            マップでスポットの場所を選択
-
-          </button>
-
-        </div>
-
-
-        <!-- ====================================================
-            住所から取得
-        ===================================================== -->
-
-        <div
-          id="postLocationAddressMethod"
-          class="post-location-method"
-          style="display:none;"
-        >
-
-          <div class="post-location-method-title">
-
-            <span class="post-location-step">
-              ①
-            </span>
-
-            <div>
-              <strong>住所から位置情報を取得</strong>
-            </div>
-
-          </div>
-
-
-          <p class="post-help">
-            住所を入力して緯度・経度を自動取得します。
-            取得後はマップで位置を確認・調整できます。
-          </p>
-
-
-          <div class="post-field">
-
-            <label for="postAddress">
-              住所
-              <span class="post-required">必須</span>
-            </label>
-
-
+          <label>
             <input
-              type="text"
-              id="postAddress"
-              maxlength="300"
-              placeholder="例：東京都〇〇区〇〇1-2-3"
-              required
+              type="radio"
+              name="postLocationMethod"
+              value="address"
             >
-
-
-            <button
-              type="button"
-              class="post-map-select-btn"
-              onclick="requestPostCoordinatesFromAddress()"
-            >
-
-              <span class="material-symbols-outlined">
-                location_searching
-              </span>
-
-              住所から緯度・経度を自動取得
-
-            </button>
-
-
-            <p
-              id="postAddressNote"
-              class="post-help"
-            >
-              住所を入力して「住所から緯度・経度を自動取得」を押してください。
-            </p>
-
-          </div>
+            住所から位置情報を取得
+          </label>
 
         </div>
 
 
-        <!-- ====================================================
-            共通：現在の位置
-        ===================================================== -->
-
-        <div
-          id="postLocationSummary"
-          class="post-location-summary"
-        >
-          まだ場所が選択されていません
-        </div>
-
-
-        <!-- ====================================================
-            住所から取得した後のマップ確認
-        ===================================================== -->
-
-        <div
-          id="postLocationMapConfirm"
-          class="post-location-map-confirm"
-          style="display:none;"
-        >
-
-          <p class="post-help">
-            <strong>マップで位置を確認してください。</strong><br>
-            住所から取得した位置は目安です。ズレている場合は、
-            マップ上で正しい場所をタップして調整できます。
-          </p>
-
-
-          <button
-            type="button"
-            class="post-map-select-btn"
-            onclick="openPostMapPicker()"
-          >
-
-            <span class="material-symbols-outlined">
-              map
-            </span>
-
-            マップで位置を確認・調整
-
-          </button>
-
-        </div>
-
+        <div id="postLocationFormContainer"></div>
 
       </div>
 
@@ -4036,7 +3862,7 @@ textarea,
     <div class="post-picker-bottom">
 
       <div
-        id="postPickerCoordinate"
+        id="postMapCoordinate"
         class="post-picker-coordinate"
       >
         場所が選択されていません
@@ -4197,10 +4023,28 @@ function savePostFormDraft(){
         .getElementById("postCategory")
         ?.value || "";
 
-    const address =
-      document
-        .getElementById("postAddress")
-        ?.value || "";
+    const locationMethod =
+      document.querySelector(
+        'input[name="postLocationMethod"]:checked'
+      )?.value || "map";
+
+    let address = "";
+
+    if(locationMethod === "address"){
+
+      address =
+        document
+          .getElementById("postAddress")
+          ?.value || "";
+
+    }else{
+
+      address =
+        document
+          .getElementById("postMapAddress")
+          ?.value || "";
+
+    }
 
     const memo =
       document
@@ -4352,10 +4196,15 @@ function restorePostFormDraft(){
     }
 
 
+    const locationMethod =
+      document.querySelector(
+        'input[name="postLocationMethod"]:checked'
+      )?.value || "map";
+
     const address =
-      document.getElementById(
-        "postAddress"
-      );
+      locationMethod === "address"
+        ? document.getElementById("postAddress")
+        : document.getElementById("postMapAddress");
 
     if(address){
 
@@ -4415,12 +4264,17 @@ function restorePostFormDraft(){
 
     const summary =
       document.getElementById(
-        "postLocationSummary"
+        "postMapLocationSummary"
       );
 
-    const coordinate =
+    const mapCoordinate =
       document.getElementById(
-        "postPickerCoordinate"
+        "postMapCoordinate"
+      );
+
+    const addressCoordinate =
+      document.getElementById(
+        "postAddressCoordinate"
       );
 
 
@@ -4438,9 +4292,17 @@ function restorePostFormDraft(){
       }
 
 
-      if(coordinate){
+      if(mapCoordinate){
 
-        coordinate.textContent =
+        mapCoordinate.textContent =
+          `緯度 ${lat.toFixed(6)} / 経度 ${lng.toFixed(6)}`;
+
+      }
+
+
+      if(addressCoordinate){
+
+        addressCoordinate.textContent =
           `緯度 ${lat.toFixed(6)} / 経度 ${lng.toFixed(6)}`;
 
       }
@@ -4459,10 +4321,18 @@ function restorePostFormDraft(){
       }
 
 
-      if(coordinate){
+      if(mapCoordinate){
 
-        coordinate.textContent =
-          "場所がまだ選択されていません";
+        mapCoordinate.textContent =
+          "場所が選択されていません";
+
+      }
+
+
+      if(addressCoordinate){
+
+        addressCoordinate.textContent =
+          "まだ位置情報を取得していません";
 
       }
 
@@ -4630,9 +4500,10 @@ function restorePostFormDraft(){
 
     const note =
       document.getElementById(
-        "postAddressNote"
+        locationMethod === "address"
+          ? "postAddressNote"
+          : "postMapAddressNote"
       );
-
 
     if(note){
 
@@ -4643,8 +4514,17 @@ function restorePostFormDraft(){
 
       }else{
 
-        note.textContent =
-          "保存されていた入力内容を復元しました。住所から「緯度・経度を自動入力」するか、マップから場所を選択してください。";
+        if(locationMethod === "address"){
+
+          note.textContent =
+            "保存されていた入力内容を復元しました。住所から「緯度・経度を自動入力」するか、マップ上で位置を確認・調整してください。";
+
+        }else{
+
+          note.textContent =
+            "保存されていた入力内容を復元しました。マップから場所を選択してください。";
+
+        }
 
       }
 
@@ -6989,39 +6869,64 @@ function resetPostForm(){
   // 場所表示をリセット
   // ------------------------------------------
 
-  const locationSummary =
+  const mapSummary =
     document.getElementById(
-      "postLocationSummary"
+      "postMapLocationSummary"
     );
 
-  if(locationSummary){
+  if(mapSummary){
 
-    locationSummary.textContent =
+    mapSummary.textContent =
       "まだ場所が選択されていません";
 
-    locationSummary.classList.remove(
+    mapSummary.classList.remove(
       "selected"
     );
 
   }
 
 
-  const coordinate =
+  const mapCoordinate =
     document.getElementById(
-      "postPickerCoordinate"
+      "postMapCoordinate"
     );
 
-  if(coordinate){
+  if(mapCoordinate){
 
-    coordinate.textContent =
+    mapCoordinate.textContent =
       "場所が選択されていません";
 
   }
 
 
+  const addressCoordinate =
+    document.getElementById(
+      "postAddressCoordinate"
+    );
+
+  if(addressCoordinate){
+
+    addressCoordinate.textContent =
+      "まだ位置情報を取得していません";
+
+  }
+
   // ------------------------------------------
   // 住所関連表示をリセット
   // ------------------------------------------
+
+  const mapAddressNote =
+    document.getElementById(
+      "postMapAddressNote"
+    );
+
+  if(mapAddressNote){
+
+    mapAddressNote.textContent =
+      "マップで場所を選択すると、住所が自動入力されます。";
+
+  }
+
 
   const addressNote =
     document.getElementById(
@@ -7069,29 +6974,18 @@ function resetPostForm(){
 
   }
 
-  const locationMethod =
-    document.getElementById(
-      "postLocationMethod"
+  const mapMethod =
+    document.querySelector(
+      'input[name="postLocationMethod"][value="map"]'
     );
 
-  if(locationMethod){
+  if(mapMethod){
 
-    locationMethod.value = "map";
+    mapMethod.checked = true;
 
   }
 
   updatePostLocationMethod();
-
-  const mapConfirm =
-    document.getElementById(
-      "postLocationMapConfirm"
-    );
-
-  if(mapConfirm){
-
-    mapConfirm.style.display = "none";
-
-  }
 
 
   // ------------------------------------------
@@ -7314,39 +7208,30 @@ function updateSelectedPostLocation(
 
   const summary =
     document.getElementById(
-      "postLocationSummary"
+      "postMapLocationSummary"
     );
 
+  if(summary){
 
-  summary.textContent =
-    `選択地点：${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+    summary.textContent =
+      `選択地点：${lat.toFixed(6)}, ${lng.toFixed(6)}`;
 
+    summary.classList.add(
+      "selected"
+    );
 
-  summary.classList.add(
-    "selected"
-  );
+  }
 
 
   const coordinate =
     document.getElementById(
-      "postPickerCoordinate"
+      "postMapCoordinate"
     );
 
+  if(coordinate){
 
-  coordinate.textContent =
-    `緯度 ${lat.toFixed(6)} / 経度 ${lng.toFixed(6)}`;
-
-
-  // 住所から取得後に表示されていた
-  // 「マップ確認」を非表示
-  const mapConfirm =
-    document.getElementById(
-      "postLocationMapConfirm"
-    );
-
-  if(mapConfirm){
-
-    mapConfirm.style.display = "none";
+    coordinate.textContent =
+      `緯度 ${lat.toFixed(6)} / 経度 ${lng.toFixed(6)}`;
 
   }
 
@@ -7406,12 +7291,16 @@ async function requestPostAddress(
 
   const note =
     document.getElementById(
-      "postAddressNote"
+      "postMapAddressNote"
     );
 
 
-  note.textContent =
-    "住所を取得しています…";
+  if(note){
+
+    note.textContent =
+      "住所を取得しています…";
+
+  }
 
 
   try {
@@ -7438,15 +7327,6 @@ async function requestPostAddress(
     }
 
 
-    // GASの返却形式：
-    // {
-    //   success: true,
-    //   message: "...",
-    //   data: {
-    //     address: "..."
-    //   }
-    // }
-
     if(
       result &&
       result.success &&
@@ -7454,23 +7334,37 @@ async function requestPostAddress(
       result.data.address
     ){
 
-      document
-        .getElementById(
-          "postAddress"
-        )
-        .value =
+      const addressInput =
+        document.getElementById(
+          "postMapAddress"
+        );
+
+      if(addressInput){
+
+        addressInput.value =
           result.data.address;
 
+      }
 
-      note.textContent =
-        "住所を自動取得しました。必要に応じて編集できます。";
+
+      if(note){
+
+        note.textContent =
+          "住所を自動取得しました。必要に応じて編集できます。";
+
+      }
+
 
       savePostFormDraft();
 
     }else{
 
-      note.textContent =
-        "住所を自動取得できませんでした。時間をおいてもう一度お試しください。";
+      if(note){
+
+        note.textContent =
+          "住所を自動取得できませんでした。時間をおいてもう一度お試しください。";
+
+      }
 
     }
 
@@ -7482,8 +7376,12 @@ async function requestPostAddress(
     );
 
 
-    note.textContent =
-      "住所を自動取得できませんでした。時間をおいてもう一度お試しください。";
+    if(note){
+
+      note.textContent =
+        "住所を自動取得できませんでした。時間をおいてもう一度お試しください。";
+
+    }
 
   }
 
@@ -7496,14 +7394,21 @@ async function requestPostAddress(
 async function requestPostCoordinatesFromAddress(){
 
   const addressInput =
-    document.getElementById("postAddress");
+    document.getElementById(
+      "postAddress"
+    );
 
   const note =
-    document.getElementById("postAddressNote");
+    document.getElementById(
+      "postAddressNote"
+    );
 
   if(!addressInput){
+
     return;
+
   }
+
 
   const address =
     addressInput.value.trim();
@@ -7536,11 +7441,15 @@ async function requestPostCoordinatesFromAddress(){
     "loading"
   );
 
-  note.textContent =
-    "住所から位置情報を取得しています…";
+
+  if(note){
+
+    note.textContent =
+      "住所から位置情報を取得しています…";
+
+  }
 
 
-  // 古いリクエストを無効化
   const requestId =
     ++postGeocodeRequestId;
 
@@ -7567,10 +7476,6 @@ async function requestPostCoordinatesFromAddress(){
     }
 
 
-    // ------------------------------------------
-    // 成功
-    // ------------------------------------------
-
     if(
       result &&
       result.success &&
@@ -7589,36 +7494,11 @@ async function requestPostCoordinatesFromAddress(){
       selectedPostLng =
         Number(result.data.lng);
 
-      savePostFormDraft();
-
-
-      // 場所の概要を更新
-
-      const summary =
-        document.getElementById(
-          "postLocationSummary"
-        );
-
-
-      if(summary){
-
-        summary.textContent =
-          `住所から取得：${selectedPostLat.toFixed(6)}, ${selectedPostLng.toFixed(6)}`;
-
-        summary.classList.add(
-          "selected"
-        );
-
-      }
-
-
-      // 座標表示も更新
 
       const coordinate =
         document.getElementById(
-          "postPickerCoordinate"
+          "postAddressCoordinate"
         );
-
 
       if(coordinate){
 
@@ -7628,27 +7508,17 @@ async function requestPostCoordinatesFromAddress(){
       }
 
 
-      note.textContent =
-        "緯度・経度を自動入力しました。下の「マップで位置を確認・調整」から位置を確認してください。";
+      if(note){
 
-
-      // ----------------------------------------
-      // マップ確認エリアを表示
-      // ----------------------------------------
-
-      const mapConfirm =
-        document.getElementById(
-          "postLocationMapConfirm"
-        );
-
-      if(mapConfirm){
-
-        mapConfirm.style.display = "block";
+        note.textContent =
+          "緯度・経度を自動入力しました。下の「マップ上で位置確認・調整」から位置を確認してください。";
 
       }
 
 
       clearPostFormStatus();
+
+      savePostFormDraft();
 
 
       // ----------------------------------------
@@ -7670,12 +7540,12 @@ async function requestPostCoordinatesFromAddress(){
     }
 
 
-    // ------------------------------------------
-    // 住所を特定できなかった
-    // ------------------------------------------
+    if(note){
 
-    note.textContent =
-      "住所から場所を特定できませんでした。住所を確認するか、マップから場所を選択してください。";
+      note.textContent =
+        "住所から場所を特定できませんでした。住所を確認するか、マップから場所を選択してください。";
+
+    }
 
 
     setPostFormStatus(
@@ -7693,8 +7563,12 @@ async function requestPostCoordinatesFromAddress(){
     );
 
 
-    note.textContent =
-      "緯度・経度を自動取得できませんでした。時間をおいてもう一度お試しください。";
+    if(note){
+
+      note.textContent =
+        "緯度・経度を自動取得できませんでした。時間をおいてもう一度お試しください。";
+
+    }
 
 
     setPostFormStatus(
@@ -7754,19 +7628,19 @@ document.addEventListener(
       }
     );
 
-    const locationMethod =
-      document.getElementById(
-        "postLocationMethod"
+    const locationMethods =
+      document.querySelectorAll(
+        'input[name="postLocationMethod"]'
       );
 
-    if(locationMethod){
+    locationMethods.forEach(radio => {
 
-      locationMethod.addEventListener(
+      radio.addEventListener(
         "change",
         updatePostLocationMethod
       );
 
-    }
+    });
 
   }
 );
@@ -7800,13 +7674,34 @@ async function handleSpotPostSubmit(
       .trim();
 
 
-  const address =
-    document
-      .getElementById("postAddress")
-      .value
-      .trim();
-   
-  if (!address) {
+  const locationMethod =
+    document.querySelector(
+      'input[name="postLocationMethod"]:checked'
+    )?.value || "map";
+
+
+  let address = "";
+
+  if(locationMethod === "address"){
+
+    address =
+      document
+        .getElementById("postAddress")
+        ?.value
+        .trim() || "";
+
+  }else{
+
+    address =
+      document
+        .getElementById("postMapAddress")
+        ?.value
+        .trim() || "";
+
+  }
+
+
+  if(!address){
    
     setPostFormStatus(
       "スポットの住所を入力してください。",
@@ -7814,8 +7709,12 @@ async function handleSpotPostSubmit(
     );
    
     document
-      .getElementById("postAddress")
-      .focus();
+      .getElementById(
+        locationMethod === "address"
+          ? "postAddress"
+          : "postMapAddress"
+      )
+      ?.focus();
    
     return;
    
@@ -8170,10 +8069,7 @@ async function handleSpotPostSubmit(
         .value
         .trim(),
    
-      address: document
-        .getElementById("postAddress")
-        .value
-        .trim(),
+      address: address,
    
       lat: selectedPostLat,
    
@@ -8824,123 +8720,6 @@ function resetPostRelatedUrls() {
 
 }
 
-// ======================================================
-// 住所手動変更時
-// ======================================================
-
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
-
-    const addressInput =
-      document.getElementById("postAddress");
-
-    if(!addressInput){
-      return;
-    }
-
-    addressInput.addEventListener(
-      "input",
-      () => {
-
-        // ------------------------------------------
-        // 進行中の住所検索・逆ジオコードを無効化
-        // ------------------------------------------
-
-        postGeocodeRequestId++;
-
-
-        // ------------------------------------------
-        // 以前の座標を無効化
-        // ------------------------------------------
-
-        selectedPostLat = null;
-        selectedPostLng = null;
-
-
-        // ------------------------------------------
-        // マップ確認エリアを非表示
-        // ------------------------------------------
-
-        const mapConfirm =
-          document.getElementById(
-            "postLocationMapConfirm"
-          );
-
-        if(mapConfirm){
-
-          mapConfirm.style.display = "none";
-
-        }
-
-
-        // ------------------------------------------
-        // 場所概要
-        // ------------------------------------------
-
-        const summary =
-          document.getElementById(
-            "postLocationSummary"
-          );
-
-        if(summary){
-
-          summary.textContent =
-            "住所を入力したら「緯度・経度を自動入力」を押してください。";
-
-          summary.classList.remove(
-            "selected"
-          );
-
-        }
-
-
-        // ------------------------------------------
-        // 座標表示
-        // ------------------------------------------
-
-        const coordinate =
-          document.getElementById(
-            "postPickerCoordinate"
-          );
-
-        if(coordinate){
-
-          coordinate.textContent =
-            "場所が選択されていません";
-
-        }
-
-
-        // ------------------------------------------
-        // 案内
-        // ------------------------------------------
-
-        const note =
-          document.getElementById(
-            "postAddressNote"
-          );
-
-        if(note){
-
-          note.textContent =
-            "住所を変更した場合は、「緯度・経度を自動入力」を押してください。";
-
-        }
-
-
-        // ------------------------------------------
-        // 下書き保存
-        // ------------------------------------------
-
-        savePostFormDraft();
-
-      }
-
-    );
-
-  }
-);
 
 // ======================================================
 // スポット場所の入力方法切り替え
@@ -8948,43 +8727,312 @@ document.addEventListener(
 
 function updatePostLocationMethod(){
 
-  const method =
-    document.getElementById(
-      "postLocationMethod"
+  const selected =
+    document.querySelector(
+      'input[name="postLocationMethod"]:checked'
     );
 
-  const mapMethod =
+  const container =
     document.getElementById(
-      "postLocationMapMethod"
+      "postLocationFormContainer"
     );
 
-  const addressMethod =
-    document.getElementById(
-      "postLocationAddressMethod"
-    );
 
-  if(
-    !method ||
-    !mapMethod ||
-    !addressMethod
-  ){
+  if(!selected || !container){
 
     return;
 
   }
 
 
-  if(method.value === "address"){
+  if(selected.value === "address"){
 
-    mapMethod.style.display = "none";
-    addressMethod.style.display = "block";
+    container.innerHTML =
+      createAddressLocationForm();
 
   }else{
 
-    mapMethod.style.display = "block";
-    addressMethod.style.display = "none";
+    container.innerHTML =
+      createMapLocationForm();
 
   }
+
+
+  // フォーム切り替え後も保存済み座標を表示
+  if(
+    Number.isFinite(selectedPostLat) &&
+    Number.isFinite(selectedPostLng)
+  ){
+
+    const lat =
+      selectedPostLat;
+
+    const lng =
+      selectedPostLng;
+
+
+    if(selected.value === "map"){
+
+      const summary =
+        document.getElementById(
+          "postMapLocationSummary"
+        );
+
+      const coordinate =
+        document.getElementById(
+          "postMapCoordinate"
+        );
+
+
+      if(summary){
+
+        summary.textContent =
+          `選択地点：${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+
+        summary.classList.add(
+          "selected"
+        );
+
+      }
+
+
+      if(coordinate){
+
+        coordinate.textContent =
+          `緯度 ${lat.toFixed(6)} / 経度 ${lng.toFixed(6)}`;
+
+      }
+
+    }else{
+
+      const coordinate =
+        document.getElementById(
+          "postAddressCoordinate"
+        );
+
+
+      if(coordinate){
+
+        coordinate.textContent =
+          `緯度 ${lat.toFixed(6)} / 経度 ${lng.toFixed(6)}`;
+
+      }
+
+    }
+
+  }
+
+
+  // 下書き保存
+  savePostFormDraft();
+
+}
+
+function createMapLocationForm() {
+
+  return `
+
+    <div class="post-location-map-form">
+
+      <button
+        type="button"
+        class="post-map-select-btn"
+        onclick="openPostMapPicker()"
+      >
+        <span class="material-symbols-outlined">
+          map
+        </span>
+        マップで場所を選択
+      </button>
+
+
+      <div
+        id="postMapLocationSummary"
+        class="post-location-summary"
+      >
+        まだ場所が選択されていません
+      </div>
+
+
+      <div class="post-field">
+
+        <label>
+          選択した位置
+        </label>
+
+        <div
+          id="postMapCoordinate"
+          class="post-location-coordinate"
+        >
+          場所が選択されていません
+        </div>
+
+      </div>
+
+
+      <div class="post-field">
+
+        <label>
+          住所
+          <span class="post-required">必須</span>
+        </label>
+
+        <input
+          type="text"
+          id="postMapAddress"
+          maxlength="300"
+          placeholder="マップで場所を選択すると自動入力されます"
+        >
+
+        <p
+          id="postMapAddressNote"
+          class="post-help"
+        >
+          マップで場所を選択すると、住所が自動入力されます。
+        </p>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+function createAddressLocationForm() {
+
+  const wrapper =
+    document.createElement("div");
+
+  wrapper.className =
+    "post-location-address-form";
+
+
+  wrapper.innerHTML = `
+
+    <div class="post-field">
+
+      <label>
+        住所
+        <span class="post-required">必須</span>
+      </label>
+
+      <input
+        type="text"
+        id="postAddress"
+        maxlength="300"
+        placeholder="例：東京都〇〇区〇〇1-2-3"
+      >
+
+    </div>
+
+
+    <button
+      type="button"
+      class="post-map-select-btn"
+      onclick="requestPostCoordinatesFromAddress()"
+    >
+      <span class="material-symbols-outlined">
+        location_searching
+      </span>
+      住所から緯度・経度を自動入力
+    </button>
+
+
+    <div class="post-field">
+
+      <label>
+        取得した位置
+      </label>
+
+      <div
+        id="postAddressCoordinate"
+        class="post-location-coordinate"
+      >
+        まだ位置情報を取得していません
+      </div>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="post-map-select-btn"
+      onclick="openPostMapPicker()"
+    >
+      <span class="material-symbols-outlined">
+        map
+      </span>
+      マップ上で位置確認・調整
+    </button>
+
+
+    <p
+      id="postAddressNote"
+      class="post-help"
+    >
+      住所から取得した位置は目安です。必要に応じてマップ上で位置を調整してください。
+    </p>
+
+  `;
+
+
+  const addressInput =
+    wrapper.querySelector(
+      "#postAddress"
+    );
+
+
+  if(addressInput){
+
+    addressInput.addEventListener(
+      "input",
+      () => {
+
+        // 進行中の検索を無効化
+        postGeocodeRequestId++;
+
+
+        // 住所を変更したら以前の座標を無効化
+        selectedPostLat = null;
+        selectedPostLng = null;
+
+
+        const coordinate =
+          wrapper.querySelector(
+            "#postAddressCoordinate"
+          );
+
+        if(coordinate){
+
+          coordinate.textContent =
+            "まだ位置情報を取得していません";
+
+        }
+
+
+        const note =
+          wrapper.querySelector(
+            "#postAddressNote"
+          );
+
+        if(note){
+
+          note.textContent =
+            "住所を変更した場合は、「住所から緯度・経度を自動入力」を押してください。";
+
+        }
+
+
+        savePostFormDraft();
+
+      }
+    );
+
+  }
+
+
+  return wrapper.outerHTML;
 
 }
    
