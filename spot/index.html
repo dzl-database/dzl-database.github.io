@@ -4304,19 +4304,31 @@ function restorePostFormDraft(){
     // 座標
     // ----------------------------------------------
 
-    selectedPostLat =
-      Number.isFinite(
-        Number(draft.lat)
-      )
-        ? Number(draft.lat)
-        : null;
+    const lat =
+      Number(draft.lat);
 
-    selectedPostLng =
-      Number.isFinite(
-        Number(draft.lng)
-      )
-        ? Number(draft.lng)
-        : null;
+    const lng =
+      Number(draft.lng);
+
+
+    // 0,0 は無効な地点として扱う
+    const hasValidLocation =
+      Number.isFinite(lat) &&
+      Number.isFinite(lng) &&
+      !(lat === 0 && lng === 0);
+
+
+    if(hasValidLocation){
+
+      selectedPostLat = lat;
+      selectedPostLng = lng;
+
+    }else{
+
+      selectedPostLat = null;
+      selectedPostLng = null;
+
+    }
 
 
     // ----------------------------------------------
@@ -4334,15 +4346,12 @@ function restorePostFormDraft(){
       );
 
 
-    if(
-      Number.isFinite(selectedPostLat) &&
-      Number.isFinite(selectedPostLng)
-    ){
+    if(hasValidLocation){
 
       if(summary){
 
         summary.textContent =
-          `保存された地点：${selectedPostLat.toFixed(6)}, ${selectedPostLng.toFixed(6)}`;
+          `保存された地点：${lat.toFixed(6)}, ${lng.toFixed(6)}`;
 
         summary.classList.add(
           "selected"
@@ -4354,7 +4363,28 @@ function restorePostFormDraft(){
       if(coordinate){
 
         coordinate.textContent =
-          `緯度 ${selectedPostLat.toFixed(6)} / 経度 ${selectedPostLng.toFixed(6)}`;
+          `緯度 ${lat.toFixed(6)} / 経度 ${lng.toFixed(6)}`;
+
+      }
+
+    }else{
+
+      if(summary){
+
+        summary.textContent =
+          "まだ場所が選択されていません";
+
+        summary.classList.remove(
+          "selected"
+        );
+
+      }
+
+
+      if(coordinate){
+
+        coordinate.textContent =
+          "場所がまだ選択されていません";
 
       }
 
@@ -4381,6 +4411,7 @@ function restorePostFormDraft(){
           "postEventsContainer"
         );
 
+
       if(container){
 
         container.innerHTML = "";
@@ -4392,17 +4423,21 @@ function restorePostFormDraft(){
 
           addPostEvent();
 
+
           const items =
             container.querySelectorAll(
               ".post-event-item"
             );
+
 
           const item =
             items[items.length - 1];
 
 
           if(!item){
+
             return;
+
           }
 
 
@@ -4410,6 +4445,7 @@ function restorePostFormDraft(){
             item.querySelector(
               ".post-event-name"
             );
+
 
           const statusSelect =
             item.querySelector(
@@ -4460,6 +4496,7 @@ function restorePostFormDraft(){
           "postRelatedUrlsContainer"
         );
 
+
       if(container){
 
         container.innerHTML = "";
@@ -4471,17 +4508,21 @@ function restorePostFormDraft(){
 
           addPostRelatedUrl();
 
+
           const items =
             container.querySelectorAll(
               ".post-related-url-item"
             );
+
 
           const item =
             items[items.length - 1];
 
 
           if(!item){
+
             return;
+
           }
 
 
@@ -4506,7 +4547,7 @@ function restorePostFormDraft(){
 
 
     // ----------------------------------------------
-    // 復元完了
+    // 復元完了メッセージ
     // ----------------------------------------------
 
     const note =
@@ -4514,12 +4555,10 @@ function restorePostFormDraft(){
         "postAddressNote"
       );
 
+
     if(note){
 
-      if(
-        Number.isFinite(selectedPostLat) &&
-        Number.isFinite(selectedPostLng)
-      ){
+      if(hasValidLocation){
 
         note.textContent =
           "保存されていた入力内容を復元しました。";
