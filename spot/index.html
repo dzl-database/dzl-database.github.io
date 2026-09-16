@@ -4094,6 +4094,485 @@ textarea,
 </div>
   
 <script>
+// ======================================================
+// 投稿フォーム入力履歴
+// ======================================================
+
+const POST_FORM_DRAFT_KEY =
+  "dzlSpot_postFormDraft";
+
+// ======================================================
+// 投稿フォーム入力履歴を保存
+// ======================================================
+
+function savePostFormDraft(){
+
+  try {
+
+    const placeName =
+      document
+        .getElementById("postPlaceName")
+        ?.value || "";
+
+    const category =
+      document
+        .getElementById("postCategory")
+        ?.value || "";
+
+    const address =
+      document
+        .getElementById("postAddress")
+        ?.value || "";
+
+    const memo =
+      document
+        .getElementById("postMemo")
+        ?.value || "";
+
+
+    // イベント
+    const eventItems =
+      document.querySelectorAll(
+        "#postEventsContainer .post-event-item"
+      );
+
+    const events = [];
+
+    eventItems.forEach(item => {
+
+      events.push({
+
+        name:
+          item
+            .querySelector(".post-event-name")
+            ?.value || "",
+
+        manualStatus:
+          item
+            .querySelector(".post-event-manual-status")
+            ?.value || "開催中"
+
+      });
+
+    });
+
+
+    // 関連URL
+    const urlInputs =
+      document.querySelectorAll(
+        ".post-related-url"
+      );
+
+    const relatedUrls = [];
+
+    urlInputs.forEach(input => {
+
+      relatedUrls.push(
+        input.value || ""
+      );
+
+    });
+
+
+    const draft = {
+
+      placeName: placeName,
+
+      category: category,
+
+      address: address,
+
+      lat: selectedPostLat,
+
+      lng: selectedPostLng,
+
+      events: events,
+
+      memo: memo,
+
+      relatedUrls: relatedUrls
+
+    };
+
+
+    localStorage.setItem(
+      POST_FORM_DRAFT_KEY,
+      JSON.stringify(draft)
+    );
+
+
+  } catch(error){
+
+    console.warn(
+      "投稿フォーム履歴の保存に失敗しました:",
+      error
+    );
+
+  }
+
+}
+
+// ======================================================
+// 投稿フォーム入力履歴を復元
+// ======================================================
+
+function restorePostFormDraft(){
+
+  try {
+
+    const saved =
+      localStorage.getItem(
+        POST_FORM_DRAFT_KEY
+      );
+
+
+    if(!saved){
+
+      return false;
+
+    }
+
+
+    const draft =
+      JSON.parse(saved);
+
+
+    if(!draft || typeof draft !== "object"){
+
+      return false;
+
+    }
+
+
+    // ----------------------------------------------
+    // 基本情報
+    // ----------------------------------------------
+
+    const placeName =
+      document.getElementById(
+        "postPlaceName"
+      );
+
+    if(placeName){
+
+      placeName.value =
+        draft.placeName || "";
+
+    }
+
+
+    const category =
+      document.getElementById(
+        "postCategory"
+      );
+
+    if(category){
+
+      category.value =
+        draft.category || "";
+
+    }
+
+
+    const address =
+      document.getElementById(
+        "postAddress"
+      );
+
+    if(address){
+
+      address.value =
+        draft.address || "";
+
+    }
+
+
+    const memo =
+      document.getElementById(
+        "postMemo"
+      );
+
+    if(memo){
+
+      memo.value =
+        draft.memo || "";
+
+    }
+
+
+    // ----------------------------------------------
+    // 座標
+    // ----------------------------------------------
+
+    selectedPostLat =
+      Number.isFinite(
+        Number(draft.lat)
+      )
+        ? Number(draft.lat)
+        : null;
+
+    selectedPostLng =
+      Number.isFinite(
+        Number(draft.lng)
+      )
+        ? Number(draft.lng)
+        : null;
+
+
+    // ----------------------------------------------
+    // 場所表示
+    // ----------------------------------------------
+
+    const summary =
+      document.getElementById(
+        "postLocationSummary"
+      );
+
+    const coordinate =
+      document.getElementById(
+        "postPickerCoordinate"
+      );
+
+
+    if(
+      Number.isFinite(selectedPostLat) &&
+      Number.isFinite(selectedPostLng)
+    ){
+
+      if(summary){
+
+        summary.textContent =
+          `保存された地点：${selectedPostLat.toFixed(6)}, ${selectedPostLng.toFixed(6)}`;
+
+        summary.classList.add(
+          "selected"
+        );
+
+      }
+
+
+      if(coordinate){
+
+        coordinate.textContent =
+          `緯度 ${selectedPostLat.toFixed(6)} / 経度 ${selectedPostLng.toFixed(6)}`;
+
+      }
+
+    }
+
+
+    // ----------------------------------------------
+    // イベント
+    // ----------------------------------------------
+
+    resetPostEvents();
+
+
+    const events =
+      Array.isArray(draft.events)
+        ? draft.events
+        : [];
+
+
+    if(events.length > 0){
+
+      const container =
+        document.getElementById(
+          "postEventsContainer"
+        );
+
+      if(container){
+
+        container.innerHTML = "";
+
+        postEventCount = 0;
+
+
+        events.forEach(event => {
+
+          addPostEvent();
+
+          const items =
+            container.querySelectorAll(
+              ".post-event-item"
+            );
+
+          const item =
+            items[items.length - 1];
+
+
+          if(!item){
+            return;
+          }
+
+
+          const nameInput =
+            item.querySelector(
+              ".post-event-name"
+            );
+
+          const statusSelect =
+            item.querySelector(
+              ".post-event-manual-status"
+            );
+
+
+          if(nameInput){
+
+            nameInput.value =
+              event.name || "";
+
+          }
+
+
+          if(statusSelect){
+
+            statusSelect.value =
+              event.manualStatus ||
+              "開催中";
+
+          }
+
+        });
+
+      }
+
+    }
+
+
+    // ----------------------------------------------
+    // 関連URL
+    // ----------------------------------------------
+
+    resetPostRelatedUrls();
+
+
+    const relatedUrls =
+      Array.isArray(draft.relatedUrls)
+        ? draft.relatedUrls
+        : [];
+
+
+    if(relatedUrls.length > 0){
+
+      const container =
+        document.getElementById(
+          "postRelatedUrlsContainer"
+        );
+
+      if(container){
+
+        container.innerHTML = "";
+
+        postRelatedUrlCount = 0;
+
+
+        relatedUrls.forEach(url => {
+
+          addPostRelatedUrl();
+
+          const items =
+            container.querySelectorAll(
+              ".post-related-url-item"
+            );
+
+          const item =
+            items[items.length - 1];
+
+
+          if(!item){
+            return;
+          }
+
+
+          const input =
+            item.querySelector(
+              ".post-related-url"
+            );
+
+
+          if(input){
+
+            input.value =
+              url || "";
+
+          }
+
+        });
+
+      }
+
+    }
+
+
+    // ----------------------------------------------
+    // 復元完了
+    // ----------------------------------------------
+
+    const note =
+      document.getElementById(
+        "postAddressNote"
+      );
+
+    if(note){
+
+      if(
+        Number.isFinite(selectedPostLat) &&
+        Number.isFinite(selectedPostLng)
+      ){
+
+        note.textContent =
+          "保存されていた入力内容を復元しました。";
+
+      }else{
+
+        note.textContent =
+          "保存されていた入力内容を復元しました。住所から「緯度・経度を自動入力」するか、マップから場所を選択してください。";
+
+      }
+
+    }
+
+
+    return true;
+
+
+  } catch(error){
+
+    console.warn(
+      "投稿フォーム履歴の復元に失敗しました:",
+      error
+    );
+
+    return false;
+
+  }
+
+}
+
+// ======================================================
+// 投稿フォーム入力履歴を削除
+// ======================================================
+
+function clearPostFormDraft(){
+
+  try {
+
+    localStorage.removeItem(
+      POST_FORM_DRAFT_KEY
+    );
+
+  } catch(error){
+
+    console.warn(
+      "投稿フォーム履歴の削除に失敗しました:",
+      error
+    );
+
+  }
+
+}
+
 function openModal(){
   document.getElementById("modal").classList.add("active");
 }
@@ -6302,7 +6781,18 @@ function openPostModal(){
 
   modal.classList.add("active");
 
-  resetPostForm();
+
+  // 保存履歴があれば復元
+  const restored =
+    restorePostFormDraft();
+
+
+  // 履歴がなければ新規フォーム
+  if(!restored){
+
+    resetPostForm();
+
+  }
 
 }
 
@@ -6712,6 +7202,8 @@ function updateSelectedPostLocation(
     lng
   );
 
+  savePostFormDraft();
+
 }
 
 
@@ -6940,6 +7432,8 @@ async function requestPostCoordinatesFromAddress(){
       selectedPostLng =
         Number(result.data.lng);
 
+      savePostFormDraft();
+
 
       // 場所の概要を更新
 
@@ -7053,7 +7547,6 @@ document.addEventListener(
         "spotPostForm"
       );
 
-
     if(!form){
       return;
     }
@@ -7062,6 +7555,30 @@ document.addEventListener(
     form.addEventListener(
       "submit",
       handleSpotPostSubmit
+    );
+
+
+    // ============================================
+    // 入力内容を自動保存
+    // ============================================
+
+    form.addEventListener(
+      "input",
+      () => {
+
+        savePostFormDraft();
+
+      }
+    );
+
+
+    form.addEventListener(
+      "change",
+      () => {
+
+        savePostFormDraft();
+
+      }
     );
 
   }
@@ -7548,6 +8065,8 @@ async function handleSpotPostSubmit(
     // ★ここで初めて「投稿完了」
     // ============================================
 
+    clearPostFormDraft();
+
     setPostFormStatus(
       "投稿完了。マップを更新しています…",
       "loading"
@@ -7938,6 +8457,8 @@ function addPostEvent() {
 
   renumberPostEvents();
 
+  savePostFormDraft();
+
 }
 
 
@@ -8081,6 +8602,8 @@ function addPostRelatedUrl() {
   container.appendChild(
     createPostRelatedUrlElement()
   );
+
+  savePostFormDraft();
 
 }
 
