@@ -3176,6 +3176,191 @@ body{
 .post-location-external-link:hover {
   color: #333;
 }
+
+/* ======================================================
+   下部ナビゲーション
+   ====================================================== */
+
+.bottom-nav {
+
+  position: fixed;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 72px;
+
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+
+  align-items: center;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  border-top: 1px solid #e5e7eb;
+
+  box-shadow:
+    0 -4px 16px rgba(0, 0, 0, 0.08);
+
+  z-index: 1000;
+
+  padding:
+    4px
+    8px
+    calc(4px + env(safe-area-inset-bottom));
+
+  box-sizing: border-box;
+
+  backdrop-filter: blur(10px);
+}
+
+
+/* 通常のナビゲーション */
+
+.bottom-nav-item {
+
+  height: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 2px;
+
+  border: none;
+
+  background: transparent;
+
+  color: #555;
+
+  font-family: sans-serif;
+
+  cursor: pointer;
+
+  padding: 4px 2px;
+
+  -webkit-tap-highlight-color: transparent;
+
+}
+
+
+/* アイコン */
+
+.bottom-nav-item .material-symbols-outlined {
+
+  font-size: 27px;
+
+  line-height: 1;
+
+}
+
+
+/* ラベル */
+
+.bottom-nav-label {
+
+  font-size: 11px;
+
+  line-height: 1.2;
+
+  white-space: nowrap;
+
+}
+
+
+/* ======================================================
+   中央の投稿ボタン
+   ====================================================== */
+
+.bottom-nav-post {
+
+  width: 76px;
+  height: 58px;
+
+  justify-self: center;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 2px;
+
+  border: none;
+
+  border-radius: 999px;
+
+  background: #D90000;
+
+  color: #fff;
+
+  font-family: sans-serif;
+
+  cursor: pointer;
+
+  padding: 5px 10px;
+
+  box-shadow:
+    0 4px 10px rgba(217, 0, 0, 0.25);
+
+  -webkit-tap-highlight-color: transparent;
+
+}
+
+
+/* 投稿アイコン */
+
+.bottom-nav-post .material-symbols-outlined {
+
+  font-size: 27px;
+
+  line-height: 1;
+
+}
+
+
+/* 投稿ラベル */
+
+.bottom-nav-post .bottom-nav-label {
+
+  font-size: 11px;
+
+  line-height: 1.2;
+
+  font-weight: 600;
+
+}
+
+
+/* ======================================================
+   PCでも下部に固定
+   ====================================================== */
+
+@media (min-width: 768px) {
+
+  .bottom-nav {
+
+    max-width: 560px;
+
+    left: 50%;
+
+    right: auto;
+
+    transform: translateX(-50%);
+
+    border-radius: 18px 18px 0 0;
+
+  }
+
+}
    
 </style>
 </head>
@@ -3192,31 +3377,89 @@ body{
    
 <body>
 
-<!-- ===== ヘッダー ===== -->
-<header class="main-header">
-
-  <div class="header-top">
-
-    <!-- ★ここが重要（完全一致） -->
-    <div class="site-title">
-      <a href="./">
-        <img src="spot-title-logo.png" alt="スポットタイトル">
-      </a>
-    </div>
-
-    <!-- ハンバーガー -->
-    <button class="hamburger" onclick="openModal()">
-      <span class="material-symbols-outlined">menu</span>
-    </button>
-
-  </div>
-
-</header>
-
 <!-- ===== マップ ===== -->
 <div id="map" class="section active">
   <div id="leafletMap" style="width:100%; height:100%;"></div>
 </div>
+
+<!-- ===== 下部ナビゲーション ===== -->
+<nav class="bottom-nav" aria-label="メインナビゲーション">
+
+  <!-- 検索 -->
+  <button
+    type="button"
+    class="bottom-nav-item"
+    aria-label="検索"
+  >
+    <span class="material-symbols-outlined">
+      search
+    </span>
+    <span class="bottom-nav-label">
+      検索
+    </span>
+  </button>
+
+
+  <!-- リスト -->
+  <button
+    type="button"
+    class="bottom-nav-item"
+    aria-label="リスト"
+  >
+    <span class="material-symbols-outlined">
+      format_list_bulleted
+    </span>
+    <span class="bottom-nav-label">
+      リスト
+    </span>
+  </button>
+
+
+  <!-- 投稿 -->
+  <button
+    type="button"
+    class="bottom-nav-post"
+    aria-label="投稿"
+  >
+    <span class="material-symbols-outlined">
+      add_location_alt
+    </span>
+    <span class="bottom-nav-label">
+      投稿
+    </span>
+  </button>
+
+
+  <!-- お気に入り -->
+  <button
+    type="button"
+    class="bottom-nav-item"
+    aria-label="お気に入り"
+  >
+    <span class="material-symbols-outlined">
+      favorite
+    </span>
+    <span class="bottom-nav-label">
+      お気に入り
+    </span>
+  </button>
+
+
+  <!-- メニュー -->
+  <button
+    type="button"
+    class="bottom-nav-item"
+    aria-label="メニュー"
+  >
+    <span class="material-symbols-outlined">
+      menu
+    </span>
+    <span class="bottom-nav-label">
+      メニュー
+    </span>
+  </button>
+
+</nav>
 
 <!-- ===== 情報提供者一覧 ===== -->
 <div id="contributors" class="section">
