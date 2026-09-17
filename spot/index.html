@@ -9459,7 +9459,7 @@ function openListSpots(listName) {
     <button
       type="button"
       class="list-back-button"
-      onclick="backToListIndex()"
+      id="listBackButton"
     >
       <span class="material-symbols-outlined">
         arrow_back
@@ -9479,21 +9479,146 @@ function openListSpots(listName) {
     </h3>
 
 
-    ${
-      spots.length > 0
-        ? spots
-            .map(spot =>
-              createListSpotCard(spot)
-            )
-            .join("")
-        : `
-          <div class="list-empty">
-            このリストに登録されているスポットはありません。
-          </div>
-        `
-    }
+    <div id="listSpotCards"></div>
 
   `;
+
+
+  const cardsContainer =
+    document.getElementById(
+      "listSpotCards"
+    );
+
+
+  if (!cardsContainer) {
+    return;
+  }
+
+
+  // スポットカードを作成
+  spots.forEach(
+    spot => {
+
+      const card =
+        document.createElement("button");
+
+      card.type = "button";
+      card.className = "list-spot-card";
+
+
+      const placeName =
+        String(
+          spot["場所名"] || "名称未設定"
+        );
+
+      const category =
+        String(
+          spot["カテゴリ"] || ""
+        );
+
+      const address =
+        String(
+          spot["住所"] || ""
+        );
+
+
+      const events =
+        getEvents(spot);
+
+
+      const eventHtml =
+        events
+          .filter(event => event.name)
+          .map(event => {
+
+            return `
+              <span class="list-spot-event">
+                ${escapeHtml(event.name)}
+                <span class="list-spot-event-status">
+                  ${escapeHtml(event.status)}
+                </span>
+              </span>
+            `;
+
+          })
+          .join("");
+
+
+      card.innerHTML = `
+
+        <div class="list-spot-card-name">
+          ${escapeHtml(placeName)}
+        </div>
+
+        <div class="list-spot-card-info">
+
+          ${
+            category
+              ? `
+                <div class="list-spot-card-category">
+                  ${escapeHtml(category)}
+                </div>
+              `
+              : ""
+          }
+
+          ${
+            address
+              ? `
+                <div class="list-spot-card-address">
+                  ${escapeHtml(address)}
+                </div>
+              `
+              : ""
+          }
+
+          ${
+            eventHtml
+              ? `
+                <div class="list-spot-card-events">
+                  ${eventHtml}
+                </div>
+              `
+              : ""
+          }
+
+        </div>
+
+      `;
+
+
+      // スポット情報を直接クリックイベントに渡す
+      card.addEventListener(
+        "click",
+        function() {
+
+          openSpotFromList(spot);
+
+        }
+      );
+
+
+      cardsContainer.appendChild(card);
+
+    }
+  );
+
+
+  // 戻るボタン
+  const backButton =
+    document.getElementById(
+      "listBackButton"
+    );
+
+
+  if (backButton) {
+
+    backButton.addEventListener(
+      "click",
+      backToListIndex
+    );
+
+  }
 
 }
 
@@ -9512,127 +9637,10 @@ function backToListIndex() {
 
 
 // ======================================================
-// スポットカード作成
-// ======================================================
-
-function createListSpotCard(spot) {
-
-  const spotId =
-    String(
-      spot["スポットID"] || ""
-    );
-
-
-  const placeName =
-    String(
-      spot["場所名"] || "名称未設定"
-    );
-
-
-  const category =
-    String(
-      spot["カテゴリ"] || ""
-    );
-
-
-  const address =
-    String(
-      spot["住所"] || ""
-    );
-
-
-  const events =
-    getEvents(spot);
-
-
-  const eventHtml =
-    events
-      .filter(event => event.name)
-      .map(event => {
-
-        return `
-          <span class="list-spot-event">
-            ${escapeHtml(event.name)}
-            <span class="list-spot-event-status">
-              ${escapeHtml(event.status)}
-            </span>
-          </span>
-        `;
-
-      })
-      .join("");
-
-
-  return `
-
-    <button
-      type="button"
-      class="list-spot-card"
-      onclick="openSpotFromList(${JSON.stringify(spotId)})"
-    >
-
-      <div class="list-spot-card-name">
-        ${escapeHtml(placeName)}
-      </div>
-
-
-      <div class="list-spot-card-info">
-
-        ${
-          category
-            ? `
-              <div class="list-spot-card-category">
-                ${escapeHtml(category)}
-              </div>
-            `
-            : ""
-        }
-
-
-        ${
-          address
-            ? `
-              <div class="list-spot-card-address">
-                ${escapeHtml(address)}
-              </div>
-            `
-            : ""
-        }
-
-
-        ${
-          eventHtml
-            ? `
-              <div class="list-spot-card-events">
-                ${eventHtml}
-              </div>
-            `
-            : ""
-        }
-
-      </div>
-
-    </button>
-
-  `;
-
-}
-
-
-// ======================================================
 // リストからスポットを選択
 // ======================================================
 
-function openSpotFromList(spotId) {
-
-  const spot =
-    dataList.find(
-      item =>
-        String(
-          item["スポットID"] || ""
-        ) === String(spotId)
-    );
-
+function openSpotFromList(spot) {
 
   if (!spot) {
     return;
@@ -9644,37 +9652,48 @@ function openSpotFromList(spotId) {
       spot["緯度"]
     );
 
-
   const lng =
     parseFloat(
       spot["経度"]
     );
 
 
-  // リストモーダルを閉じる
-  closeListModal();
-
-
   if (
     !Number.isFinite(lat) ||
     !Number.isFinite(lng)
   ) {
+
+    console.warn(
+      "スポットの緯度・経度が正しくありません",
+      spot
+    );
+
     return;
+
   }
 
 
-  // 地図をスポットへ移動
+  // リストモーダルを閉じる
+  closeListModal();
+
+
+  // 地図をそのスポットへ移動
   map.setView(
-    [
-      lat,
-      lng
-    ],
+    [lat, lng],
     17
   );
 
 
-  // 詳細パネルを開く
-  openDetail(spot);
+  // 少し待ってから詳細パネルを開く
+  // 地図移動とパネル表示が競合する場合への対策
+  setTimeout(
+    function() {
+
+      openDetail(spot);
+
+    },
+    100
+  );
 
 }
    
