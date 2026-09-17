@@ -39,29 +39,49 @@ body{
   padding:20px;
 }
 
-#map{
-  position:fixed;
-  left:0;
-  width:100%;
+#map {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
 }
 
-@media(min-width:769px){
-  #map{
-    top:64px;
-    height:calc(100vh - 64px);
+
+/* ======================================================
+   PC
+   ====================================================== */
+
+@media (min-width: 769px) {
+
+  #map {
+    top: 0;
+    bottom: 0;
+    height: 100vh;
   }
+
 }
 
-@media(max-width:768px){
-  #map{
-    top:64px;
-    bottom:0;
+
+/* ======================================================
+   スマホ
+   ====================================================== */
+
+@media (max-width: 768px) {
+
+  #map {
+    top: 0;
+    bottom: 72px;
+    height: auto;
   }
+
 }
 
-#leafletMap{
-  width:100%;
-  height:100%;
+
+/* Leaflet */
+
+#leafletMap {
+  width: 100%;
+  height: 100%;
 }
    
 /* =======================
