@@ -3384,299 +3384,924 @@ body{
 
 /* ======================================================
    リストから探す
+   Modern UI
    ====================================================== */
 
 .list-modal {
   z-index: 3000;
 }
 
+
+/* ======================================================
+   モーダル本体
+   ====================================================== */
+
 .list-modal-content {
-  width: min(680px, calc(100% - 24px));
+  width: min(720px, calc(100% - 24px));
+  height: min(760px, calc(100vh - 40px));
   max-height: calc(100vh - 40px);
+
   overflow: hidden;
+
   padding: 0;
-  border-radius: 20px;
-  background: #fff;
+
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 24px;
+
+  background: #f7f8fa;
+
   box-sizing: border-box;
+
   display: flex;
   flex-direction: column;
+
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.18);
 }
 
 
-/* ------------------------------------------------------
+/* ======================================================
    ヘッダー
-   ------------------------------------------------------ */
+   ====================================================== */
 
 .list-modal-header {
+  position: relative;
+
   flex-shrink: 0;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 18px 18px 14px;
-  border-bottom: 1px solid #e5e7eb;
-  background: #fff;
+
+  gap: 14px;
+
+  padding: 20px 20px 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #fafafa 100%
+    );
+
+  border-bottom: 1px solid #eceef1;
 }
+
 
 .list-modal-title {
   display: flex;
   align-items: center;
-  gap: 10px;
+
+  gap: 13px;
+
   min-width: 0;
 }
 
+
 .list-modal-title > .material-symbols-outlined {
+
   flex-shrink: 0;
-  font-size: 30px;
-  color: #d90000;
-}
 
-.list-modal-title h3 {
-  margin: 0;
-  font-size: 18px;
-  line-height: 1.35;
-  color: #222;
-}
+  width: 46px;
+  height: 46px;
 
-.list-modal-title p {
-  margin: 3px 0 0;
-  font-size: 11px;
-  color: #777;
-}
-
-
-/* ------------------------------------------------------
-   リスト一覧
-   ------------------------------------------------------ */
-
-.list-index {
-  overflow-y: auto;
-  padding: 10px 12px 20px;
-}
-
-.list-index-item {
-  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background: #fff0f0;
+
+  color: #d90000;
+
+  font-size: 28px;
+
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 600,
+    "GRAD" 0,
+    "opsz" 28;
+}
+
+
+.list-modal-title h3 {
+
+  margin: 0;
+
+  font-size: 20px;
+  line-height: 1.3;
+
+  font-weight: 750;
+
+  letter-spacing: -0.02em;
+
+  color: #17191c;
+}
+
+
+.list-modal-title p {
+
+  margin: 4px 0 0;
+
+  font-size: 11px;
+  line-height: 1.4;
+
+  color: #8a9098;
+}
+
+
+/* ======================================================
+   リスト一覧
+   ====================================================== */
+
+.list-index {
+
+  flex: 1;
+
+  min-height: 0;
+
+  overflow-y: auto;
+
+  padding: 16px;
+
+  box-sizing: border-box;
+
+  scrollbar-width: thin;
+  scrollbar-color: #cfd3d8 transparent;
+}
+
+
+/* ======================================================
+   リストカード
+   ====================================================== */
+
+.list-index-item {
+
+  position: relative;
+
+  width: 100%;
+  min-height: 72px;
+
+  display: grid;
+
+  grid-template-columns: 46px minmax(0, 1fr) auto 22px;
+
+  align-items: center;
+
   gap: 12px;
 
-  padding: 15px 12px;
+  margin-bottom: 9px;
 
-  border: none;
-  border-bottom: 1px solid #eeeeee;
+  padding: 11px 13px;
 
-  background: #fff;
+  border: 1px solid #e8eaed;
+
+  border-radius: 16px;
+
+  background: #ffffff;
+
   color: #222;
 
   text-align: left;
+
   cursor: pointer;
+
+  box-sizing: border-box;
+
+  box-shadow:
+    0 2px 7px rgba(0, 0, 0, 0.035);
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/* 左側アイコン */
+
+.list-index-item::before {
+
+  content: "playlist_play";
+
+  width: 46px;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 13px;
+
+  background: #f2f3f5;
+
+  color: #555b63;
+
+  font-family: "Material Symbols Outlined";
+
+  font-size: 25px;
+
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 550,
+    "GRAD" 0,
+    "opsz" 25;
 
   transition:
     background 0.15s ease,
     color 0.15s ease;
 }
 
-.list-index-item:hover {
-  background: #f8f8f8;
+
+@media (hover: hover) and (pointer: fine) {
+
+  .list-index-item:hover {
+
+    transform: translateY(-1px);
+
+    border-color: #dedfe2;
+
+    background: #fff;
+
+    box-shadow:
+      0 7px 18px rgba(0, 0, 0, 0.08);
+
+  }
+
+
+  .list-index-item:hover::before {
+
+    background: #fff0f0;
+
+    color: #d90000;
+
+  }
+
 }
+
 
 .list-index-item:active {
-  background: #f1f1f1;
+
+  transform: scale(0.985);
+
+  background: #f7f7f8;
+
 }
 
+
+/* リスト名 */
+
 .list-index-name {
+
   min-width: 0;
 
   font-size: 15px;
+
+  font-weight: 700;
+
+  line-height: 1.4;
+
+  letter-spacing: -0.01em;
+
+  color: #202328;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* 件数 */
+
+.list-index-count {
+
+  flex-shrink: 0;
+
+  padding: 5px 9px;
+
+  border-radius: 999px;
+
+  background: #f1f2f4;
+
+  color: #777d85;
+
+  font-size: 10px;
+
   font-weight: 600;
+
+  line-height: 1;
+
+  white-space: nowrap;
+}
+
+
+/* 矢印 */
+
+.list-index-arrow {
+
+  flex-shrink: 0;
+
+  color: #b5bac1;
+
+  font-size: 22px;
+
+  line-height: 1;
+
+  transition:
+    transform 0.15s ease,
+    color 0.15s ease;
+}
+
+
+@media (hover: hover) and (pointer: fine) {
+
+  .list-index-item:hover .list-index-arrow {
+
+    color: #d90000;
+
+    transform: translateX(2px);
+
+  }
+
+}
+
+
+/* ======================================================
+   スポット一覧
+   ====================================================== */
+
+.list-spot-view {
+
+  flex: 1;
+
+  min-height: 0;
+
+  overflow-y: auto;
+
+  padding: 14px 16px 22px;
+
+  box-sizing: border-box;
+
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    #cfd3d8
+    transparent;
+}
+
+
+/* ======================================================
+   戻るボタン
+   ====================================================== */
+
+.list-back-button {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  margin: 0 0 9px;
+
+  padding: 7px 4px;
+
+  border: none;
+
+  background: transparent;
+
+  color: #d90000;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  line-height: 1.3;
+
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+.list-back-button .material-symbols-outlined {
+
+  font-size: 19px;
+
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 600,
+    "GRAD" 0,
+    "opsz" 20;
+}
+
+
+/* ======================================================
+   リスト名タイトル
+   ====================================================== */
+
+.list-spot-title {
+
+  display: flex;
+
+  align-items: baseline;
+
+  flex-wrap: wrap;
+
+  gap: 6px;
+
+  margin: 0 2px 14px;
+
+  font-size: 20px;
+
+  line-height: 1.35;
+
+  font-weight: 750;
+
+  letter-spacing: -0.02em;
+
+  color: #17191c;
+}
+
+
+.list-spot-title-count {
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  letter-spacing: 0;
+
+  color: #8a9098;
+}
+
+
+/* ======================================================
+   スポットカード
+   ====================================================== */
+
+.list-spot-card {
+
+  position: relative;
+
+  width: 100%;
+
+  display: block;
+
+  margin: 0 0 9px;
+
+  padding: 14px 15px;
+
+  border: 1px solid #e6e8eb;
+
+  border-radius: 16px;
+
+  background: #fff;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  box-sizing: border-box;
+
+  box-shadow:
+    0 2px 7px rgba(0, 0, 0, 0.035);
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+@media (hover: hover) and (pointer: fine) {
+
+  .list-spot-card:hover {
+
+    transform: translateY(-1px);
+
+    border-color: #dedfe2;
+
+    box-shadow:
+      0 8px 20px rgba(0, 0, 0, 0.08);
+
+  }
+
+}
+
+
+.list-spot-card:active {
+
+  transform: scale(0.99);
+
+  background: #fafafa;
+
+}
+
+
+/* ======================================================
+   スポット名
+   ====================================================== */
+
+.list-spot-card-name {
+
+  margin: 0 0 8px;
+
+  padding-right: 24px;
+
+  font-size: 15px;
+
+  font-weight: 750;
+
+  line-height: 1.4;
+
+  letter-spacing: -0.01em;
+
+  color: #1c1f23;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* ======================================================
+   カテゴリ
+   ====================================================== */
+
+.list-spot-card-category {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  min-height: 21px;
+
+  margin-bottom: 6px;
+
+  padding: 3px 8px;
+
+  border-radius: 999px;
+
+  background: #f1f2f4;
+
+  color: #555b63;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  line-height: 1;
+
+  white-space: nowrap;
+}
+
+
+/* ======================================================
+   住所
+   ====================================================== */
+
+.list-spot-card-address {
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 4px;
+
+  margin-bottom: 7px;
+
+  color: #858b93;
+
+  font-size: 10px;
+
+  font-weight: 400;
+
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+
+.list-spot-card-address::before {
+
+  content: "location_on";
+
+  flex-shrink: 0;
+
+  margin-top: 1px;
+
+  font-family: "Material Symbols Outlined";
+
+  font-size: 14px;
+
+  color: #a1a6ad;
+
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 500,
+    "GRAD" 0,
+    "opsz" 18;
+}
+
+
+/* ======================================================
+   イベント
+   ====================================================== */
+
+.list-spot-card-events {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 4px;
+
+  margin-top: 2px;
+
+  padding-top: 7px;
+
+  border-top: 1px solid #f0f1f2;
+
+}
+
+
+.list-spot-event {
+
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 5px;
+
+  color: #555b63;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
   line-height: 1.45;
 
   overflow-wrap: anywhere;
 }
 
-.list-index-count {
+
+/* イベント名の左アイコン */
+
+.list-spot-event::before {
+
+  content: "event";
+
   flex-shrink: 0;
 
-  font-size: 11px;
-  font-weight: 500;
+  font-family: "Material Symbols Outlined";
 
-  color: #777;
+  font-size: 14px;
+
+  color: #9da2a9;
+
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 500,
+    "GRAD" 0,
+    "opsz" 18;
+}
+
+
+/* 開催状況 */
+
+.list-spot-event-status {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  min-height: 18px;
+
+  margin-left: 0;
+
+  padding: 2px 7px;
+
+  border-radius: 999px;
+
+  background: #f1f2f4;
+
+  color: #686e76;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  line-height: 1;
+
   white-space: nowrap;
 }
 
-.list-index-arrow {
-  flex-shrink: 0;
 
-  font-size: 20px;
-  color: #aaa;
-}
-
-
-/* ------------------------------------------------------
-   スポット一覧
-   ------------------------------------------------------ */
-
-.list-spot-view {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  padding: 12px;
-}
-
-.list-back-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-
-  margin: 0 0 8px;
-  padding: 7px 4px;
-
-  border: none;
-  background: transparent;
-
-  color: #d90000;
-  font-size: 12px;
-  font-weight: 600;
-
-  cursor: pointer;
-}
-
-.list-back-button .material-symbols-outlined {
-  font-size: 19px;
-}
-
-.list-spot-title {
-  margin: 0 4px 12px;
-
-  font-size: 18px;
-  line-height: 1.4;
-  color: #222;
-}
-
-.list-spot-title-count {
-  font-size: 11px;
-  font-weight: 500;
-  color: #777;
-}
-
-
-/* ------------------------------------------------------
-   スポットカード
-   ------------------------------------------------------ */
-
-.list-spot-card {
-  width: 100%;
-
-  margin-bottom: 8px;
-  padding: 11px 12px;
-
-  border: 1px solid #e8e8e8;
-  border-radius: 12px;
-
-  background: #fff;
-
-  text-align: left;
-  cursor: pointer;
-
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
-
-  transition:
-    background 0.15s ease,
-    transform 0.1s ease;
-}
-
-.list-spot-card:hover {
-  background: #fafafa;
-}
-
-.list-spot-card:active {
-  transform: scale(0.99);
-}
-
-.list-spot-card-name {
-  margin: 0 0 4px;
-
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.4;
-
-  color: #222;
-}
-
-.list-spot-card-info {
-  font-size: 10px;
-  line-height: 1.55;
-  color: #777;
-
-  overflow-wrap: anywhere;
-}
-
-.list-spot-card-category {
-  color: #555;
-  font-weight: 600;
-}
-
-.list-spot-card-address {
-  color: #888;
-}
-
-.list-spot-card-events {
-  margin-top: 3px;
-  color: #666;
-}
-
-.list-spot-event {
-  display: block;
-}
-
-.list-spot-event-status {
-  color: #777;
-  margin-left: 3px;
-}
-
-
-/* ------------------------------------------------------
+/* ======================================================
    データなし
-   ------------------------------------------------------ */
+   ====================================================== */
 
 .list-empty {
-  padding: 40px 20px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 180px;
+
+  padding: 30px 20px;
+
+  color: #8a9098;
+
+  font-size: 12px;
+
+  line-height: 1.7;
 
   text-align: center;
-
-  color: #888;
-  font-size: 13px;
-  line-height: 1.7;
 }
 
 
-/* ------------------------------------------------------
+/* ======================================================
+   スクロールバー
+   ====================================================== */
+
+.list-index::-webkit-scrollbar,
+.list-spot-view::-webkit-scrollbar {
+
+  width: 6px;
+
+}
+
+
+.list-index::-webkit-scrollbar-track,
+.list-spot-view::-webkit-scrollbar-track {
+
+  background: transparent;
+
+}
+
+
+.list-index::-webkit-scrollbar-thumb,
+.list-spot-view::-webkit-scrollbar-thumb {
+
+  background: #d2d5d9;
+
+  border-radius: 999px;
+
+}
+
+
+/* ======================================================
    スマホ
-   ------------------------------------------------------ */
+   ====================================================== */
 
 @media (max-width: 768px) {
 
   .list-modal-content {
-    width: calc(100% - 16px);
-    max-height: calc(100vh - 24px);
-    border-radius: 18px;
+
+    width: calc(100% - 12px);
+
+    height: calc(100vh - 20px);
+
+    max-height: calc(100vh - 20px);
+
+    border-radius: 22px;
+
   }
+
 
   .list-modal-header {
-    padding: 16px 14px 12px;
+
+    padding: 16px 15px 15px;
+
   }
+
+
+  .list-modal-title {
+
+    gap: 10px;
+
+  }
+
+
+  .list-modal-title > .material-symbols-outlined {
+
+    width: 42px;
+    height: 42px;
+
+    border-radius: 12px;
+
+    font-size: 25px;
+
+  }
+
+
+  .list-modal-title h3 {
+
+    font-size: 18px;
+
+  }
+
 
   .list-index {
-    padding: 8px 8px 16px;
+
+    padding: 11px 10px 18px;
+
   }
+
 
   .list-index-item {
-    padding: 14px 8px;
+
+    min-height: 66px;
+
+    grid-template-columns:
+      42px
+      minmax(0, 1fr)
+      auto
+      20px;
+
+    gap: 9px;
+
+    margin-bottom: 7px;
+
+    padding: 9px 10px;
+
+    border-radius: 14px;
+
   }
 
+
+  .list-index-item::before {
+
+    width: 42px;
+    height: 42px;
+
+    border-radius: 11px;
+
+    font-size: 23px;
+
+  }
+
+
+  .list-index-name {
+
+    font-size: 14px;
+
+  }
+
+
+  .list-index-count {
+
+    padding: 5px 7px;
+
+    font-size: 9px;
+
+  }
+
+
+  .list-index-arrow {
+
+    font-size: 20px;
+
+  }
+
+
   .list-spot-view {
-    padding: 10px 8px 16px;
+
+    padding: 11px 10px 20px;
+
+  }
+
+
+  .list-spot-title {
+
+    font-size: 18px;
+
+    margin-bottom: 12px;
+
+  }
+
+
+  .list-spot-card {
+
+    padding: 13px;
+
+    border-radius: 14px;
+
+  }
+
+
+  .list-spot-card-name {
+
+    font-size: 14px;
+
   }
 
 }
@@ -9494,13 +10119,13 @@ function openListSpots(listName) {
     return;
   }
 
-
   // スポットカードを作成
   spots.forEach(
     spot => {
 
       const card =
         document.createElement("button");
+
 
       card.type = "button";
       card.className = "list-spot-card";
@@ -9511,10 +10136,12 @@ function openListSpots(listName) {
           spot["場所名"] || "名称未設定"
         );
 
+
       const category =
         String(
           spot["カテゴリ"] || ""
         );
+
 
       const address =
         String(
@@ -9533,10 +10160,13 @@ function openListSpots(listName) {
 
             return `
               <span class="list-spot-event">
+
                 ${escapeHtml(event.name)}
+
                 <span class="list-spot-event-status">
                   ${escapeHtml(event.status)}
                 </span>
+
               </span>
             `;
 
@@ -9550,44 +10180,43 @@ function openListSpots(listName) {
           ${escapeHtml(placeName)}
         </div>
 
-        <div class="list-spot-card-info">
 
-          ${
-            category
-              ? `
-                <div class="list-spot-card-category">
-                  ${escapeHtml(category)}
-                </div>
-              `
-              : ""
-          }
+        ${
+          category
+            ? `
+              <div class="list-spot-card-category">
+                ${escapeHtml(category)}
+              </div>
+            `
+            : ""
+        }
 
-          ${
-            address
-              ? `
-                <div class="list-spot-card-address">
-                  ${escapeHtml(address)}
-                </div>
-              `
-              : ""
-          }
 
-          ${
-            eventHtml
-              ? `
-                <div class="list-spot-card-events">
-                  ${eventHtml}
-                </div>
-              `
-              : ""
-          }
+        ${
+          address
+            ? `
+              <div class="list-spot-card-address">
+                ${escapeHtml(address)}
+              </div>
+            `
+            : ""
+        }
 
-        </div>
+
+        ${
+          eventHtml
+            ? `
+              <div class="list-spot-card-events">
+                ${eventHtml}
+              </div>
+            `
+            : ""
+        }
 
       `;
 
 
-      // スポット情報を直接クリックイベントに渡す
+      // スポットをクリック
       card.addEventListener(
         "click",
         function() {
