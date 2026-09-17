@@ -3381,6 +3381,305 @@ body{
   }
 
 }
+
+/* ======================================================
+   リストから探す
+   ====================================================== */
+
+.list-modal {
+  z-index: 3000;
+}
+
+.list-modal-content {
+  width: min(680px, calc(100% - 24px));
+  max-height: calc(100vh - 40px);
+  overflow: hidden;
+  padding: 0;
+  border-radius: 20px;
+  background: #fff;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* ------------------------------------------------------
+   ヘッダー
+   ------------------------------------------------------ */
+
+.list-modal-header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 18px 14px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
+}
+
+.list-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.list-modal-title > .material-symbols-outlined {
+  flex-shrink: 0;
+  font-size: 30px;
+  color: #d90000;
+}
+
+.list-modal-title h3 {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.35;
+  color: #222;
+}
+
+.list-modal-title p {
+  margin: 3px 0 0;
+  font-size: 11px;
+  color: #777;
+}
+
+
+/* ------------------------------------------------------
+   リスト一覧
+   ------------------------------------------------------ */
+
+.list-index {
+  overflow-y: auto;
+  padding: 10px 12px 20px;
+}
+
+.list-index-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 15px 12px;
+
+  border: none;
+  border-bottom: 1px solid #eeeeee;
+
+  background: #fff;
+  color: #222;
+
+  text-align: left;
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.list-index-item:hover {
+  background: #f8f8f8;
+}
+
+.list-index-item:active {
+  background: #f1f1f1;
+}
+
+.list-index-name {
+  min-width: 0;
+
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+
+  overflow-wrap: anywhere;
+}
+
+.list-index-count {
+  flex-shrink: 0;
+
+  font-size: 11px;
+  font-weight: 500;
+
+  color: #777;
+  white-space: nowrap;
+}
+
+.list-index-arrow {
+  flex-shrink: 0;
+
+  font-size: 20px;
+  color: #aaa;
+}
+
+
+/* ------------------------------------------------------
+   スポット一覧
+   ------------------------------------------------------ */
+
+.list-spot-view {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.list-back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  margin: 0 0 8px;
+  padding: 7px 4px;
+
+  border: none;
+  background: transparent;
+
+  color: #d90000;
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.list-back-button .material-symbols-outlined {
+  font-size: 19px;
+}
+
+.list-spot-title {
+  margin: 0 4px 12px;
+
+  font-size: 18px;
+  line-height: 1.4;
+  color: #222;
+}
+
+.list-spot-title-count {
+  font-size: 11px;
+  font-weight: 500;
+  color: #777;
+}
+
+
+/* ------------------------------------------------------
+   スポットカード
+   ------------------------------------------------------ */
+
+.list-spot-card {
+  width: 100%;
+
+  margin-bottom: 8px;
+  padding: 11px 12px;
+
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+
+  background: #fff;
+
+  text-align: left;
+  cursor: pointer;
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+
+  transition:
+    background 0.15s ease,
+    transform 0.1s ease;
+}
+
+.list-spot-card:hover {
+  background: #fafafa;
+}
+
+.list-spot-card:active {
+  transform: scale(0.99);
+}
+
+.list-spot-card-name {
+  margin: 0 0 4px;
+
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+
+  color: #222;
+}
+
+.list-spot-card-info {
+  font-size: 10px;
+  line-height: 1.55;
+  color: #777;
+
+  overflow-wrap: anywhere;
+}
+
+.list-spot-card-category {
+  color: #555;
+  font-weight: 600;
+}
+
+.list-spot-card-address {
+  color: #888;
+}
+
+.list-spot-card-events {
+  margin-top: 3px;
+  color: #666;
+}
+
+.list-spot-event {
+  display: block;
+}
+
+.list-spot-event-status {
+  color: #777;
+  margin-left: 3px;
+}
+
+
+/* ------------------------------------------------------
+   データなし
+   ------------------------------------------------------ */
+
+.list-empty {
+  padding: 40px 20px;
+
+  text-align: center;
+
+  color: #888;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+
+/* ------------------------------------------------------
+   スマホ
+   ------------------------------------------------------ */
+
+@media (max-width: 768px) {
+
+  .list-modal-content {
+    width: calc(100% - 16px);
+    max-height: calc(100vh - 24px);
+    border-radius: 18px;
+  }
+
+  .list-modal-header {
+    padding: 16px 14px 12px;
+  }
+
+  .list-index {
+    padding: 8px 8px 16px;
+  }
+
+  .list-index-item {
+    padding: 14px 8px;
+  }
+
+  .list-spot-view {
+    padding: 10px 8px 16px;
+  }
+
+}
    
 </style>
 </head>
@@ -3425,6 +3724,7 @@ body{
     type="button"
     class="bottom-nav-item"
     aria-label="リスト"
+    onclick="openListModal()"
   >
     <span class="material-symbols-outlined">
       format_list_bulleted
@@ -3480,6 +3780,67 @@ body{
   </button>
 
 </nav>
+
+<!-- ===== リストから探すモーダル ===== -->
+<div
+  id="listModal"
+  class="modal list-modal"
+  onclick="closeListModal(event)"
+>
+  <div
+    class="modal-content list-modal-content"
+    onclick="event.stopPropagation()"
+  >
+
+    <!-- ヘッダー -->
+    <div class="list-modal-header">
+
+      <div class="list-modal-title">
+        <span class="material-symbols-outlined">
+          format_list_bulleted
+        </span>
+
+        <div>
+          <h3 id="listModalTitle">
+            リストから探す
+          </h3>
+
+          <p id="listModalSubtitle">
+            気になるスポットをリストから探せます
+          </p>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="post-close-btn"
+        onclick="closeListModal()"
+        aria-label="閉じる"
+      >
+        <span class="material-symbols-outlined">
+          close
+        </span>
+      </button>
+
+    </div>
+
+
+    <!-- リスト一覧 -->
+    <div
+      id="listIndex"
+      class="list-index"
+    ></div>
+
+
+    <!-- スポット一覧 -->
+    <div
+      id="listSpotView"
+      class="list-spot-view"
+      hidden
+    ></div>
+
+  </div>
+</div>
 
 <!-- ===== 情報提供者一覧 ===== -->
 <div id="contributors" class="section">
@@ -8807,6 +9168,485 @@ function resetPostRelatedUrls() {
   container.innerHTML = "";
 
   addPostRelatedUrl();
+
+}
+
+// ======================================================
+// リストから探す
+// ======================================================
+
+let currentListName = "";
+
+
+// ======================================================
+// リストモーダルを開く
+// ======================================================
+
+function openListModal() {
+
+  const modal =
+    document.getElementById("listModal");
+
+  if (!modal) return;
+
+
+  currentListName = "";
+
+
+  const index =
+    document.getElementById("listIndex");
+
+  const spotView =
+    document.getElementById("listSpotView");
+
+
+  if (index) {
+    index.hidden = false;
+  }
+
+  if (spotView) {
+    spotView.hidden = true;
+  }
+
+
+  renderListIndex();
+
+
+  modal.classList.add("active");
+
+}
+
+
+// ======================================================
+// リストモーダルを閉じる
+// ======================================================
+
+function closeListModal(event) {
+
+  if (
+    event &&
+    event.target !== event.currentTarget
+  ) {
+    return;
+  }
+
+
+  const modal =
+    document.getElementById("listModal");
+
+  if (!modal) return;
+
+
+  modal.classList.remove("active");
+
+}
+
+
+// ======================================================
+// リスト一覧を作成
+// ======================================================
+
+function buildListGroups() {
+
+  const groups =
+    new Map();
+
+
+  if (!Array.isArray(dataList)) {
+    return groups;
+  }
+
+
+  dataList.forEach(spot => {
+
+    const listText =
+      String(
+        spot["リスト"] || ""
+      ).trim();
+
+
+    if (!listText) {
+      return;
+    }
+
+
+    // 「｜」で複数リストに分割
+    const listNames =
+      listText
+        .split("｜")
+        .map(name => name.trim())
+        .filter(Boolean);
+
+
+    listNames.forEach(listName => {
+
+      if (!groups.has(listName)) {
+
+        groups.set(
+          listName,
+          []
+        );
+
+      }
+
+
+      groups
+        .get(listName)
+        .push(spot);
+
+    });
+
+  });
+
+
+  return groups;
+
+}
+
+
+// ======================================================
+// リスト一覧を表示
+// ======================================================
+
+function renderListIndex() {
+
+  const container =
+    document.getElementById("listIndex");
+
+  const spotView =
+    document.getElementById("listSpotView");
+
+
+  if (!container) return;
+
+
+  if (spotView) {
+    spotView.hidden = true;
+  }
+
+
+  container.hidden = false;
+
+
+  const groups =
+    buildListGroups();
+
+
+  if (groups.size === 0) {
+
+    container.innerHTML = `
+      <div class="list-empty">
+        現在、登録されているリストはありません。
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  // リストタイトル順
+  const sortedGroups =
+    Array.from(groups.entries())
+      .sort((a, b) =>
+        a[0].localeCompare(
+          b[0],
+          "ja"
+        )
+      );
+
+
+  container.innerHTML =
+    sortedGroups
+      .map(([listName, spots]) => {
+
+        const safeName =
+          escapeHtml(listName);
+
+
+        return `
+          <button
+            type="button"
+            class="list-index-item"
+            onclick="openListSpots(${JSON.stringify(listName)})"
+          >
+
+            <span class="list-index-name">
+              ${safeName}
+            </span>
+
+            <span class="list-index-count">
+              （${spots.length}スポット）
+            </span>
+
+            <span class="material-symbols-outlined list-index-arrow">
+              chevron_right
+            </span>
+
+          </button>
+        `;
+
+      })
+      .join("");
+
+}
+
+
+// ======================================================
+// 選択したリストのスポット一覧
+// ======================================================
+
+function openListSpots(listName) {
+
+  currentListName =
+    String(listName || "");
+
+
+  const index =
+    document.getElementById("listIndex");
+
+  const spotView =
+    document.getElementById("listSpotView");
+
+
+  if (!index || !spotView) {
+    return;
+  }
+
+
+  const groups =
+    buildListGroups();
+
+
+  const spots =
+    groups.get(currentListName) || [];
+
+
+  index.hidden = true;
+  spotView.hidden = false;
+
+
+  spotView.innerHTML = `
+
+    <button
+      type="button"
+      class="list-back-button"
+      onclick="backToListIndex()"
+    >
+      <span class="material-symbols-outlined">
+        arrow_back
+      </span>
+      リスト一覧に戻る
+    </button>
+
+
+    <h3 class="list-spot-title">
+      ${escapeHtml(currentListName)}
+      <span class="list-spot-title-count">
+        （${spots.length}スポット）
+      </span>
+    </h3>
+
+
+    ${
+      spots.length
+        ? spots
+            .map(
+              spot =>
+                createListSpotCard(
+                  spot
+                )
+            )
+            .join("")
+        : `
+          <div class="list-empty">
+            このリストに登録されているスポットはありません。
+          </div>
+        `
+    }
+
+  `;
+
+}
+
+
+// ======================================================
+// リスト一覧へ戻る
+// ======================================================
+
+function backToListIndex() {
+
+  currentListName = "";
+
+  renderListIndex();
+
+}
+
+
+// ======================================================
+// スポットカード作成
+// ======================================================
+
+function createListSpotCard(spot) {
+
+  const spotId =
+    String(
+      spot["スポットID"] || ""
+    );
+
+
+  const placeName =
+    String(
+      spot["場所名"] || "名称未設定"
+    );
+
+
+  const category =
+    String(
+      spot["カテゴリ"] || ""
+    );
+
+
+  const address =
+    String(
+      spot["住所"] || ""
+    );
+
+
+  const events =
+    getEvents(spot);
+
+
+  const eventHtml =
+    events
+      .filter(event => event.name)
+      .map(event => {
+
+        return `
+          <span class="list-spot-event">
+            ${escapeHtml(event.name)}
+            <span class="list-spot-event-status">
+              ${escapeHtml(event.status)}
+            </span>
+          </span>
+        `;
+
+      })
+      .join("");
+
+
+  return `
+
+    <button
+      type="button"
+      class="list-spot-card"
+      onclick="openSpotFromList(${JSON.stringify(spotId)})"
+    >
+
+      <div class="list-spot-card-name">
+        ${escapeHtml(placeName)}
+      </div>
+
+
+      <div class="list-spot-card-info">
+
+        ${
+          category
+            ? `
+              <div class="list-spot-card-category">
+                ${escapeHtml(category)}
+              </div>
+            `
+            : ""
+        }
+
+
+        ${
+          address
+            ? `
+              <div class="list-spot-card-address">
+                ${escapeHtml(address)}
+              </div>
+            `
+            : ""
+        }
+
+
+        ${
+          eventHtml
+            ? `
+              <div class="list-spot-card-events">
+                ${eventHtml}
+              </div>
+            `
+            : ""
+        }
+
+      </div>
+
+    </button>
+
+  `;
+
+}
+
+
+// ======================================================
+// リストからスポットを選択
+// ======================================================
+
+function openSpotFromList(spotId) {
+
+  const spot =
+    dataList.find(
+      item =>
+        String(
+          item["スポットID"] || ""
+        ) === String(spotId)
+    );
+
+
+  if (!spot) {
+    return;
+  }
+
+
+  const lat =
+    parseFloat(
+      spot["緯度"]
+    );
+
+
+  const lng =
+    parseFloat(
+      spot["経度"]
+    );
+
+
+  // リストモーダルを閉じる
+  closeListModal();
+
+
+  if (
+    !Number.isFinite(lat) ||
+    !Number.isFinite(lng)
+  ) {
+    return;
+  }
+
+
+  // 地図をスポットへ移動
+  map.setView(
+    [
+      lat,
+      lng
+    ],
+    17
+  );
+
+
+  // 詳細パネルを開く
+  openDetail(spot);
 
 }
    
