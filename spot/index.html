@@ -9345,7 +9345,6 @@ function renderListIndex() {
   }
 
 
-  // リストタイトル順
   const sortedGroups =
     Array.from(groups.entries())
       .sort((a, b) =>
@@ -9356,41 +9355,61 @@ function renderListIndex() {
       );
 
 
-  container.innerHTML =
-    sortedGroups
-      .map(([listName, spots]) => {
-
-        const safeName =
-          escapeHtml(listName);
+  container.innerHTML = "";
 
 
-        return `
-          <button
-            type="button"
-            class="list-index-item"
-            onclick="openListSpots(${JSON.stringify(listName)})"
-          >
+  sortedGroups.forEach(
+    ([listName, spots]) => {
 
-            <span class="list-index-name">
-              ${safeName}
-            </span>
+      const button =
+        document.createElement("button");
 
-            <span class="list-index-count">
-              （${spots.length}スポット）
-            </span>
 
-            <span class="material-symbols-outlined list-index-arrow">
-              chevron_right
-            </span>
+      button.type = "button";
+      button.className = "list-index-item";
 
-          </button>
-        `;
 
-      })
-      .join("");
+      // リスト名を安全に保持
+      button.dataset.listName =
+        listName;
+
+
+      button.innerHTML = `
+
+        <span class="list-index-name">
+          ${escapeHtml(listName)}
+        </span>
+
+        <span class="list-index-count">
+          （${spots.length}スポット）
+        </span>
+
+        <span class="material-symbols-outlined list-index-arrow">
+          chevron_right
+        </span>
+
+      `;
+
+
+      // クリック時にdatasetから取得
+      button.addEventListener(
+        "click",
+        function() {
+
+          openListSpots(
+            this.dataset.listName
+          );
+
+        }
+      );
+
+
+      container.appendChild(button);
+
+    }
+  );
 
 }
-
 
 // ======================================================
 // 選択したリストのスポット一覧
@@ -9398,8 +9417,13 @@ function renderListIndex() {
 
 function openListSpots(listName) {
 
+  if (!listName) {
+    return;
+  }
+
+
   currentListName =
-    String(listName || "");
+    String(listName);
 
 
   const index =
@@ -9410,6 +9434,10 @@ function openListSpots(listName) {
 
 
   if (!index || !spotView) {
+    console.warn(
+      "リスト表示エリアが見つかりません"
+    );
+
     return;
   }
 
@@ -9441,21 +9469,21 @@ function openListSpots(listName) {
 
 
     <h3 class="list-spot-title">
+
       ${escapeHtml(currentListName)}
+
       <span class="list-spot-title-count">
         （${spots.length}スポット）
       </span>
+
     </h3>
 
 
     ${
-      spots.length
+      spots.length > 0
         ? spots
-            .map(
-              spot =>
-                createListSpotCard(
-                  spot
-                )
+            .map(spot =>
+              createListSpotCard(spot)
             )
             .join("")
         : `
