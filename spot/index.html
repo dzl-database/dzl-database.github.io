@@ -10282,25 +10282,6 @@ function renderListIndex() {
 
       });
 
-
-  container.innerHTML = `
-
-    <div class="list-guide">
-
-      <span class="material-symbols-outlined">
-        info
-      </span>
-
-      <div>
-        リストは登録スポット数が多い順に表示しています。
-        気になるリストをタップすると、登録されているスポットを確認できます。
-      </div>
-
-    </div>
-
-  `;
-
-
   sortedGroups.forEach(
     ([listName, spots]) => {
 
@@ -10538,18 +10519,6 @@ function openListSpots(listName) {
         </span>
 
       </h3>
-
-
-      <p class="list-spot-description">
-
-        <span class="material-symbols-outlined">
-          near_me
-        </span>
-
-        現在のマップ中心に近いスポットから表示しています。
-        スポットをタップすると地図が移動し、詳細を開きます。
-
-      </p>
 
     </div>
 
