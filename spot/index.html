@@ -5713,7 +5713,7 @@ body{
   position: absolute;
 
   top: 18px;
-  right: 0px;
+  right: -34px;
 
   width: 34px;
   height: 72px;
@@ -5819,8 +5819,11 @@ body{
 .spot-filter-panel.is-collapsed {
   /*
    * 本体は完全に左へ収納。
+   *
+   * タブだけは right:-34px の位置にあるため、
+   * 34pxだけ画面内に残る。
    */
-  transform: translateX(calc(-100%));
+  transform: translateX(calc(-100% + 34px));
 }
 
 
@@ -5829,7 +5832,7 @@ body{
  * パネル本体を完全に非表示にする。
  *
  * タブは .spot-filter-panel の外側へ
- * right:0px で出ているため、
+ * right:-34px で出ているため、
  * タブだけが画面内に残る。
  */
 .spot-filter-panel.is-collapsed
@@ -5844,7 +5847,7 @@ body{
  */
 .spot-filter-panel.is-collapsed
 .spot-filter-panel-toggle {
-  right: 0px;
+  right: -34px;
 }
 
 
@@ -5931,7 +5934,7 @@ body{
 
   transform:
     translateX(
-      calc(-100%)
+      calc(-100% + 34px)
     );
 
 }
@@ -5979,7 +5982,7 @@ body{
      */
     transform:
       translateX(
-        calc(-100%)
+        calc(-100% + 34px)
       );
 
   }
@@ -6039,7 +6042,7 @@ body{
 
     transform:
       translateX(
-        calc(-100%)
+        calc(-100% + 34px)
       );
 
   }
@@ -6079,13 +6082,13 @@ body{
 
   /*
    * PCで閉じた状態。
-   * タブだけを左端に残す。
+   * タブ34pxだけを左端に残す。
    */
   .spot-filter-panel.is-collapsed {
 
     transform:
       translateX(
-        calc(-100%)
+        calc(-100% + 34px)
       );
 
   }
