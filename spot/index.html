@@ -5168,17 +5168,31 @@ body{
    ========================================================= */
 
 .spot-filter-panel {
+  /*
+   * =======================================================
+   * 基本サイズ
+   * =======================================================
+   *
+   * この変数が「現在のパネル幅」。
+   *
+   * PC：
+   *   最大286px
+   *
+   * スマホ：
+   *   画面幅に応じて自動縮小
+   */
+  --spot-panel-width:
+    min(286px, calc(100vw - 24px));
+
+  --spot-panel-tab-width: 34px;
+
   position: fixed;
 
   top: 18px;
   left: 0;
 
-  width: 286px;
+  width: var(--spot-panel-width);
 
-  /*
-   * 上18px + 下18px + 下部ナビ72px
-   * = 108px
-   */
   max-height: calc(100vh - 108px);
 
   box-sizing: border-box;
@@ -5187,11 +5201,50 @@ body{
 
   color: #202328;
 
-  /*
-   * パネル本体・開閉タブは
-   * left / right で個別に動かす。
-   */
   pointer-events: none;
+
+  /*
+   * =======================================================
+   * 開閉アニメーション
+   * =======================================================
+   *
+   * パネル本体とタブを「親ごと」一緒に動かす。
+   */
+  transform: translateX(0);
+
+  transition:
+    transform .32s cubic-bezier(.22,.8,.24,1);
+}
+
+
+/* =========================================================
+   パネルが閉じた状態
+   ========================================================= */
+
+/*
+ * パネル幅からタブ幅を引いた分だけ左へ移動。
+ *
+ * 例：
+ *   パネル 286px
+ *   タブ  34px
+ *
+ *   → -252px
+ *
+ * 画面にはタブ34pxだけ残る。
+ *
+ * パネル幅が変われば、この値も自動的に変わる。
+ */
+.spot-filter-panel.is-collapsed {
+  transform:
+    translateX(
+      calc(
+        -1 *
+        (
+          var(--spot-panel-width)
+          - var(--spot-panel-tab-width)
+        )
+      )
+    );
 }
 
 
@@ -5203,7 +5256,7 @@ body{
   position: relative;
 
   /*
-   * 開いているときは画面左端にぴったり。
+   * 親が動くので、本体自身は動かさない。
    */
   left: 0;
 
@@ -5224,7 +5277,8 @@ body{
 
   border: 1px solid rgba(255,255,255,.9);
 
-  border-radius: 0 22px 22px 0;
+  border-radius:
+    0 22px 22px 0;
 
   box-shadow:
     0 18px 55px rgba(0,0,0,.18),
@@ -5241,12 +5295,6 @@ body{
 
   scrollbar-width: thin;
   scrollbar-color: #c7cbd0 transparent;
-
-  /*
-   * パネル本体を滑らかに開閉。
-   */
-  transition:
-    left .32s cubic-bezier(.22,.8,.24,1);
 }
 
 
@@ -5722,15 +5770,16 @@ body{
 .spot-filter-panel-toggle {
   position: absolute;
 
-  top: 18px;
-
   /*
-   * 開いているときは
-   * パネル右端の外側。
+   * パネルの右端に接続。
+   *
+   * 親が動くので、
+   * right / left の切り替えは不要。
    */
-  right: -34px;
+  top: 18px;
+  left: 100%;
 
-  width: 34px;
+  width: var(--spot-panel-tab-width);
   height: 72px;
 
   display: flex;
@@ -5767,15 +5816,9 @@ body{
   -webkit-tap-highlight-color: transparent;
 
   /*
-   * 開閉時はtransformで滑らかに移動。
+   * 親パネルが動くため、
+   * タブ自身のtransitionは不要。
    */
-  transform: translateX(0);
-
-  transition:
-    transform .32s cubic-bezier(.22,.8,.24,1),
-    background .18s ease,
-    color .18s ease,
-    box-shadow .18s ease;
 }
 
 
@@ -5794,7 +5837,8 @@ body{
 
   width: 3px;
 
-  border-radius: 0 3px 3px 0;
+  border-radius:
+    0 3px 3px 0;
 
   background:
     linear-gradient(
@@ -5844,44 +5888,6 @@ body{
 
 
 /* =========================================================
-   閉じた状態
-   ========================================================= */
-
-/*
- * パネル本体を左へ290px移動。
- *
- * width 286px + 画面内に残すタブ34px
- * ではなく、実際の見た目に合わせて
- * 本体を -290px まで移動する。
- *
- * パネル本体自体は非表示にしない。
- */
-.spot-filter-panel.is-collapsed
-.spot-filter-panel-inner {
-
-  left: -290px;
-
-}
-
-
-.spot-filter-panel.is-collapsed
-.spot-filter-panel-toggle {
-
-  /*
-   * rightではなく画面左端に接続。
-   */
-  right: auto;
-  left: 0;
-
-  /*
-   * 開いている位置から左へ34px移動。
-   */
-  transform: translateX(0);
-
-}
-
-
-/* =========================================================
    スマホ
    ========================================================= */
 
@@ -5890,18 +5896,18 @@ body{
   .spot-filter-panel {
 
     top: 12px;
-    left: 0;
 
-    width:
-      min(
-        292px,
-        calc(100vw - 24px)
-      );
+    /*
+     * スマホでは画面幅に合わせて
+     * パネル幅そのものが変化。
+     */
+    --spot-panel-width:
+      min(292px, calc(100vw - 24px));
+
+    width: var(--spot-panel-width);
 
     max-height:
-      calc(
-        100dvh - 96px
-      );
+      calc(100dvh - 96px);
 
   }
 
@@ -5909,83 +5915,23 @@ body{
   .spot-filter-panel-inner {
 
     max-height:
-      calc(
-        100dvh - 96px
-      );
-
-    /*
-     * スマホでは閉じた状態を初期位置にする。
-     */
-    left: -290px;
-
-    border-radius:
-      0 22px 22px 0;
+      calc(100dvh - 96px);
 
     padding:
       17px 15px 15px;
 
-  }
-
-
-  /*
-   * スマホで開いた状態
-   */
-  .spot-filter-panel:not(.is-collapsed)
-  .spot-filter-panel-inner {
-
-    left: 0;
+    border-radius:
+      0 22px 22px 0;
 
   }
 
 
-  /*
-   * スマホの開閉タブ
-   */
   .spot-filter-panel-toggle {
 
     top: 14px;
 
-    /*
-     * 閉じたときは画面左端。
-     */
-    right: 0;
-
-    width: 34px;
+    width: var(--spot-panel-tab-width);
     height: 68px;
-
-    border-radius:
-      0 13px 13px 0;
-
-  }
-
-
-  /*
-   * スマホで開いたときは
-   * パネル右側へ戻す。
-   */
-  .spot-filter-panel:not(.is-collapsed)
-  .spot-filter-panel-toggle {
-
-    right: -34px;
-
-  }
-
-
-  /*
-   * スマホで閉じた状態
-   */
-  .spot-filter-panel.is-collapsed
-  .spot-filter-panel-inner {
-
-    left: -290px;
-
-  }
-
-
-  .spot-filter-panel.is-collapsed
-  .spot-filter-panel-toggle {
-
-    left: 0;
 
   }
 
@@ -6001,105 +5947,18 @@ body{
   .spot-filter-panel {
 
     top: 18px;
-    left: 0;
+
+    --spot-panel-width: 286px;
+
+    width: var(--spot-panel-width);
 
   }
 
-
-  /*
-   * PCでは開いた状態が初期状態。
-   */
-  .spot-filter-panel-inner {
-
-    left: 0;
-
-  }
-
-
-  /*
-   * PCで閉じた状態。
-   */
-  .spot-filter-panel.is-collapsed
-  .spot-filter-panel-inner {
-
-    left: -290px;
-
-  }
-
-
-  /*
-   * PCで開いているときのタブ。
-   */
-  .spot-filter-panel:not(.is-collapsed)
-  .spot-filter-panel-toggle {
-
-    right: -34px;
-
-  }
-
-
-  /*
-   * PCで閉じたときのタブ。
-   */
-  .spot-filter-panel.is-collapsed
-  .spot-filter-panel-toggle {
-
-    left: 0;
-
-  }
-
-
-  /*
-   * PCでも左端を画面に接続。
-   */
   .spot-filter-panel-inner {
 
     border-radius:
       0 22px 22px 0;
 
-  }
-
-}
-
-@media (max-width: 768px) {
-
-  .spot-filter-panel-toggle {
-    top: 14px;
-
-    left: 0;
-
-    transform: translateX(
-      min(292px, calc(100vw - 24px))
-    );
-
-    width: 34px;
-    height: 68px;
-
-    border-radius:
-      0 13px 13px 0;
-  }
-
-  .spot-filter-panel.is-collapsed
-  .spot-filter-panel-toggle {
-    left: 0;
-    transform: translateX(0);
-  }
-
-}
-
-@media (min-width: 769px) {
-
-  .spot-filter-panel-toggle {
-    top: 18px;
-    left: 0;
-
-    transform: translateX(286px);
-  }
-
-  .spot-filter-panel.is-collapsed
-  .spot-filter-panel-toggle {
-    left: 0;
-    transform: translateX(0);
   }
 
 }
@@ -8952,10 +8811,6 @@ function initSpotFilterMoreButton() {
    スポット表示管理パネル 開閉
    ========================================================= */
 
-/* =========================================================
-   スポット表示管理パネル 開閉
-   ========================================================= */
-
 function initSpotFilterPanelToggle() {
 
   const panel =
@@ -9161,64 +9016,6 @@ function updateSpotFilterPanelToggleUI() {
       ".material-symbols-outlined"
     );
 
-
-  if (icon) {
-
-    icon.textContent =
-      collapsed
-        ? "chevron_right"
-        : "chevron_left";
-
-  }
-
-
-  toggle.setAttribute(
-    "aria-expanded",
-    String(!collapsed)
-  );
-
-
-  toggle.setAttribute(
-    "aria-label",
-    collapsed
-      ? "スポット表示管理パネルを開く"
-      : "スポット表示管理パネルを閉じる"
-  );
-
-}
-
-
-/* =========================================================
-   開閉ボタン表示更新
-   ========================================================= */
-
-function updateSpotFilterPanelToggleUI() {
-
-  const panel =
-    document.getElementById(
-      "spotFilterPanel"
-    );
-
-  const toggle =
-    document.getElementById(
-      "spotFilterPanelToggle"
-    );
-
-  if (!panel || !toggle) {
-    return;
-  }
-
-
-  const collapsed =
-    panel.classList.contains(
-      "is-collapsed"
-    );
-
-
-  const icon =
-    toggle.querySelector(
-      ".material-symbols-outlined"
-    );
 
   if (icon) {
 
