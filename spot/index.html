@@ -5817,10 +5817,26 @@ body{
    ========================================================= */
 
 .spot-filter-panel.is-collapsed {
-  transform:
-    translateX(
-      calc(-100% + 34px)
-    );
+  /*
+   * パネル本体を完全に左へ退避。
+   * タブは position:absolute なので、
+   * パネル本体だけを画面外へ移動させる。
+   */
+  transform: translateX(-100%);
+}
+
+
+/*
+ * 閉じたときは
+ * パネル本体を完全に非表示にする。
+ *
+ * タブは .spot-filter-panel の外側へ
+ * right:-34px で出ているため、
+ * タブだけが画面内に残る。
+ */
+.spot-filter-panel.is-collapsed
+.spot-filter-panel-inner {
+  visibility: hidden;
 }
 
 
@@ -5853,7 +5869,6 @@ body{
 @media (max-width: 768px) {
 
   .spot-filter-panel {
-
     top: 12px;
     left: 0;
 
@@ -5869,13 +5884,10 @@ body{
       );
 
     /*
-     * スマホは初期状態で閉じる。
-     */
-    transform:
-      translateX(
-        calc(-100% + 34px)
-      );
-
+    * HTML描画直後から閉じた状態。
+    * JS実行前でもパネル本体は表示されない。
+    */
+    transform: translateX(-100%);
   }
 
 
@@ -5931,8 +5943,21 @@ body{
       );
   }
 
+  .spot-filter-panel:not(.is-collapsed)
+  .spot-filter-panel-inner {
+    visibility: visible;
+  }
+
 }
 
+
+/* =========================================================
+   PC
+   ========================================================= */
+
+/* =========================================================
+   PC
+   ========================================================= */
 
 /* =========================================================
    PC
@@ -5941,20 +5966,28 @@ body{
 @media (min-width: 769px) {
 
   /*
-   * PCは初期状態で開いている。
+   * PCではHTML描画直後から開く。
+   * !important により
+   * HTML側の is-collapsed より優先する。
    */
   .spot-filter-panel {
-    transform: translateX(0);
+    transform: translateX(0) !important;
   }
 
   /*
-   * PCでも閉じることが可能。
+   * JSでユーザーが閉じた場合は
+   * is-panel-user-collapsed を使用する。
    */
-  .spot-filter-panel.is-collapsed {
-    transform:
-      translateX(
-        calc(-100% + 34px)
-      );
+  .spot-filter-panel.is-collapsed.is-panel-user-collapsed {
+    transform: translateX(-100%) !important;
+  }
+
+  /*
+   * PCで開いているときは本体を表示。
+   */
+  .spot-filter-panel:not(.is-collapsed)
+  .spot-filter-panel-inner {
+    visibility: visible;
   }
 
 }
@@ -8807,6 +8840,10 @@ function initSpotFilterMoreButton() {
    スポット表示管理パネル 開閉
    ========================================================= */
 
+/* =========================================================
+   スポット表示管理パネル 開閉
+   ========================================================= */
+
 function initSpotFilterPanelToggle() {
 
   const panel =
@@ -8825,22 +8862,31 @@ function initSpotFilterPanelToggle() {
 
 
   /*
-   * PC：
-   *   初期状態 → 開く
+   * ---------------------------------------------------------
+   * 初期状態
+   * ---------------------------------------------------------
    *
    * スマホ：
-   *   初期状態 → 閉じる
+   *   HTML描画時点から is-collapsed が付いているため閉じる
+   *
+   * PC：
+   *   CSS側で開いた状態にする
    */
-  if (window.innerWidth <= 768) {
+  const isMobile =
+    window.innerWidth <= 768;
 
-    panel.classList.add(
-      "is-collapsed"
-    );
 
-  } else {
+  /*
+   * PCでは初期状態を開く。
+   */
+  if (!isMobile) {
 
     panel.classList.remove(
       "is-collapsed"
+    );
+
+    panel.classList.remove(
+      "is-panel-user-collapsed"
     );
 
   }
@@ -8849,13 +8895,48 @@ function initSpotFilterPanelToggle() {
   updateSpotFilterPanelToggleUI();
 
 
+  /* =======================================================
+     開閉ボタン
+     ======================================================= */
+
   toggle.addEventListener(
     "click",
     () => {
 
-      panel.classList.toggle(
-        "is-collapsed"
-      );
+      const collapsed =
+        panel.classList.contains(
+          "is-collapsed"
+        );
+
+
+      if (collapsed) {
+
+        /*
+         * 開く
+         */
+        panel.classList.remove(
+          "is-collapsed"
+        );
+
+        panel.classList.remove(
+          "is-panel-user-collapsed"
+        );
+
+      } else {
+
+        /*
+         * 閉じる
+         */
+        panel.classList.add(
+          "is-collapsed"
+        );
+
+        panel.classList.add(
+          "is-panel-user-collapsed"
+        );
+
+      }
+
 
       updateSpotFilterPanelToggleUI();
 
@@ -8863,49 +8944,133 @@ function initSpotFilterPanelToggle() {
   );
 
 
-  /*
-   * 画面サイズ変更時
-   */
+  /* =======================================================
+     画面サイズ変更
+     ======================================================= */
+
   let previousIsMobile =
-    window.innerWidth <= 768;
+    isMobile;
+
 
   window.addEventListener(
     "resize",
     () => {
 
-      const isMobile =
+      const currentIsMobile =
         window.innerWidth <= 768;
 
+
       /*
-       * PC ⇔ スマホの境界をまたいだ場合だけ
-       * 初期状態を合わせる。
+       * PC ⇔ スマホの境界を
+       * 実際にまたいだ場合だけ処理。
        */
       if (
-        isMobile !== previousIsMobile
+        currentIsMobile ===
+        previousIsMobile
       ) {
+        return;
+      }
 
-        if (isMobile) {
 
-          panel.classList.add(
-            "is-collapsed"
-          );
+      if (currentIsMobile) {
 
-        } else {
+        /*
+         * PC → スマホ
+         *
+         * スマホでは初期状態を閉じる。
+         */
+        panel.classList.add(
+          "is-collapsed"
+        );
 
-          panel.classList.remove(
-            "is-collapsed"
-          );
+        panel.classList.remove(
+          "is-panel-user-collapsed"
+        );
 
-        }
+      } else {
 
-        updateSpotFilterPanelToggleUI();
+        /*
+         * スマホ → PC
+         *
+         * PCでは初期状態を開く。
+         */
+        panel.classList.remove(
+          "is-collapsed"
+        );
 
-        previousIsMobile =
-          isMobile;
+        panel.classList.remove(
+          "is-panel-user-collapsed"
+        );
 
       }
 
+
+      updateSpotFilterPanelToggleUI();
+
+
+      previousIsMobile =
+        currentIsMobile;
+
     }
+  );
+
+}
+
+
+/* =========================================================
+   開閉ボタン表示更新
+   ========================================================= */
+
+function updateSpotFilterPanelToggleUI() {
+
+  const panel =
+    document.getElementById(
+      "spotFilterPanel"
+    );
+
+  const toggle =
+    document.getElementById(
+      "spotFilterPanelToggle"
+    );
+
+  if (!panel || !toggle) {
+    return;
+  }
+
+
+  const collapsed =
+    panel.classList.contains(
+      "is-collapsed"
+    );
+
+
+  const icon =
+    toggle.querySelector(
+      ".material-symbols-outlined"
+    );
+
+
+  if (icon) {
+
+    icon.textContent =
+      collapsed
+        ? "chevron_right"
+        : "chevron_left";
+
+  }
+
+
+  toggle.setAttribute(
+    "aria-expanded",
+    String(!collapsed)
+  );
+
+
+  toggle.setAttribute(
+    "aria-label",
+    collapsed
+      ? "スポット表示管理パネルを開く"
+      : "スポット表示管理パネルを閉じる"
   );
 
 }
@@ -14033,7 +14198,7 @@ function openSpotFromList(spot) {
 
 <aside
   id="spotFilterPanel"
-  class="spot-filter-panel"
+  class="spot-filter-panel is-collapsed"
   aria-label="スポット表示管理"
 >
 
