@@ -5169,10 +5169,47 @@ body{
 
 .spot-filter-panel {
   position: fixed;
+
   top: 18px;
   left: 18px;
 
   width: 286px;
+
+  /*
+   * 上18px + 下18px + 下部ナビ72px
+   * = 108px
+   */
+  max-height: calc(100vh - 108px);
+
+  box-sizing: border-box;
+
+  z-index: 1800;
+
+  color: #202328;
+
+  /*
+   * パネル本体と開閉タブをまとめて
+   * 左からスライドさせる。
+   */
+  transform: translateX(0);
+
+  transition:
+    transform .32s cubic-bezier(.22,.8,.24,1);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   パネル本体
+   ========================================================= */
+
+.spot-filter-panel-inner {
+  position: relative;
+
+  width: 100%;
+  max-height: calc(100vh - 108px);
+
   box-sizing: border-box;
 
   padding: 18px 17px 16px;
@@ -5185,6 +5222,7 @@ body{
     );
 
   border: 1px solid rgba(255,255,255,.9);
+
   border-radius: 22px;
 
   box-shadow:
@@ -5195,17 +5233,38 @@ body{
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 
-  z-index: 1800;
+  overflow-y: auto;
+  overflow-x: hidden;
 
-  color: #202328;
+  pointer-events: auto;
 
-  overflow: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #c7cbd0 transparent;
 }
 
 
-/* 上部の赤いアクセント */
-.spot-filter-panel::before {
+/* スクロールバー */
+.spot-filter-panel-inner::-webkit-scrollbar {
+  width: 5px;
+}
+
+.spot-filter-panel-inner::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.spot-filter-panel-inner::-webkit-scrollbar-thumb {
+  background: #c7cbd0;
+  border-radius: 999px;
+}
+
+
+/* =========================================================
+   上部の赤いアクセント
+   ========================================================= */
+
+.spot-filter-panel-inner::before {
   content: "";
+
   position: absolute;
 
   top: 0;
@@ -5222,6 +5281,8 @@ body{
       #ff3b3b,
       #c80000
     );
+
+  pointer-events: none;
 }
 
 
@@ -5234,6 +5295,7 @@ body{
   align-items: center;
 
   min-height: 38px;
+
   margin-bottom: 13px;
 }
 
@@ -5255,6 +5317,7 @@ body{
 .spot-filter-total {
   display: flex;
   align-items: baseline;
+
   gap: 5px;
 
   margin-bottom: 16px;
@@ -5280,6 +5343,7 @@ body{
 
   font-size: 30px;
   font-weight: 850;
+
   line-height: 1;
 
   letter-spacing: -.045em;
@@ -5290,6 +5354,7 @@ body{
 .spot-filter-total-unit {
   font-size: 13px;
   font-weight: 750;
+
   color: #383c42;
 }
 
@@ -5333,6 +5398,7 @@ body{
 .spot-filter-list {
   display: flex;
   flex-direction: column;
+
   gap: 5px;
 }
 
@@ -5343,7 +5409,13 @@ body{
   min-height: 42px;
 
   display: grid;
-  grid-template-columns: 32px minmax(0,1fr) auto 18px;
+
+  grid-template-columns:
+    32px
+    minmax(0,1fr)
+    auto
+    18px;
+
   align-items: center;
 
   gap: 8px;
@@ -5374,7 +5446,10 @@ body{
 }
 
 
-/* カテゴリ / 状態アイコン */
+/* =========================================================
+   カテゴリ / 状態アイコン
+   ========================================================= */
+
 .spot-filter-icon {
   width: 32px;
   height: 32px;
@@ -5399,11 +5474,15 @@ body{
 }
 
 
-/* 名前 */
+/* =========================================================
+   名前
+   ========================================================= */
+
 .spot-filter-name {
   min-width: 0;
 
   overflow: hidden;
+
   white-space: nowrap;
   text-overflow: ellipsis;
 
@@ -5412,7 +5491,10 @@ body{
 }
 
 
-/* 件数 */
+/* =========================================================
+   件数
+   ========================================================= */
+
 .spot-filter-count {
   min-width: 30px;
 
@@ -5428,6 +5510,7 @@ body{
   font-weight: 800;
 
   line-height: 1;
+
   text-align: center;
 
   font-variant-numeric: tabular-nums;
@@ -5438,7 +5521,10 @@ body{
 }
 
 
-/* ON/OFF インジケーター */
+/* =========================================================
+   ON/OFFインジケーター
+   ========================================================= */
+
 .spot-filter-check {
   width: 17px;
   height: 17px;
@@ -5461,6 +5547,7 @@ body{
 
 .spot-filter-check .material-symbols-outlined {
   font-size: 13px;
+
   font-variation-settings:
     "FILL" 1,
     "wght" 700,
@@ -5469,7 +5556,10 @@ body{
 }
 
 
-/* ON */
+/* =========================================================
+   ON
+   ========================================================= */
+
 .spot-filter-button.is-active {
   background: rgba(255,255,255,.95);
 
@@ -5492,18 +5582,25 @@ body{
 }
 
 
-/* OFF */
+/* =========================================================
+   OFF
+   ========================================================= */
+
 .spot-filter-button:not(.is-active) {
   opacity: .58;
 }
 
-.spot-filter-button:not(.is-active) .spot-filter-icon {
+.spot-filter-button:not(.is-active)
+.spot-filter-icon {
   filter: grayscale(1);
   opacity: .65;
 }
 
 
-/* hover */
+/* =========================================================
+   hover
+   ========================================================= */
+
 @media (hover:hover) and (pointer:fine) {
 
   .spot-filter-button:hover {
@@ -5524,7 +5621,10 @@ body{
 }
 
 
-/* active */
+/* =========================================================
+   active
+   ========================================================= */
+
 .spot-filter-button:active {
   transform: scale(.985);
 }
@@ -5591,6 +5691,7 @@ body{
 }
 
 @keyframes spotFilterSlideDown {
+
   from {
     opacity: 0;
     transform: translateY(-5px);
@@ -5600,17 +5701,260 @@ body{
     opacity: 1;
     transform: translateY(0);
   }
+
 }
 
 
 /* =========================================================
-   PC専用
+   パネル開閉タブ
+   ========================================================= */
+
+.spot-filter-panel-toggle {
+  position: absolute;
+
+  top: 18px;
+  right: -34px;
+
+  width: 34px;
+  height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid rgba(255,255,255,.9);
+  border-left: 0;
+
+  border-radius:
+    0 14px 14px 0;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.98),
+      rgba(245,246,248,.97)
+    );
+
+  color: #555b63;
+
+  box-shadow:
+    8px 8px 24px rgba(0,0,0,.12);
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  cursor: pointer;
+
+  pointer-events: auto;
+
+  -webkit-tap-highlight-color: transparent;
+
+  transition:
+    background .18s ease,
+    color .18s ease,
+    box-shadow .18s ease;
+}
+
+
+/* タブの赤いアクセント */
+.spot-filter-panel-toggle::before {
+  content: "";
+
+  position: absolute;
+
+  top: 9px;
+  bottom: 9px;
+  left: 0;
+
+  width: 3px;
+
+  border-radius: 0 3px 3px 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      #b90000,
+      #ff3b3b,
+      #c80000
+    );
+}
+
+
+/* 矢印 */
+.spot-filter-panel-toggle
+.material-symbols-outlined {
+  font-size: 22px;
+
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 650,
+    "GRAD" 0,
+    "opsz" 24;
+
+  transition:
+    transform .28s cubic-bezier(.22,.8,.24,1);
+}
+
+
+/* hover */
+@media (hover:hover) and (pointer:fine) {
+
+  .spot-filter-panel-toggle:hover {
+    background: #fff;
+    color: #c80000;
+
+    box-shadow:
+      10px 10px 28px rgba(0,0,0,.16);
+  }
+
+}
+
+
+/* =========================================================
+   閉じた状態
+   ========================================================= */
+
+.spot-filter-panel.is-collapsed {
+  transform:
+    translateX(
+      calc(-100% + 34px)
+    );
+}
+
+
+/*
+ * 閉じたときは
+ * タブだけが画面内に残る。
+ */
+.spot-filter-panel.is-collapsed
+.spot-filter-panel-toggle {
+  right: -34px;
+}
+
+
+/* =========================================================
+   スクロールバー
+   ========================================================= */
+
+.spot-filter-panel-inner {
+  scrollbar-width: thin;
+  scrollbar-color:
+    #c7cbd0
+    transparent;
+}
+
+
+/* =========================================================
+   スマホ
    ========================================================= */
 
 @media (max-width: 768px) {
 
   .spot-filter-panel {
-    display: none;
+
+    top: 12px;
+    left: 0;
+
+    width:
+      min(
+        292px,
+        calc(100vw - 24px)
+      );
+
+    max-height:
+      calc(
+        100dvh - 96px
+      );
+
+    /*
+     * スマホは初期状態で閉じる。
+     */
+    transform:
+      translateX(
+        calc(-100% + 34px)
+      );
+
+  }
+
+
+  .spot-filter-panel-inner {
+
+    max-height:
+      calc(
+        100dvh - 96px
+      );
+
+    border-radius:
+      0 22px 22px 0;
+
+    padding:
+      17px 15px 15px;
+
+  }
+
+
+  /*
+   * スマホではタブを
+   * パネル右端に配置。
+   */
+  .spot-filter-panel-toggle {
+
+    top: 14px;
+    right: -34px;
+
+    width: 34px;
+    height: 68px;
+
+    border-radius:
+      0 13px 13px 0;
+
+  }
+
+
+  /*
+   * スマホで開いた状態
+   */
+  .spot-filter-panel:not(.is-collapsed) {
+    transform: translateX(0);
+  }
+
+
+  /*
+   * スマホで閉じた状態
+   */
+  .spot-filter-panel.is-collapsed {
+    transform:
+      translateX(
+        calc(-100% + 34px)
+      );
+  }
+
+}
+
+
+/* =========================================================
+   PC
+   ========================================================= */
+
+@media (min-width: 769px) {
+
+  /*
+   * PCは初期状態で開いている。
+   */
+  .spot-filter-panel {
+    transform: translateX(0);
+  }
+
+  /*
+   * PCでも閉じることが可能。
+   */
+  .spot-filter-panel.is-collapsed {
+    transform:
+      translateX(
+        calc(-100% + 34px)
+      );
   }
 
 }
@@ -8459,6 +8803,170 @@ function initSpotFilterMoreButton() {
 
 }
 
+/* =========================================================
+   スポット表示管理パネル 開閉
+   ========================================================= */
+
+function initSpotFilterPanelToggle() {
+
+  const panel =
+    document.getElementById(
+      "spotFilterPanel"
+    );
+
+  const toggle =
+    document.getElementById(
+      "spotFilterPanelToggle"
+    );
+
+  if (!panel || !toggle) {
+    return;
+  }
+
+
+  /*
+   * PC：
+   *   初期状態 → 開く
+   *
+   * スマホ：
+   *   初期状態 → 閉じる
+   */
+  if (window.innerWidth <= 768) {
+
+    panel.classList.add(
+      "is-collapsed"
+    );
+
+  } else {
+
+    panel.classList.remove(
+      "is-collapsed"
+    );
+
+  }
+
+
+  updateSpotFilterPanelToggleUI();
+
+
+  toggle.addEventListener(
+    "click",
+    () => {
+
+      panel.classList.toggle(
+        "is-collapsed"
+      );
+
+      updateSpotFilterPanelToggleUI();
+
+    }
+  );
+
+
+  /*
+   * 画面サイズ変更時
+   */
+  let previousIsMobile =
+    window.innerWidth <= 768;
+
+  window.addEventListener(
+    "resize",
+    () => {
+
+      const isMobile =
+        window.innerWidth <= 768;
+
+      /*
+       * PC ⇔ スマホの境界をまたいだ場合だけ
+       * 初期状態を合わせる。
+       */
+      if (
+        isMobile !== previousIsMobile
+      ) {
+
+        if (isMobile) {
+
+          panel.classList.add(
+            "is-collapsed"
+          );
+
+        } else {
+
+          panel.classList.remove(
+            "is-collapsed"
+          );
+
+        }
+
+        updateSpotFilterPanelToggleUI();
+
+        previousIsMobile =
+          isMobile;
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   開閉ボタン表示更新
+   ========================================================= */
+
+function updateSpotFilterPanelToggleUI() {
+
+  const panel =
+    document.getElementById(
+      "spotFilterPanel"
+    );
+
+  const toggle =
+    document.getElementById(
+      "spotFilterPanelToggle"
+    );
+
+  if (!panel || !toggle) {
+    return;
+  }
+
+
+  const collapsed =
+    panel.classList.contains(
+      "is-collapsed"
+    );
+
+
+  const icon =
+    toggle.querySelector(
+      ".material-symbols-outlined"
+    );
+
+  if (icon) {
+
+    icon.textContent =
+      collapsed
+        ? "chevron_right"
+        : "chevron_left";
+
+  }
+
+
+  toggle.setAttribute(
+    "aria-expanded",
+    String(!collapsed)
+  );
+
+
+  toggle.setAttribute(
+    "aria-label",
+    collapsed
+      ? "スポット表示管理パネルを開く"
+      : "スポット表示管理パネルを閉じる"
+  );
+
+}
 
 /* =========================================================
    フィルター管理パネル初期化
@@ -8471,6 +8979,8 @@ function initSpotFilterPanel() {
   renderSpotStatusFilters();
 
   initSpotFilterMoreButton();
+
+  initSpotFilterPanelToggle();
 
   updateSpotFilterCounts();
 
@@ -13517,50 +14027,83 @@ function openSpotFromList(spot) {
 </script>
 
 
-<!-- スポット表示管理パネル -->
-<aside id="spotFilterPanel" class="spot-filter-panel" aria-label="スポット表示管理">
+<!-- =========================================================
+     スポット表示管理
+     ========================================================= -->
 
-  <div class="spot-filter-brand">
-    <img
-      src="spot-title-logo.png"
-      alt="ドズル社スポット"
-      class="spot-filter-logo"
-    >
-  </div>
+<aside
+  id="spotFilterPanel"
+  class="spot-filter-panel"
+  aria-label="スポット表示管理"
+>
 
-  <div class="spot-filter-total">
-    <span id="displayedSpotCount">0</span>
-    <span class="spot-filter-total-unit">スポット</span>
-    <span class="spot-filter-total-status">表示中</span>
-  </div>
+  <div class="spot-filter-panel-inner">
 
-  <div class="spot-filter-section">
-
-    <div class="spot-filter-section-title">
-      <span>表示切り替え</span>
+    <div class="spot-filter-brand">
+      <img
+        src="spot-title-logo.png"
+        alt="ドズル社スポット"
+        class="spot-filter-logo"
+      >
     </div>
 
-    <div id="spotCategoryFilters" class="spot-filter-list"></div>
+    <div class="spot-filter-total">
+      <span id="displayedSpotCount">0</span>
+      <span class="spot-filter-total-unit">スポット</span>
+      <span class="spot-filter-total-status">表示中</span>
+    </div>
+
+    <div class="spot-filter-section">
+
+      <div class="spot-filter-section-title">
+        <span>表示切り替え</span>
+      </div>
+
+      <div
+        id="spotCategoryFilters"
+        class="spot-filter-list"
+      ></div>
+
+    </div>
+
+    <button
+      type="button"
+      id="spotStatusToggleButton"
+      class="spot-filter-more-button"
+      aria-expanded="false"
+    >
+      <span>さらにフィルター</span>
+
+      <span class="material-symbols-outlined">
+        expand_more
+      </span>
+    </button>
+
+    <div
+      id="spotStatusFilterArea"
+      class="spot-status-filter-area"
+      hidden
+    >
+      <div
+        id="spotStatusFilters"
+        class="spot-filter-list"
+      ></div>
+    </div>
 
   </div>
 
+  <!-- パネル開閉タブ -->
   <button
     type="button"
-    id="spotStatusToggleButton"
-    class="spot-filter-more-button"
-    aria-expanded="false"
+    id="spotFilterPanelToggle"
+    class="spot-filter-panel-toggle"
+    aria-label="スポット表示管理パネルを閉じる"
+    aria-expanded="true"
   >
-    <span>さらにフィルター</span>
-    <span class="material-symbols-outlined">expand_more</span>
+    <span class="material-symbols-outlined">
+      chevron_left
+    </span>
   </button>
-
-  <div
-    id="spotStatusFilterArea"
-    class="spot-status-filter-area"
-    hidden
-  >
-    <div id="spotStatusFilters" class="spot-filter-list"></div>
-  </div>
 
 </aside>
 
