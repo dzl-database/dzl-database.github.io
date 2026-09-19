@@ -1008,7 +1008,6 @@ body{
 
   width: 340px;
 
-  /* 画面内に収まる高さ */
   height: auto;
   max-height: calc(100dvh - 72px - 32px);
 
@@ -1019,15 +1018,14 @@ body{
 
   display: flex;
 
-  /* 下からスライドイン */
-  transform: translateY(calc(100% + 16px));
+  /* 下側ナビの下まで完全に待機 */
+  transform: translateY(calc(100% + 72px + 16px));
 
   transition:
     transform 0.3s ease;
 }
 
 .detail-panel.active {
-  /* 下から中央位置へ */
   transform: translateY(0);
 }
 
@@ -1050,8 +1048,8 @@ body{
     height: auto;
     max-height: calc(100dvh - 72px - 32px);
 
-    /* 下からスライドイン */
-    transform: translateY(calc(100% + 16px));
+    /* 下側ナビの下まで完全に待機 */
+    transform: translateY(calc(100% + 72px + 16px));
   }
 
   .detail-panel.active {
