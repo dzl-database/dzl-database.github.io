@@ -5816,38 +5816,13 @@ body{
    閉じた状態
    ========================================================= */
 
-.spot-filter-panel.is-collapsed {
-  /*
-   * 本体は完全に左へ収納。
-   *
-   * タブだけは right:-34px の位置にあるため、
-   * 34pxだけ画面内に残る。
-   */
-  transform: translateX(calc(-100% + 34px));
-}
-
-
 /*
  * 閉じたときは
- * パネル本体を完全に非表示にする。
- *
- * タブは .spot-filter-panel の外側へ
- * right:-34px で出ているため、
  * タブだけが画面内に残る。
  */
 .spot-filter-panel.is-collapsed
 .spot-filter-panel-inner {
-  visibility: hidden;
-}
-
-
-/*
- * 閉じたときは
- * タブだけが画面内に残る。
- */
-.spot-filter-panel.is-collapsed
-.spot-filter-panel-toggle {
-  right: -34px;
+  left: -34px;
 }
 
 
@@ -5940,21 +5915,6 @@ body{
 }
 
 
-.spot-filter-panel.is-collapsed
-.spot-filter-panel-inner {
-
-  visibility: hidden;
-
-}
-
-
-.spot-filter-panel:not(.is-collapsed)
-.spot-filter-panel-inner {
-
-  visibility: visible;
-
-}
-
 /* =========================================================
    スマホ
    ========================================================= */
@@ -6013,7 +5973,7 @@ body{
   .spot-filter-panel-toggle {
 
     top: 14px;
-    right: -34px;
+    right: 0px;
 
     width: 34px;
     height: 68px;
@@ -6044,17 +6004,6 @@ body{
       translateX(
         calc(-100% + 34px)
       );
-
-  }
-
-
-  /*
-   * 開いているときだけ本体を表示
-   */
-  .spot-filter-panel:not(.is-collapsed)
-  .spot-filter-panel-inner {
-
-    visibility: visible;
 
   }
 
@@ -6092,18 +6041,6 @@ body{
       );
 
   }
-
-
-  /*
-   * PCで開いているときは本体を表示。
-   */
-  .spot-filter-panel:not(.is-collapsed)
-  .spot-filter-panel-inner {
-
-    visibility: visible;
-
-  }
-
 
   /*
    * PCでも左端を画面に接続。
