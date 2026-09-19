@@ -5767,10 +5767,12 @@ body{
   -webkit-tap-highlight-color: transparent;
 
   /*
-   * 開閉時のタブ移動を滑らかにする。
+   * 開閉時はtransformで滑らかに移動。
    */
+  transform: translateX(0);
+
   transition:
-    right .32s cubic-bezier(.22,.8,.24,1),
+    transform .32s cubic-bezier(.22,.8,.24,1),
     background .18s ease,
     color .18s ease,
     box-shadow .18s ease;
@@ -5862,14 +5864,19 @@ body{
 }
 
 
-/*
- * 閉じたときは
- * 開閉ボタンを画面左端へ移動。
- */
 .spot-filter-panel.is-collapsed
 .spot-filter-panel-toggle {
 
-  right: 0;
+  /*
+   * rightではなく画面左端に接続。
+   */
+  right: auto;
+  left: 0;
+
+  /*
+   * 開いている位置から左へ34px移動。
+   */
+  transform: translateX(0);
 
 }
 
@@ -6050,6 +6057,49 @@ body{
     border-radius:
       0 22px 22px 0;
 
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .spot-filter-panel-toggle {
+    top: 14px;
+
+    left: 0;
+
+    transform: translateX(
+      min(292px, calc(100vw - 24px))
+    );
+
+    width: 34px;
+    height: 68px;
+
+    border-radius:
+      0 13px 13px 0;
+  }
+
+  .spot-filter-panel.is-collapsed
+  .spot-filter-panel-toggle {
+    left: 0;
+    transform: translateX(0);
+  }
+
+}
+
+@media (min-width: 769px) {
+
+  .spot-filter-panel-toggle {
+    top: 18px;
+    left: 0;
+
+    transform: translateX(286px);
+  }
+
+  .spot-filter-panel.is-collapsed
+  .spot-filter-panel-toggle {
+    left: 0;
+    transform: translateX(0);
   }
 
 }
