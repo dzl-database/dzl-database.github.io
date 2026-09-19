@@ -4698,11 +4698,6 @@ body{
    ====================================================== */
 
 .favorite-modal {
-  /*
-   * 下部ナビゲーションの72px分を空ける
-   * これにより、モーダル表示中でも下部ナビを邪魔しない
-   */
-  inset: 0 0 72px 0;
 
   padding: 16px 0;
   box-sizing: border-box;
@@ -4719,6 +4714,8 @@ body{
    ------------------------------------------------------ */
 
 .favorite-modal-content {
+  padding: 0 0 72px;
+
   width: min(580px, calc(100% - 24px));
 
   height: calc(100dvh - 104px);
