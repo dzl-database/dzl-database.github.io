@@ -475,27 +475,6 @@ body{
 /* =======================
    (7) 詳細パネル
 ======================= */
-
-/* 外枠（余白用） */
-.detail-panel{
-  position:fixed;
-  top:72px; /* 少し上に寄せる */
-  left:-360px; /* 少し多めに隠す */
-  width:340px;
-  height:calc(100% - 90px); /* ← かなり広げる */
-
-  background:transparent;
-  box-shadow:none;
-
-  z-index:1500;
-  transition:0.3s;
-
-  display:flex;
-}
-
-.detail-panel.active{
-  left:16px; /* ← ここが神ポイント */
-}
    
 /* 中身 */
 .detail-inner{
@@ -1012,25 +991,72 @@ body{
    詳細パネル全体
    ----------------------------------------------------- */
 
-.detail-panel{
-  position:fixed;
-  top:72px;
-  left:-360px;
+/* ======================================================
+   詳細パネル
+   ====================================================== */
 
-  width:340px;
-  height:calc(100% - 90px);
+.detail-panel {
+  position: fixed;
 
-  background:transparent;
-  box-shadow:none;
+  /* 上下中央配置 */
+  top: 16px;
+  bottom: calc(72px + 16px);
 
-  z-index:1500;
-  transition:0.3s;
+  /* 右側に配置 */
+  right: 16px;
+  left: auto;
 
-  display:flex;
+  width: 340px;
+
+  /* 画面内に収まる高さ */
+  height: auto;
+  max-height: calc(100dvh - 72px - 32px);
+
+  background: transparent;
+  box-shadow: none;
+
+  z-index: 1500;
+
+  display: flex;
+
+  /* 下からスライドイン */
+  transform: translateY(calc(100% + 16px));
+
+  transition:
+    transform 0.3s ease;
 }
 
-.detail-panel.active{
-  left:16px;
+.detail-panel.active {
+  /* 下から中央位置へ */
+  transform: translateY(0);
+}
+
+
+/* ======================================================
+   スマホ
+   ====================================================== */
+
+@media (max-width: 600px) {
+  .detail-panel {
+    top: 16px;
+    bottom: calc(72px + 16px);
+
+    left: 10px;
+    right: 10px;
+
+    width: auto;
+    max-width: none;
+
+    height: auto;
+    max-height: calc(100dvh - 72px - 32px);
+
+    /* 下からスライドイン */
+    transform: translateY(calc(100% + 16px));
+  }
+
+  .detail-panel.active {
+    transform: translateY(0);
+  }
 }
 
 /* =====================================================
@@ -1850,16 +1876,6 @@ body{
    ===================================================== */
 
 @media(max-width:600px){
-
-  .detail-panel{
-    left:-100%;
-    width:calc(100% - 20px);
-    max-width:340px;
-  }
-
-  .detail-panel.active{
-    left:10px;
-  }
 
   .new-detail-hero{
     padding:14px 14px 12px;
