@@ -5575,7 +5575,7 @@ body{
 </div>
 
 <!-- ===== 一覧モーダル ===== -->
-<div id="listModal" class="modal" onclick="closeListModal(event)">
+<div id="nearlistModal" class="modal" onclick="closeNearListModal(event)">
 
   <div class="modal-content" onclick="event.stopPropagation()" style="width:320px; text-align:left; position:relative;">
 
@@ -5589,7 +5589,7 @@ body{
       </div>
 
       <!-- 右：閉じる -->
-      <button onclick="closeListModal()" style="border:none; background:none; cursor:pointer;">
+      <button onclick="closeNearListModal()" style="border:none; background:none; cursor:pointer;">
         <span class="material-symbols-outlined">close</span>
       </button>
 
@@ -5605,7 +5605,7 @@ body{
     </div>
 
     <!-- 一覧表示エリア -->
-    <div id="listResult" style="
+    <div id="nearlistResult" style="
       max-height:300px;
       overflow-y:auto;
       margin-top:10px;
@@ -7800,13 +7800,13 @@ function closeSearchModal(e){
   }
 }
 
-function openListModal(){
-  document.getElementById("listModal").classList.add("active");
+function openNearListModal(){
+  document.getElementById("nearlistModal").classList.add("active");
 }
 
-function closeListModal(e){
+function closeNearListModal(e){
   if(!e || e.target === e.currentTarget){
-    document.getElementById("listModal").classList.remove("active");
+    document.getElementById("nearlistModal").classList.remove("active");
   }
 }
 
@@ -7832,7 +7832,7 @@ function getCategoryStyle(category){
 // =======================
 function showNearbyList(){
 
-  openListModal();
+  openNearListModal();
 
   const center = map.getCenter();
 
@@ -7847,7 +7847,7 @@ function showNearbyList(){
 
   }).sort((a,b)=> a.dist - b.dist);
 
-  const resultBox = document.getElementById("listResult");
+  const resultBox = document.getElementById("nearlistResult");
   resultBox.innerHTML = "";
 
   sorted.slice(0,20).forEach(obj => {
@@ -7886,7 +7886,7 @@ function showNearbyList(){
       const lng = parseFloat(item["経度"]);
 
       map.setView([lat, lng], 16);
-      closeListModal();
+      closeNearListModal();
     };
 
     resultBox.appendChild(div);
