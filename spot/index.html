@@ -8857,6 +8857,23 @@ function renderFavoriteList(){
 
 
   // ----------------------------------------------------
+  // 現在のマップ中心から近い順に並べ替え
+  // ----------------------------------------------------
+
+  favoriteSpots.sort((a, b) => {
+
+    const distanceA =
+      getDistanceFromMapCenter(a);
+
+    const distanceB =
+      getDistanceFromMapCenter(b);
+
+    return distanceA - distanceB;
+
+  });
+
+
+  // ----------------------------------------------------
   // カード生成
   // ----------------------------------------------------
 
