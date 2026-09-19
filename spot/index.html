@@ -3392,6 +3392,10 @@ body{
 
 .list-modal {
   z-index: 3000;
+
+  /* 下部ナビゲーションと重ならないようにする */
+  padding: 0 0 72px;
+  box-sizing: border-box;
 }
 
 
@@ -3400,17 +3404,17 @@ body{
    ====================================================== */
 
 .list-modal-content {
-  width: min(620px, calc(100% - 24px));
+  width: min(580px, calc(100% - 24px));
 
-  height: min(740px, calc(100dvh - 40px));
-  max-height: calc(100dvh - 40px);
+  height: calc(100dvh - 104px);
+  max-height: calc(100dvh - 104px);
 
   overflow: hidden;
 
   padding: 0;
 
   border: 1px solid rgba(0, 0, 0, 0.07);
-  border-radius: 24px;
+  border-radius: 18px;
 
   background: #f5f6f8;
 
@@ -3427,6 +3431,24 @@ body{
 
   box-shadow:
     0 24px 70px rgba(0, 0, 0, 0.22);
+}
+
+
+/* ======================================================
+   スマホ
+   ====================================================== */
+
+@media (max-width: 768px) {
+
+  .list-modal-content {
+    width: calc(100% - 20px);
+
+    height: calc(100dvh - 104px);
+    max-height: calc(100dvh - 104px);
+
+    border-radius: 18px;
+  }
+
 }
 
 
@@ -4537,49 +4559,6 @@ body{
 
   .list-spot-event {
     font-size: 11px;
-  }
-
-}
-
-/* ======================================================
-   リストモーダル
-   PC：下部ナビと重ならない
-   ====================================================== */
-
-@media (min-width: 769px) {
-
-  .list-modal {
-    padding: 0px 0 72px;
-    box-sizing: border-box;
-  }
-
-  .list-modal-content {
-    width: min(600px, calc(100% - 24px));
-
-    height: calc(100dvh - 104px);
-    max-height: calc(100dvh - 104px);
-
-    box-sizing: border-box;
-  }
-
-}
-
-@media (max-width: 768px) {
-
-  .list-modal {
-    padding: 0px 0 72px;
-    box-sizing: border-box;
-  }
-
-  .list-modal-content {
-    width: calc(100% - 16px);
-
-    height: calc(100dvh - 104px);
-    max-height: calc(100dvh - 104px);
-
-    box-sizing: border-box;
-
-    border-radius: 21px;
   }
 
 }
