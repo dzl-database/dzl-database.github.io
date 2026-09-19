@@ -5957,6 +5957,63 @@ body{
   }
 
 }
+
+/* =========================================================
+   マップピン
+   ========================================================= */
+
+.spot-map-marker-wrapper {
+  background: transparent !important;
+  border: 0 !important;
+}
+
+.spot-map-marker {
+  width: 26px;
+  height: 26px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  border: 2px solid #fff;
+
+  box-sizing: border-box;
+
+  box-shadow:
+    0 0 6px rgba(0,0,0,.4);
+
+  contain: layout paint;
+}
+
+.spot-map-marker
+.material-symbols-outlined {
+  font-size: 16px;
+  line-height: 1;
+
+  color: #fff;
+
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 500,
+    "GRAD" 0,
+    "opsz" 20;
+}
+
+/* =========================================================
+   地図移動中
+   ========================================================= */
+
+#leafletMap.map-is-moving
+.leaflet-marker-pane {
+  visibility: hidden;
+}
+
+#leafletMap.map-is-moving
+.leaflet-shadow-pane {
+  visibility: hidden;
+}
    
 </style>
 </head>
@@ -7593,62 +7650,148 @@ window.addEventListener("DOMContentLoaded", () => {
 // =======================
 // カテゴリ別アイコン
 // =======================
-function getIcon(category){
+//
+// 同じカテゴリのアイコンは1回だけ生成して使い回す。
+// スポット数が多いほど初期生成時の負荷を減らせる。
+//
 
-  let color = "black";
-  let icon = "place"; // デフォルト
+const spotIconCache = {};
 
-  switch(category){
-    case "グッズ": color = "#C80000"; icon = "local_mall"; break;
-    case "飲食": color = "#733C93"; icon = "restaurant"; break;
-    case "コンビニ": color = "#FCC700"; icon = "store"; break;
-    case "カプセルトイ": color = "#54C3F1"; icon = "local_laundry_service"; break;
-    case "ゲームセンター": color = "#EB6D9A"; icon = "sports_esports"; break;
-    case "その他": color = "black"; icon = "place"; break;
+function getIcon(category) {
+
+  // すでに作成済みなら、そのまま再利用
+  if (spotIconCache[category]) {
+    return spotIconCache[category];
   }
 
-  return L.divIcon({
+  let color = "black";
+  let icon = "place";
+
+  switch (category) {
+
+    case "グッズ":
+      color = "#C80000";
+      icon = "local_mall";
+      break;
+
+    case "飲食":
+      color = "#733C93";
+      icon = "restaurant";
+      break;
+
+    case "コンビニ":
+      color = "#FCC700";
+      icon = "store";
+      break;
+
+    case "カプセルトイ":
+      color = "#54C3F1";
+      icon = "local_laundry_service";
+      break;
+
+    case "ゲームセンター":
+      color = "#EB6D9A";
+      icon = "sports_esports";
+      break;
+
+    case "その他":
+      color = "#000000";
+      icon = "place";
+      break;
+
+  }
+
+  const createdIcon = L.divIcon({
+
     html: `
-      <div style="
+      <div class="spot-map-marker" style="
         background:${color};
-        width:26px;
-        height:26px;
-        border-radius:50%;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        border:2px solid white;
-        box-shadow:0 0 6px rgba(0,0,0,0.4);
       ">
-        <span class="material-symbols-outlined" style="
-          font-size:16px;
-          color:white;
-        ">
+        <span class="material-symbols-outlined">
           ${icon}
         </span>
       </div>
     `,
-    className: "",
-    iconSize: [26,26],
-    iconAnchor: [13,13]
+
+    className: "spot-map-marker-wrapper",
+
+    iconSize: [26, 26],
+
+    iconAnchor: [13, 13]
+
   });
+
+  // キャッシュ
+  spotIconCache[category] = createdIcon;
+
+  return createdIcon;
 }
   
 // =======================
 // Leaflet 初期化
 // =======================
-const map = L.map('leafletMap', {
-  zoomControl: false
+const map = L.map("leafletMap", {
+
+  zoomControl: false,
+
+  // マーカーのズームアニメーション負荷を抑える
+  markerZoomAnimation: false
+
 }).setView([35.6812, 139.7671], 6); // 東京中心
+
+// ======================================================
+// 地図移動中の軽量化
+// ======================================================
+//
+// 地図を動かしている最中だけマーカーを非表示。
+// 指を離す / 移動が終わると自動的に復帰する。
+//
+// 特にスマホで大量のDivIconを動かす負荷を減らす。
+// ======================================================
+
+map.on("movestart", () => {
+
+  const mapElement =
+    document.getElementById("leafletMap");
+
+  if (mapElement) {
+    mapElement.classList.add("map-is-moving");
+  }
+
+});
+
+
+map.on("moveend", () => {
+
+  const mapElement =
+    document.getElementById("leafletMap");
+
+  if (mapElement) {
+    mapElement.classList.remove("map-is-moving");
+  }
+
+});
 
 // ↓ 追加
 L.control.zoom({
   position: 'bottomleft'
 }).addTo(map);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; OpenStreetMap'
-}).addTo(map);
+L.tileLayer(
+  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  {
+    attribution: "© OpenStreetMap",
+
+    // 移動中は新しいタイルを頻繁に読み込まない
+    updateWhenIdle: true,
+
+    // ズーム中のタイル更新を抑える
+    updateWhenZooming: false,
+
+    // 移動後に必要なタイルを確保
+    keepBuffer: 2
+  }
+).addTo(map);
 
 let markers = [];
 let dataList = [];
@@ -7732,24 +7875,19 @@ async function loadSpotData(){
 
   const usedPositions = {};
 
-
   newDataList.forEach(item => {
 
     let lat =
       parseFloat(item["緯度"]);
 
-
     let lng =
       parseFloat(item["経度"]);
 
-
-    if(
+    if (
       !Number.isFinite(lat) ||
       !Number.isFinite(lng)
-    ){
-
+    ) {
       return;
-
     }
 
 
@@ -7759,38 +7897,49 @@ async function loadSpotData(){
       lng.toFixed(6);
 
 
-    if(
-      usedPositions[key]
-    ){
-
-      usedPositions[key]++;
+    const duplicateIndex =
+      usedPositions[key] || 0;
 
 
-      const offset =
-        (Math.random() - 0.5) *
-        0.0002;
+    usedPositions[key] =
+      duplicateIndex + 1;
 
 
-      lat += offset;
-      lng += offset;
+    /*
+    * 同一座標が複数ある場合だけ
+    * 円状に少しずつ離す。
+    */
+    if (duplicateIndex > 0) {
 
-    }else{
+      const radius = 0.0003;
 
-      usedPositions[key] = 1;
+      const angle =
+        (duplicateIndex - 1) *
+        (Math.PI * 2 / 6);
+
+      lat +=
+        Math.cos(angle) * radius;
+
+      lng +=
+        Math.sin(angle) * radius;
 
     }
 
-
-    // ============================================
-    // マーカー
-    // ============================================
 
     const marker =
       L.marker(
         [lat, lng],
         {
-          icon:
-            getIcon(item["カテゴリ"])
+          icon: getIcon(item["カテゴリ"]),
+
+          // 不要なキーボードフォーカス処理を減らす
+          keyboard: false,
+
+          // ホバー時の持ち上げ処理は使わない
+          riseOnHover: false,
+
+          // マーカーイベントを地図へ伝播させない
+          bubblingMouseEvents: false
         }
       );
 
@@ -7798,19 +7947,14 @@ async function loadSpotData(){
     marker.on(
       "click",
       () => {
-
         openDetail(item);
-
       }
     );
 
 
     newMarkers.push({
-
       marker: marker,
-
       data: item
-
     });
 
   });
