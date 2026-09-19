@@ -3463,6 +3463,17 @@ body{
     0 24px 70px rgba(0, 0, 0, 0.22);
 }
 
+/* ------------------------------------------------------
+   リストモーダル：PC版のみナビゲーションと同じ幅
+   ------------------------------------------------------ */
+
+@media (min-width: 768px) {
+
+  .list-modal-content {
+    width: var(--bottom-nav-width);
+  }
+
+}
 
 /* ======================================================
    スマホ
@@ -5177,6 +5188,37 @@ body{
     padding: 13px;
   }
 
+}
+
+/* ------------------------------------------------------
+   リストから探す：お気に入りと共通デザイン
+   ------------------------------------------------------ */
+
+.list-spot-card.favorite-spot-card {
+  appearance: none;
+  -webkit-appearance: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+
+/* リスト側では削除ボタンを使わない */
+.list-spot-card .favorite-spot-remove {
+  display: none;
+}
+
+
+/* リスト側の矢印 */
+.list-spot-card .favorite-spot-arrow {
+  display: flex;
+}
+
+
+/* button要素なのでデフォルトの背景などをリセット */
+.list-spot-card {
+  border: none;
+  text-align: left;
 }
    
 </style>
@@ -12074,11 +12116,10 @@ function openListSpots(listName) {
       const card =
         document.createElement("button");
 
-
       card.type = "button";
 
       card.className =
-        "list-spot-card";
+        "favorite-spot-card list-spot-card";
 
 
       const placeName =
@@ -12117,23 +12158,30 @@ function openListSpots(listName) {
           )
           .map(event => {
 
+            const status =
+              event.status || "状態不明";
+
             return `
 
-              <span class="list-spot-event">
+              <div class="favorite-spot-event">
 
-                ${escapeHtml(
-                  event.name
-                )}
-
-                <span class="list-spot-event-status">
+                <div class="favorite-spot-event-name">
 
                   ${escapeHtml(
-                    event.status
+                    event.name || "イベント名なし"
                   )}
 
-                </span>
+                </div>
 
-              </span>
+                <div
+                  class="favorite-spot-event-status ${getStatusClass(status)}"
+                >
+
+                  ${escapeHtml(status)}
+
+                </div>
+
+              </div>
 
             `;
 
@@ -12147,54 +12195,69 @@ function openListSpots(listName) {
 
       card.innerHTML = `
 
-        <div class="list-spot-card-name">
-          ${escapeHtml(placeName)}
+        <!-- カテゴリ -->
+        <div
+          class="favorite-spot-category"
+          style="background:${escapeHtml(
+            getCategoryStyle(category).color
+          )}"
+        >
+
+          <span class="material-symbols-outlined">
+            ${escapeHtml(
+              getCategoryStyle(category).icon
+            )}
+          </span>
+
+          ${escapeHtml(category)}
+
         </div>
 
 
-        ${
-          category
-            ? `
+        <!-- 場所名 -->
+        <div class="favorite-spot-name">
 
-              <div class="list-spot-card-category">
+          ${escapeHtml(placeName)}
 
-                ${escapeHtml(category)}
-
-              </div>
-
-            `
-            : ""
-        }
+        </div>
 
 
+        <!-- 住所 -->
         ${
           address
             ? `
-
-              <div class="list-spot-card-address">
+              <div class="favorite-spot-address">
 
                 ${escapeHtml(address)}
 
               </div>
-
             `
             : ""
         }
 
 
+        <!-- イベント -->
         ${
           eventHtml
             ? `
-
-              <div class="list-spot-card-events">
+              <div class="favorite-spot-events">
 
                 ${eventHtml}
 
               </div>
-
             `
             : ""
         }
+
+
+        <!-- 詳細を開く矢印 -->
+        <span class="favorite-spot-arrow">
+
+          <span class="material-symbols-outlined">
+            chevron_right
+          </span>
+
+        </span>
 
       `;
 
