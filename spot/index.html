@@ -5171,7 +5171,7 @@ body{
   position: fixed;
 
   top: 18px;
-  left: 18px;
+  left: 0;
 
   width: 286px;
 
@@ -5223,7 +5223,7 @@ body{
 
   border: 1px solid rgba(255,255,255,.9);
 
-  border-radius: 22px;
+  border-radius: 0 22px 22px 0;
 
   box-shadow:
     0 18px 55px rgba(0,0,0,.18),
@@ -5818,11 +5818,12 @@ body{
 
 .spot-filter-panel.is-collapsed {
   /*
-   * パネル本体を完全に左へ退避。
-   * タブは position:absolute なので、
-   * パネル本体だけを画面外へ移動させる。
+   * 本体は完全に左へ収納。
+   *
+   * タブだけは right:-34px の位置にあるため、
+   * 34pxだけ画面内に残る。
    */
-  transform: translateX(-100%);
+  transform: translateX(calc(-100% + 34px));
 }
 
 
@@ -5861,6 +5862,98 @@ body{
     transparent;
 }
 
+.spot-filter-panel {
+  position: fixed;
+
+  top: 18px;
+  left: 0;
+
+  width: 286px;
+
+  max-height: calc(100vh - 108px);
+
+  box-sizing: border-box;
+
+  z-index: 1800;
+
+  color: #202328;
+
+  transform: translateX(0);
+
+  transition:
+    transform .32s cubic-bezier(.22,.8,.24,1);
+
+  pointer-events: none;
+}
+
+
+.spot-filter-panel-inner {
+  position: relative;
+
+  width: 100%;
+  max-height: calc(100vh - 108px);
+
+  box-sizing: border-box;
+
+  padding: 18px 17px 16px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.98),
+      rgba(247,248,250,.97)
+    );
+
+  border: 1px solid rgba(255,255,255,.9);
+
+  border-radius: 0 22px 22px 0;
+
+  box-shadow:
+    0 18px 55px rgba(0,0,0,.18),
+    0 4px 16px rgba(0,0,0,.08),
+    inset 0 1px 0 rgba(255,255,255,.95);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  pointer-events: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: #c7cbd0 transparent;
+}
+
+
+/* =========================================================
+   閉じた状態
+   ========================================================= */
+
+.spot-filter-panel.is-collapsed {
+
+  transform:
+    translateX(
+      calc(-100% + 34px)
+    );
+
+}
+
+
+.spot-filter-panel.is-collapsed
+.spot-filter-panel-inner {
+
+  visibility: hidden;
+
+}
+
+
+.spot-filter-panel:not(.is-collapsed)
+.spot-filter-panel-inner {
+
+  visibility: visible;
+
+}
 
 /* =========================================================
    スマホ
@@ -5869,6 +5962,7 @@ body{
 @media (max-width: 768px) {
 
   .spot-filter-panel {
+
     top: 12px;
     left: 0;
 
@@ -5884,10 +5978,13 @@ body{
       );
 
     /*
-    * HTML描画直後から閉じた状態。
-    * JS実行前でもパネル本体は表示されない。
-    */
-    transform: translateX(-100%);
+     * HTML描画直後は閉じた状態。
+     */
+    transform:
+      translateX(
+        calc(-100% + 34px)
+      );
+
   }
 
 
@@ -5898,6 +5995,9 @@ body{
         100dvh - 96px
       );
 
+    /*
+     * スマホでは左側を画面端につなげる。
+     */
     border-radius:
       0 22px 22px 0;
 
@@ -5908,8 +6008,7 @@ body{
 
 
   /*
-   * スマホではタブを
-   * パネル右端に配置。
+   * スマホの開閉タブ
    */
   .spot-filter-panel-toggle {
 
@@ -5929,7 +6028,10 @@ body{
    * スマホで開いた状態
    */
   .spot-filter-panel:not(.is-collapsed) {
-    transform: translateX(0);
+
+    transform:
+      translateX(0);
+
   }
 
 
@@ -5937,27 +6039,26 @@ body{
    * スマホで閉じた状態
    */
   .spot-filter-panel.is-collapsed {
+
     transform:
       translateX(
         calc(-100% + 34px)
       );
+
   }
 
+
+  /*
+   * 開いているときだけ本体を表示
+   */
   .spot-filter-panel:not(.is-collapsed)
   .spot-filter-panel-inner {
+
     visibility: visible;
+
   }
 
 }
-
-
-/* =========================================================
-   PC
-   ========================================================= */
-
-/* =========================================================
-   PC
-   ========================================================= */
 
 /* =========================================================
    PC
@@ -5966,28 +6067,52 @@ body{
 @media (min-width: 769px) {
 
   /*
-   * PCではHTML描画直後から開く。
-   * !important により
-   * HTML側の is-collapsed より優先する。
+   * PCはHTML描画直後から開く。
    */
   .spot-filter-panel {
-    transform: translateX(0) !important;
+
+    top: 18px;
+    left: 0;
+
+    transform:
+      translateX(0);
+
   }
 
+
   /*
-   * JSでユーザーが閉じた場合は
-   * is-panel-user-collapsed を使用する。
+   * PCで閉じた状態。
+   * タブ34pxだけを左端に残す。
    */
-  .spot-filter-panel.is-collapsed.is-panel-user-collapsed {
-    transform: translateX(-100%) !important;
+  .spot-filter-panel.is-collapsed {
+
+    transform:
+      translateX(
+        calc(-100% + 34px)
+      );
+
   }
+
 
   /*
    * PCで開いているときは本体を表示。
    */
   .spot-filter-panel:not(.is-collapsed)
   .spot-filter-panel-inner {
+
     visibility: visible;
+
+  }
+
+
+  /*
+   * PCでも左端を画面に接続。
+   */
+  .spot-filter-panel-inner {
+
+    border-radius:
+      0 22px 22px 0;
+
   }
 
 }
