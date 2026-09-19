@@ -4601,6 +4601,73 @@ body{
 .detail-store-item + .detail-store-item{
   border-top:1px solid #eeeeee;
 }
+
+/* ======================================================
+   詳細パネル：お気に入りボタン
+   ====================================================== */
+
+.detail-favorite-btn {
+  position: absolute;
+  top: 14px;
+  right: 58px;
+
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: none;
+  border-radius: 50%;
+
+  background: rgba(255,255,255,0.94);
+  color: #777;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.12);
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    transform 0.15s ease;
+
+  z-index: 10;
+}
+
+.detail-favorite-btn:hover {
+  color: #e53935;
+  background: #fff;
+}
+
+.detail-favorite-btn:active {
+  transform: scale(0.92);
+}
+
+.detail-favorite-btn .material-symbols-outlined {
+  font-size: 23px;
+  line-height: 1;
+}
+
+
+
+/* ======================================================
+   お気に入り登録済み
+   ====================================================== */
+
+.detail-favorite-btn.is-favorite {
+  color: #e53935;
+  background: #fff0f0;
+}
+
+.detail-favorite-btn.is-favorite:hover {
+  color: #c62828;
+  background: #ffe5e5;
+}
    
 </style>
 </head>
@@ -6766,7 +6833,26 @@ function openDetail(data){
 
   hero.className = "detail-hero new-detail-hero";
 
+  const spotId = String(data["スポットID"] || "").trim();
+  const isFavorite = isSpotFavorite(spotId);
+
   hero.innerHTML = `
+
+    <!-- お気に入りボタン -->
+    <button
+      class="detail-favorite-btn ${isFavorite ? "is-favorite" : ""}"
+      id="detailFavoriteButton"
+      type="button"
+      onclick="toggleFavorite('${escapeHtml(spotId)}')"
+      aria-label="${isFavorite ? "お気に入りから削除" : "お気に入りに登録"}"
+      title="${isFavorite ? "お気に入りから削除" : "お気に入りに登録"}"
+    >
+      <span class="material-symbols-outlined">
+        favorite
+      </span>
+    </button>
+
+
 
     <!-- 閉じるボタン -->
     <button
@@ -6776,6 +6862,7 @@ function openDetail(data){
     >
       <span class="material-symbols-outlined">close</span>
     </button>
+
 
 
     <!-- カテゴリ -->
@@ -6791,10 +6878,12 @@ function openDetail(data){
     </div>
 
 
+
     <!-- 場所名 -->
     <div class="detail-hero-title">
       ${escapeHtml(placeName)}
     </div>
+
 
 
     <!-- 住所 -->
@@ -7869,6 +7958,191 @@ function closeDetail(){
   document
     .getElementById("detailPanel")
     .classList.remove("active");
+
+}
+
+
+// ======================================================
+// お気に入り
+// ======================================================
+
+const FAVORITES_STORAGE_KEY = "dzlSpotFavorites";
+
+
+
+// ======================================================
+// お気に入り一覧を取得
+// ======================================================
+
+function getFavoriteSpotIds(){
+
+  try{
+
+    const saved =
+      localStorage.getItem(
+        FAVORITES_STORAGE_KEY
+      );
+
+    if(!saved){
+      return [];
+    }
+
+    const parsed =
+      JSON.parse(saved);
+
+    if(!Array.isArray(parsed)){
+      return [];
+    }
+
+    return parsed
+      .map(id => String(id))
+      .filter(id => id !== "");
+
+  }catch(error){
+
+    console.warn(
+      "お気に入りデータの読み込みに失敗しました",
+      error
+    );
+
+    return [];
+
+  }
+
+}
+
+
+
+// ======================================================
+// お気に入り一覧を保存
+// ======================================================
+
+function saveFavoriteSpotIds(ids){
+
+  try{
+
+    localStorage.setItem(
+      FAVORITES_STORAGE_KEY,
+      JSON.stringify(ids)
+    );
+
+  }catch(error){
+
+    console.warn(
+      "お気に入りデータの保存に失敗しました",
+      error
+    );
+
+  }
+
+}
+
+
+
+// ======================================================
+// お気に入り登録済みか確認
+// ======================================================
+
+function isSpotFavorite(spotId){
+
+  if(!spotId){
+    return false;
+  }
+
+  const favorites =
+    getFavoriteSpotIds();
+
+  return favorites.includes(
+    String(spotId)
+  );
+
+}
+
+
+
+// ======================================================
+// お気に入り登録・解除
+// ======================================================
+
+function toggleFavorite(spotId){
+
+  if(!spotId){
+    return;
+  }
+
+  const id =
+    String(spotId);
+
+  const favorites =
+    getFavoriteSpotIds();
+
+  const index =
+    favorites.indexOf(id);
+
+  let isFavorite;
+
+  if(index === -1){
+
+    // ------------------------------------------
+    // お気に入り登録
+    // ------------------------------------------
+
+    favorites.push(id);
+
+    isFavorite = true;
+
+  }else{
+
+    // ------------------------------------------
+    // お気に入り解除
+    // ------------------------------------------
+
+    favorites.splice(
+      index,
+      1
+    );
+
+    isFavorite = false;
+
+  }
+
+  saveFavoriteSpotIds(
+    favorites
+  );
+
+
+
+  // ------------------------------------------
+  // ボタンの表示を更新
+  // ------------------------------------------
+
+  const button =
+    document.getElementById(
+      "detailFavoriteButton"
+    );
+
+  if(button){
+
+    button.classList.toggle(
+      "is-favorite",
+      isFavorite
+    );
+
+    button.setAttribute(
+      "aria-label",
+      isFavorite
+        ? "お気に入りから削除"
+        : "お気に入りに登録"
+    );
+
+    button.setAttribute(
+      "title",
+      isFavorite
+        ? "お気に入りから削除"
+        : "お気に入りに登録"
+    );
+
+  }
 
 }
 
