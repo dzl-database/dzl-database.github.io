@@ -6437,11 +6437,6 @@ body{
 <!-- 追加ボタン群 -->
 <div class="extra-buttons">
 
-  <!-- 一覧 -->
-  <button class="circle-btn" onclick="showNearbyList()">
-    <span class="material-symbols-outlined">list</span>
-  </button>
-
   <!-- 追加 -->
   <button class="circle-btn" onclick="openAddModal()">
     <span class="material-symbols-outlined">add</span>
@@ -6980,47 +6975,6 @@ body{
     </div>
 
     <div id="modalSearchResult"></div>
-
-  </div>
-
-</div>
-
-<!-- ===== 一覧モーダル ===== -->
-<div id="nearlistModal" class="modal" onclick="closeNearListModal(event)">
-
-  <div class="modal-content" onclick="event.stopPropagation()" style="width:320px; text-align:left; position:relative;">
-
-    <!-- ヘッダー -->
-    <div style="display:flex; align-items:center; justify-content:space-between;">
-
-      <!-- 左：タイトル -->
-      <div style="display:flex; align-items:center; gap:6px;">
-        <span class="material-symbols-outlined">list</span>
-        <h3 style="margin:0;">近くのスポット</h3>
-      </div>
-
-      <!-- 右：閉じる -->
-      <button onclick="closeNearListModal()" style="border:none; background:none; cursor:pointer;">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-
-    </div>
-
-    <div style="
-      font-size:14px;
-      color:#666;
-      margin-top:6px;
-      margin-bottom:10px;
-    ">
-      マップで表示している地点の周辺スポットを表示します
-    </div>
-
-    <!-- 一覧表示エリア -->
-    <div id="nearlistResult" style="
-      max-height:300px;
-      overflow-y:auto;
-      margin-top:10px;
-    "></div>
 
   </div>
 
@@ -7632,102 +7586,9 @@ const categories = [
 
 const statuses = ["開催前","開催中","開催終了"];
 
-function openFilter(){
-  document.getElementById("filterModal").classList.add("active");
-}
-
-function closeFilter(e){
-  if(e && e.target === e.currentTarget){
-    document.getElementById("filterModal").classList.remove("active");
-  }
-}
-
-// ← 追加
-function closeFilterForce(){
-  document.getElementById("filterModal").classList.remove("active");
-}
-
-function createFilters(){
-
-  const catBox = document.getElementById("categoryFilter");
-  const statBox = document.getElementById("statusFilter");
-
-  catBox.innerHTML = "";
-  statBox.innerHTML = "";
-
-  // ===== カテゴリ =====
-  categories.forEach(cat=>{
-
-    const style = getCategoryStyle(cat.name);
-
-    const div = document.createElement("div");
-    div.className = "toggle-item active";
-    div.dataset.value = cat.name;
-
-    // ★初期状態ONカラー
-    div.style.background = style.color;
-    div.style.color = "#fff";
-
-    div.innerHTML = `
-      <div class="toggle-left">
-        <span class="material-symbols-outlined">${style.icon}</span>
-        ${cat.name}
-      </div>
-    `;
-
-    div.onclick = () => {
-
-      div.classList.toggle("active");
-
-      // ★ON/OFFで色切り替え
-      if(div.classList.contains("active")){
-        div.style.background = style.color;
-        div.style.color = "#fff";
-      }else{
-        div.style.background = "#f5f5f5";
-        div.style.color = "#333";
-      }
-
-    };
-
-    catBox.appendChild(div);
-  });
-
-  // ===== 開催状況 =====
-  statuses.forEach(st=>{
-
-    const div = document.createElement("div");
-    div.className = "toggle-item active";
-    div.dataset.value = st;
-
-    div.innerHTML = `
-      <div class="toggle-left">
-        <span class="material-symbols-outlined">event</span>
-        ${st}
-      </div>
-    `;
-
-    div.onclick = () => {
-      div.classList.toggle("active");
-    };
-
-    statBox.appendChild(div);
-  });
-
-}
-
 window.addEventListener("DOMContentLoaded", () => {
-  createFilters();
   showSection("map");
 });
-
-function applyFilter(){
-
-  applyCurrentFilterToMarkers();
-
-  closeFilterForce();
-
-}
 
 // =======================
 // カテゴリ別アイコン
@@ -11051,16 +10912,6 @@ function closeSearchModal(e){
   }
 }
 
-function openNearListModal(){
-  document.getElementById("nearlistModal").classList.add("active");
-}
-
-function closeNearListModal(e){
-  if(!e || e.target === e.currentTarget){
-    document.getElementById("nearlistModal").classList.remove("active");
-  }
-}
-
 function openEditForm(){
   window.open("https://forms.gle/ontjkVvF4kRG2dmp7", "_blank");
 }
@@ -11077,75 +10928,6 @@ function getCategoryStyle(category){
   }
 
 }
-
-// =======================
-// ① 一覧表示（近い順）
-// =======================
-function showNearbyList(){
-
-  openNearListModal();
-
-  const center = map.getCenter();
-
-  const sorted = markers.map(obj => {
-
-    const lat = parseFloat(obj.data["緯度"]);
-    const lng = parseFloat(obj.data["経度"]);
-
-    const dist = map.distance(center, [lat, lng]);
-
-    return { ...obj, dist };
-
-  }).sort((a,b)=> a.dist - b.dist);
-
-  const resultBox = document.getElementById("nearlistResult");
-  resultBox.innerHTML = "";
-
-  sorted.slice(0,20).forEach(obj => {
-
-    const item = obj.data;
-
-    const div = document.createElement("div");
-    div.className = "search-item";
-
-    // ★ここを完全に検索と揃える
-    div.innerHTML = `
-      <strong>${escapeHtml(item["場所名"] || "名称なし")}</strong>
-
-      <div class="search-sub">
-
-        ${item["住所"] ? `
-          <div class="search-row">
-            <span class="material-symbols-outlined">location_on</span>
-            <div>${escapeHtml(item["住所"])}</div>
-          </div>
-        ` : ""}
-
-        ${item["イベント名"] ? `
-          <div class="search-row">
-            <span class="material-symbols-outlined">event</span>
-            <div>${escapeHtml(item["イベント名"])}</div>
-          </div>
-        ` : ""}
-
-      </div>
-    `;
-
-    div.onclick = () => {
-
-      const lat = parseFloat(item["緯度"]);
-      const lng = parseFloat(item["経度"]);
-
-      map.setView([lat, lng], 16);
-      closeNearListModal();
-    };
-
-    resultBox.appendChild(div);
-
-  });
-
-}
-
 
 // =======================
 // ② 追加モーダル
