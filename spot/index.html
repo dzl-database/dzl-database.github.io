@@ -5161,6 +5161,459 @@ body{
   border: none;
   text-align: left;
 }
+
+
+/* =========================================================
+   スポット表示管理パネル
+   ========================================================= */
+
+.spot-filter-panel {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+
+  width: 286px;
+  box-sizing: border-box;
+
+  padding: 18px 17px 16px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.98),
+      rgba(247,248,250,.97)
+    );
+
+  border: 1px solid rgba(255,255,255,.9);
+  border-radius: 22px;
+
+  box-shadow:
+    0 18px 55px rgba(0,0,0,.18),
+    0 4px 16px rgba(0,0,0,.08),
+    inset 0 1px 0 rgba(255,255,255,.95);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  z-index: 1800;
+
+  color: #202328;
+
+  overflow: hidden;
+}
+
+
+/* 上部の赤いアクセント */
+.spot-filter-panel::before {
+  content: "";
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 4px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #b90000,
+      #e00000,
+      #ff3b3b,
+      #c80000
+    );
+}
+
+
+/* =========================================================
+   ロゴ
+   ========================================================= */
+
+.spot-filter-brand {
+  display: flex;
+  align-items: center;
+
+  min-height: 38px;
+  margin-bottom: 13px;
+}
+
+.spot-filter-logo {
+  display: block;
+
+  width: auto;
+  height: 32px;
+  max-width: 190px;
+
+  object-fit: contain;
+}
+
+
+/* =========================================================
+   表示中件数
+   ========================================================= */
+
+.spot-filter-total {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+
+  margin-bottom: 16px;
+  padding: 13px 14px;
+
+  border-radius: 15px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff1f1,
+      #fff8f8
+    );
+
+  border: 1px solid #ffdcdc;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.8);
+}
+
+#displayedSpotCount {
+  color: #c80000;
+
+  font-size: 30px;
+  font-weight: 850;
+  line-height: 1;
+
+  letter-spacing: -.045em;
+
+  font-variant-numeric: tabular-nums;
+}
+
+.spot-filter-total-unit {
+  font-size: 13px;
+  font-weight: 750;
+  color: #383c42;
+}
+
+.spot-filter-total-status {
+  margin-left: auto;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  color: #888d94;
+}
+
+
+/* =========================================================
+   セクション
+   ========================================================= */
+
+.spot-filter-section {
+  margin: 0;
+}
+
+.spot-filter-section-title {
+  display: flex;
+  align-items: center;
+
+  margin: 0 3px 8px;
+
+  color: #767b82;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: .12em;
+}
+
+
+/* =========================================================
+   フィルターボタン
+   ========================================================= */
+
+.spot-filter-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.spot-filter-button {
+  position: relative;
+
+  width: 100%;
+  min-height: 42px;
+
+  display: grid;
+  grid-template-columns: 32px minmax(0,1fr) auto 18px;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 6px 8px;
+
+  border: 1px solid transparent;
+  border-radius: 12px;
+
+  background: transparent;
+
+  color: #383c42;
+
+  font-family: inherit;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background .18s ease,
+    border-color .18s ease,
+    box-shadow .18s ease,
+    color .18s ease,
+    transform .12s ease;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/* カテゴリ / 状態アイコン */
+.spot-filter-icon {
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  color: #fff;
+
+  font-size: 18px;
+
+  box-shadow:
+    0 3px 8px rgba(0,0,0,.12);
+}
+
+.spot-filter-icon .material-symbols-outlined {
+  font-size: 19px;
+  line-height: 1;
+}
+
+
+/* 名前 */
+.spot-filter-name {
+  min-width: 0;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+
+/* 件数 */
+.spot-filter-count {
+  min-width: 30px;
+
+  padding: 4px 7px;
+
+  border-radius: 999px;
+
+  background: #f0f1f3;
+
+  color: #737880;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  line-height: 1;
+  text-align: center;
+
+  font-variant-numeric: tabular-nums;
+
+  transition:
+    background .18s ease,
+    color .18s ease;
+}
+
+
+/* ON/OFF インジケーター */
+.spot-filter-check {
+  width: 17px;
+  height: 17px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #d9dce0;
+
+  color: transparent;
+
+  transition:
+    background .18s ease,
+    color .18s ease,
+    transform .18s ease;
+}
+
+.spot-filter-check .material-symbols-outlined {
+  font-size: 13px;
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 700,
+    "GRAD" 0,
+    "opsz" 16;
+}
+
+
+/* ON */
+.spot-filter-button.is-active {
+  background: rgba(255,255,255,.95);
+
+  border-color: #e4e6e9;
+
+  box-shadow:
+    0 4px 12px rgba(0,0,0,.055);
+}
+
+.spot-filter-button.is-active .spot-filter-check {
+  background: #c80000;
+  color: #fff;
+
+  transform: scale(1);
+}
+
+.spot-filter-button.is-active .spot-filter-count {
+  background: #fff0f0;
+  color: #c80000;
+}
+
+
+/* OFF */
+.spot-filter-button:not(.is-active) {
+  opacity: .58;
+}
+
+.spot-filter-button:not(.is-active) .spot-filter-icon {
+  filter: grayscale(1);
+  opacity: .65;
+}
+
+
+/* hover */
+@media (hover:hover) and (pointer:fine) {
+
+  .spot-filter-button:hover {
+    background: #fff;
+
+    border-color: #e3e5e8;
+
+    box-shadow:
+      0 5px 14px rgba(0,0,0,.07);
+
+    transform: translateY(-1px);
+  }
+
+  .spot-filter-button:not(.is-active):hover {
+    opacity: .82;
+  }
+
+}
+
+
+/* active */
+.spot-filter-button:active {
+  transform: scale(.985);
+}
+
+
+/* =========================================================
+   さらにフィルター
+   ========================================================= */
+
+.spot-filter-more-button {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 10px;
+  padding: 10px 4px 7px;
+
+  border: 0;
+  border-top: 1px solid #e6e7e9;
+
+  background: transparent;
+
+  color: #666b72;
+
+  font-family: inherit;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition: color .18s ease;
+}
+
+.spot-filter-more-button .material-symbols-outlined {
+  font-size: 19px;
+
+  transition:
+    transform .2s ease;
+}
+
+.spot-filter-more-button[aria-expanded="true"] {
+  color: #c80000;
+}
+
+.spot-filter-more-button[aria-expanded="true"]
+.material-symbols-outlined {
+  transform: rotate(180deg);
+}
+
+
+/* =========================================================
+   開催状況フィルター
+   ========================================================= */
+
+.spot-status-filter-area {
+  padding-top: 5px;
+
+  animation: spotFilterSlideDown .18s ease;
+}
+
+@keyframes spotFilterSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================================
+   PC専用
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  .spot-filter-panel {
+    display: none;
+  }
+
+}
    
 </style>
 </head>
@@ -7202,103 +7655,824 @@ async function loadSpotData(){
 
 
   // ==============================================
-  // 現在のフィルターを適用
+  // 新しいスポット表示フィルターを適用
   // ==============================================
 
-  applyCurrentFilterToMarkers();
-
+  applySpotDisplayFilters();
 
   return dataList;
 
 }
 
 
-// ======================================================
-// 現在のフィルター状態を取得して適用
-// ======================================================
+/* =========================================================
+   スポット表示管理
+   ========================================================= */
 
-function applyCurrentFilterToMarkers(){
+const SPOT_CATEGORY_CONFIG = [
+  {
+    name: "グッズ",
+    color: "#C80000",
+    icon: "local_mall"
+  },
+  {
+    name: "飲食",
+    color: "#733C93",
+    icon: "restaurant"
+  },
+  {
+    name: "コンビニ",
+    color: "#FCC700",
+    icon: "store"
+  },
+  {
+    name: "カプセルトイ",
+    color: "#54C3F1",
+    icon: "local_laundry_service"
+  },
+  {
+    name: "ゲームセンター",
+    color: "#EB6D9A",
+    icon: "sports_esports"
+  },
+  {
+    name: "その他",
+    color: "#000000",
+    icon: "place"
+  }
+];
 
-  const categoryItems =
-    document.querySelectorAll(
-      "#categoryFilter .toggle-item"
+const SPOT_STATUS_CONFIG = [
+  {
+    name: "開催前",
+    color: "#4A90E2",
+    icon: "schedule"
+  },
+  {
+    name: "開催中",
+    color: "#1BAA61",
+    icon: "play_circle"
+  },
+  {
+    name: "開催終了",
+    color: "#858A91",
+    icon: "event_busy"
+  }
+];
+
+
+/*
+ * 初期状態
+ *
+ * カテゴリ：
+ *   全てON
+ *
+ * 開催状況：
+ *   開催前 ON
+ *   開催中 ON
+ *   開催終了 OFF
+ */
+const spotDisplayFilterState = {
+
+  categories: new Set(
+    SPOT_CATEGORY_CONFIG.map(category => category.name)
+  ),
+
+  statuses: new Set([
+    "開催前",
+    "開催中"
+  ])
+
+};
+
+
+/* =========================================================
+   イベントの開催状況を取得
+   ========================================================= */
+
+/*
+ * 1スポットに複数イベントがある場合、
+ * Setで管理することで
+ *
+ * 開催前 + 開催中
+ *
+ * のような状態を同時に保持する。
+ */
+function getSpotDisplayStatuses(spot) {
+
+  const statuses = new Set();
+
+  let events = [];
+
+  try {
+
+    if (typeof getEvents === "function") {
+      events = getEvents(spot) || [];
+    }
+
+  } catch (error) {
+
+    console.warn(
+      "イベント状態取得エラー:",
+      error
     );
-
-
-  const statusItems =
-    document.querySelectorAll(
-      "#statusFilter .toggle-item"
-    );
-
-
-  // フィルターUIがまだ生成されていない場合
-  // → 全件表示
-  if(
-    categoryItems.length === 0 ||
-    statusItems.length === 0
-  ){
-
-    markers.forEach(obj => {
-
-      obj.marker.addTo(map);
-
-    });
-
-    return;
 
   }
 
 
-  const selectedCats =
-    Array.from(
-      document.querySelectorAll(
-        "#categoryFilter .toggle-item.active"
-      )
-    ).map(
-      el => el.dataset.value
-    );
+  /*
+   * イベント情報が存在しないスポットは
+   * 「開催中相当」として扱う。
+   *
+   * これにより、イベントなしのスポットも
+   * 初期状態で表示される。
+   */
+  if (!events.length) {
+
+    statuses.add("開催中");
+
+    return statuses;
+
+  }
 
 
-  const selectedStatuses =
-    Array.from(
-      document.querySelectorAll(
-        "#statusFilter .toggle-item.active"
-      )
-    ).map(
-      el => el.dataset.value
-    );
-
-
-  markers.forEach(obj => {
-
-    const category =
-      obj.data["カテゴリ"];
-
+  events.forEach(event => {
 
     const status =
-      getPrimarySpotStatus(
-        obj.data
+      String(event?.status || "").trim();
+
+    if (
+      status === "開催前" ||
+      status === "開催中" ||
+      status === "開催終了"
+    ) {
+
+      statuses.add(status);
+
+    }
+
+  });
+
+
+  /*
+   * getEvents()から有効な状態が取得できなかった場合も
+   * イベントなしと同じ扱いにする。
+   */
+  if (!statuses.size) {
+
+    statuses.add("開催中");
+
+  }
+
+
+  return statuses;
+
+}
+
+
+/* =========================================================
+   カテゴリ一致判定
+   ========================================================= */
+
+function spotMatchesCategoryFilter(spot) {
+
+  if (!spot) {
+    return false;
+  }
+
+  const category =
+    String(spot["カテゴリ"] || "").trim();
+
+  return spotDisplayFilterState.categories.has(category);
+
+}
+
+
+/* =========================================================
+   開催状況一致判定
+   ========================================================= */
+
+function spotMatchesStatusFilter(spot) {
+
+  if (!spot) {
+    return false;
+  }
+
+  /*
+   * 開催状況が1つも選択されていない場合は
+   * 何も表示しない。
+   */
+  if (
+    spotDisplayFilterState.statuses.size === 0
+  ) {
+
+    return false;
+
+  }
+
+
+  const spotStatuses =
+    getSpotDisplayStatuses(spot);
+
+
+  /*
+   * 「開催前 OR 開催中」のように
+   * どれか1つでも一致すれば表示。
+   */
+  for (
+    const status
+    of spotDisplayFilterState.statuses
+  ) {
+
+    if (spotStatuses.has(status)) {
+      return true;
+    }
+
+  }
+
+
+  return false;
+
+}
+
+
+/* =========================================================
+   最終的な表示判定
+   ========================================================= */
+
+function shouldDisplaySpot(spot) {
+
+  return (
+    spotMatchesCategoryFilter(spot) &&
+    spotMatchesStatusFilter(spot)
+  );
+
+}
+
+
+/* =========================================================
+   現在表示対象のスポット取得
+   ========================================================= */
+
+function getCurrentlyDisplayedSpots() {
+
+  if (!Array.isArray(dataList)) {
+    return [];
+  }
+
+  return dataList.filter(
+    spot => shouldDisplaySpot(spot)
+  );
+
+}
+
+
+/* =========================================================
+   カテゴリ件数
+   ========================================================= */
+
+/*
+ * 現在選択されている開催状況を基準に、
+ * 各カテゴリに該当するスポット数を数える。
+ *
+ * 例：
+ * 開催中だけON
+ *
+ * グッズ → グッズ AND 開催中
+ */
+function getCategorySpotCount(categoryName) {
+
+  if (!Array.isArray(dataList)) {
+    return 0;
+  }
+
+  return dataList.filter(spot => {
+
+    const category =
+      String(spot["カテゴリ"] || "").trim();
+
+    if (category !== categoryName) {
+      return false;
+    }
+
+    return spotMatchesStatusFilter(spot);
+
+  }).length;
+
+}
+
+
+/* =========================================================
+   開催状況件数
+   ========================================================= */
+
+/*
+ * 現在選択されているカテゴリを基準に、
+ * 各開催状況に該当するスポット数を数える。
+ *
+ * 複数イベントの場合：
+ *
+ * 開催前 + 開催中
+ *
+ * なら、
+ *
+ * 開催前 → 1
+ * 開催中 → 1
+ *
+ * と両方にカウントされる。
+ *
+ * ただし「スポット数」なので同一スポットを
+ * 1つの状態の中で二重計上することはない。
+ */
+function getStatusSpotCount(statusName) {
+
+  if (!Array.isArray(dataList)) {
+    return 0;
+  }
+
+  return dataList.filter(spot => {
+
+    if (!spotMatchesCategoryFilter(spot)) {
+      return false;
+    }
+
+    const statuses =
+      getSpotDisplayStatuses(spot);
+
+    return statuses.has(statusName);
+
+  }).length;
+
+}
+
+
+/* =========================================================
+   表示中件数更新
+   ========================================================= */
+
+function updateDisplayedSpotCount() {
+
+  const countElement =
+    document.getElementById(
+      "displayedSpotCount"
+    );
+
+  if (!countElement) {
+    return;
+  }
+
+  const count =
+    getCurrentlyDisplayedSpots().length;
+
+  countElement.textContent =
+    count.toLocaleString("ja-JP");
+
+}
+
+
+/* =========================================================
+   カテゴリフィルター描画
+   ========================================================= */
+
+function renderSpotCategoryFilters() {
+
+  const container =
+    document.getElementById(
+      "spotCategoryFilters"
+    );
+
+  if (!container) {
+    return;
+  }
+
+  container.innerHTML = "";
+
+  SPOT_CATEGORY_CONFIG.forEach(config => {
+
+    const button =
+      document.createElement("button");
+
+    button.type = "button";
+
+    button.className =
+      "spot-filter-button";
+
+    const isActive =
+      spotDisplayFilterState.categories.has(
+        config.name
       );
 
+    if (isActive) {
+      button.classList.add("is-active");
+    }
 
-    const show =
-      selectedCats.includes(category) &&
-      selectedStatuses.includes(status);
+    button.dataset.category =
+      config.name;
+
+    button.innerHTML = `
+      <span
+        class="spot-filter-icon"
+        style="background:${config.color};"
+      >
+        <span class="material-symbols-outlined">
+          ${config.icon}
+        </span>
+      </span>
+
+      <span class="spot-filter-name">
+        ${escapeHtml(config.name)}
+      </span>
+
+      <span class="spot-filter-count">
+        0
+      </span>
+
+      <span class="spot-filter-check">
+        <span class="material-symbols-outlined">
+          check
+        </span>
+      </span>
+    `;
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        toggleSpotCategory(
+          config.name
+        );
+
+      }
+    );
+
+    container.appendChild(button);
+
+  });
+
+  updateSpotFilterCounts();
+
+}
 
 
-    if(show){
+/* =========================================================
+   開催状況フィルター描画
+   ========================================================= */
 
-      obj.marker.addTo(map);
+function renderSpotStatusFilters() {
 
-    }else{
+  const container =
+    document.getElementById(
+      "spotStatusFilters"
+    );
 
-      map.removeLayer(
-        obj.marker
+  if (!container) {
+    return;
+  }
+
+  container.innerHTML = "";
+
+  SPOT_STATUS_CONFIG.forEach(config => {
+
+    const button =
+      document.createElement("button");
+
+    button.type = "button";
+
+    button.className =
+      "spot-filter-button";
+
+    const isActive =
+      spotDisplayFilterState.statuses.has(
+        config.name
+      );
+
+    if (isActive) {
+      button.classList.add("is-active");
+    }
+
+    button.dataset.status =
+      config.name;
+
+    button.innerHTML = `
+      <span
+        class="spot-filter-icon"
+        style="background:${config.color};"
+      >
+        <span class="material-symbols-outlined">
+          ${config.icon}
+        </span>
+      </span>
+
+      <span class="spot-filter-name">
+        ${escapeHtml(config.name)}
+      </span>
+
+      <span class="spot-filter-count">
+        0
+      </span>
+
+      <span class="spot-filter-check">
+        <span class="material-symbols-outlined">
+          check
+        </span>
+      </span>
+    `;
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        toggleSpotStatus(
+          config.name
+        );
+
+      }
+    );
+
+    container.appendChild(button);
+
+  });
+
+  updateSpotFilterCounts();
+
+}
+
+
+/* =========================================================
+   カテゴリON/OFF
+   ========================================================= */
+
+function toggleSpotCategory(categoryName) {
+
+  if (
+    spotDisplayFilterState.categories.has(
+      categoryName
+    )
+  ) {
+
+    spotDisplayFilterState.categories.delete(
+      categoryName
+    );
+
+  } else {
+
+    spotDisplayFilterState.categories.add(
+      categoryName
+    );
+
+  }
+
+  applySpotDisplayFilters();
+
+}
+
+
+/* =========================================================
+   開催状況ON/OFF
+   ========================================================= */
+
+function toggleSpotStatus(statusName) {
+
+  if (
+    spotDisplayFilterState.statuses.has(
+      statusName
+    )
+  ) {
+
+    spotDisplayFilterState.statuses.delete(
+      statusName
+    );
+
+  } else {
+
+    spotDisplayFilterState.statuses.add(
+      statusName
+    );
+
+  }
+
+  applySpotDisplayFilters();
+
+}
+
+
+/* =========================================================
+   フィルター件数更新
+   ========================================================= */
+
+function updateSpotFilterCounts() {
+
+  /*
+   * カテゴリ件数
+   */
+  document
+    .querySelectorAll(
+      "#spotCategoryFilters .spot-filter-button"
+    )
+    .forEach(button => {
+
+      const categoryName =
+        button.dataset.category;
+
+      const count =
+        getCategorySpotCount(
+          categoryName
+        );
+
+      const countElement =
+        button.querySelector(
+          ".spot-filter-count"
+        );
+
+      if (countElement) {
+
+        countElement.textContent =
+          count.toLocaleString("ja-JP");
+
+      }
+
+      button.classList.toggle(
+        "is-active",
+        spotDisplayFilterState.categories.has(
+          categoryName
+        )
+      );
+
+    });
+
+
+  /*
+   * 開催状況件数
+   */
+  document
+    .querySelectorAll(
+      "#spotStatusFilters .spot-filter-button"
+    )
+    .forEach(button => {
+
+      const statusName =
+        button.dataset.status;
+
+      const count =
+        getStatusSpotCount(
+          statusName
+        );
+
+      const countElement =
+        button.querySelector(
+          ".spot-filter-count"
+        );
+
+      if (countElement) {
+
+        countElement.textContent =
+          count.toLocaleString("ja-JP");
+
+      }
+
+      button.classList.toggle(
+        "is-active",
+        spotDisplayFilterState.statuses.has(
+          statusName
+        )
+      );
+
+    });
+
+
+  /*
+   * 最上部の
+   *
+   * ○○スポット 表示中
+   *
+   * も更新
+   */
+  updateDisplayedSpotCount();
+
+}
+
+
+/* =========================================================
+   マーカーへのフィルター適用
+   ========================================================= */
+
+function applySpotDisplayFilters() {
+
+  if (!Array.isArray(markers)) {
+    return;
+  }
+
+
+  /*
+   * 各スポットについて表示 / 非表示を判定。
+   *
+   * 1スポットにつきマーカーは1個なので、
+   * 開催前と開催中の両方に該当していても
+   * マーカーが二重になることはない。
+   */
+  markers.forEach(obj => {
+
+    if (!obj || !obj.marker) {
+      return;
+    }
+
+    const shouldDisplay =
+      shouldDisplaySpot(obj.data);
+
+    try {
+
+      if (shouldDisplay) {
+
+        if (!map.hasLayer(obj.marker)) {
+
+          obj.marker.addTo(map);
+
+        }
+
+      } else {
+
+        if (map.hasLayer(obj.marker)) {
+
+          map.removeLayer(obj.marker);
+
+        }
+
+      }
+
+    } catch (error) {
+
+      console.warn(
+        "スポット表示切り替えエラー:",
+        error
       );
 
     }
 
   });
+
+
+  /*
+   * 件数をリアルタイム更新
+   */
+  updateSpotFilterCounts();
+
+}
+
+
+/* =========================================================
+   「さらにフィルター」
+   ========================================================= */
+
+function initSpotFilterMoreButton() {
+
+  const button =
+    document.getElementById(
+      "spotStatusToggleButton"
+    );
+
+  const area =
+    document.getElementById(
+      "spotStatusFilterArea"
+    );
+
+  if (!button || !area) {
+    return;
+  }
+
+  button.addEventListener(
+    "click",
+    () => {
+
+      const willOpen =
+        area.hidden;
+
+      area.hidden =
+        !willOpen;
+
+      button.setAttribute(
+        "aria-expanded",
+        String(willOpen)
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   フィルター管理パネル初期化
+   ========================================================= */
+
+function initSpotFilterPanel() {
+
+  renderSpotCategoryFilters();
+
+  renderSpotStatusFilters();
+
+  initSpotFilterMoreButton();
+
+  updateSpotFilterCounts();
 
 }
 
@@ -9488,6 +10662,8 @@ select.addEventListener("change", () => {
 
 // 検索処理
 document.addEventListener("DOMContentLoaded", ()=>{
+
+  initSpotFilterPanel();
 
   const input = document.getElementById("modalSearchInput");
   const resultBox = document.getElementById("modalSearchResult");
@@ -12339,6 +13515,55 @@ function openSpotFromList(spot) {
 }
    
 </script>
-  
+
+
+<!-- スポット表示管理パネル -->
+<aside id="spotFilterPanel" class="spot-filter-panel" aria-label="スポット表示管理">
+
+  <div class="spot-filter-brand">
+    <img
+      src="spot-title-logo.png"
+      alt="ドズル社スポット"
+      class="spot-filter-logo"
+    >
+  </div>
+
+  <div class="spot-filter-total">
+    <span id="displayedSpotCount">0</span>
+    <span class="spot-filter-total-unit">スポット</span>
+    <span class="spot-filter-total-status">表示中</span>
+  </div>
+
+  <div class="spot-filter-section">
+
+    <div class="spot-filter-section-title">
+      <span>表示切り替え</span>
+    </div>
+
+    <div id="spotCategoryFilters" class="spot-filter-list"></div>
+
+  </div>
+
+  <button
+    type="button"
+    id="spotStatusToggleButton"
+    class="spot-filter-more-button"
+    aria-expanded="false"
+  >
+    <span>さらにフィルター</span>
+    <span class="material-symbols-outlined">expand_more</span>
+  </button>
+
+  <div
+    id="spotStatusFilterArea"
+    class="spot-status-filter-area"
+    hidden
+  >
+    <div id="spotStatusFilters" class="spot-filter-list"></div>
+  </div>
+
+</aside>
+
+
 </body>
 </html>
