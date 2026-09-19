@@ -5987,6 +5987,8 @@ body{
   line-height: 1;
 
   color: #fff;
+
+  font-variation-settings: "FILL" 0, "wght" 600, "GRAD" 0, "opsz" 20;
 }
 
 /* =========================================================
@@ -6279,16 +6281,16 @@ body{
 
         <div class="icon-item">
           <div class="icon-circle blue">
-            <span class="material-symbols-outlined">local_laundry_service</span>
+            <span class="material-symbols-outlined">masked_transitions</span>
           </div>
           <p>カプセルトイ</p>
         </div>
 
         <div class="icon-item">
           <div class="icon-circle pink">
-            <span class="material-symbols-outlined">sports_esports</span>
+            <span class="material-symbols-outlined">attractions</span>
           </div>
-          <p>ゲームセンター</p>
+          <p>聖地</p>
         </div>
 
         <div class="icon-item">
@@ -6611,7 +6613,7 @@ body{
           <option value="飲食">飲食</option>
           <option value="コンビニ">コンビニ</option>
           <option value="カプセルトイ">カプセルトイ</option>
-          <option value="ゲームセンター">ゲームセンター</option>
+          <option value="聖地">聖地</option>
           <option value="その他">その他</option>
 
         </select>
@@ -7625,7 +7627,7 @@ const categories = [
   {name:"飲食", color:"#733C93"},
   {name:"コンビニ", color:"#FCC700"},
   {name:"カプセルトイ", color:"#54C3F1"},
-  {name:"ゲームセンター", color:"#EB6D9A"},
+  {name:"聖地", color:"#EB6D9A"},
   {name:"その他", color:"black"}
 ];
 
@@ -7674,12 +7676,12 @@ function getIcon(category) {
 
     case "カプセルトイ":
       color = "#54C3F1";
-      icon = "local_laundry_service";
+      icon = "masked_transitions";
       break;
 
-    case "ゲームセンター":
+    case "聖地":
       color = "#EB6D9A";
-      icon = "sports_esports";
+      icon = "attractions";
       break;
 
     case "その他":
@@ -8014,12 +8016,12 @@ const SPOT_CATEGORY_CONFIG = [
   {
     name: "カプセルトイ",
     color: "#54C3F1",
-    icon: "local_laundry_service"
+    icon: "masked_transitions"
   },
   {
-    name: "ゲームセンター",
+    name: "聖地",
     color: "#EB6D9A",
-    icon: "sports_esports"
+    icon: "attractions"
   },
   {
     name: "その他",
@@ -11054,8 +11056,8 @@ function getCategoryStyle(category){
     case "グッズ": return { color:"#C80000", icon:"local_mall" };
     case "飲食": return { color:"#733C93", icon:"restaurant" };
     case "コンビニ": return { color:"#FCC700", icon:"store" };
-    case "カプセルトイ": return { color:"#54C3F1", icon:"local_laundry_service" };
-    case "ゲームセンター": return { color:"#EB6D9A", icon:"sports_esports" };
+    case "カプセルトイ": return { color:"#54C3F1", icon:"masked_transitions" };
+    case "聖地": return { color:"#EB6D9A", icon:"attractions" };
     default: return { color:"black", icon:"place" };
   }
 
