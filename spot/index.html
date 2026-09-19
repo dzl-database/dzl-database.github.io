@@ -4570,6 +4570,37 @@ body{
   }
 
 }
+
+/* リンク1件 */
+
+.detail-store-item{
+  display:grid;
+
+  grid-template-columns:
+    100px
+    minmax(0,1fr)
+    22px;
+
+  align-items:center;
+
+  gap:6px;
+
+  min-height:42px;
+
+  padding:6px 10px;
+
+  box-sizing:border-box;
+
+  color:#222;
+
+  text-decoration:none;
+
+  font-size:13px;
+}
+
+.detail-store-item + .detail-store-item{
+  border-top:1px solid #eeeeee;
+}
    
 </style>
 </head>
@@ -7150,7 +7181,7 @@ function openDetail(data){
       storeHTML += `
 
         <a
-          class="detail-link-item"
+          class="detail-store-item"
           href="${escapeHtml(xUrl)}"
           target="_blank"
           rel="noopener noreferrer"
@@ -7188,7 +7219,7 @@ function openDetail(data){
         storeHTML += `
 
           <a
-            class="detail-link-item"
+            class="detail-store-item"
             href="${escapeHtml(storeOfficialSite)}"
             target="_blank"
             rel="noopener noreferrer"
@@ -7215,7 +7246,7 @@ function openDetail(data){
         // URL形式でない場合は、リンク化せず表示
         storeHTML += `
 
-          <div class="detail-link-item">
+          <div class="detail-store-item">
 
             <span class="detail-link-label">
               公式サイト
