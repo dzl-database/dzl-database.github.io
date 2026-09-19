@@ -7110,6 +7110,161 @@ function openDetail(data){
   }
 
 
+
+  // ====================================================
+  // 店舗情報
+  // ====================================================
+
+  const storeXAccount =
+    String(data["店舗Xアカウント"] || "").trim();
+
+  const storeOfficialSite =
+    String(data["店舗公式サイト"] || "").trim();
+
+  if(storeXAccount || storeOfficialSite){
+
+    const storeSection =
+      document.createElement("div");
+
+    storeSection.className =
+      "detail-section store-info-section";
+
+
+
+    let storeHTML = "";
+
+
+
+    // --------------------------------------------------
+    // Xアカウント
+    // --------------------------------------------------
+
+    if(storeXAccount){
+
+      const accountName =
+        storeXAccount.replace(/^@+/, "");
+
+      const xUrl =
+        `https://x.com/${encodeURIComponent(accountName)}`;
+
+      storeHTML += `
+
+        <a
+          class="detail-link-item"
+          href="${escapeHtml(xUrl)}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+
+          <span class="detail-link-label">
+            Xアカウント
+          </span>
+
+          <span class="detail-link-url">
+            ${escapeHtml(storeXAccount)}
+          </span>
+
+          <span class="material-symbols-outlined detail-link-arrow">
+            arrow_forward
+          </span>
+
+        </a>
+
+      `;
+
+    }
+
+
+
+    // --------------------------------------------------
+    // 店舗公式サイト
+    // --------------------------------------------------
+
+    if(storeOfficialSite){
+
+      // http / https のURLのみリンクとして扱う
+      if(/^https?:\/\//i.test(storeOfficialSite)){
+
+        storeHTML += `
+
+          <a
+            class="detail-link-item"
+            href="${escapeHtml(storeOfficialSite)}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+
+            <span class="detail-link-label">
+              公式サイト
+            </span>
+
+            <span class="detail-link-url">
+              ${escapeHtml(storeOfficialSite)}
+            </span>
+
+            <span class="material-symbols-outlined detail-link-arrow">
+              arrow_forward
+            </span>
+
+          </a>
+
+        `;
+
+      }else{
+
+        // URL形式でない場合は、リンク化せず表示
+        storeHTML += `
+
+          <div class="detail-link-item">
+
+            <span class="detail-link-label">
+              公式サイト
+            </span>
+
+            <span class="detail-link-url">
+              ${escapeHtml(storeOfficialSite)}
+            </span>
+
+          </div>
+
+        `;
+
+      }
+
+    }
+
+
+
+    storeSection.innerHTML = `
+
+      <!-- 店舗情報のタイトル -->
+      <div class="detail-section-title">
+
+        <span class="material-symbols-outlined">
+          store
+        </span>
+
+        店舗情報
+
+      </div>
+
+
+
+      <!-- 店舗情報カード -->
+      <div class="detail-links">
+        ${storeHTML}
+      </div>
+
+    `;
+
+
+
+    main.appendChild(storeSection);
+
+  }
+
+
+
   // ====================================================
   // 下部フォームボタン
   // ====================================================
