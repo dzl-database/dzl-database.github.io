@@ -5188,11 +5188,9 @@ body{
   color: #202328;
 
   /*
-   * パネル本体・開閉タブの位置は
+   * パネル本体・開閉タブは
    * left / right で個別に動かす。
    */
-  transform: none;
-
   pointer-events: none;
 }
 
@@ -5205,11 +5203,12 @@ body{
   position: relative;
 
   /*
-   * 通常時は画面左端にぴったり。
+   * 開いているときは画面左端にぴったり。
    */
   left: 0;
 
   width: 100%;
+
   max-height: calc(100vh - 108px);
 
   box-sizing: border-box;
@@ -5244,7 +5243,7 @@ body{
   scrollbar-color: #c7cbd0 transparent;
 
   /*
-   * 開閉はパネル本体の left だけを動かす。
+   * パネル本体を滑らかに開閉。
    */
   transition:
     left .32s cubic-bezier(.22,.8,.24,1);
@@ -5727,7 +5726,7 @@ body{
 
   /*
    * 開いているときは
-   * パネル右端の外側に配置。
+   * パネル右端の外側。
    */
   right: -34px;
 
@@ -5767,6 +5766,9 @@ body{
 
   -webkit-tap-highlight-color: transparent;
 
+  /*
+   * 開閉時のタブ移動を滑らかにする。
+   */
   transition:
     right .32s cubic-bezier(.22,.8,.24,1),
     background .18s ease,
@@ -5843,15 +5845,15 @@ body{
    閉じた状態
    ========================================================= */
 
-.spot-filter-panel.is-collapsed {
-
-  /*
-   * パネル本体を左へ34px移動。
-   *
-   * 本体そのものは非表示にしない。
-   */
-}
-
+/*
+ * パネル本体を左へ295px移動。
+ *
+ * width 286px + 画面内に残すタブ34px
+ * ではなく、実際の見た目に合わせて
+ * 本体を -295px まで移動する。
+ *
+ * パネル本体自体は非表示にしない。
+ */
 .spot-filter-panel.is-collapsed
 .spot-filter-panel-inner {
 
@@ -5859,13 +5861,15 @@ body{
 
 }
 
+
+/*
+ * 閉じたときは
+ * 開閉ボタンを画面左端へ移動。
+ */
 .spot-filter-panel.is-collapsed
 .spot-filter-panel-toggle {
 
-  /*
-   * 閉じたときは画面左端にぴったり配置。
-   */
-  left: 0px;
+  right: 0;
 
 }
 
@@ -5892,11 +5896,6 @@ body{
         100dvh - 96px
       );
 
-    /*
-     * スマホは初期状態を閉じる。
-     *
-     * 本体だけ34px左へ移動する。
-     */
   }
 
 
@@ -5908,9 +5907,9 @@ body{
       );
 
     /*
-     * スマホの初期状態は閉じた位置。
+     * スマホでは閉じた状態を初期位置にする。
      */
-    left: -34px;
+    left: -295px;
 
     border-radius:
       0 22px 22px 0;
@@ -5940,7 +5939,7 @@ body{
     top: 14px;
 
     /*
-     * 閉じた状態では画面左端。
+     * 閉じたときは画面左端。
      */
     right: 0;
 
@@ -5954,8 +5953,8 @@ body{
 
 
   /*
-   * スマホで開いたときだけ
-   * タブをパネル右側へ戻す。
+   * スマホで開いたときは
+   * パネル右側へ戻す。
    */
   .spot-filter-panel:not(.is-collapsed)
   .spot-filter-panel-toggle {
@@ -5979,7 +5978,7 @@ body{
   .spot-filter-panel.is-collapsed
   .spot-filter-panel-toggle {
 
-    left: 0;
+    right: 0;
 
   }
 
@@ -6017,7 +6016,7 @@ body{
   .spot-filter-panel-inner {
 
     left: -295px;
-  
+
   }
 
 
@@ -6038,7 +6037,7 @@ body{
   .spot-filter-panel.is-collapsed
   .spot-filter-panel-toggle {
 
-    left: 0;
+    right: 0;
 
   }
 
