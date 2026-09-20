@@ -8123,6 +8123,29 @@ body{
 </div>
   
 <script>
+function closeAllBottomNavModals() {
+  const modalIds = [
+    "searchNewModal",
+    "listModal",
+    "addModal",
+    "favoriteModal",
+    "modal",
+    "memoPostModal"
+  ];
+
+  modalIds.forEach(id => {
+    const modal = document.getElementById(id);
+    if (modal) {
+      modal.classList.remove("active");
+    }
+  });
+
+  // 現地メモ投稿の対象スポット情報もリセット
+  if (typeof currentMemoPostSpot !== "undefined") {
+    currentMemoPostSpot = null;
+  }
+}
+
 // ======================================================
 // 投稿フォーム入力履歴
 // ======================================================
@@ -8651,6 +8674,7 @@ function clearPostFormDraft(){
 }
 
 function openModal(){
+  closeAllBottomNavModals();
   document.getElementById("modal").classList.add("active");
 }
 
@@ -11512,6 +11536,8 @@ function toggleFavorite(spotId){
 
 function openFavoriteModal(){
 
+  closeAllBottomNavModals();
+
   const modal =
     document.getElementById("favoriteModal");
 
@@ -12152,6 +12178,8 @@ function getCategoryStyle(category){
 // ② 追加モーダル
 // =======================
 function openAddModal(){
+
+  closeAllBottomNavModals();
 
   openPostModal();
 
@@ -14356,6 +14384,8 @@ let currentListName = "";
 
 function openListModal() {
 
+  closeAllBottomNavModals();
+
   const modal =
     document.getElementById("listModal");
 
@@ -15309,6 +15339,8 @@ function deleteMemoDraft(
 // ======================================================
 
 function openMemoPostModal() {
+
+  closeAllBottomNavModals();
 
   const modal =
     document.getElementById("memoPostModal");
@@ -16272,6 +16304,8 @@ function initMemoDraftAutosave() {
    --------------------------------------------------------- */
 
 function openSearchNewModal() {
+
+  closeAllBottomNavModals();
 
   const modal =
     document.getElementById(
