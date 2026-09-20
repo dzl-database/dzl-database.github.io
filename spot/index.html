@@ -6022,6 +6022,80 @@ body{
 .leaflet-shadow-pane {
   visibility: hidden;
 }
+
+
+/* ======================================================
+   現地メモ投稿
+====================================================== */
+
+.memo-post-modal-content {
+  width: min(94vw, 570px);
+}
+
+
+.memo-post-spot-box {
+  margin-bottom: 20px;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  background: #f8f9fb;
+}
+
+
+.memo-post-spot-info {
+  margin-top: 12px;
+  padding-left: 32px;
+}
+
+
+.memo-post-spot-category {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+
+.memo-post-spot-category span {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: #eeeeee;
+  color: #555;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+.memo-post-spot-name {
+  color: #1d2024;
+  font-size: 18px;
+  font-weight: 750;
+  line-height: 1.5;
+}
+
+
+.memo-post-spot-address {
+  margin-top: 3px;
+  color: #70757d;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+
+.memo-post-modal textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+
+@media (max-width: 600px) {
+
+  .memo-post-modal-content {
+    width: calc(100vw - 20px);
+  }
+
+}
    
 </style>
 </head>
@@ -6990,6 +7064,265 @@ body{
   role="status"
   aria-live="polite"
 ></div>
+
+
+<!-- ======================================================
+     現地メモ投稿モーダル
+====================================================== -->
+
+<div
+  id="memoPostModal"
+  class="modal post-modal memo-post-modal"
+  onclick="closeMemoPostModal(event)"
+>
+
+  <div
+    class="modal-content post-modal-content memo-post-modal-content"
+    onclick="event.stopPropagation()"
+  >
+
+    <!-- ヘッダー -->
+    <div class="post-header">
+
+      <div class="post-title">
+
+        <span class="material-symbols-outlined">
+          edit_location
+        </span>
+
+        <div>
+          <h3>現地メモ 投稿</h3>
+          <p>現在の現地の状況をお知らせください</p>
+        </div>
+
+      </div>
+
+      <button
+        type="button"
+        class="post-close-btn"
+        onclick="closeMemoPostModal()"
+        aria-label="閉じる"
+      >
+        <span class="material-symbols-outlined">close</span>
+      </button>
+
+    </div>
+
+
+    <!-- フォーム -->
+    <form
+      id="memoPostForm"
+      class="post-form"
+      novalidate
+    >
+
+      <!-- ハニーポット -->
+      <div
+        class="post-honeypot"
+        aria-hidden="true"
+      >
+        <label>
+          会社名
+
+          <input
+            type="text"
+            id="memoPostWebsite"
+            name="website"
+            tabindex="-1"
+            autocomplete="off"
+          >
+
+        </label>
+      </div>
+
+
+      <!-- 投稿先スポット -->
+      <div class="memo-post-spot-box">
+
+        <div class="post-location-heading">
+
+          <span class="material-symbols-outlined">
+            location_on
+          </span>
+
+          <div>
+            <strong>投稿先スポット</strong>
+          </div>
+
+        </div>
+
+
+        <div class="memo-post-spot-info">
+
+          <div class="memo-post-spot-category">
+            <span id="memoPostCategory"></span>
+          </div>
+
+          <div
+            id="memoPostPlaceName"
+            class="memo-post-spot-name"
+          ></div>
+
+          <div
+            id="memoPostAddress"
+            class="memo-post-spot-address"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+      <!-- 現地メモ -->
+      <div class="post-field">
+
+        <label for="memoPostContent">
+
+          現地メモ
+
+          <span class="post-required">
+            必須
+          </span>
+
+        </label>
+
+
+        <textarea
+          id="memoPostContent"
+          maxlength="2000"
+          rows="7"
+          placeholder="現地の状況や在庫状況、開催状況などを入力してください"
+          required
+        ></textarea>
+
+
+        <p class="post-help">
+          投稿時の日付と時間が現地メモの投稿日時として自動記録・表示されます
+        </p>
+
+      </div>
+
+
+      <!-- 送信前の確認 -->
+
+      <div class="post-confirm-box">
+
+        <div class="post-confirm-title">
+
+          <span class="material-symbols-outlined">
+            fact_check
+          </span>
+
+          <strong>送信前のご確認</strong>
+
+          <span class="post-required">
+            必須
+          </span>
+
+        </div>
+
+
+        <p class="post-confirm-help">
+          以下の項目をすべて確認してから投稿してください。
+        </p>
+
+
+        <label class="post-confirm-item">
+
+          <input
+            type="checkbox"
+            id="memoConfirmPersonal"
+          >
+
+          <span>
+            個人情報は入力していません。
+          </span>
+
+        </label>
+
+
+        <label class="post-confirm-item">
+
+          <input
+            type="checkbox"
+            id="memoConfirmPrivate"
+          >
+
+          <span>
+            ドズル社関係者様のプライベートの目撃情報の投稿ではありません。
+          </span>
+
+        </label>
+
+
+        <label class="post-confirm-item">
+
+          <input
+            type="checkbox"
+            id="memoConfirmUnrelated"
+          >
+
+          <span>
+            ドズル社に関係ない情報、不確かな情報、嘘の情報ではありません。
+          </span>
+
+        </label>
+
+
+        <label class="post-confirm-item">
+
+          <input
+            type="checkbox"
+            id="memoConfirmTrouble"
+          >
+
+          <span>
+            だれかの迷惑になる投稿ではありません。
+          </span>
+
+        </label>
+
+      </div>
+
+
+      <!-- 状態 -->
+      <div
+        id="memoPostFormStatus"
+        class="post-form-status"
+        role="status"
+        aria-live="polite"
+      ></div>
+
+
+      <!-- 送信 -->
+      <button
+        type="submit"
+        id="memoPostSubmitButton"
+        class="post-submit-btn"
+      >
+        <span class="material-symbols-outlined">
+          send
+        </span>
+
+        現地メモを投稿する
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<!-- 現地メモ投稿通知 -->
+
+<div
+  id="memoPostToast"
+  class="post-toast"
+  role="status"
+  aria-live="polite"
+></div>
+
 
 <!-- ===== 検索モーダル ===== -->
 <div id="searchModal" class="modal" onclick="closeSearchModal(event)">
@@ -9096,6 +9429,8 @@ loadSpotData()
 
 function openDetail(data){
 
+  window.currentDetailSpot = data;
+
   const panel = document.getElementById("detailBody");
   panel.innerHTML = "";
 
@@ -9429,13 +9764,12 @@ function openDetail(data){
       </span>
 
       <button
+        type="button"
         class="memo-post-small"
-        onclick="futureFeature('最新の状況を投稿')"
+        onclick="openMemoPostModal()"
       >
         最新の状況を投稿する
-        <span class="material-symbols-outlined">
-          add
-        </span>
+        <span class="material-symbols-outlined">add</span>
       </button>
 
     </div>
@@ -9688,10 +10022,10 @@ function openDetail(data){
 
   formButtons.innerHTML = `
 
-    <!-- 今後実装 -->
     <button
+      type="button"
       class="detail-big-btn"
-      onclick="futureFeature('現地メモ 投稿')"
+      onclick="openMemoPostModal()"
     >
       現地メモ 投稿
     </button>
@@ -12208,6 +12542,18 @@ document.addEventListener(
       }
     );
 
+    const memoPostForm =
+      document.getElementById("memoPostForm");
+
+    if (memoPostForm) {
+
+      memoPostForm.addEventListener(
+        "submit",
+        handleMemoPostSubmit
+      );
+
+    }
+
   }
 );
 
@@ -14014,6 +14360,743 @@ function openSpotFromList(spot) {
     },
     100
   );
+
+}
+
+
+// ======================================================
+// 現地メモ投稿
+// ======================================================
+
+// 現地メモ専用GAS
+const MEMO_GAS_WEB_APP_URL =
+  "https://script.google.com/macros/s/AKfycbzd0TyGxPrusfPD12uwsbenMa9hI2MPjR52r5nxIRGFNRSgc4XSybd6wzJD0nvync6O/exec";
+
+
+// 現在投稿しようとしているスポット
+let currentMemoPostSpot = null;
+
+
+// ======================================================
+// 現地メモ投稿モーダルを開く
+// ======================================================
+
+function openMemoPostModal() {
+
+  const modal =
+    document.getElementById("memoPostModal");
+
+  if (!modal) return;
+
+
+  const spot =
+    window.currentDetailSpot || null;
+
+
+  if (!spot) {
+
+    showMemoPostToast(
+      "投稿するスポットを取得できませんでした。"
+    );
+
+    return;
+
+  }
+
+
+  const spotId =
+    String(
+      spot["スポットID"] || ""
+    ).trim();
+
+
+  if (!spotId) {
+
+    showMemoPostToast(
+      "スポットIDを取得できませんでした。"
+    );
+
+    return;
+
+  }
+
+
+  currentMemoPostSpot = spot;
+
+
+  const categoryElement =
+    document.getElementById(
+      "memoPostCategory"
+    );
+
+  const placeNameElement =
+    document.getElementById(
+      "memoPostPlaceName"
+    );
+
+  const addressElement =
+    document.getElementById(
+      "memoPostAddress"
+    );
+
+
+  if (categoryElement) {
+
+    categoryElement.textContent =
+      String(
+        spot["カテゴリ"] || "その他"
+      ).trim();
+
+  }
+
+
+  if (placeNameElement) {
+
+    placeNameElement.textContent =
+      String(
+        spot["場所名"] || ""
+      ).trim();
+
+  }
+
+
+  if (addressElement) {
+
+    addressElement.textContent =
+      String(
+        spot["住所"] || ""
+      ).trim();
+
+  }
+
+
+  resetMemoPostForm();
+
+
+  // reset後にも表示を確実にセット
+  if (categoryElement) {
+    categoryElement.textContent =
+      String(spot["カテゴリ"] || "その他").trim();
+  }
+
+  if (placeNameElement) {
+    placeNameElement.textContent =
+      String(spot["場所名"] || "").trim();
+  }
+
+  if (addressElement) {
+    addressElement.textContent =
+      String(spot["住所"] || "").trim();
+  }
+
+
+  modal.classList.add("active");
+
+
+  requestAnimationFrame(() => {
+
+    document
+      .getElementById("memoPostContent")
+      ?.focus();
+
+  });
+
+}
+
+
+// ======================================================
+// 閉じる
+// ======================================================
+
+function closeMemoPostModal(event) {
+
+  if (
+    event &&
+    event.target !== event.currentTarget
+  ) {
+    return;
+  }
+
+
+  const modal =
+    document.getElementById(
+      "memoPostModal"
+    );
+
+
+  if (!modal) return;
+
+
+  modal.classList.remove("active");
+
+  currentMemoPostSpot = null;
+
+}
+
+
+// ======================================================
+// フォームリセット
+// ======================================================
+
+function resetMemoPostForm() {
+
+  const form =
+    document.getElementById(
+      "memoPostForm"
+    );
+
+
+  if (form) {
+    form.reset();
+  }
+
+
+  const status =
+    document.getElementById(
+      "memoPostFormStatus"
+    );
+
+
+  if (status) {
+
+    status.textContent = "";
+
+    status.className =
+      "post-form-status";
+
+  }
+
+
+  const confirmBox =
+    document.querySelector(
+      "#memoPostModal .post-confirm-box"
+    );
+
+
+  if (confirmBox) {
+
+    confirmBox.classList.remove(
+      "confirm-error"
+    );
+
+  }
+
+
+  const button =
+    document.getElementById(
+      "memoPostSubmitButton"
+    );
+
+
+  if (button) {
+
+    button.disabled = false;
+
+  }
+
+}
+
+
+// ======================================================
+// ステータス表示
+// ======================================================
+
+function setMemoPostFormStatus(
+  message,
+  type = ""
+) {
+
+  const element =
+    document.getElementById(
+      "memoPostFormStatus"
+    );
+
+
+  if (!element) return;
+
+
+  element.textContent = message;
+
+  element.className =
+    "post-form-status";
+
+
+  if (type) {
+
+    element.classList.add(type);
+
+  }
+
+}
+
+
+// ======================================================
+// GASへ送信
+// ======================================================
+
+async function postMemoToGas(payload) {
+
+  if (
+    !MEMO_GAS_WEB_APP_URL ||
+    MEMO_GAS_WEB_APP_URL.includes(
+      "ここに現地メモ用GAS"
+    )
+  ) {
+
+    throw new Error(
+      "現地メモ用GASのURLが設定されていません。"
+    );
+
+  }
+
+
+  const response =
+    await fetch(
+      MEMO_GAS_WEB_APP_URL,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "text/plain;charset=utf-8"
+        },
+
+        body: JSON.stringify(payload)
+      }
+    );
+
+
+  if (!response.ok) {
+
+    throw new Error(
+      "GASとの通信に失敗しました。"
+    );
+
+  }
+
+
+  let result;
+
+  try {
+
+    result =
+      await response.json();
+
+  } catch (error) {
+
+    throw new Error(
+      "GASから正しい応答を受け取れませんでした。"
+    );
+
+  }
+
+
+  return result;
+
+}
+
+
+// ======================================================
+// 送信
+// ======================================================
+
+async function handleMemoPostSubmit(event) {
+
+  event.preventDefault();
+
+
+  setMemoPostFormStatus(
+    "",
+    ""
+  );
+
+
+  const spot =
+    currentMemoPostSpot;
+
+
+  if (!spot) {
+
+    setMemoPostFormStatus(
+      "投稿するスポットを取得できませんでした。",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const spotId =
+    String(
+      spot["スポットID"] || ""
+    ).trim();
+
+
+  const memoContent =
+    document
+      .getElementById(
+        "memoPostContent"
+      )
+      ?.value
+      .trim() || "";
+
+
+  const website =
+    document
+      .getElementById(
+        "memoPostWebsite"
+      )
+      ?.value
+      .trim() || "";
+
+
+  // -----------------------------------------------
+  // 入力チェック
+  // -----------------------------------------------
+
+  if (!spotId) {
+
+    setMemoPostFormStatus(
+      "スポットIDを取得できませんでした。",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if (!memoContent) {
+
+    setMemoPostFormStatus(
+      "現地メモを入力してください。",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  // -----------------------------------------------
+  // ハニーポット
+  // -----------------------------------------------
+
+  if (website) {
+
+    setMemoPostFormStatus(
+      "投稿を処理できませんでした。",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  // -----------------------------------------------
+  // 確認4項目
+  // -----------------------------------------------
+
+  const confirmItems = [
+
+    document.getElementById(
+      "memoConfirmPersonal"
+    ),
+
+    document.getElementById(
+      "memoConfirmPrivate"
+    ),
+
+    document.getElementById(
+      "memoConfirmUnrelated"
+    ),
+
+    document.getElementById(
+      "memoConfirmTrouble"
+    )
+
+  ];
+
+
+  const allConfirmed =
+    confirmItems.every(
+      checkbox =>
+        checkbox &&
+        checkbox.checked
+    );
+
+
+  if (!allConfirmed) {
+
+    const confirmBox =
+      document.querySelector(
+        "#memoPostModal .post-confirm-box"
+      );
+
+
+    if (confirmBox) {
+
+      confirmBox.classList.add(
+        "confirm-error"
+      );
+
+    }
+
+
+    setMemoPostFormStatus(
+      "確認項目をすべて確認してください。",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const confirmBox =
+    document.querySelector(
+      "#memoPostModal .post-confirm-box"
+    );
+
+
+  if (confirmBox) {
+
+    confirmBox.classList.remove(
+      "confirm-error"
+    );
+
+  }
+
+
+  // -----------------------------------------------
+  // 送信
+  // -----------------------------------------------
+
+  const button =
+    document.getElementById(
+      "memoPostSubmitButton"
+    );
+
+
+  if (button) {
+
+    button.disabled = true;
+
+  }
+
+
+  setMemoPostFormStatus(
+    "現地メモを送信しています…",
+    "loading"
+  );
+
+
+  try {
+
+    const result =
+      await postMemoToGas({
+
+        action: "submitMemo",
+
+        spotId: spotId,
+
+        memoContent: memoContent,
+
+        website: website,
+
+        confirmations: {
+
+          noPersonalInfo:
+            document.getElementById(
+              "memoConfirmPersonal"
+            ).checked,
+
+          noPrivateSightings:
+            document.getElementById(
+              "memoConfirmPrivate"
+            ).checked,
+
+          relatedInfo:
+            document.getElementById(
+              "memoConfirmUnrelated"
+            ).checked,
+
+          noTrouble:
+            document.getElementById(
+              "memoConfirmTrouble"
+            ).checked
+
+        }
+
+      });
+
+
+    if (
+      !result ||
+      !result.success
+    ) {
+
+      setMemoPostFormStatus(
+        result?.message ||
+        "投稿に失敗しました。時間をおいてもう一度お試しください。",
+        "error"
+      );
+
+
+      if (button) {
+        button.disabled = false;
+      }
+
+
+      return;
+
+    }
+
+
+    // -----------------------------------------------
+    // 成功
+    // -----------------------------------------------
+
+    setMemoPostFormStatus(
+      "投稿しました。",
+      "success"
+    );
+
+
+    // フォームを閉じる
+    setTimeout(() => {
+
+      const modal =
+        document.getElementById(
+          "memoPostModal"
+        );
+
+
+      if (modal) {
+        modal.classList.remove("active");
+      }
+
+
+      resetMemoPostForm();
+
+
+      // 現在表示している詳細パネルを更新
+      reloadCurrentMemoSpot(
+        result
+      );
+
+
+      showMemoPostToast(
+        "現地メモを投稿しました。ご協力ありがとうございます！"
+      );
+
+
+    }, 500);
+
+
+  } catch (error) {
+
+    console.error(
+      "現地メモ投稿エラー:",
+      error
+    );
+
+
+    setMemoPostFormStatus(
+      "通信に失敗しました。時間をおいてもう一度お試しください。",
+      "error"
+    );
+
+
+    if (button) {
+
+      button.disabled = false;
+
+    }
+
+  }
+
+}
+
+
+// ======================================================
+// 投稿後にスポット情報を再読み込み
+// ======================================================
+
+async function reloadCurrentMemoSpot(result) {
+
+  const spotId =
+    String(
+      result?.data?.spotId ||
+      currentMemoPostSpot?.["スポットID"] ||
+      ""
+    ).trim();
+
+
+  if (!spotId) return;
+
+
+  try {
+
+    await loadSpotData();
+
+
+    const target =
+      markers.find(
+        obj =>
+          String(
+            obj.data["スポットID"] || ""
+          ) === spotId
+      );
+
+
+    if (target) {
+
+      openDetail(
+        target.data
+      );
+
+    }
+
+  } catch (error) {
+
+    console.warn(
+      "現地メモ投稿後の再読み込みに失敗:",
+      error
+    );
+
+  }
+
+}
+
+
+// ======================================================
+// 通知
+// ======================================================
+
+function showMemoPostToast(message) {
+
+  const toast =
+    document.getElementById(
+      "memoPostToast"
+    );
+
+
+  if (!toast) return;
+
+
+  toast.textContent = message;
+
+  toast.classList.add("show");
+
+
+  setTimeout(() => {
+
+    toast.classList.remove("show");
+
+  }, 5000);
 
 }
    
