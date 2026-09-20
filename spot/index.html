@@ -7175,6 +7175,115 @@ body{
   font-size: 12px;
   line-height: 1.7;
 }
+
+/* ======================================================
+   住所から場所を取得
+====================================================== */
+
+.post-address-modal {
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 1400;
+}
+
+.post-address-modal-content {
+  width: min(92vw, 440px);
+  max-height: calc(100dvh - 80px);
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 20px 60px rgba(0,0,0,.22);
+}
+
+.post-address-modal-body {
+  margin-top: 18px;
+}
+
+.post-address-modal-body > label {
+  display: block;
+  margin-bottom: 7px;
+  color: #3f4348;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+#postAddressInput {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #dfe2e6;
+  border-radius: 9px;
+  box-sizing: border-box;
+  background: #fff;
+  color: #222;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+#postAddressInput:focus {
+  border-color: #8aaee8;
+  box-shadow: 0 0 0 3px rgba(74,144,226,.10);
+}
+
+.post-address-modal-body .post-help {
+  margin: 8px 0 0;
+}
+
+.post-address-geocode-result {
+  min-height: 20px;
+  margin: 14px 0;
+  color: #666c73;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.post-address-geocode-result.loading {
+  color: #4a90e2;
+}
+
+.post-address-geocode-result.success {
+  color: #1baa61;
+}
+
+.post-address-geocode-result.error {
+  color: #d84d5b;
+}
+
+#postAddressGeocodeButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+#postAddressGeocodeButton:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+#postAddressGeocodeButton .material-symbols-outlined {
+  font-size: 20px;
+}
+
+@media(max-width:600px) {
+
+  .post-address-modal {
+    padding: 12px;
+  }
+
+  .post-address-modal-content {
+    width: calc(100vw - 24px);
+    padding: 17px;
+    border-radius: 15px;
+  }
+
+}
    
 </style>
 </head>
@@ -8128,14 +8237,16 @@ body{
 
         <div class="post-location-external-form">
 
-          <a
-            href="ADRESS_FORM_LINK"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
             class="post-location-external-link"
+            onclick="openPostAddressModal()"
           >
+            <span class="material-symbols-outlined">
+              search
+            </span>
             マップ上で場所を見つけられない場合
-          </a>
+          </button>
 
         </div>
 
@@ -8381,6 +8492,88 @@ body{
         onclick="confirmPostMapLocation()"
       >
         この場所を選択
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ===== 住所から場所を取得モーダル ===== -->
+<div
+  id="postAddressModal"
+  class="modal post-address-modal"
+  onclick="closePostAddressModal(event)"
+>
+
+  <div
+    class="modal-content post-address-modal-content"
+    onclick="event.stopPropagation()"
+  >
+
+    <!-- ヘッダー -->
+    <div class="post-picker-header">
+
+      <div>
+        <strong>住所から場所を取得</strong>
+        <p>住所を入力すると緯度・経度を自動取得できます</p>
+      </div>
+
+      <button
+        type="button"
+        onclick="closePostAddressModal()"
+        class="post-close-btn"
+        aria-label="閉じる"
+      >
+        <span class="material-symbols-outlined">
+          close
+        </span>
+      </button>
+
+    </div>
+
+
+    <!-- 住所入力 -->
+    <div class="post-address-modal-body">
+
+      <label for="postAddressInput">
+        住所
+        <span class="post-required">必須</span>
+      </label>
+
+      <input
+        type="text"
+        id="postAddressInput"
+        maxlength="200"
+        placeholder="例：東京都渋谷区〇〇1-2-3"
+        autocomplete="street-address"
+      >
+
+      <p class="post-help">
+        建物名や店舗名なども含めて、できるだけ詳しい住所を入力してください。
+      </p>
+
+
+      <!-- 結果 -->
+      <div
+        id="postAddressGeocodeResult"
+        class="post-address-geocode-result"
+        aria-live="polite"
+      ></div>
+
+
+      <!-- ボタン -->
+      <button
+        type="button"
+        id="postAddressGeocodeButton"
+        class="post-picker-confirm-btn"
+        onclick="requestPostAddressFromInput()"
+      >
+        <span class="material-symbols-outlined">
+          location_searching
+        </span>
+        緯度・経度自動取得
       </button>
 
     </div>
@@ -13883,6 +14076,363 @@ async function requestPostAddress(
 
 
 // ======================================================
+// 住所入力モーダル
+// ======================================================
+
+function openPostAddressModal() {
+
+  const modal =
+    document.getElementById("postAddressModal");
+
+  if (!modal) return;
+
+  modal.classList.add("active");
+
+
+  const input =
+    document.getElementById("postAddressInput");
+
+  const result =
+    document.getElementById(
+      "postAddressGeocodeResult"
+    );
+
+
+  // 現在の住所があれば初期値として表示
+  const currentAddress =
+    document.getElementById("postAddress")
+      ?.textContent
+      .trim() || "";
+
+  if (input) {
+
+    if (!input.value.trim() && currentAddress) {
+      input.value = currentAddress;
+    }
+
+    setTimeout(() => {
+      input.focus();
+      input.select();
+    }, 50);
+
+  }
+
+
+  if (result) {
+
+    result.textContent = "";
+    result.className =
+      "post-address-geocode-result";
+
+  }
+
+}
+
+
+// ======================================================
+// 住所入力モーダルを閉じる
+// ======================================================
+
+function closePostAddressModal(e) {
+
+  if (
+    !e ||
+    e.target === e.currentTarget
+  ) {
+
+    const modal =
+      document.getElementById(
+        "postAddressModal"
+      );
+
+    if (modal) {
+      modal.classList.remove("active");
+    }
+
+  }
+
+}
+
+// ======================================================
+// 入力した住所から緯度・経度を取得
+// ======================================================
+
+async function requestPostAddressFromInput() {
+
+  const input =
+    document.getElementById(
+      "postAddressInput"
+    );
+
+  const resultBox =
+    document.getElementById(
+      "postAddressGeocodeResult"
+    );
+
+  const button =
+    document.getElementById(
+      "postAddressGeocodeButton"
+    );
+
+
+  if (!input) return;
+
+
+  const address =
+    input.value.trim();
+
+
+  // ----------------------------------------------
+  // 入力チェック
+  // ----------------------------------------------
+
+  if (!address) {
+
+    if (resultBox) {
+
+      resultBox.textContent =
+        "住所を入力してください。";
+
+      resultBox.className =
+        "post-address-geocode-result error";
+
+    }
+
+    input.focus();
+
+    return;
+
+  }
+
+
+  // ----------------------------------------------
+  // 処理中
+  // ----------------------------------------------
+
+  if (button) {
+    button.disabled = true;
+  }
+
+
+  if (resultBox) {
+
+    resultBox.textContent =
+      "住所から緯度・経度を取得しています…";
+
+    resultBox.className =
+      "post-address-geocode-result loading";
+
+  }
+
+
+  try {
+
+    const response =
+      await postToGas({
+
+        action: "geocodeAddress",
+
+        address: address
+
+      });
+
+
+    // --------------------------------------------
+    // 取得失敗
+    // --------------------------------------------
+
+    if (
+      !response ||
+      !response.success ||
+      !response.data
+    ) {
+
+      if (resultBox) {
+
+        resultBox.textContent =
+          response?.message ||
+          "住所から場所を取得できませんでした。住所を確認してもう一度お試しください。";
+
+        resultBox.className =
+          "post-address-geocode-result error";
+
+      }
+
+      return;
+
+    }
+
+
+    const lat =
+      parseFloat(
+        response.data.lat
+      );
+
+    const lng =
+      parseFloat(
+        response.data.lng
+      );
+
+
+    if (
+      !Number.isFinite(lat) ||
+      !Number.isFinite(lng)
+    ) {
+
+      throw new Error(
+        "取得した座標が正しくありません。"
+      );
+
+    }
+
+
+    // --------------------------------------------
+    // 投稿フォーム側の位置情報として設定
+    // --------------------------------------------
+
+    selectedPostLat = lat;
+    selectedPostLng = lng;
+
+
+    // --------------------------------------------
+    // 住所を投稿フォームへ反映
+    // --------------------------------------------
+
+    const addressDisplay =
+      document.getElementById(
+        "postAddress"
+      );
+
+    if (addressDisplay) {
+
+      addressDisplay.textContent =
+        response.data.address ||
+        address;
+
+    }
+
+
+    const addressNote =
+      document.getElementById(
+        "postAddressNote"
+      );
+
+    if (addressNote) {
+
+      addressNote.textContent =
+        "住所から緯度・経度を自動取得しました。";
+
+    }
+
+
+    // --------------------------------------------
+    // 場所の概要を更新
+    // --------------------------------------------
+
+    const summary =
+      document.getElementById(
+        "postLocationSummary"
+      );
+
+    if (summary) {
+
+      summary.textContent =
+        `選択地点：${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+
+      summary.classList.add("selected");
+
+    }
+
+
+    // --------------------------------------------
+    // 投稿マップ側にも反映
+    // --------------------------------------------
+
+    if (postPickerMap) {
+
+      setPostPickerMarker(
+        lat,
+        lng
+      );
+
+      postPickerMap.setView(
+        [lat, lng],
+        16
+      );
+
+    }
+
+
+    // --------------------------------------------
+    // 下書き保存
+    // --------------------------------------------
+
+    savePostFormDraft();
+
+
+    // --------------------------------------------
+    // 成功表示
+    // --------------------------------------------
+
+    if (resultBox) {
+
+      resultBox.textContent =
+        `場所を取得しました（緯度 ${lat.toFixed(6)} / 経度 ${lng.toFixed(6)}）`;
+
+      resultBox.className =
+        "post-address-geocode-result success";
+
+    }
+
+
+    // --------------------------------------------
+    // 少し待って元のフォームへ戻る
+    // --------------------------------------------
+
+    setTimeout(() => {
+
+      const modal =
+        document.getElementById(
+          "postAddressModal"
+        );
+
+      if (modal) {
+        modal.classList.remove("active");
+      }
+
+    }, 500);
+
+
+  } catch(error) {
+
+    console.error(
+      "住所から座標取得エラー:",
+      error
+    );
+
+
+    if (resultBox) {
+
+      resultBox.textContent =
+        "住所から場所を取得できませんでした。時間をおいてもう一度お試しください。";
+
+      resultBox.className =
+        "post-address-geocode-result error";
+
+    }
+
+  } finally {
+
+    if (button) {
+      button.disabled = false;
+    }
+
+  }
+
+}
+
+
+// ======================================================
 // 投稿フォーム送信
 // ======================================================
 
@@ -13937,6 +14487,30 @@ document.addEventListener(
       memoPostForm.addEventListener(
         "submit",
         handleMemoPostSubmit
+      );
+
+    }
+
+    const postAddressInput =
+      document.getElementById(
+        "postAddressInput"
+      );
+
+    if (postAddressInput) {
+
+      postAddressInput.addEventListener(
+        "keydown",
+        event => {
+
+          if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            requestPostAddressFromInput();
+
+          }
+
+        }
       );
 
     }
@@ -14119,7 +14693,7 @@ async function handleSpotPostSubmit(
   ){
 
     setPostFormStatus(
-      "スポットの位置情報を取得してください。マップから場所を選択してください。",
+      "スポットの位置情報を取得してください。マップから場所を選択するか、住所から緯度・経度を取得してください。",
       "error"
     );
 
@@ -14136,7 +14710,7 @@ async function handleSpotPostSubmit(
   if(!address){
 
     setPostFormStatus(
-      "スポットの住所を取得できていません。マップから場所を選択してください。",
+      "スポットの住所を入力・取得してください。",
       "error"
     );
 
