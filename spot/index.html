@@ -12554,6 +12554,8 @@ document.addEventListener(
 
     }
 
+    initMemoDraftAutosave();
+
   }
 );
 
@@ -14378,6 +14380,197 @@ let currentMemoPostSpot = null;
 
 
 // ======================================================
+// 現地メモ入力履歴
+// ======================================================
+
+const MEMO_DRAFT_STORAGE_KEY =
+  "dzlSpotMemoDrafts";
+
+
+// -----------------------------------------------
+// 保存されている下書きを取得
+// -----------------------------------------------
+
+function getMemoDrafts() {
+
+  try {
+
+    const saved =
+      localStorage.getItem(
+        MEMO_DRAFT_STORAGE_KEY
+      );
+
+    if (!saved) {
+      return {};
+    }
+
+
+    const drafts =
+      JSON.parse(saved);
+
+
+    if (
+      !drafts ||
+      typeof drafts !== "object" ||
+      Array.isArray(drafts)
+    ) {
+
+      return {};
+
+    }
+
+
+    return drafts;
+
+  } catch (error) {
+
+    console.warn(
+      "現地メモ入力履歴の読み込みに失敗:",
+      error
+    );
+
+    return {};
+
+  }
+
+}
+
+
+// -----------------------------------------------
+// 下書きを保存
+// -----------------------------------------------
+
+function saveMemoDraft(
+  spotId,
+  content
+) {
+
+  const id =
+    String(
+      spotId || ""
+    ).trim();
+
+
+  if (!id) return;
+
+
+  try {
+
+    const drafts =
+      getMemoDrafts();
+
+
+    const text =
+      String(
+        content || ""
+      );
+
+
+    // 空になった場合は保存データから削除
+    if (!text) {
+
+      delete drafts[id];
+
+    } else {
+
+      drafts[id] = text;
+
+    }
+
+
+    localStorage.setItem(
+      MEMO_DRAFT_STORAGE_KEY,
+      JSON.stringify(drafts)
+    );
+
+
+  } catch (error) {
+
+    console.warn(
+      "現地メモ入力履歴の保存に失敗:",
+      error
+    );
+
+  }
+
+}
+
+
+// -----------------------------------------------
+// 下書きを取得
+// -----------------------------------------------
+
+function getMemoDraft(
+  spotId
+) {
+
+  const id =
+    String(
+      spotId || ""
+    ).trim();
+
+
+  if (!id) {
+    return "";
+  }
+
+
+  const drafts =
+    getMemoDrafts();
+
+
+  return String(
+    drafts[id] || ""
+  );
+
+}
+
+
+// -----------------------------------------------
+// 投稿成功したスポットの下書きを削除
+// -----------------------------------------------
+
+function deleteMemoDraft(
+  spotId
+) {
+
+  const id =
+    String(
+      spotId || ""
+    ).trim();
+
+
+  if (!id) return;
+
+
+  try {
+
+    const drafts =
+      getMemoDrafts();
+
+
+    delete drafts[id];
+
+
+    localStorage.setItem(
+      MEMO_DRAFT_STORAGE_KEY,
+      JSON.stringify(drafts)
+    );
+
+
+  } catch (error) {
+
+    console.warn(
+      "現地メモ入力履歴の削除に失敗:",
+      error
+    );
+
+  }
+
+}
+
+
+// ======================================================
 // 現地メモ投稿モーダルを開く
 // ======================================================
 
@@ -14471,6 +14664,24 @@ function openMemoPostModal() {
 
 
   resetMemoPostForm();
+
+
+  // -----------------------------------------------
+  // スポットごとの入力履歴を復元
+  // -----------------------------------------------
+
+  const memoContentElement =
+    document.getElementById(
+      "memoPostContent"
+    );
+
+
+  if (memoContentElement) {
+
+    memoContentElement.value =
+      getMemoDraft(spotId);
+
+  }
 
 
   // reset後にも表示を確実にセット
@@ -14964,6 +15175,10 @@ async function handleMemoPostSubmit(event) {
       "success"
     );
 
+    deleteMemoDraft(
+      spotId
+    );
+
 
     // フォームを閉じる
     setTimeout(() => {
@@ -15264,6 +15479,51 @@ function showMemoPostToast(message) {
     toast.classList.remove("show");
 
   }, 5000);
+
+}
+
+// ======================================================
+// 現地メモ入力履歴の自動保存
+// ======================================================
+
+function initMemoDraftAutosave() {
+
+  const textarea =
+    document.getElementById(
+      "memoPostContent"
+    );
+
+
+  if (!textarea) return;
+
+
+  textarea.addEventListener(
+    "input",
+    () => {
+
+      const spot =
+        currentMemoPostSpot;
+
+
+      if (!spot) return;
+
+
+      const spotId =
+        String(
+          spot["スポットID"] || ""
+        ).trim();
+
+
+      if (!spotId) return;
+
+
+      saveMemoDraft(
+        spotId,
+        textarea.value
+      );
+
+    }
+  );
 
 }
    
