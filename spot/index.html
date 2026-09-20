@@ -14984,7 +14984,8 @@ async function handleMemoPostSubmit(event) {
 
       // 現在表示している詳細パネルを更新
       reloadCurrentMemoSpot(
-        result
+        result,
+        memoContent
       );
 
 
@@ -15025,7 +15026,7 @@ async function handleMemoPostSubmit(event) {
 // 投稿後にスポット情報を再読み込み
 // ======================================================
 
-async function reloadCurrentMemoSpot(result) {
+async function reloadCurrentMemoSpot(result, expectedMemoContent) {
 
   const spotId =
     String(
@@ -15038,36 +15039,202 @@ async function reloadCurrentMemoSpot(result) {
   if (!spotId) return;
 
 
-  try {
-
-    await loadSpotData();
-
-
-    const target =
-      markers.find(
-        obj =>
-          String(
-            obj.data["スポットID"] || ""
-          ) === spotId
-      );
+  const memoSlot =
+    Number(
+      result?.data?.memoSlot || 0
+    );
 
 
-    if (target) {
+  const expectedContent =
+    String(
+      expectedMemoContent || ""
+    ).trim();
 
-      openDetail(
-        target.data
+
+  // -----------------------------------------------
+  // 詳細パネルが現在開いているか
+  // -----------------------------------------------
+
+  const detailPanel =
+    document.getElementById("detailPanel");
+
+  const detailIsOpen =
+    detailPanel &&
+    detailPanel.classList.contains("active");
+
+
+  const currentDetailSpotId =
+    String(
+      window.currentDetailSpot?.["スポットID"] || ""
+    ).trim();
+
+
+  const isCurrentDetailSpot =
+    detailIsOpen &&
+    currentDetailSpotId === spotId;
+
+
+  // -----------------------------------------------
+  // CSVが最新になるまで再取得
+  // -----------------------------------------------
+
+  const maxAttempts = 5;
+
+  const waitTimes = [
+    1000,
+    1500,
+    2000,
+    2500,
+    3000
+  ];
+
+
+  let latestSpot = null;
+
+
+  for (
+    let attempt = 0;
+    attempt < maxAttempts;
+    attempt++
+  ) {
+
+    try {
+
+      const newDataList =
+        await loadSpotData();
+
+
+      const target =
+        newDataList.find(
+          item =>
+            String(
+              item["スポットID"] || ""
+            ).trim() === spotId
+        );
+
+
+      if (target) {
+
+        latestSpot = target;
+
+
+        // -----------------------------------------
+        // 投稿したメモがCSVに反映されたか確認
+        // -----------------------------------------
+
+        if (
+          memoSlot > 0 &&
+          expectedContent
+        ) {
+
+          const memoKey =
+            "現地メモ内容-" +
+            memoSlot;
+
+
+          const csvMemoContent =
+            String(
+              target[memoKey] || ""
+            ).trim();
+
+
+          if (
+            csvMemoContent === expectedContent
+          ) {
+
+            console.log(
+              "現地メモのCSV反映を確認しました。",
+              {
+                attempt: attempt + 1,
+                memoSlot: memoSlot
+              }
+            );
+
+            break;
+
+          }
+
+
+          console.log(
+            "CSVがまだ最新ではありません。再取得します。",
+            {
+              attempt: attempt + 1,
+              memoSlot: memoSlot
+            }
+          );
+
+        } else {
+
+          break;
+
+        }
+
+      }
+
+
+    } catch (error) {
+
+      console.warn(
+        "現地メモ投稿後のCSV再取得エラー:",
+        error
       );
 
     }
 
-  } catch (error) {
 
-    console.warn(
-      "現地メモ投稿後の再読み込みに失敗:",
-      error
+    // ---------------------------------------------
+    // 次の取得まで少し待つ
+    // ---------------------------------------------
+
+    if (
+      attempt <
+      maxAttempts - 1
+    ) {
+
+      await new Promise(
+        resolve =>
+          setTimeout(
+            resolve,
+            waitTimes[attempt]
+          )
+      );
+
+    }
+
+  }
+
+
+  // -----------------------------------------------
+  // 詳細パネルを更新
+  // -----------------------------------------------
+
+  if (
+    latestSpot &&
+    isCurrentDetailSpot
+  ) {
+
+    // 最新データを現在の詳細スポットとして保持
+    window.currentDetailSpot =
+      latestSpot;
+
+
+    // 詳細パネルを再描画
+    openDetail(
+      latestSpot
     );
 
   }
+
+
+  // -----------------------------------------------
+  // それ以外の場合
+  // -----------------------------------------------
+  //
+  // 詳細パネルを開いていなかった場合は、
+  // マーカーとCSVデータだけ最新状態にして終了。
+  //
+
+  return latestSpot;
 
 }
 
