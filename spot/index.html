@@ -8124,26 +8124,17 @@ body{
   
 <script>
 function closeAllBottomNavModals() {
-  const modalIds = [
-    "searchNewModal",
-    "listModal",
-    "PostModal",
-    "favoriteModal",
-    "modal",
-    "memoPostModal"
-  ];
 
-  modalIds.forEach(id => {
-    const modal = document.getElementById(id);
-    if (modal) {
-      modal.classList.remove("active");
-    }
+  // 現在開いているモーダルをすべて閉じる
+  document.querySelectorAll(".modal.active").forEach(modal => {
+    modal.classList.remove("active");
   });
 
-  // 現地メモ投稿の対象スポット情報もリセット
+  // 現地メモ投稿の対象スポット情報をリセット
   if (typeof currentMemoPostSpot !== "undefined") {
     currentMemoPostSpot = null;
   }
+
 }
 
 // ======================================================
