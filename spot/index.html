@@ -9215,14 +9215,60 @@ function showSection(id){
 
 function openBottomNavModal(openFunction) {
 
+  // 関数名とモーダルIDの対応
+  const modalIdMap = {
+    openSearchNewModal: "searchNewModal",
+    openListModal: "listModal",
+    openPostModal: "postModal",
+    openFavoriteModal: "favoriteModal",
+    openModal: "modal"
+  };
+
+  const functionName = openFunction?.name || "";
+  const targetModalId = modalIdMap[functionName];
+
+  // 現在開いているモーダル
+  const activeModal = document.querySelector(".modal.active");
+
+  // ======================================================
+  // 同じモーダルをもう一度押した場合
+  // ======================================================
+  if (
+    activeModal &&
+    targetModalId &&
+    activeModal.id === targetModalId
+  ) {
+    activeModal.classList.remove("active");
+
+    // 現地メモの対象スポット情報をリセット
+    if (
+      targetModalId === "memoPostModal" &&
+      typeof currentMemoPostSpot !== "undefined"
+    ) {
+      currentMemoPostSpot = null;
+    }
+
+    return;
+  }
+
+
+  // ======================================================
+  // メニュー以外は、マップ以外のページなら
+  // 先にマップへ戻す
+  // ======================================================
   const mapSection = document.getElementById("map");
 
-  // 現在マップ以外のページを表示している場合
-  if (!mapSection || !mapSection.classList.contains("active")) {
+  if (
+    targetModalId !== "modal" &&
+    (!mapSection || !mapSection.classList.contains("active"))
+  ) {
     showSection("map");
   }
 
+
+  // ======================================================
   // モーダルを開く
+  // ======================================================
   if (typeof openFunction === "function") {
     openFunction();
   }
