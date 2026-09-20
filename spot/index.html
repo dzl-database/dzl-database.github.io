@@ -7110,7 +7110,7 @@ body{
     type="button"
     class="bottom-nav-item"
     aria-label="検索"
-    onclick="openSearchNewModal();"
+    onclick="openBottomNavModal(openSearchNewModal)"
   >
     <span class="material-symbols-outlined">
       search
@@ -7126,7 +7126,7 @@ body{
     type="button"
     class="bottom-nav-item"
     aria-label="リスト"
-    onclick="openListModal()"
+    onclick="openBottomNavModal(openListModal)"
   >
     <span class="material-symbols-outlined">
       format_list_bulleted
@@ -7142,7 +7142,7 @@ body{
     type="button"
     class="bottom-nav-post"
     aria-label="投稿"
-    onclick="openPostModal()"
+    onclick="openBottomNavModal(openPostModal)"
   >
     <span class="material-symbols-outlined">
       add_location_alt
@@ -7158,7 +7158,7 @@ body{
     type="button"
     class="bottom-nav-item"
     aria-label="お気に入り"
-    onclick="openFavoriteModal()"
+    onclick="openBottomNavModal(openFavoriteModal)"
   >
     <span class="material-symbols-outlined">
       favorite
@@ -7692,7 +7692,7 @@ body{
       <button
         type="button"
         class="menu-main-button"
-        onclick="closeModalForce(); openPostModal();"
+        onclick="showSection('map'); closeModalForce(); openPostModal();"
       >
         <span class="material-symbols-outlined">add_location_alt</span>
         <span>新規投稿フォームを開く</span>
@@ -7714,7 +7714,7 @@ body{
         <button
           type="button"
           class="menu-grid-button"
-          onclick="closeModalForce(); openFavoriteModal();"
+          onclick="showSection('map'); closeModalForce(); openFavoriteModal();"
         >
           <span class="material-symbols-outlined">favorite</span>
           <span>お気に入り</span>
@@ -7723,7 +7723,7 @@ body{
         <button
           type="button"
           class="menu-grid-button"
-          onclick=""
+          onclick="showSection('map'); closeModalForce();"
         >
           <span class="material-symbols-outlined">pin_history</span>
           <span>投稿履歴</span>
@@ -9206,6 +9206,27 @@ function showSection(id){
 
 
   closeModalForce();
+}
+
+// ======================================================
+// 下部ナビゲーションからモーダルを開く
+// マップ以外のページにいる場合は、先にマップへ戻る
+// ======================================================
+
+function openBottomNavModal(openFunction) {
+
+  const mapSection = document.getElementById("map");
+
+  // 現在マップ以外のページを表示している場合
+  if (!mapSection || !mapSection.classList.contains("active")) {
+    showSection("map");
+  }
+
+  // モーダルを開く
+  if (typeof openFunction === "function") {
+    openFunction();
+  }
+
 }
    
 function goHome(){
