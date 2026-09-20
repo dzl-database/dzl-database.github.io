@@ -163,15 +163,6 @@ body{
   font-size:28px;
 }
 
-.menu-link{
-  display:block;
-  margin:10px 0;
-  padding:10px;
-  background:#f0f0f0;
-  border-radius:8px;
-  cursor:pointer;
-}
-
 .site-title{
   display:flex;
   height:100%;
@@ -212,22 +203,241 @@ body{
   display: flex;
 }
 
-.modal-content{
-  background:#fff;
-  border-radius:12px;
-  padding:20px;
-  width:280px;
-  text-align:center;
+/* =========================
+   メニューモーダル
+   ========================= */
+
+.menu-modal-content {
+  width: min(92vw, 380px);
+  max-height: calc(100dvh - 110px);
+  overflow-y: auto;
+
+  background: #fff;
+  border-radius: 18px;
+  padding: 20px;
+
+  box-sizing: border-box;
+  text-align: left;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
 }
 
-.modal-logo{
-  text-align:center;
-  margin-bottom:15px;
+
+/* ロゴ */
+
+.menu-modal-content .modal-logo {
+  text-align: center;
+  margin: 2px 0 20px;
 }
 
-.modal-logo img{
-  max-width:220px;   /* サイズ調整（好みでOK） */
-  height:auto;
+.menu-modal-content .modal-logo img {
+  display: block;
+  width: auto;
+  max-width: 220px;
+  max-height: 70px;
+  height: auto;
+  margin: 0 auto;
+}
+
+
+/* セクション */
+
+.menu-section {
+  margin-top: 18px;
+}
+
+.menu-section:first-of-type {
+  margin-top: 0;
+}
+
+.menu-section-title {
+  margin: 0 4px 8px;
+
+  color: #777;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+
+/* =========================
+   上部の大きなボタン
+   ========================= */
+
+.menu-main-button {
+  width: 100%;
+  min-height: 48px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin: 0 0 8px;
+  padding: 10px 12px;
+
+  border: 1px solid #e6e8eb;
+  border-radius: 11px;
+
+  background: #f7f8f9;
+  color: #2d3035;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 650;
+
+  text-align: left;
+  cursor: pointer;
+
+  transition:
+    background .18s ease,
+    border-color .18s ease,
+    transform .12s ease;
+}
+
+.menu-main-button:hover {
+  background: #f0f2f4;
+  border-color: #d9dde2;
+}
+
+.menu-main-button:active {
+  transform: scale(.98);
+}
+
+.menu-main-button > .material-symbols-outlined:first-child {
+  flex: 0 0 auto;
+
+  font-size: 21px;
+
+  color: #555b63;
+
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+.menu-main-button > span:nth-child(2) {
+  flex: 1;
+}
+
+.menu-main-button .menu-arrow {
+  flex: 0 0 auto;
+
+  font-size: 18px;
+  color: #999fa6;
+
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+
+/* =========================
+   2分割ボタン
+   ========================= */
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.menu-grid-button {
+  min-height: 72px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  padding: 9px 6px;
+
+  border: 1px solid #e6e8eb;
+  border-radius: 11px;
+
+  background: #f7f8f9;
+  color: #454a50;
+
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    background .18s ease,
+    border-color .18s ease,
+    transform .12s ease;
+}
+
+.menu-grid-button:hover {
+  background: #f0f2f4;
+  border-color: #d9dde2;
+}
+
+.menu-grid-button:active {
+  transform: scale(.97);
+}
+
+.menu-grid-button .material-symbols-outlined {
+  font-size: 24px;
+
+  color: #626870;
+
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+
+/* お気に入りアイコンだけ少し目立たせる */
+
+.menu-grid-button:first-child .material-symbols-outlined {
+  color: #e85b73;
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+
+/* =========================
+   スマホ
+   ========================= */
+
+@media (max-width: 600px) {
+
+  .menu-modal-content {
+    width: calc(100vw - 24px);
+    padding: 17px;
+    border-radius: 16px;
+  }
+
+  .menu-modal-content .modal-logo {
+    margin-bottom: 16px;
+  }
+
+  .menu-modal-content .modal-logo img {
+    max-width: 200px;
+  }
+
+  .menu-main-button {
+    min-height: 46px;
+    padding: 9px 10px;
+    font-size: 12px;
+  }
+
+  .menu-grid-button {
+    min-height: 68px;
+  }
+
 }
    
 /* =======================
@@ -7388,21 +7598,115 @@ body{
   </div>
 </div>
 
-<!-- ===== モーダル ===== -->
+<!-- ===== メニューモーダル ===== -->
 <div id="modal" class="modal" onclick="closeModal(event)">
 
-  <div class="modal-content" onclick="event.stopPropagation()">
+  <div class="modal-content menu-modal-content" onclick="event.stopPropagation()">
 
+    <!-- ロゴ -->
     <div class="modal-logo">
-      <img src="spot-title-logo.png" alt="スポットタイトル">
+      <img src="spot-title-logo.png" alt="ドズル社スポット">
     </div>
 
-    <div class="menu-link" onclick="goHome()"><b>ドズル社データベース</b> を開く</div>
-    <div class="menu-link" onclick="showSection('map'); closeModalForce();"><b>ドズル社スポット</b> を開く</div>
-    <div class="menu-link" onclick="openInfoForm()"><b>情報提供フォーム</b> を開く</div>
-    <div class="menu-link" onclick="showSection('contributors'); closeModalForce();">情報提供者様 一覧</div>
-    <div class="menu-link" onclick="showSection('howto'); closeModalForce();">使い方ガイド</div>
-    <div class="menu-link" onclick="showSection('terms'); closeModalForce();">利用規約</div>
+
+    <!-- サイト関連 -->
+    <div class="menu-section">
+
+      <button
+        type="button"
+        class="menu-main-button"
+        onclick="goHome(); closeModalForce();"
+      >
+        <span class="material-symbols-outlined">database</span>
+        <span>ドズル社データベースを開く</span>
+        <span class="material-symbols-outlined menu-arrow">open_in_new</span>
+      </button>
+
+      <button
+        type="button"
+        class="menu-main-button"
+        onclick="showSection('map'); closeModalForce();"
+      >
+        <span class="material-symbols-outlined">map</span>
+        <span>ドズル社スポットを開く</span>
+        <span class="material-symbols-outlined menu-arrow">check</span>
+      </button>
+
+      <button
+        type="button"
+        class="menu-main-button"
+        onclick="closeModalForce(); openPostModal();"
+      >
+        <span class="material-symbols-outlined">add_location_alt</span>
+        <span>新規投稿フォームを開く</span>
+        <span class="material-symbols-outlined menu-arrow">arrow_forward</span>
+      </button>
+
+    </div>
+
+
+    <!-- マイスポット -->
+    <div class="menu-section">
+
+      <div class="menu-section-title">
+        マイスポット
+      </div>
+
+      <div class="menu-grid">
+
+        <button
+          type="button"
+          class="menu-grid-button"
+          onclick="closeModalForce(); openFavoriteModal();"
+        >
+          <span class="material-symbols-outlined">favorite</span>
+          <span>お気に入り</span>
+        </button>
+
+        <button
+          type="button"
+          class="menu-grid-button"
+          onclick=""
+        >
+          <span class="material-symbols-outlined">pin_history</span>
+          <span>投稿履歴</span>
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- このサイトについて -->
+    <div class="menu-section">
+
+      <div class="menu-section-title">
+        このサイトについて
+      </div>
+
+      <div class="menu-grid">
+
+        <button
+          type="button"
+          class="menu-grid-button"
+          onclick="showSection('howto'); closeModalForce();"
+        >
+          <span class="material-symbols-outlined">help_outline</span>
+          <span>使い方ガイド</span>
+        </button>
+
+        <button
+          type="button"
+          class="menu-grid-button"
+          onclick="showSection('terms'); closeModalForce();"
+        >
+          <span class="material-symbols-outlined">description</span>
+          <span>利用規約</span>
+        </button>
+
+      </div>
+
+    </div>
 
   </div>
 
@@ -12318,7 +12622,8 @@ function goCurrentLocation(){
     }).addTo(map);
 
   }, () => {
-    alert("位置情報の取得に失敗しました");
+    alert(`位置情報の取得に失敗しました。
+    位置情報へのアクセスを許可してください。`);
   });
 
 }
