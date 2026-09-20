@@ -13732,6 +13732,62 @@ function resetPostForm(){
 
   }
 
+  // ------------------------------------------
+  // 住所から場所を取得モーダルをリセット
+  // ------------------------------------------
+
+  const addressInput =
+    document.getElementById(
+      "postAddressInput"
+    );
+
+  if(addressInput){
+
+    addressInput.value = "";
+
+  }
+
+
+  const addressGeocodeResult =
+    document.getElementById(
+      "postAddressGeocodeResult"
+    );
+
+  if(addressGeocodeResult){
+
+    addressGeocodeResult.textContent = "";
+
+    addressGeocodeResult.className =
+      "post-address-geocode-result";
+
+  }
+
+
+  const addressGeocodeButton =
+    document.getElementById(
+      "postAddressGeocodeButton"
+    );
+
+  if(addressGeocodeButton){
+
+    addressGeocodeButton.disabled = false;
+
+  }
+
+
+  // 住所取得モーダル自体も閉じておく
+  const addressModal =
+    document.getElementById(
+      "postAddressModal"
+    );
+
+  if(addressModal){
+
+    addressModal.classList.remove(
+      "active"
+    );
+
+  }
 
   // ------------------------------------------
   // 状態表示をリセット
@@ -14169,7 +14225,9 @@ async function requestPostAddress(
 function openPostAddressModal() {
 
   const modal =
-    document.getElementById("postAddressModal");
+    document.getElementById(
+      "postAddressModal"
+    );
 
   if (!modal) return;
 
@@ -14177,39 +14235,17 @@ function openPostAddressModal() {
 
 
   const input =
-    document.getElementById("postAddressInput");
-
-  const result =
     document.getElementById(
-      "postAddressGeocodeResult"
+      "postAddressInput"
     );
-
-
-  // 現在の住所があれば初期値として表示
-  const currentAddress =
-    document.getElementById("postAddress")
-      ?.textContent
-      .trim() || "";
 
   if (input) {
 
-    if (!input.value.trim() && currentAddress) {
-      input.value = currentAddress;
-    }
-
     setTimeout(() => {
+
       input.focus();
-      input.select();
+
     }, 50);
-
-  }
-
-
-  if (result) {
-
-    result.textContent = "";
-    result.className =
-      "post-address-geocode-result";
 
   }
 
