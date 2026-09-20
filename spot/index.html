@@ -6791,7 +6791,7 @@ body{
     type="button"
     class="bottom-nav-post"
     aria-label="投稿"
-    onclick="openAddModal()"
+    onclick="openPostModal()"
   >
     <span class="material-symbols-outlined">
       add_location_alt
@@ -7310,7 +7310,7 @@ body{
 <div class="extra-buttons">
 
   <!-- 追加 -->
-  <button class="circle-btn" onclick="openAddModal()">
+  <button class="circle-btn" onclick="openPostModal()">
     <span class="material-symbols-outlined">add</span>
   </button>
 
@@ -8127,7 +8127,7 @@ function closeAllBottomNavModals() {
   const modalIds = [
     "searchNewModal",
     "listModal",
-    "addModal",
+    "openPostModal",
     "favoriteModal",
     "modal",
     "memoPostModal"
@@ -12174,23 +12174,6 @@ function getCategoryStyle(category){
 
 }
 
-// =======================
-// ② 追加モーダル
-// =======================
-function openAddModal(){
-
-  closeAllBottomNavModals();
-
-  openPostModal();
-
-}
-
-function closeAddModal(e){
-  if(!e || e.target === e.currentTarget){
-    document.getElementById("addModal").classList.remove("active");
-  }
-}
-
 function openForm(){
 
   openPostModal();
@@ -12639,6 +12622,8 @@ async function postToGas(payload){
 // ======================================================
 
 function openPostModal(){
+
+  closeAllBottomNavModals()
 
   const modal =
     document.getElementById("postModal");
