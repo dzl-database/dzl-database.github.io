@@ -7110,7 +7110,7 @@ body{
     type="button"
     class="bottom-nav-item"
     aria-label="検索"
-    onclick="openBottomNavModal(openSearchNewModal)"
+    onclick="openBottomNavModal(openSearchNewModal, 'searchNewModal')"
   >
     <span class="material-symbols-outlined">
       search
@@ -7126,7 +7126,7 @@ body{
     type="button"
     class="bottom-nav-item"
     aria-label="リスト"
-    onclick="openBottomNavModal(openListModal)"
+    onclick="openBottomNavModal(openListModal, 'listModal')"
   >
     <span class="material-symbols-outlined">
       format_list_bulleted
@@ -7142,7 +7142,7 @@ body{
     type="button"
     class="bottom-nav-post"
     aria-label="投稿"
-    onclick="openBottomNavModal(openPostModal)"
+    onclick="openBottomNavModal(openPostModal, 'postModal')"
   >
     <span class="material-symbols-outlined">
       add_location_alt
@@ -7158,7 +7158,7 @@ body{
     type="button"
     class="bottom-nav-item"
     aria-label="お気に入り"
-    onclick="openBottomNavModal(openFavoriteModal)"
+    onclick="openBottomNavModal(openFavoriteModal, 'favoriteModal')"
   >
     <span class="material-symbols-outlined">
       favorite
@@ -7174,7 +7174,7 @@ body{
     type="button"
     class="bottom-nav-item"
     aria-label="メニュー"
-    onclick="openModal()"
+    onclick="openBottomNavModal(openModal, 'modal')"
   >
     <span class="material-symbols-outlined">
       menu
@@ -9201,22 +9201,11 @@ function showSection(id){
 // マップ以外のページにいる場合は、先にマップへ戻る
 // ======================================================
 
-function openBottomNavModal(openFunction) {
-
-  // 関数名とモーダルIDの対応
-  const modalIdMap = {
-    openSearchNewModal: "searchNewModal",
-    openListModal: "listModal",
-    openPostModal: "postModal",
-    openFavoriteModal: "favoriteModal",
-    openModal: "modal"
-  };
-
-  const functionName = openFunction?.name || "";
-  const targetModalId = modalIdMap[functionName];
+function openBottomNavModal(openFunction, targetModalId) {
 
   // 現在開いているモーダル
   const activeModal = document.querySelector(".modal.active");
+
 
   // ======================================================
   // 同じモーダルをもう一度押した場合
@@ -9228,7 +9217,7 @@ function openBottomNavModal(openFunction) {
   ) {
     activeModal.classList.remove("active");
 
-    // 現地メモの対象スポット情報をリセット
+    // 現地メモ投稿の対象スポット情報をリセット
     if (
       targetModalId === "memoPostModal" &&
       typeof currentMemoPostSpot !== "undefined"
