@@ -7032,6 +7032,56 @@ body{
   }
 
 }
+
+
+/* =========================
+   マップに戻るボタン
+   ========================= */
+
+.back-to-map-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  margin-bottom: 18px;
+  padding: 8px 13px;
+
+  border: 1px solid #e1e4e8;
+  border-radius: 9px;
+
+  background: #f6f7f8;
+  color: #555b62;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    background .18s ease,
+    border-color .18s ease,
+    transform .12s ease;
+}
+
+.back-to-map-button:hover {
+  background: #eceef0;
+  border-color: #d5d9dd;
+}
+
+.back-to-map-button:active {
+  transform: scale(.97);
+}
+
+.back-to-map-button .material-symbols-outlined {
+  font-size: 18px;
+
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 24;
+}
    
 </style>
 </head>
@@ -7356,6 +7406,15 @@ body{
 <div id="howto" class="section">
   <div class="content howto-container">
 
+    <button
+      type="button"
+      class="back-to-map-button"
+      onclick="showSection('map')"
+    >
+      <span class="material-symbols-outlined">arrow_back</span>
+      マップに戻る
+    </button>
+
     <h2>使い方ガイド</h2>
 
     <p class="howto-lead">
@@ -7502,6 +7561,15 @@ body{
 <!-- ===== 利用規約 ===== -->
 <div id="terms" class="section">
   <div class="content">
+
+    <button
+      type="button"
+      class="back-to-map-button"
+      onclick="showSection('map')"
+    >
+      <span class="material-symbols-outlined">arrow_back</span>
+      マップに戻る
+    </button>
 
     <h2>ドズル社スポット ご利用ガイド（利用規約）</h2>
 
@@ -9085,19 +9153,58 @@ function showSection(id){
   document.querySelectorAll(".section").forEach(el=>{
     el.classList.remove("active");
   });
-  document.getElementById(id).classList.add("active");
 
-  // ===== ここ修正 =====
-  const extraButtons = document.querySelector(".extra-buttons");
-  const detailPanel = document.getElementById("detailPanel");
+  const targetSection = document.getElementById(id);
+
+  if(targetSection){
+    targetSection.classList.add("active");
+  }
+
+
+  // ===== マップ関連UIの表示切り替え =====
+  const extraButtons =
+    document.querySelector(".extra-buttons");
+
+  const detailPanel =
+    document.getElementById("detailPanel");
+
+  // 表示管理パネル
+  const spotFilterPanel =
+    document.querySelector(".spot-filter-panel");
+
 
   if(id === "map"){
-    extraButtons.classList.remove("hidden-ui");
-    detailPanel.classList.remove("hidden-ui");
+
+    // マップ画面
+    if(extraButtons){
+      extraButtons.classList.remove("hidden-ui");
+    }
+
+    if(detailPanel){
+      detailPanel.classList.remove("hidden-ui");
+    }
+
+    if(spotFilterPanel){
+      spotFilterPanel.classList.remove("hidden-ui");
+    }
+
   }else{
-    extraButtons.classList.add("hidden-ui");
-    detailPanel.classList.add("hidden-ui");
+
+    // マップ以外のページ
+    if(extraButtons){
+      extraButtons.classList.add("hidden-ui");
+    }
+
+    if(detailPanel){
+      detailPanel.classList.add("hidden-ui");
+    }
+
+    if(spotFilterPanel){
+      spotFilterPanel.classList.add("hidden-ui");
+    }
+
   }
+
 
   closeModalForce();
 }
