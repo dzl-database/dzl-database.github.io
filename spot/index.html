@@ -7043,17 +7043,16 @@ body{
   align-items: center;
   gap: 6px;
 
-  margin-bottom: 18px;
   padding: 8px 13px;
 
   border: 1px solid #e1e4e8;
   border-radius: 9px;
 
   background: #f6f7f8;
-  color: #555b62;
+  color: #d90000;
 
   font-family: inherit;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 650;
 
   cursor: pointer;
@@ -9374,16 +9373,7 @@ L.control.zoom({
 L.tileLayer(
   "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
   {
-    attribution: "© OpenStreetMap",
-
-    // 移動中は新しいタイルを頻繁に読み込まない
-    updateWhenIdle: true,
-
-    // ズーム中のタイル更新を抑える
-    updateWhenZooming: false,
-
-    // 移動後に必要なタイルを確保
-    keepBuffer: 2
+    attribution: "© OpenStreetMap"
   }
 ).addTo(map);
 
