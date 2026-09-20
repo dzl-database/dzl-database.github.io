@@ -6341,27 +6341,20 @@ body{
 
 
 #searchNewInput {
-
   min-width: 0;
-
   flex: 1;
-
   height: 100%;
-
   border: none;
-
   outline: none;
-
   padding: 0;
-
   background: transparent;
-
   color: #222;
-
   font-size: 15px;
-
   font-family: inherit;
 
+  /* ブラウザ標準の検索ボタンを無効化 */
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 
@@ -6729,6 +6722,14 @@ body{
   line-height: 1.4;
 
 }
+
+/* ブラウザ標準の検索クリアボタンを非表示 */
+#searchNewInput::-webkit-search-cancel-button,
+#searchNewInput::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
    
 </style>
 </head>
@@ -7027,14 +7028,6 @@ body{
       id="searchNewResultSummary"
       class="search-new-result-summary"
     ></div>
-
-    <div
-      id="searchNewSortNote"
-      class="search-new-sort-note"
-    >
-      マップ中心から近い順
-    </div>
-
 
     <!-- 結果 -->
     <div
@@ -16556,8 +16549,8 @@ function renderSearchNewResults() {
 
     summary.textContent =
       keyword
-        ? `「${keyword}」の検索結果 ${results.length.toLocaleString("ja-JP")}件`
-        : `表示中のスポット ${results.length.toLocaleString("ja-JP")}件`;
+        ? `「${keyword}」の検索結果 ${results.length.toLocaleString("ja-JP")}件（マップ中心から近い順）`
+        : `表示中のスポット ${results.length.toLocaleString("ja-JP")}件（マップ中心から近い順）`;
 
   }
 
