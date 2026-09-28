@@ -7401,6 +7401,177 @@ body{
   font-family: "M PLUS 1", sans-serif;
 }
 
+
+/* ======================================================
+   情報修正依頼
+====================================================== */
+
+#correctionRequestModal,
+#correctionRequestModal button,
+#correctionRequestModal input,
+#correctionRequestModal select,
+#correctionRequestModal textarea {
+  font-family: "M PLUS 1", sans-serif;
+}
+
+
+.correction-request-fields {
+  margin-top: 4px;
+}
+
+
+.correction-request-item {
+  position: relative;
+  margin-bottom: 14px;
+  padding: 14px;
+  border: 1px solid #e1e4e8;
+  border-radius: 12px;
+  background: #f8f9fa;
+}
+
+
+.correction-request-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+
+.correction-request-item-number {
+  color: #555b62;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+.correction-request-remove-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #999fa6;
+  cursor: pointer;
+}
+
+
+.correction-request-remove-btn:hover {
+  background: #eeeeef;
+  color: #e05263;
+}
+
+
+.correction-request-remove-btn .material-symbols-outlined {
+  font-size: 19px;
+}
+
+
+.correction-request-item label {
+  display: block;
+  margin-bottom: 6px;
+  color: #444950;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+
+.correction-request-item select,
+.correction-request-item textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d9dde2;
+  border-radius: 9px;
+  background: #fff;
+  color: #30343a;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+
+.correction-request-item select {
+  height: 42px;
+  padding: 0 11px;
+}
+
+
+.correction-request-item textarea {
+  min-height: 100px;
+  padding: 10px 11px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+
+.correction-request-item select:focus,
+.correction-request-item textarea:focus {
+  outline: none;
+  border-color: #8c96a3;
+  box-shadow: 0 0 0 3px rgba(80, 90, 105, .08);
+}
+
+
+.correction-request-add-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 2px;
+  padding: 9px 12px;
+  border: 1px dashed #b8bdc4;
+  border-radius: 10px;
+  background: #fafbfc;
+  color: #555b62;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  transition:
+    background .18s ease,
+    border-color .18s ease,
+    transform .12s ease;
+}
+
+
+.correction-request-add-btn:hover {
+  background: #f1f3f5;
+  border-color: #969da5;
+}
+
+
+.correction-request-add-btn:active {
+  transform: scale(.98);
+}
+
+
+.correction-request-add-btn .material-symbols-outlined {
+  font-size: 19px;
+}
+
+
+@media (max-width: 600px) {
+
+  .correction-request-item {
+    padding: 12px;
+  }
+
+  .correction-request-item select {
+    height: 44px;
+  }
+
+  .correction-request-item textarea {
+    min-height: 110px;
+  }
+
+}
+
 </style>
 </head>
 
@@ -8962,6 +9133,248 @@ body{
   aria-live="polite"
 ></div>
 
+<!-- ======================================================
+     情報修正依頼・報告モーダル
+====================================================== -->
+
+<div
+  id="correctionRequestModal"
+  class="modal post-modal correction-request-modal"
+  onclick="closeCorrectionRequestModal(event)"
+>
+  <div
+    class="modal-content post-modal-content correction-request-modal-content"
+    onclick="event.stopPropagation()"
+  >
+
+    <!-- ヘッダー -->
+    <div class="post-header">
+
+      <div class="post-title">
+
+        <span class="material-symbols-outlined">
+          edit_note
+        </span>
+
+        <div>
+          <h3>情報修正依頼・報告</h3>
+          <p>スポット情報の修正・変更をご報告ください</p>
+        </div>
+
+      </div>
+
+      <button
+        type="button"
+        class="post-close-btn"
+        onclick="closeCorrectionRequestModal()"
+        aria-label="閉じる"
+      >
+        <span class="material-symbols-outlined">close</span>
+      </button>
+
+    </div>
+
+
+    <!-- フォーム -->
+    <form
+      id="correctionRequestForm"
+      class="post-form"
+      novalidate
+    >
+
+      <!-- ハニーポット -->
+      <div
+        class="post-honeypot"
+        aria-hidden="true"
+      >
+        <label>
+          会社名
+
+          <input
+            type="text"
+            id="correctionRequestWebsite"
+            name="website"
+            tabindex="-1"
+            autocomplete="off"
+          >
+        </label>
+      </div>
+
+
+      <!-- 修正スポット -->
+      <div class="memo-post-spot-box">
+
+        <div class="post-location-heading">
+
+          <span class="material-symbols-outlined">
+            location_on
+          </span>
+
+          <div>
+            <strong>修正スポット</strong>
+          </div>
+
+        </div>
+
+        <div class="memo-post-spot-info">
+
+          <div
+            id="correctionRequestCategory"
+            class="memo-post-spot-category"
+          ></div>
+
+          <div
+            id="correctionRequestPlaceName"
+            class="memo-post-spot-name"
+          ></div>
+
+          <div
+            id="correctionRequestAddress"
+            class="memo-post-spot-address"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+      <!-- 修正項目 -->
+      <div class="correction-request-fields">
+
+        <div
+          id="correctionRequestItems"
+          class="correction-request-items"
+        ></div>
+
+        <button
+          type="button"
+          id="addCorrectionRequestItemButton"
+          class="correction-request-add-btn"
+        >
+          <span class="material-symbols-outlined">add</span>
+          さらに修正項目を追加＋
+        </button>
+
+      </div>
+
+
+      <!-- 送信前の確認 -->
+      <div class="post-confirm-box">
+
+        <div class="post-confirm-title">
+
+          <span class="material-symbols-outlined">
+            fact_check
+          </span>
+
+          <strong>送信前のご確認</strong>
+
+          <span class="post-required">
+            必須
+          </span>
+
+        </div>
+
+        <p class="post-confirm-help">
+          以下の項目をすべて確認してから送信してください。
+        </p>
+
+
+        <label class="post-confirm-item">
+
+          <input
+            type="checkbox"
+            id="correctionConfirmPersonal"
+          >
+
+          <span>
+            個人情報は入力していません。
+          </span>
+
+        </label>
+
+
+        <label class="post-confirm-item">
+
+          <input
+            type="checkbox"
+            id="correctionConfirmPrivate"
+          >
+
+          <span>
+            ドズル社関係者様のプライベートの目撃情報の投稿ではありません。
+          </span>
+
+        </label>
+
+
+        <label class="post-confirm-item">
+
+          <input
+            type="checkbox"
+            id="correctionConfirmUnrelated"
+          >
+
+          <span>
+            ドズル社に関係ない情報、不確かな情報、嘘の情報ではありません。
+          </span>
+
+        </label>
+
+
+        <label class="post-confirm-item">
+
+          <input
+            type="checkbox"
+            id="correctionConfirmTrouble"
+          >
+
+          <span>
+            だれかの迷惑になる投稿ではありません。
+          </span>
+
+        </label>
+
+      </div>
+
+
+      <!-- 状態 -->
+      <div
+        id="correctionRequestFormStatus"
+        class="post-form-status"
+        role="status"
+        aria-live="polite"
+      ></div>
+
+
+      <!-- 送信 -->
+      <button
+        type="submit"
+        id="correctionRequestSubmitButton"
+        class="post-submit-btn"
+      >
+        <span class="material-symbols-outlined">
+          send
+        </span>
+
+        情報修正依頼を送信する
+      </button>
+
+    </form>
+
+  </div>
+</div>
+
+
+<!-- 情報修正依頼通知 -->
+
+<div
+  id="correctionRequestToast"
+  class="post-toast"
+  role="status"
+  aria-live="polite"
+></div>
+
 
 <!-- ===== 検索モーダル ===== -->
 <div id="searchModal" class="modal" onclick="closeSearchModal(event)">
@@ -9031,14 +9444,20 @@ body{
 <script>
 function closeAllBottomNavModals() {
 
-  // 現在開いているモーダルをすべて閉じる
   document.querySelectorAll(".modal.active").forEach(modal => {
     modal.classList.remove("active");
   });
 
-  // 現地メモ投稿の対象スポット情報をリセット
+
   if (typeof currentMemoPostSpot !== "undefined") {
     currentMemoPostSpot = null;
+  }
+
+
+  if (
+    typeof currentCorrectionRequestSpot !== "undefined"
+  ) {
+    currentCorrectionRequestSpot = null;
   }
 
 }
@@ -11774,7 +12193,7 @@ function openDetail(data){
     <!-- 今後実装 -->
     <button
       class="detail-big-btn"
-      onclick="futureFeature('情報修正依頼・報告')"
+      onclick="openCorrectionRequestModal()"
     >
       情報修正依頼・報告
     </button>
@@ -13230,6 +13649,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
   initSpotFilterPanel();
   initSearchNew();
+  initCorrectionRequest();
 
   const input = document.getElementById("modalSearchInput");
   const resultBox = document.getElementById("modalSearchResult");
@@ -18434,6 +18854,1307 @@ function initSearchNew() {
     );
 
   }
+
+}
+
+
+// ======================================================
+// 情報修正依頼
+// ======================================================
+
+const CORRECTION_REQUEST_GAS_WEB_APP_URL =
+  "https://script.google.com/macros/s/AKfycbx4XouCRoyud3uwDx_OJCSb_et6lqQ_0yQtS_dghEfD9KcBbMVCJGBQfvxtYlfgEj8B/exec";
+
+let currentCorrectionRequestSpot = null;
+
+const CORRECTION_REQUEST_DRAFT_STORAGE_KEY =
+  "dzlSpotCorrectionRequestDrafts";
+
+// ======================================================
+// 情報修正依頼 入力履歴
+// ======================================================
+
+function getCorrectionRequestDrafts() {
+
+  try {
+
+    const saved =
+      localStorage.getItem(
+        CORRECTION_REQUEST_DRAFT_STORAGE_KEY
+      );
+
+    if (!saved) return {};
+
+    const drafts = JSON.parse(saved);
+
+    if (
+      !drafts ||
+      typeof drafts !== "object" ||
+      Array.isArray(drafts)
+    ) {
+      return {};
+    }
+
+    return drafts;
+
+  } catch (error) {
+
+    console.warn(
+      "情報修正依頼の入力履歴読み込みに失敗:",
+      error
+    );
+
+    return {};
+
+  }
+
+}
+
+
+function saveCorrectionRequestDraft(
+  spotId
+) {
+
+  const id =
+    String(spotId || "").trim();
+
+  if (!id) return;
+
+  try {
+
+    const drafts =
+      getCorrectionRequestDrafts();
+
+    const items =
+      getCorrectionRequestItemsFromForm();
+
+    const draft = {
+
+      items: items,
+
+      confirmations: {
+
+        noPersonalInfo:
+          document.getElementById(
+            "correctionConfirmPersonal"
+          )?.checked || false,
+
+        noPrivateSightings:
+          document.getElementById(
+            "correctionConfirmPrivate"
+          )?.checked || false,
+
+        relatedInfo:
+          document.getElementById(
+            "correctionConfirmUnrelated"
+          )?.checked || false,
+
+        noTrouble:
+          document.getElementById(
+            "correctionConfirmTrouble"
+          )?.checked || false
+
+      }
+
+    };
+
+    drafts[id] = draft;
+
+    localStorage.setItem(
+      CORRECTION_REQUEST_DRAFT_STORAGE_KEY,
+      JSON.stringify(drafts)
+    );
+
+  } catch (error) {
+
+    console.warn(
+      "情報修正依頼の入力履歴保存に失敗:",
+      error
+    );
+
+  }
+
+}
+
+
+function getCorrectionRequestDraft(
+  spotId
+) {
+
+  const id =
+    String(spotId || "").trim();
+
+  if (!id) return null;
+
+  const drafts =
+    getCorrectionRequestDrafts();
+
+  return drafts[id] || null;
+
+}
+
+
+function deleteCorrectionRequestDraft(
+  spotId
+) {
+
+  const id =
+    String(spotId || "").trim();
+
+  if (!id) return;
+
+  try {
+
+    const drafts =
+      getCorrectionRequestDrafts();
+
+    delete drafts[id];
+
+    localStorage.setItem(
+      CORRECTION_REQUEST_DRAFT_STORAGE_KEY,
+      JSON.stringify(drafts)
+    );
+
+  } catch (error) {
+
+    console.warn(
+      "情報修正依頼の入力履歴削除に失敗:",
+      error
+    );
+
+  }
+
+}
+
+// ======================================================
+// 修正項目
+// ======================================================
+
+const CORRECTION_REQUEST_OPTIONS = [
+  "場所名",
+  "カテゴリ",
+  "住所",
+  "イベント名",
+  "開催状況",
+  "リスト",
+  "店舗Xアカウント",
+  "店舗公式サイト",
+  "関連URL"
+];
+
+
+function createCorrectionRequestItem(
+  itemData = {}
+) {
+
+  const container =
+    document.getElementById(
+      "correctionRequestItems"
+    );
+
+  if (!container) return;
+
+  const item =
+    document.createElement("div");
+
+  item.className =
+    "correction-request-item";
+
+
+  const optionsHTML =
+    CORRECTION_REQUEST_OPTIONS
+      .map(option => {
+
+        const selected =
+          String(
+            itemData.type || ""
+          ) === option
+            ? "selected"
+            : "";
+
+        return `
+          <option value="${escapeHtml(option)}" ${selected}>
+            ${escapeHtml(option)}
+          </option>
+        `;
+
+      })
+      .join("");
+
+
+  item.innerHTML = `
+
+    <div class="correction-request-item-header">
+
+      <span class="correction-request-item-number">
+        修正項目
+      </span>
+
+      <button
+        type="button"
+        class="correction-request-remove-btn"
+        aria-label="この修正項目を削除"
+        title="この修正項目を削除"
+      >
+        <span class="material-symbols-outlined">
+          delete
+        </span>
+      </button>
+
+    </div>
+
+
+    <div class="post-field">
+
+      <label>
+        修正する項目
+
+        <span class="post-required">
+          必須
+        </span>
+      </label>
+
+      <select class="correction-request-type">
+        <option value="">
+          選択してください
+        </option>
+
+        ${optionsHTML}
+      </select>
+
+    </div>
+
+
+    <div class="post-field">
+
+      <label>
+        修正する内容
+
+        <span class="post-required">
+          必須
+        </span>
+      </label>
+
+      <textarea
+        class="correction-request-content"
+        maxlength="2000"
+        rows="4"
+        placeholder="正しい情報や修正内容を入力してください"
+      >${escapeHtml(itemData.content || "")}</textarea>
+
+    </div>
+
+  `;
+
+
+  const removeButton =
+    item.querySelector(
+      ".correction-request-remove-btn"
+    );
+
+
+  if (removeButton) {
+
+    removeButton.addEventListener(
+      "click",
+      () => {
+
+        item.remove();
+
+        updateCorrectionRequestItemNumbers();
+
+        saveCurrentCorrectionRequestDraft();
+
+      }
+    );
+
+  }
+
+
+  item
+    .querySelectorAll("select, textarea")
+    .forEach(element => {
+
+      element.addEventListener(
+        "input",
+        saveCurrentCorrectionRequestDraft
+      );
+
+      element.addEventListener(
+        "change",
+        saveCurrentCorrectionRequestDraft
+      );
+
+    });
+
+
+  container.appendChild(item);
+
+  updateCorrectionRequestItemNumbers();
+
+}
+
+
+function updateCorrectionRequestItemNumbers() {
+
+  const items =
+    document.querySelectorAll(
+      "#correctionRequestItems .correction-request-item"
+    );
+
+  items.forEach(
+    (item, index) => {
+
+      const number =
+        item.querySelector(
+          ".correction-request-item-number"
+        );
+
+      if (number) {
+
+        number.textContent =
+          `修正項目 ${index + 1}`;
+
+      }
+
+    }
+  );
+
+}
+
+
+function getCorrectionRequestItemsFromForm() {
+
+  const elements =
+    document.querySelectorAll(
+      "#correctionRequestItems .correction-request-item"
+    );
+
+  return Array.from(elements)
+    .map(item => {
+
+      const type =
+        item
+          .querySelector(
+            ".correction-request-type"
+          )
+          ?.value
+          .trim() || "";
+
+      const content =
+        item
+          .querySelector(
+            ".correction-request-content"
+          )
+          ?.value
+          .trim() || "";
+
+      return {
+        type: type,
+        content: content
+      };
+
+    });
+
+
+}
+
+
+function saveCurrentCorrectionRequestDraft() {
+
+  if (!currentCorrectionRequestSpot) {
+    return;
+  }
+
+  const spotId =
+    String(
+      currentCorrectionRequestSpot["スポットID"] || ""
+    ).trim();
+
+  if (!spotId) return;
+
+  saveCorrectionRequestDraft(
+    spotId
+  );
+
+}
+
+// ======================================================
+// 情報修正依頼モーダルを開く
+// ======================================================
+
+function openCorrectionRequestModal() {
+
+  closeAllBottomNavModals();
+
+  const modal =
+    document.getElementById(
+      "correctionRequestModal"
+    );
+
+  if (!modal) return;
+
+
+  const spot =
+    window.currentDetailSpot || null;
+
+
+  if (!spot) {
+
+    showCorrectionRequestToast(
+      "修正するスポットを取得できませんでした。"
+    );
+
+    return;
+
+  }
+
+
+  const spotId =
+    String(
+      spot["スポットID"] || ""
+    ).trim();
+
+
+  if (!spotId) {
+
+    showCorrectionRequestToast(
+      "スポットIDを取得できませんでした。"
+    );
+
+    return;
+
+  }
+
+
+  currentCorrectionRequestSpot =
+    spot;
+
+
+  // -----------------------------------------------
+  // スポット情報表示
+  // -----------------------------------------------
+
+  const categoryElement =
+    document.getElementById(
+      "correctionRequestCategory"
+    );
+
+  const placeNameElement =
+    document.getElementById(
+      "correctionRequestPlaceName"
+    );
+
+  const addressElement =
+    document.getElementById(
+      "correctionRequestAddress"
+    );
+
+
+  if (categoryElement) {
+
+    categoryElement.textContent =
+      String(
+        spot["カテゴリ"] || "その他"
+      ).trim();
+
+  }
+
+
+  if (placeNameElement) {
+
+    placeNameElement.textContent =
+      String(
+        spot["場所名"] || ""
+      ).trim();
+
+  }
+
+
+  if (addressElement) {
+
+    addressElement.textContent =
+      String(
+        spot["住所"] || ""
+      ).trim();
+
+  }
+
+
+  resetCorrectionRequestForm();
+
+
+  // -----------------------------------------------
+  // スポットごとの履歴を復元
+  // -----------------------------------------------
+
+  const draft =
+    getCorrectionRequestDraft(
+      spotId
+    );
+
+
+  if (
+    draft &&
+    Array.isArray(draft.items) &&
+    draft.items.length > 0
+  ) {
+
+    draft.items.forEach(
+      item => {
+
+        createCorrectionRequestItem(
+          item
+        );
+
+      }
+    );
+
+  } else {
+
+    createCorrectionRequestItem();
+
+  }
+
+
+  // -----------------------------------------------
+  // 確認項目も復元
+  // -----------------------------------------------
+
+  if (draft?.confirmations) {
+
+    document.getElementById(
+      "correctionConfirmPersonal"
+    ).checked =
+      draft.confirmations.noPersonalInfo === true;
+
+
+    document.getElementById(
+      "correctionConfirmPrivate"
+    ).checked =
+      draft.confirmations.noPrivateSightings === true;
+
+
+    document.getElementById(
+      "correctionConfirmUnrelated"
+    ).checked =
+      draft.confirmations.relatedInfo === true;
+
+
+    document.getElementById(
+      "correctionConfirmTrouble"
+    ).checked =
+      draft.confirmations.noTrouble === true;
+
+  }
+
+
+  modal.classList.add("active");
+
+
+  requestAnimationFrame(() => {
+
+    document
+      .querySelector(
+        "#correctionRequestItems .correction-request-type"
+      )
+      ?.focus();
+
+  });
+
+}
+
+// ======================================================
+// 閉じる
+// ======================================================
+
+function closeCorrectionRequestModal(event) {
+
+  if (
+    event &&
+    event.target !== event.currentTarget
+  ) {
+    return;
+  }
+
+
+  const modal =
+    document.getElementById(
+      "correctionRequestModal"
+    );
+
+  if (!modal) return;
+
+
+  modal.classList.remove("active");
+
+  currentCorrectionRequestSpot = null;
+
+}
+
+
+// ======================================================
+// フォームリセット
+// ======================================================
+
+function resetCorrectionRequestForm() {
+
+  const form =
+    document.getElementById(
+      "correctionRequestForm"
+    );
+
+  if (form) {
+    form.reset();
+  }
+
+
+  const container =
+    document.getElementById(
+      "correctionRequestItems"
+    );
+
+  if (container) {
+    container.innerHTML = "";
+  }
+
+
+  const status =
+    document.getElementById(
+      "correctionRequestFormStatus"
+    );
+
+  if (status) {
+
+    status.textContent = "";
+
+    status.className =
+      "post-form-status";
+
+  }
+
+
+  const confirmBox =
+    document.querySelector(
+      "#correctionRequestModal .post-confirm-box"
+    );
+
+  if (confirmBox) {
+
+    confirmBox.classList.remove(
+      "confirm-error"
+    );
+
+  }
+
+
+  const button =
+    document.getElementById(
+      "correctionRequestSubmitButton"
+    );
+
+  if (button) {
+
+    button.disabled = false;
+
+  }
+
+}
+
+// ======================================================
+// GASへ送信
+// ======================================================
+
+async function postCorrectionRequestToGas(
+  payload
+) {
+
+  if (
+    !CORRECTION_REQUEST_GAS_WEB_APP_URL ||
+    CORRECTION_REQUEST_GAS_WEB_APP_URL.includes(
+      "ここに情報修正依頼用GAS"
+    )
+  ) {
+
+    throw new Error(
+      "情報修正依頼用GASのURLが設定されていません。"
+    );
+
+  }
+
+
+  const response =
+    await fetch(
+      CORRECTION_REQUEST_GAS_WEB_APP_URL,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "text/plain;charset=utf-8"
+        },
+
+        body:
+          JSON.stringify(payload)
+
+      }
+    );
+
+
+  if (!response.ok) {
+
+    throw new Error(
+      "GASとの通信に失敗しました。"
+    );
+
+  }
+
+
+  let result;
+
+  try {
+
+    result =
+      await response.json();
+
+  } catch (error) {
+
+    throw new Error(
+      "GASから正しい応答を受け取れませんでした。"
+    );
+
+  }
+
+
+  return result;
+
+}
+
+// ======================================================
+// 送信
+// ======================================================
+
+async function handleCorrectionRequestSubmit(
+  event
+) {
+
+  event.preventDefault();
+
+
+  setCorrectionRequestFormStatus(
+    "",
+    ""
+  );
+
+
+  const spot =
+    currentCorrectionRequestSpot;
+
+
+  if (!spot) {
+
+    setCorrectionRequestFormStatus(
+      "修正するスポットを取得できませんでした。",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const spotId =
+    String(
+      spot["スポットID"] || ""
+    ).trim();
+
+
+  const website =
+    document
+      .getElementById(
+        "correctionRequestWebsite"
+      )
+      ?.value
+      .trim() || "";
+
+
+  const items =
+    getCorrectionRequestItemsFromForm();
+
+
+  // -----------------------------------------------
+  // ハニーポット
+  // -----------------------------------------------
+
+  if (website) {
+
+    setCorrectionRequestFormStatus(
+      "送信を処理できませんでした。",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  // -----------------------------------------------
+  // スポットID
+  // -----------------------------------------------
+
+  if (!spotId) {
+
+    setCorrectionRequestFormStatus(
+      "スポットIDを取得できませんでした。",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  // -----------------------------------------------
+  // 修正項目
+  // -----------------------------------------------
+
+  if (items.length === 0) {
+
+    setCorrectionRequestFormStatus(
+      "修正する項目を1つ以上入力してください。",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const hasEmptyItem =
+    items.some(
+      item =>
+        !item.type ||
+        !item.content
+    );
+
+
+  if (hasEmptyItem) {
+
+    setCorrectionRequestFormStatus(
+      "修正する項目と修正する内容をすべて入力してください。",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const hasDuplicateType =
+    new Set(
+      items.map(item => item.type)
+    ).size !== items.length;
+
+
+  if (hasDuplicateType) {
+
+    setCorrectionRequestFormStatus(
+      "同じ修正項目を複数指定することはできません。",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  // -----------------------------------------------
+  // 確認4項目
+  // -----------------------------------------------
+
+  const confirmItems = [
+
+    document.getElementById(
+      "correctionConfirmPersonal"
+    ),
+
+    document.getElementById(
+      "correctionConfirmPrivate"
+    ),
+
+    document.getElementById(
+      "correctionConfirmUnrelated"
+    ),
+
+    document.getElementById(
+      "correctionConfirmTrouble"
+    )
+
+  ];
+
+
+  const allConfirmed =
+    confirmItems.every(
+      checkbox =>
+        checkbox &&
+        checkbox.checked
+    );
+
+
+  if (!allConfirmed) {
+
+    const confirmBox =
+      document.querySelector(
+        "#correctionRequestModal .post-confirm-box"
+      );
+
+
+    if (confirmBox) {
+
+      confirmBox.classList.add(
+        "confirm-error"
+      );
+
+    }
+
+
+    setCorrectionRequestFormStatus(
+      "確認項目をすべて確認してください。",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const confirmBox =
+    document.querySelector(
+      "#correctionRequestModal .post-confirm-box"
+    );
+
+
+  if (confirmBox) {
+
+    confirmBox.classList.remove(
+      "confirm-error"
+    );
+
+  }
+
+
+  // -----------------------------------------------
+  // 送信
+  // -----------------------------------------------
+
+  const button =
+    document.getElementById(
+      "correctionRequestSubmitButton"
+    );
+
+
+  if (button) {
+    button.disabled = true;
+  }
+
+
+  setCorrectionRequestFormStatus(
+    "情報修正依頼を送信しています…",
+    "loading"
+  );
+
+
+  try {
+
+    const result =
+      await postCorrectionRequestToGas({
+
+        action:
+          "submitCorrectionRequest",
+
+        spotId:
+          spotId,
+
+        items:
+          items,
+
+        website:
+          website,
+
+        confirmations: {
+
+          noPersonalInfo:
+            document.getElementById(
+              "correctionConfirmPersonal"
+            ).checked,
+
+          noPrivateSightings:
+            document.getElementById(
+              "correctionConfirmPrivate"
+            ).checked,
+
+          relatedInfo:
+            document.getElementById(
+              "correctionConfirmUnrelated"
+            ).checked,
+
+          noTrouble:
+            document.getElementById(
+              "correctionConfirmTrouble"
+            ).checked
+
+        }
+
+      });
+
+
+    if (
+      !result ||
+      !result.success
+    ) {
+
+      setCorrectionRequestFormStatus(
+        result?.message ||
+        "送信に失敗しました。時間をおいてもう一度お試しください。",
+        "error"
+      );
+
+
+      if (button) {
+        button.disabled = false;
+      }
+
+
+      return;
+
+    }
+
+
+    // -----------------------------------------------
+    // 成功
+    // -----------------------------------------------
+
+    setCorrectionRequestFormStatus(
+      "情報修正依頼を送信しました。",
+      "success"
+    );
+
+
+    deleteCorrectionRequestDraft(
+      spotId
+    );
+
+
+    setTimeout(() => {
+
+      const modal =
+        document.getElementById(
+          "correctionRequestModal"
+        );
+
+
+      if (modal) {
+        modal.classList.remove("active");
+      }
+
+
+      resetCorrectionRequestForm();
+
+      currentCorrectionRequestSpot = null;
+
+
+      showCorrectionRequestToast(
+        "情報修正依頼を送信しました。ご協力ありがとうございます！"
+      );
+
+    }, 500);
+
+
+  } catch (error) {
+
+    console.error(
+      "情報修正依頼送信エラー:",
+      error
+    );
+
+
+    setCorrectionRequestFormStatus(
+      "通信に失敗しました。時間をおいてもう一度お試しください。",
+      "error"
+    );
+
+
+    if (button) {
+      button.disabled = false;
+    }
+
+  }
+
+}
+
+// ======================================================
+// ステータス
+// ======================================================
+
+function setCorrectionRequestFormStatus(
+  message,
+  type = ""
+) {
+
+  const element =
+    document.getElementById(
+      "correctionRequestFormStatus"
+    );
+
+  if (!element) return;
+
+
+  element.textContent =
+    message;
+
+  element.className =
+    "post-form-status";
+
+
+  if (type) {
+    element.classList.add(type);
+  }
+
+}
+
+
+// ======================================================
+// 通知
+// ======================================================
+
+function showCorrectionRequestToast(
+  message
+) {
+
+  const toast =
+    document.getElementById(
+      "correctionRequestToast"
+    );
+
+  if (!toast) return;
+
+
+  toast.textContent =
+    message;
+
+  toast.classList.add("show");
+
+
+  setTimeout(() => {
+
+    toast.classList.remove("show");
+
+  }, 5000);
+
+}
+
+// ======================================================
+// 自動保存
+// ======================================================
+
+function initCorrectionRequestDraftAutosave() {
+
+  const container =
+    document.getElementById(
+      "correctionRequestItems"
+    );
+
+
+  if (container) {
+
+    container.addEventListener(
+      "input",
+      () => {
+        saveCurrentCorrectionRequestDraft();
+      }
+    );
+
+
+    container.addEventListener(
+      "change",
+      () => {
+        saveCurrentCorrectionRequestDraft();
+      }
+    );
+
+  }
+
+
+  const confirmIds = [
+
+    "correctionConfirmPersonal",
+    "correctionConfirmPrivate",
+    "correctionConfirmUnrelated",
+    "correctionConfirmTrouble"
+
+  ];
+
+
+  confirmIds.forEach(id => {
+
+    const checkbox =
+      document.getElementById(id);
+
+    if (!checkbox) return;
+
+
+    checkbox.addEventListener(
+      "change",
+      () => {
+        saveCurrentCorrectionRequestDraft();
+      }
+    );
+
+  });
+
+}
+
+function initCorrectionRequest() {
+
+  const addButton =
+    document.getElementById(
+      "addCorrectionRequestItemButton"
+    );
+
+
+  if (addButton) {
+
+    addButton.addEventListener(
+      "click",
+      () => {
+
+        createCorrectionRequestItem();
+
+        saveCurrentCorrectionRequestDraft();
+
+      }
+    );
+
+  }
+
+
+  const form =
+    document.getElementById(
+      "correctionRequestForm"
+    );
+
+
+  if (form) {
+
+    form.addEventListener(
+      "submit",
+      handleCorrectionRequestSubmit
+    );
+
+  }
+
+
+  initCorrectionRequestDraftAutosave();
 
 }
    
