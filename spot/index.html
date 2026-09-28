@@ -8585,7 +8585,7 @@ body{
           id="postMemo"
           maxlength="2000"
           rows="5"
-          placeholder="現地の状況や在庫状況などがあれば入力してください"
+          placeholder="現地の状況や在庫状況などがあれば入力してください&#10;投稿日時と在庫状況確認の日時が異なる場合は、「〇日時点で」などの文章を追加してください"
         ></textarea>
 
         <p class="post-help">
@@ -9001,7 +9001,7 @@ body{
           id="memoPostContent"
           maxlength="2000"
           rows="7"
-          placeholder="現地の状況や在庫状況、開催状況などを入力してください"
+          placeholder="現地の状況や在庫状況などがあれば入力してください&#10;投稿日時と在庫状況確認の日時が異なる場合は、「〇日時点で」などの文章を追加してください"
           required
         ></textarea>
 
@@ -19139,7 +19139,7 @@ function createCorrectionRequestItem(
         class="correction-request-content"
         maxlength="2000"
         rows="4"
-        placeholder="正しい情報や修正内容を入力してください"
+        placeholder="正しい情報や修正内容を入力してください&#10;運営が手動で修正するため、変更する箇所を分かりやすくご記入ください"
       >${escapeHtml(itemData.content || "")}</textarea>
 
     </div>
@@ -19964,7 +19964,7 @@ async function handleCorrectionRequestSubmit(
 
 
       showCorrectionRequestToast(
-        "情報修正依頼を送信しました。ご協力ありがとうございます！"
+        "情報修正依頼を送信しました。運営の修正をお待ちください。"
       );
 
     }, 500);
