@@ -3731,23 +3731,6 @@ body{
 
 }
 
-/* ======================================================
-   スマホ
-   ====================================================== */
-
-@media (max-width: 768px) {
-
-  .list-modal-content {
-    width: calc(100% - 20px);
-
-    height: calc(100dvh - 104px);
-    max-height: calc(100dvh - 104px);
-
-    border-radius: 18px;
-  }
-
-}
-
 
 /* ======================================================
    ヘッダー
@@ -3913,7 +3896,7 @@ body{
   position: relative;
 
   width: 100%;
-  min-height: 78px;
+  min-height: 58px;
 
   display: grid;
 
@@ -3924,14 +3907,14 @@ body{
 
   align-items: center;
 
-  gap: 12px;
+  gap: 8px;
 
   margin-bottom: 10px;
 
   padding: 12px 14px;
 
   border: 1px solid #e3e6e9;
-  border-radius: 17px;
+  border-radius: 10px;
 
   background: #ffffff;
 
@@ -3983,7 +3966,7 @@ body{
 .list-index-name {
   min-width: 0;
 
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 750;
 
   line-height: 1.4;
@@ -4632,16 +4615,13 @@ body{
    * 画面の高さに合わせて自動調整。
    */
   .list-modal-content {
-    width: calc(100% - 12px);
-
-    height: min(
-      760px,
-      calc(100dvh - 32px)
-    );
-
-    max-height: calc(100dvh - 32px);
 
     border-radius: 21px;
+
+    width: calc(100vw - 20px);
+    height: calc(100dvh - 92px);
+    max-height: calc(100dvh - 92px);
+
   }
 
 
