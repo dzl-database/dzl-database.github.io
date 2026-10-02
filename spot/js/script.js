@@ -2746,13 +2746,24 @@ function openDetail(data){
     </button>
 
 
-    <!-- 今後実装 -->
     <button
+      type="button"
       class="detail-big-btn"
       onclick="openCorrectionRequestModal()"
     >
-      情報修正依頼・報告
+      情報修正依頼
     </button>
+
+
+    <a
+        href="https://forms.gle/wabMrCpYtmnSdUiF6"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="detail-spam-report-link"
+    >
+        <span class="material-symbols-outlined">flag</span>
+        スパムを報告する
+    </a>
 
   `;
 
@@ -4087,8 +4098,6 @@ function futureFeature(featureName){
   // 例：
   // ・共有
   // ・フォーム
-  // ・現地メモ 投稿
-  // ・情報修正依頼・報告
   // ================================================
 
   console.log(
