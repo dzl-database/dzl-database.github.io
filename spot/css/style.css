@@ -1,1 +1,7517 @@
-css
+/* =======================
+   (1) ベース
+======================= */
+html, body{
+  margin:0;
+  min-height:100%;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(181,0,18,0.06), transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(181,0,18,0.05), transparent 40%),
+    linear-gradient(135deg, #f4f6f9 0%, #e9edf3 100%);
+  background-attachment: fixed; /* ← これ重要 */
+}
+
+body{
+  font-family:sans-serif;
+}
+   
+.content{
+  padding:20px;
+}
+
+#map {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+
+
+/* ======================================================
+   PC
+   ====================================================== */
+
+@media (min-width: 769px) {
+
+  #map {
+    top: 0;
+    bottom: 0;
+    height: 100vh;
+  }
+
+}
+
+
+/* ======================================================
+   スマホ
+   ====================================================== */
+
+@media (max-width: 768px) {
+
+  #map {
+    top: 0;
+    bottom: 72px;
+    height: auto;
+  }
+
+}
+
+
+/* Leaflet */
+
+#leafletMap {
+  width: 100%;
+  height: 100%;
+}
+   
+/* =======================
+   (2) レイアウト
+======================= */
+.section{
+  display:none;
+}
+
+.section:not(#map){
+  padding-top:0px;
+  padding-bottom:72px
+}
+
+.section.active{
+  display:block;
+}
+
+.hidden-ui{
+  display:none !important;
+}
+
+/* =======================
+   (3) ヘッダー
+======================= */
+.main-header{
+  position:fixed;
+  top:0;
+  width:100%;
+  background:white;
+  color:white;
+  z-index:1000;
+  height:64px;
+  border-bottom:3px solid #d90000;
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+.header-top{
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+}
+
+.hamburger{
+  background:none;
+  border:none;
+  outline:none;
+  box-shadow:none;
+  color:black;
+  cursor:pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hamburger:focus,
+.hamburger:active,
+.hamburger:focus-visible{
+  outline:none;
+  box-shadow:none;
+}
+
+.hamburger .material-symbols-outlined{
+  font-size:28px;
+}
+
+.site-title{
+  display:flex;
+  height:100%;
+}
+   
+.site-title img{
+  height:64px;   /* ヘッダーと同じ高さ */
+  object-fit:contain;
+  cursor:pointer;
+}
+
+@media(max-width:768px){
+  .site-title img{
+    height:64px;
+  }
+}
+
+/* =======================
+   (4) モーダル
+======================= */
+
+.modal {
+  position: fixed;
+  inset: 0;
+
+  padding: 0px 0px 72px;
+
+  background: rgba(0, 0, 0, 0.5);
+
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1300;
+}
+
+.modal.active {
+  display: flex;
+}
+
+/* =========================
+   メニューモーダル
+   ========================= */
+
+.menu-modal-content {
+  width: min(92vw, 380px);
+  max-height: calc(100dvh - 110px);
+  overflow-y: auto;
+
+  background: #fff;
+  border-radius: 18px;
+  padding: 20px;
+
+  box-sizing: border-box;
+  text-align: left;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
+}
+
+
+/* ロゴ */
+
+.menu-modal-content .modal-logo {
+  text-align: center;
+  margin: 2px 0 20px;
+}
+
+.menu-modal-content .modal-logo img {
+  display: block;
+  width: auto;
+  max-width: 220px;
+  max-height: 70px;
+  height: auto;
+  margin: 0 auto;
+}
+
+
+/* セクション */
+
+.menu-section {
+  margin-top: 18px;
+}
+
+.menu-section:first-of-type {
+  margin-top: 0;
+}
+
+.menu-section-title {
+  margin: 0 4px 8px;
+
+  color: #777;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+
+/* =========================
+   上部の大きなボタン
+   ========================= */
+
+.menu-main-button {
+  width: 100%;
+  min-height: 48px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin: 0 0 8px;
+  padding: 10px 12px;
+
+  border: 1px solid #e6e8eb;
+  border-radius: 11px;
+
+  background: #f7f8f9;
+  color: #2d3035;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 650;
+
+  text-align: left;
+  cursor: pointer;
+
+  transition:
+    background .18s ease,
+    border-color .18s ease,
+    transform .12s ease;
+}
+
+.menu-main-button:hover {
+  background: #f0f2f4;
+  border-color: #d9dde2;
+}
+
+.menu-main-button:active {
+  transform: scale(.98);
+}
+
+.menu-main-button > .material-symbols-outlined:first-child {
+  flex: 0 0 auto;
+
+  font-size: 21px;
+
+  color: #555b63;
+
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+.menu-main-button > span:nth-child(2) {
+  flex: 1;
+}
+
+.menu-main-button .menu-arrow {
+  flex: 0 0 auto;
+
+  font-size: 18px;
+  color: #999fa6;
+
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+
+/* =========================
+   2分割ボタン
+   ========================= */
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.menu-grid-button {
+  min-height: 72px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  padding: 9px 6px;
+
+  border: 1px solid #e6e8eb;
+  border-radius: 11px;
+
+  background: #f7f8f9;
+  color: #454a50;
+
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    background .18s ease,
+    border-color .18s ease,
+    transform .12s ease;
+}
+
+.menu-grid-button:hover {
+  background: #f0f2f4;
+  border-color: #d9dde2;
+}
+
+.menu-grid-button:active {
+  transform: scale(.97);
+}
+
+.menu-grid-button .material-symbols-outlined {
+  font-size: 24px;
+
+  color: #626870;
+
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+/* =========================
+   3分割ボタン
+   ========================= */
+
+.menu-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.menu-grid-3 .menu-grid-button {
+  min-width: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.menu-grid-3 .menu-grid-button span:last-child {
+  white-space: nowrap;
+  font-size: 10px;
+}
+
+/* =========================
+   スマホ
+   ========================= */
+
+@media (max-width: 600px) {
+
+  .menu-modal-content {
+    width: calc(100vw - 24px);
+    padding: 17px;
+    border-radius: 16px;
+  }
+
+  .menu-modal-content .modal-logo {
+    margin-bottom: 16px;
+  }
+
+  .menu-modal-content .modal-logo img {
+    max-width: 200px;
+  }
+
+  .menu-main-button {
+    min-height: 46px;
+    padding: 9px 10px;
+    font-size: 12px;
+  }
+
+  .menu-grid-button {
+    min-height: 68px;
+  }
+
+  .menu-grid-3 {
+    gap: 6px;
+  }
+
+  .menu-grid-3 .menu-grid-button {
+    min-height: 68px;
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+
+  .menu-grid-3 .menu-grid-button span:last-child {
+    font-size: 9px;
+  }
+
+}
+   
+/* =======================
+   (5) 検索UI
+======================= */
+
+.search-item:hover{
+  background:#f5f5f5;
+}
+
+.search-type{
+  display:flex;
+  gap:6px;
+  margin-top:10px;
+}
+
+/* 検索結果（モーダル用） */
+#modalSearchResult{
+  height:300px;          /* ← 固定高さ（好きに調整OK） */
+  overflow-y:auto;       /* ← スクロール */
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+  margin-top:10px;
+}
+
+/* 各アイテム */
+.search-item{
+  padding:12px;
+  border-bottom:1px solid #eee;
+  cursor:pointer;
+}
+
+.search-item:hover{
+  background:#f5f5f5;
+}
+
+/* サブテキスト */
+.search-sub{
+  font-size:12px;
+  color:#666;
+  margin-top:4px;
+}
+
+/* ===== 検索モーダル改善 ===== */
+.search-modal-content{
+  width:90%;
+  max-width:320px; /* ← PCは今まで通り */
+  text-align:left;
+  position:relative;
+}
+
+/* ヘッダー */
+.search-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+/* タイトル左側 */
+.search-title{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+/* 閉じるボタン */
+.search-close-btn{
+  border:none;
+  background:none;
+  cursor:pointer;
+}
+
+.search-close-btn .material-symbols-outlined{
+  font-size:24px;
+}
+
+/* inputはみ出し防止 */
+#modalSearchInput{
+  width:100%;
+  box-sizing:border-box; /* ← これが重要 */
+}
+
+/* 検索結果アイコン */
+.search-row{
+  display:flex;
+  align-items:flex-start;
+  gap:6px;
+}
+
+.search-row .material-symbols-outlined{
+  font-size:16px;
+  color:#666;
+  margin-top:2px;
+}
+
+/* ===== 検索フォームUI（元デザイン復元） ===== */
+
+.search-input,
+.search-select{
+  width:100%;
+  box-sizing:border-box;
+
+  padding:10px;
+  margin-top:10px;
+
+  border-radius:8px;
+  border:1px solid #ccc;
+
+  font-size:14px;
+  background:#fff;
+}
+
+/* selectだけ少し高さ調整 */
+.search-select{
+  padding:8px;
+}
+
+/* フォーカス時ちょい強化（任意） */
+.search-input:focus,
+.search-select:focus{
+  outline:none;
+  border-color:#d90000;
+  box-shadow:0 0 0 2px rgba(217,0,0,0.1);
+}
+
+/* =======================
+   (6) フィルターUI
+======================= */
+.circle-btn.main{
+  background:#d90000;
+  color:#fff;
+}
+
+.filter-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:6px 0;
+  cursor:pointer;
+}
+
+.color-dot{
+  width:14px;
+  height:14px;
+  border-radius:50%;
+}
+
+/* ===== フィルターモーダル ===== */
+.filter-modal-content{
+  text-align:left;
+  position:relative;
+
+  width:300px;          /* 320 → 少し縮める */
+  padding:16px;         /* 20 → 詰める */
+}
+
+/* ヘッダー */
+.filter-header{
+  display:flex;
+  align-items:center;
+  justify-content:flex-start; /* 左寄せにする */
+  margin-bottom:6px;    /* 10 → 詰める */
+  gap:6px;
+}
+
+.filter-modal-content h4{
+  margin:10px 0 6px;    /* 上下詰める */
+  font-size:14px;
+}
+
+.filter-title{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.filter-close-btn{
+  border:none;
+  background:none;
+  cursor:pointer;
+}
+
+.filter-close-btn .material-symbols-outlined{
+  font-size:24px;
+}
+
+/* ===== トグルボタン ===== */
+.toggle-item{
+  display:flex;
+  align-items:center;
+
+  text-align:center;
+  justify-content:center;
+
+  padding:8px;          /* 10 → 詰める */
+  margin:4px 0;         /* 6 → 詰める */
+
+  font-size:13px;       /* 少し小さく */
+  border-radius:8px;    /* 少し締める */
+  background:#f5f5f5;
+  cursor:pointer;
+
+  transition:0.2s;
+}
+
+.toggle-item.active{
+  background:#d90000;
+  color:#fff;
+}
+
+.toggle-left{
+  display:flex;
+  align-items:center;
+  gap:6px;
+
+  white-space:nowrap;   /* ← 改行防止 */
+}
+
+/* アイコン */
+.toggle-left .material-symbols-outlined{
+  font-size:18px;
+}
+
+/* ===== ボタン ===== */
+.apply-btn{
+  width:100%;
+  padding:14px;
+  margin-top:15px;
+
+  background:#d90000;
+  color:#fff;
+
+  border:none;
+  border-radius:10px;
+
+  font-size:16px;
+  font-weight:bold;
+
+  cursor:pointer;
+}
+
+.apply-btn:hover{
+  background:#b80000;
+}
+
+#categoryFilter{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:6px; /* ← 8 → 6 に縮小 */
+}
+
+.filter-desc{
+  font-size:13px;
+  color:#666;
+  margin-bottom:8px;
+}
+
+#statusFilter{
+  margin-top:4px;
+}
+   
+/* =======================
+   (7) 詳細パネル
+======================= */
+   
+/* 中身 */
+.detail-inner{
+  background:#fff;
+  border-radius:10px;
+
+  /* ★ここ変更 */
+  border:2px solid #d90000;
+
+  /* 影は少し控えめに（赤枠を目立たせる） */
+  box-shadow:0 6px 16px rgba(0,0,0,0.1);
+
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  width:100%;
+}
+
+/* スクロール領域 */
+#detailBody{
+  overflow-y:auto;
+  flex:1;
+}
+
+/* 上カード（カテゴリ・タイトル・住所） */
+.detail-hero{
+  padding:16px;
+  color:#fff;
+}
+
+/* カテゴリ */
+.detail-category{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:13px;
+}
+
+.detail-category .material-symbols-outlined{
+  font-size:18px;
+}
+
+/* 下エリア */
+.detail-main{
+  background:#f8f9fc;
+  padding:20px 16px 24px;
+  border-top-left-radius:20px;
+  border-top-right-radius:20px;
+  margin-top:-12px;
+
+  display:flex;
+  flex-direction:column;
+  gap:16px; /* ← 12 → 16に */
+}
+
+/* カード */
+.detail-section{
+  background:#ffffff;
+  border-radius:14px;
+  padding:16px; /* ← 14 → 16 */
+  box-shadow:0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* タイトル */
+.detail-section-title{
+  font-size:13px;
+  color:#666;
+  margin-bottom:10px; /* ← 6 → 10 */
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.detail-title .material-symbols-outlined{
+  font-size:18px;  /* ← 今より少し小さく */
+}
+
+.detail-section-title .material-symbols-outlined{
+  font-size:16px;
+}
+
+/* 本文 */
+.detail-section-content{
+  font-size:14px;
+  line-height:1.6;
+}
+
+/* ===== 改良デザイン ===== */
+
+/* ヒーロー強化 */
+.detail-hero{
+  padding:18px;
+  color:#fff;
+  position:relative;
+}
+   
+/* ステータスバッジ */
+.status-badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:12px;
+  margin-top:8px;
+  background:#fff;
+  color:#d90000;
+  font-weight:bold;
+}
+
+.detail-actions{
+  display:flex;
+  gap:8px;          /* 少し詰める */
+  margin-top:12px;
+}
+
+.detail-btn{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  padding:12px 6px;
+  border:none;
+  border-radius:10px;
+
+  background:#fff;
+  cursor:pointer;
+
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+  transition:0.2s;
+}
+
+/* ホバー */
+.detail-btn:hover{
+  transform:translateY(-2px);
+}
+
+/* アイコン */
+.detail-btn .material-symbols-outlined{
+  font-size:26px;
+  margin-bottom:4px;
+}
+
+/* 文字 */
+.detail-btn span.label{
+  font-size:11px;
+  color:#555;
+}
+
+/* メイン（強調） */
+.detail-btn.main{
+  background:#fff;
+  font-weight:bold;
+}
+
+/* サブ */
+.detail-btn.sub{
+  background:#f3f4f7;
+}
+
+/* 情報リスト */
+.info-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.info-item{
+  display:flex;
+  justify-content:space-between;
+  font-size:14px;
+}
+
+.info-label{
+  color:#666;
+}
+
+.info-value{
+  font-weight:bold;
+}
+
+.category-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+
+  padding:6px 10px;
+  border-radius:999px;
+
+  font-size:12px;
+  font-weight:bold;
+
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(4px);
+
+  /* ★追加 */
+  border:2px solid #fff;
+  box-shadow:0 2px 6px rgba(0,0,0,0.15);
+}
+
+.category-badge .material-symbols-outlined{
+  font-size:16px;
+}
+
+.info-value{
+  max-width:60%;
+  text-align:right;
+}
+
+/* Chrome・Safari */
+#detailBody::-webkit-scrollbar{
+  display:none;
+}
+
+/* Firefox */
+#detailBody{
+  scrollbar-width:none;
+}
+
+/* IE系（念のため） */
+#detailBody{
+  -ms-overflow-style:none;
+}
+
+.detail-close-btn{
+  position:absolute;
+  top:10px;
+  right:10px;
+
+  width:36px;
+  height:36px;
+
+  border:none;
+  border-radius:50%;
+
+  background:rgba(255,255,255,0.9);
+  backdrop-filter:blur(4px);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}
+
+.detail-close-btn .material-symbols-outlined{
+  font-size:23px;
+  color:#222;
+}
+
+.detail-close-btn:hover{
+  background:#fff;
+}
+   
+/* =======================
+   (8) 利用規約
+======================= */
+   
+#terms h2{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+#terms hr{
+  border:none;
+  height:1px;
+  background:black;
+}
+   
+#terms h3{
+  margin-top:20px;
+}
+
+#terms ul{
+  padding-left:18px;
+}
+
+#terms li{
+  margin:6px 0;
+  line-height:1.6;
+}
+
+#terms a{
+  color:#d90000;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+#terms a:hover{
+  text-decoration:underline;
+}
+
+#terms .content{
+  max-width:800px;   /* ← 横幅制限（超重要） */
+  margin:0 auto;     /* ← 中央配置 */
+  padding:20px 30px; /* ← 左右余白広げる */
+}
+
+#release .content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 30px;
+}
+
+/* =======================
+   (9) 機能ボタン3種
+======================= */
+
+.extra-buttons{
+  position: fixed;
+
+  top: 12px;
+  right: 12px;
+
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+
+  z-index:1000;
+}
+
+.circle-btn{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:none;
+  background:#fff;
+  color:#333;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,0.2);
+}
+
+.circle-btn .material-symbols-outlined{
+  font-size:22px;
+}
+
+.modal-actions{
+  display:flex;
+  gap:10px;
+  margin-top:20px;
+}
+
+.btn{
+  flex:1;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  font-size:14px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+/* 戻る（サブ） */
+.btn-cancel{
+  background:#eee;
+  color:#333;
+}
+
+.btn-cancel:hover{
+  background:#ddd;
+}
+
+/* 開く（メイン） */
+.btn-main{
+  background:#d90000;
+  color:#fff;
+}
+
+.btn-main:hover{
+  background:#b80000;
+}
+
+.current-dot{
+  position:relative;
+  width:18px;
+  height:18px;
+  background:#007aff;
+  border-radius:50%;
+  border:3px solid white;
+}
+
+.current-dot::after{
+  content:"";
+  position:absolute;
+  inset:-6px;
+  border-radius:50%;
+  border:2px solid #007aff;
+  animation:ping 1.5s infinite;
+}
+
+@keyframes ping{
+  0%{ transform:scale(1); opacity:1; }
+  100%{ transform:scale(2); opacity:0; }
+}
+
+/* =======================
+   (10) 使い方ページ
+======================= */
+
+.howto-container{
+  max-width:900px;
+  margin:0 auto;
+}
+
+.howto-lead{
+  text-align:center;
+  color:#555;
+  margin-bottom:20px;
+}
+
+.howto-card{
+  background:#fff;
+  border-radius:12px;
+  padding:16px;
+  margin-bottom:16px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.05);
+}
+
+.howto-card h3{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-bottom:10px;
+}
+
+.howto-card ul{
+  padding-left:18px;
+}
+
+.howto-card li{
+  margin:6px 0;
+  line-height:1.6;
+}
+
+/* アイコン一覧 */
+.icon-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:12px;
+  margin-top:10px;
+}
+
+.icon-item{
+  text-align:center;
+}
+
+.icon-circle{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 6px;
+  color:#fff;
+}
+
+.icon-circle.red{ background:#C80000; }
+.icon-circle.purple{ background:#733C93; }
+.icon-circle.yellow{ background:#FCC700; color:#333; }
+.icon-circle.blue{ background:#54C3F1; }
+.icon-circle.pink{ background:#EB6D9A; }
+.icon-circle.black{ background:#333; }
+
+/* 強調カード */
+.howto-card.highlight{
+  border:2px solid #d90000;
+  text-align:center;
+}
+
+.howto-btn{
+  margin-top:10px;
+  padding:12px 16px;
+  border:none;
+  border-radius:8px;
+  background:#d90000;
+  color:#fff;
+  font-size:14px;
+  cursor:pointer;
+}
+
+.howto-btn:hover{
+  background:#b80000;
+}
+
+.contributors-list{
+  margin-top:20px;
+  text-align:center; /* ← 中央寄せ */
+}
+
+.contributor-item{
+  margin:6px 0;
+  font-size:16px;
+}
+
+/* =======================
+   タイトル中央寄せ
+======================= */
+
+/* 情報提供者ページ */
+#contributors h2,
+#contributors p{
+  text-align: center;
+}
+
+/* 使い方ページ */
+#howto h2{
+  text-align: center;
+}
+
+/* =====================================================
+   新・詳細パネル
+   ===================================================== */
+
+/* -----------------------------------------------------
+   詳細パネル全体
+   ----------------------------------------------------- */
+
+/* ======================================================
+   詳細パネル
+   ====================================================== */
+
+.detail-panel {
+  position: fixed;
+
+  /* 上下中央配置 */
+  top: 16px;
+  bottom: calc(72px + 16px);
+
+  /* 右側に配置 */
+  right: 16px;
+  left: auto;
+
+  width: 340px;
+
+  height: auto;
+  max-height: calc(100dvh - 72px - 32px);
+
+  background: transparent;
+  box-shadow: none;
+
+  z-index: 1200;
+
+  display: flex;
+
+  /* 下側ナビの下まで完全に待機 */
+  transform: translateY(calc(100% + 72px + 16px));
+
+  transition:
+    transform 0.3s ease;
+}
+
+.detail-panel.active {
+  transform: translateY(0);
+}
+
+
+/* ======================================================
+   スマホ
+   ====================================================== */
+
+@media (max-width: 600px) {
+  .detail-panel {
+    top: 16px;
+    bottom: calc(72px + 16px);
+
+    left: 10px;
+    right: 10px;
+
+    width: auto;
+    max-width: none;
+
+    height: auto;
+    max-height: calc(100dvh - 72px - 32px);
+
+    /* 下側ナビの下まで完全に待機 */
+    transform: translateY(calc(100% + 72px + 16px));
+  }
+
+  .detail-panel.active {
+    transform: translateY(0);
+  }
+}
+
+/* =====================================================
+   詳細パネル上部：可変高さのグラデーション
+   ===================================================== */
+
+.detail-top-area{
+  width:100%;
+  box-sizing:border-box;
+
+  background:linear-gradient(
+    135deg,
+    #ed1c24 0%,
+    #ff3b3f 100%
+  );
+
+  color:#fff;
+}
+
+
+/* -----------------------------------------------------
+   スクロール領域
+   ----------------------------------------------------- */
+
+#detailBody{
+  overflow-y:auto;
+  flex:1;
+
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+
+#detailBody::-webkit-scrollbar{
+  display:none;
+}
+
+
+/* =====================================================
+   上半分
+   ===================================================== */
+
+/* -----------------------------------------------------
+   ヒーロー
+   ----------------------------------------------------- */
+
+.new-detail-hero{
+  background:transparent !important;
+
+  padding:16px 18px 12px;
+
+  color:#fff;
+
+  position:relative;
+}
+
+
+/* -----------------------------------------------------
+   閉じるボタン
+   ----------------------------------------------------- */
+
+.detail-close-btn{
+  position:absolute;
+
+  top:14px;
+  right:10px;
+
+  width:36px;
+  height:36px;
+
+  border:none;
+  border-radius:50%;
+
+  background:rgba(255,255,255,0.92);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+
+  z-index:2;
+}
+
+.detail-close-btn .material-symbols-outlined{
+  font-size:23px;
+  color:#222;
+}
+
+
+/* -----------------------------------------------------
+   カテゴリ
+   ----------------------------------------------------- */
+
+.category-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+
+  padding:6px 10px;
+
+  border-radius:999px;
+
+  font-size:12px;
+  font-weight:bold;
+
+  color:#fff;
+
+  border:2px solid #fff;
+
+  box-shadow:0 2px 6px rgba(0,0,0,0.15);
+
+  backdrop-filter:blur(4px);
+}
+
+.category-badge .material-symbols-outlined{
+  font-size:16px;
+}
+
+
+/* -----------------------------------------------------
+   場所名
+   ----------------------------------------------------- */
+
+.detail-hero-title{
+  font-size:17px;
+  font-weight:bold;
+
+  line-height:1.2;
+
+  margin:10px 0 6px 0;
+}
+
+
+/* -----------------------------------------------------
+   住所
+   ----------------------------------------------------- */
+
+.detail-hero-address{
+  font-size:13px;
+  line-height:1.4;
+
+  color:#fff;
+
+  opacity:0.95;
+
+  padding-right:0px;
+}
+
+
+/* =====================================================
+   スポット情報
+   ===================================================== */
+
+.spot-event-section{
+  background:transparent;
+
+  padding:0 16px 10px;
+  padding-bottom:0;
+}
+
+/* イベントカード */
+
+.spot-event-card{
+  background:#fff;
+
+  border-radius:10px;
+
+  padding:11px 12px;
+
+  box-sizing:border-box;
+
+  margin-bottom:8px;
+}
+
+
+/* 件数 */
+
+.spot-event-summary{
+  font-size:15px;
+  font-weight:700;
+
+  text-align:center;
+
+  margin-bottom:7px;
+
+  color:#000000;
+}
+
+.event-active-count{
+  color:#ed1c24;
+}
+
+
+/* イベント一覧 */
+
+.spot-event-list{
+  display:flex;
+  flex-direction:column;
+
+  gap:5px;
+}
+
+
+/* イベント1件 */
+
+.spot-event-item{
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
+
+  gap:10px;
+
+  font-size:14px;
+}
+
+
+/* イベント名 */
+
+.spot-event-name{
+  flex:1;
+  min-width:0;
+
+  line-height:1.3;
+
+  word-break:break-word;
+
+  color:#000000;
+  font-size:13px;
+}
+
+
+/* 開催状況 */
+
+.spot-event-status{
+  flex-shrink:0;
+
+  font-weight:700;
+
+  white-space:nowrap;
+}
+
+.status-active{
+  color:#ed1c24;
+}
+
+.status-before{
+  color:#e09b00;
+}
+
+.status-ended{
+  color:#777;
+}
+
+.status-unknown{
+  color:#777;
+}
+
+
+/* =====================================================
+   アクションボタン
+   ===================================================== */
+
+.new-detail-actions{
+  background:transparent;
+
+  display:grid;
+
+  grid-template-columns:repeat(4, 1fr);
+
+  gap:6px;
+
+  padding:0 8px 10px;
+
+  box-sizing:border-box;
+
+  margin-top:0 !important;
+}
+
+
+/* ボタン */
+
+.new-detail-actions .detail-btn{
+  min-width:0;
+
+  height:40px;
+
+  padding:0 4px;
+
+  border:none;
+  border-radius:20px;
+
+  background:#fff;
+
+  color:#222;
+
+  display:flex;
+
+  flex-direction:row;
+
+  align-items:center;
+  justify-content:center;
+
+  gap:4px;
+
+  font-size:11px;
+  font-weight:700;
+
+  cursor:pointer;
+
+  box-shadow:0 2px 5px rgba(0,0,0,0.08);
+
+  transition:background 0.2s;
+}
+
+.new-detail-actions .detail-btn:hover{
+  background:#eeeeee;
+}
+
+.new-detail-actions .detail-btn .material-symbols-outlined{
+  font-size:18px;
+  margin:0;
+}
+
+
+/* =====================================================
+   下半分
+   ===================================================== */
+
+.new-detail-main{
+  background:#f5f6f8;
+
+  padding:0 0 24px 0;
+
+  margin-top:0;
+
+  border-radius:0;
+
+  display:flex;
+  flex-direction:column;
+
+  gap:0;
+}
+
+
+/* =====================================================
+   詳細セクション共通
+   ===================================================== */
+
+.new-detail-main .detail-section{
+  background:transparent;
+
+  margin:0;
+
+  padding:14px 16px 0;
+
+  box-shadow:none;
+
+  border-radius:0;
+}
+
+
+/* セクションタイトル */
+
+.new-detail-main .detail-section-title{
+  font-size:15px;
+
+  font-weight:700;
+
+  color:#111;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:5px;
+
+  margin:0 0 8px;
+}
+
+
+/* =====================================================
+   現地メモ
+   ===================================================== */
+
+.memo-section{
+  padding-top:16px !important;
+}
+
+
+/* タイトル部分 */
+
+.memo-section-title{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:10px;
+
+  background:transparent;
+}
+
+
+/* 「最新の状況を投稿する ＋」 */
+
+.memo-post-small{
+  border:none;
+
+  background:transparent;
+
+  padding:0;
+
+  color:#111;
+
+  font-size:13px;
+  font-weight:700;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:flex-end;
+
+  gap:2px;
+
+  white-space:nowrap;
+
+  cursor:pointer;
+}
+
+.memo-post-small .material-symbols-outlined{
+  font-size:20px;
+}
+
+
+/* =====================================================
+   現地メモ一覧
+   ===================================================== */
+
+.memo-timeline{
+  position:relative;
+
+  display:flex;
+  flex-direction:column;
+
+  gap:10px;
+
+  /*
+   * 左側にタイムライン用のスペースを確保
+   */
+  padding-left:22px;
+}
+
+
+/* -----------------------------------------------------
+   縦につながる線
+   ----------------------------------------------------- */
+
+.memo-timeline::before{
+  content:"";
+
+  position:absolute;
+
+  left:7px;
+  top:8px;
+  bottom:8px;
+
+  width:2px;
+
+  background:#d9dde3;
+
+  border-radius:2px;
+}
+
+
+/* -----------------------------------------------------
+   メモカード
+   ----------------------------------------------------- */
+
+.memo-item{
+  position:relative;
+
+  width:100%;
+
+  box-sizing:border-box;
+
+  background:#fff;
+
+  border-radius:10px;
+
+  padding:11px 12px;
+
+  box-shadow:0 2px 7px rgba(0,0,0,0.05);
+}
+
+
+/* -----------------------------------------------------
+   タイムラインの丸
+   ----------------------------------------------------- */
+
+.memo-item::before{
+  content:"";
+
+  position:absolute;
+
+  left:-20px;
+  top:17px;
+
+  width:12px;
+  height:12px;
+
+  box-sizing:border-box;
+
+  background:#fff;
+
+  border:3px solid #ed1c24;
+
+  border-radius:50%;
+
+  z-index:1;
+}
+
+
+/* -----------------------------------------------------
+   最新メモ
+   ----------------------------------------------------- */
+
+.memo-latest{
+  margin:0;
+}
+
+
+/* 最新メモの丸を少し強調 */
+
+.memo-latest::before{
+  width:14px;
+  height:14px;
+
+  left:-21px;
+  top:16px;
+
+  background:#ed1c24;
+
+  border:3px solid #fff;
+
+  box-shadow:0 0 0 2px #ed1c24;
+}
+
+
+/* -----------------------------------------------------
+   過去メモ
+   ----------------------------------------------------- */
+
+.memo-history{
+  margin:0;
+
+  font-size:13px;
+}
+
+
+/* -----------------------------------------------------
+   メモ見出し
+   ----------------------------------------------------- */
+
+.memo-heading{
+  font-weight:700;
+
+  line-height:1.45;
+
+  margin-bottom:5px;
+}
+
+.memo-latest .memo-heading{
+  font-size:13.5px;
+}
+
+.memo-history .memo-heading{
+  font-size:12.5px;
+}
+
+
+/* -----------------------------------------------------
+   メモ本文
+   ----------------------------------------------------- */
+
+.memo-content{
+  font-size:13px;
+
+  line-height:1.4;
+
+  word-break:break-word;
+}
+
+.memo-latest .memo-content{
+  font-size:13px;
+}
+
+.memo-history .memo-content{
+  font-size:12px;
+}
+
+
+/* -----------------------------------------------------
+   メモなし
+   ----------------------------------------------------- */
+
+.memo-empty{
+  background:#fff;
+
+  border-radius:10px;
+
+  padding:14px;
+
+  color:#777;
+
+  font-size:13px;
+
+  text-align:center;
+
+  box-shadow:0 2px 7px rgba(0,0,0,0.05);
+}
+
+@media(max-width:600px){
+
+  .memo-timeline{
+    padding-left:20px;
+  }
+
+  .memo-timeline::before{
+    left:6px;
+  }
+
+  .memo-item::before{
+    left:-20px;
+  }
+
+  .memo-latest::before{
+    left:-21px;
+  }
+
+}
+
+/* =====================================================
+   リンク
+   ===================================================== */
+
+.link-section{
+  padding-top:16px !important;
+}
+
+
+/* リンクタイトルはカード外 */
+
+.link-section .detail-section-title{
+  background:transparent;
+
+  margin-bottom:8px;
+}
+
+
+/* リンクカード */
+
+.detail-links{
+  display:flex;
+
+  flex-direction:column;
+
+  background:#fff;
+
+  border-radius:10px;
+
+  overflow:hidden;
+
+  box-shadow:0 2px 7px rgba(0,0,0,0.05);
+}
+
+
+/* リンク1件 */
+
+.detail-link-item{
+  display:grid;
+
+  grid-template-columns:
+    58px
+    minmax(0,1fr)
+    22px;
+
+  align-items:center;
+
+  gap:6px;
+
+  min-height:42px;
+
+  padding:6px 10px;
+
+  box-sizing:border-box;
+
+  color:#222;
+
+  text-decoration:none;
+
+  font-size:13px;
+}
+
+.detail-link-item + .detail-link-item{
+  border-top:1px solid #eeeeee;
+}
+
+.detail-link-label{
+  font-weight:700;
+}
+
+.detail-link-url{
+  min-width:0;
+
+  overflow:hidden;
+
+  white-space:nowrap;
+
+  text-overflow:ellipsis;
+
+  color:#222;
+}
+
+.detail-link-arrow{
+  font-size:18px;
+}
+
+
+/* =====================================================
+   下部フォームボタン
+   ===================================================== */
+
+.detail-form-buttons{
+  display:flex;
+
+  flex-direction:column;
+
+  gap:8px;
+
+  padding:16px 16px 0;
+}
+
+
+.detail-big-btn{
+  width:78%;
+
+  margin:0 auto;
+
+  height:38px;
+
+  border:none;
+
+  border-radius:24px;
+
+  background:#fff;
+
+  color:#111;
+
+  font-size:14px;
+  font-weight:700;
+
+  cursor:pointer;
+
+  box-shadow:0 2px 7px rgba(0,0,0,0.04);
+}
+
+.detail-big-btn:hover{
+  background:#eeeeee;
+}
+
+
+/* =====================================================
+   下部情報
+   ===================================================== */
+
+.detail-info-bottom{
+  padding:18px 20px 0;
+}
+
+
+.bottom-info-row{
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  align-items:end;
+
+  gap:10px;
+
+  font-size:12px;
+
+  line-height:1.5;
+}
+
+.bottom-info-row + .bottom-info-row{
+  margin-top:3px;
+}
+
+.bottom-info-label{
+  color:#222;
+}
+
+.bottom-info-value{
+  text-align:right;
+
+  color:#222;
+}
+
+
+/* =====================================================
+   スマートフォン
+   ===================================================== */
+
+@media(max-width:600px){
+
+  .new-detail-hero{
+    padding:14px 14px 12px;
+  }
+
+  .detail-hero-title{
+    font-size:18px;
+  }
+
+  .spot-event-section{
+    padding-left:12px;
+    padding-right:12px;
+  }
+
+  .spot-event-item{
+    font-size:13px;
+  }
+
+  .new-detail-actions{
+    gap:4px;
+    padding-left:6px;
+    padding-right:6px;
+  }
+
+  .new-detail-actions .detail-btn{
+    height:38px;
+    font-size:10px;
+  }
+
+  .new-detail-actions .detail-btn .material-symbols-outlined{
+    font-size:17px;
+  }
+
+  .memo-section-title{
+    align-items:center;
+  }
+
+  .memo-post-small{
+    font-size:12px;
+  }
+
+  .memo-latest .memo-content{
+    font-size:13px;
+  }
+
+  .memo-history .memo-content{
+    font-size:12px;
+  }
+
+  .detail-big-btn{
+    width:82%;
+  }
+
+}
+
+.spot-event-title{
+  display:flex;
+  align-items:center;
+  gap:5px;
+
+  color:#fff;
+
+  font-size:15px;
+  font-weight:700;
+
+  margin:0 0 7px;
+}
+
+.spot-event-title .material-symbols-outlined{
+  font-size:18px;
+}
+
+.memo-title-text{
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+
+.memo-title-text .material-symbols-outlined{
+  font-size:18px;
+}
+
+/* ======================================================
+   新規スポット投稿フォーム
+   ====================================================== */
+
+:root {
+  --spot-accent: #D90000;
+  --spot-accent-dark: #B80000;
+  --spot-accent-light: #FFF0F0;
+}
+
+/* ======================================================
+   新規スポット投稿フォーム・投稿関連UI
+   ====================================================== */
+
+#postModal,
+#postModal button,
+#postModal input,
+#postModal select,
+#postModal textarea,
+#postMapPickerModal,
+#postMapPickerModal button,
+#postToast,
+#memoPostModal,
+#memoPostModal button,
+#memoPostModal input,
+#memoPostModal select,
+#memoPostModal textarea,
+#memoPostToast {
+
+  font-family: "M PLUS 1", sans-serif;
+
+}
+
+/* =========================
+   投稿モーダル
+   ========================= */
+
+.post-modal {
+  /* 下部ナビゲーションと重ならないようにする */
+  padding: 0 0 72px;
+  box-sizing: border-box;
+}
+
+.post-modal-content {
+  width: min(94vw, 570px);
+  height: calc(100dvh - 104px);
+  max-height: calc(100dvh - 104px);
+  overflow-y: auto;
+  text-align: left;
+  padding: 0;
+  border-radius: 18px;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+/* ヘッダー */
+
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 20px 20px 16px;
+
+  border-bottom: 1px solid #eee;
+}
+
+
+.post-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+
+.post-title > .material-symbols-outlined {
+  color: var(--spot-accent);
+  font-size: 30px;
+}
+
+
+.post-title h3 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  color: #222;
+}
+
+
+.post-title p {
+  margin: 4px 0 0;
+  color: #777;
+  font-size: 12px;
+}
+
+
+.post-close-btn {
+  flex: 0 0 auto;
+
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #f5f5f5;
+  color: #444;
+
+  cursor: pointer;
+
+  transition:
+    background .2s,
+    color .2s;
+}
+
+
+.post-close-btn:hover {
+  background: var(--spot-accent-light);
+  color: var(--spot-accent);
+}
+
+
+/* =========================
+   フォーム本体
+   ========================= */
+
+.post-form {
+  padding: 20px;
+}
+
+
+.post-field {
+  margin-bottom: 18px;
+}
+
+
+.post-field > label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+
+.post-required,
+.post-optional {
+  display: inline-block;
+
+  margin-left: 6px;
+  padding: 2px 6px;
+
+  border-radius: 4px;
+
+  font-size: 10px;
+  font-weight: 600;
+}
+
+
+.post-required {
+  background: var(--spot-accent);
+  color: #fff;
+}
+
+
+.post-optional {
+  background: #eee;
+  color: #777;
+}
+
+
+/* =========================
+   入力欄
+   ========================= */
+
+.post-form input[type="text"],
+.post-form input[type="date"],
+.post-form select,
+.post-form textarea {
+
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 11px 12px;
+
+  border: 1px solid #d7d7d7;
+  border-radius: 9px;
+
+  background: #fff;
+  color: #222;
+
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color .18s,
+    box-shadow .18s,
+    background .18s;
+}
+
+
+/* ホバー */
+
+.post-form input[type="text"]:hover,
+.post-form input[type="date"]:hover,
+.post-form select:hover,
+.post-form textarea:hover {
+  border-color: var(--spot-accent);
+}
+
+
+/* フォーカス */
+
+.post-form input[type="text"]:focus,
+.post-form input[type="date"]:focus,
+.post-form select:focus,
+.post-form textarea:focus {
+
+  border-color: var(--spot-accent);
+
+  box-shadow:
+    0 0 0 3px rgba(217, 0, 0, 0.10);
+}
+
+
+/* プレースホルダー */
+
+.post-form input::placeholder,
+.post-form textarea::placeholder {
+  color: #aaa;
+}
+
+
+/* テキストエリア */
+
+.post-form textarea {
+  resize: vertical;
+  min-height: 90px;
+  line-height: 1.6;
+}
+
+
+/* =========================
+   補足テキスト
+   ========================= */
+
+.post-help {
+  margin: 6px 0 0;
+
+  color: #777;
+
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+
+.post-event-help {
+  margin-top: -4px;
+  margin-bottom: 16px;
+}
+
+
+/* =========================
+   マップ選択ボタン
+   ========================= */
+
+.post-map-select-btn {
+
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  padding: 12px;
+
+  border: 1px solid var(--spot-accent);
+  border-radius: 9px;
+
+  background: #fff;
+  color: var(--spot-accent);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background .18s,
+    color .18s;
+
+  margin: 16px 0 1px;
+}
+
+
+.post-map-select-btn:hover {
+  background: var(--spot-accent);
+  color: #fff;
+}
+
+
+.post-map-select-btn .material-symbols-outlined {
+  font-size: 20px;
+}
+
+
+/* =========================
+   選択位置
+   ========================= */
+
+.post-location-summary {
+
+  margin-top: 8px;
+  padding: 9px 10px;
+
+  border-radius: 7px;
+
+  background: #f7f7f7;
+  color: #777;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+
+.post-location-summary.selected {
+  background: var(--spot-accent-light);
+  color: var(--spot-accent);
+}
+
+
+/* =========================
+   イベントボックス
+   ========================= */
+
+.post-event-box {
+
+  margin: 8px 0 20px;
+  padding: 16px;
+
+  border: 1px solid #eee;
+  border-radius: 12px;
+
+  background: #fafafa;
+}
+
+
+.post-event-heading {
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 10px;
+}
+
+
+.post-event-heading > .material-symbols-outlined {
+  color: var(--spot-accent);
+  font-size: 22px;
+}
+
+
+.post-event-heading div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+
+.post-event-heading strong {
+  font-size: 15px;
+}
+
+
+.post-event-heading span {
+  font-size: 10px;
+  color: #888;
+}
+
+
+.post-event-box .post-field:last-child {
+  margin-bottom: 0;
+}
+
+
+/* =========================
+   日付
+   ========================= */
+
+.post-date-row {
+
+  display: grid;
+
+  grid-template-columns: 1fr auto 1fr;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+
+.post-date-row > span {
+  color: #777;
+  font-size: 13px;
+}
+
+
+/* =========================
+   送信状態
+   ========================= */
+
+.post-form-status {
+
+  min-height: 20px;
+
+  margin: 12px 0 12px;
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+
+.post-form-status.error {
+  padding: 10px 12px;
+
+  border-radius: 8px;
+
+  background: #fff0f0;
+  color: #c00000;
+}
+
+
+.post-form-status.loading {
+  color: #666;
+}
+
+
+/* =========================
+   投稿ボタン
+   ========================= */
+
+.post-submit-btn {
+
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  padding: 13px 16px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: var(--spot-accent);
+  color: #fff;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background .18s,
+    transform .1s,
+    opacity .18s;
+}
+
+
+.post-submit-btn:hover {
+  background: var(--spot-accent-dark);
+}
+
+
+.post-submit-btn:active {
+  transform: translateY(1px);
+}
+
+
+.post-submit-btn:disabled {
+  opacity: .55;
+  cursor: wait;
+}
+
+
+/* =========================
+   ハニーポット
+   ========================= */
+
+.post-honeypot {
+
+  position: absolute;
+
+  left: -9999px;
+
+  width: 1px;
+  height: 1px;
+
+  overflow: hidden;
+}
+
+
+/* =========================
+   場所選択マップ
+   ========================= */
+
+.post-map-picker-modal {
+  z-index: 3000;
+}
+
+
+.post-map-picker-content {
+
+  width: min(94vw, 720px);
+
+  padding: 0;
+
+  overflow: hidden;
+
+  border-radius: 16px;
+
+  background: #fff;
+
+  height: calc(100dvh - 104px);
+  max-height: calc(100dvh - 104px);
+}
+
+
+.post-picker-header {
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  padding: 15px 16px;
+
+  border-bottom: 1px solid #eee;
+
+  text-align: left;
+  margin-left: 16px;
+}
+
+
+.post-picker-header strong {
+  font-size: 16px;
+}
+
+
+.post-picker-header p {
+
+  margin: 3px 0 0;
+
+  color: #777;
+  font-size: 11px;
+}
+
+.post-picker-bottom {
+
+  padding: 12px 16px 16px;
+
+  background: #fff;
+}
+
+
+.post-picker-coordinate {
+
+  margin-bottom: 10px;
+
+  padding: 8px 10px;
+
+  border-radius: 7px;
+
+  background: #f7f7f7;
+
+  color: #666;
+
+  font-size: 11px;
+}
+
+
+.post-picker-confirm-btn {
+
+  width: 100%;
+
+  padding: 12px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: var(--spot-accent);
+  color: #fff;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+.post-picker-confirm-btn:hover {
+  background: var(--spot-accent-dark);
+}
+
+
+/* =========================
+   投稿完了通知
+   ========================= */
+
+.post-toast {
+
+  position: fixed;
+
+  left: 50%;
+  bottom: 80px;
+
+  z-index: 3100;
+
+  transform: translate(-50%, 20px);
+
+  width: min(90vw, 480px);
+
+  box-sizing: border-box;
+
+  padding: 13px 16px;
+
+  border-radius: 10px;
+
+  background: #222;
+  color: #fff;
+
+  text-align: center;
+
+  font-size: 13px;
+  line-height: 1.5;
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition:
+    opacity .2s,
+    transform .2s;
+}
+
+
+.post-toast.show {
+
+  opacity: 1;
+
+  transform: translate(-50%, 0);
+}
+
+/* ======================================================
+   スマホ
+   ====================================================== */
+
+@media (max-width: 600px) {
+
+  .post-modal-content {
+    width: 94vw;
+    height: calc(100dvh - 104px);
+    max-height: calc(100dvh - 104px);
+  }
+
+  .post-form {
+    padding: 16px;
+  }
+
+  .post-header {
+    padding: 16px;
+  }
+
+  .post-title h3 {
+    font-size: 17px;
+  }
+
+}
+
+/* ======================================================
+   新規スポット投稿：送信前の確認
+====================================================== */
+
+.post-confirm-box {
+  margin-top: 22px;
+  padding: 16px;
+  background: #fff7f7;
+  border: 1px solid #f0caca;
+  border-radius: 12px;
+}
+
+
+.post-confirm-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #D90000;
+  font-size: 15px;
+}
+
+
+.post-confirm-title .material-symbols-outlined {
+  font-size: 20px;
+}
+
+
+.post-confirm-help {
+  margin: 8px 0 14px;
+  color: #666;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+
+.post-confirm-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  padding: 10px 8px;
+
+  color: #333;
+  font-size: 14px;
+  line-height: 1.6;
+
+  cursor: pointer;
+}
+
+
+.post-confirm-item + .post-confirm-item {
+  border-top: 1px solid #eeeeee;
+}
+
+
+.post-confirm-item input[type="checkbox"] {
+  flex: 0 0 auto;
+
+  width: 19px;
+  height: 19px;
+
+  margin: 2px 0 0;
+
+  accent-color: #D90000;
+
+  cursor: pointer;
+}
+
+
+.post-confirm-item span {
+  flex: 1;
+}
+
+
+.post-confirm-item small {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #777;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+
+/* 未確認時の強調 */
+.post-confirm-box.confirm-error {
+  border-color: #D90000;
+  background: #fff2f2;
+  animation: postConfirmShake 0.25s ease;
+}
+
+
+@keyframes postConfirmShake {
+
+  0% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-3px);
+  }
+
+  50% {
+    transform: translateX(3px);
+  }
+
+  75% {
+    transform: translateX(-2px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+
+}
+
+/* ======================================================
+   関連URL
+====================================================== */
+
+/* URL一覧 */
+
+#postRelatedUrlsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+/* URL 1件分 */
+
+.post-related-url-item {
+  margin: 0;
+}
+
+
+/* 入力欄＋削除ボタン */
+
+.post-related-url-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+/* URL入力欄 */
+
+.post-related-url {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 11px 12px;
+
+  border: 1px solid #d7d7d7;
+  border-radius: 9px;
+
+  background: #fff;
+  color: #222;
+
+  font-family: "M PLUS 1", sans-serif;
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color .18s,
+    box-shadow .18s,
+    background .18s;
+}
+
+
+/* ホバー */
+
+.post-related-url:hover {
+  border-color: var(--spot-accent);
+}
+
+
+/* フォーカス */
+
+.post-related-url:focus {
+  border-color: var(--spot-accent);
+
+  box-shadow:
+    0 0 0 3px rgba(217, 0, 0, 0.10);
+}
+
+
+/* プレースホルダー */
+
+.post-related-url::placeholder {
+  color: #aaa;
+}
+
+
+/* 削除ボタン */
+
+.post-related-url-row .post-close-btn {
+
+  width: 36px;
+  height: 36px;
+
+  flex: 0 0 36px;
+
+}
+
+
+/* 「リンクをさらに追加＋」ボタン */
+
+#addPostRelatedUrlButton {
+  margin-top: 10px;
+}
+
+
+/* スマホ */
+
+@media (max-width: 600px) {
+
+  .post-related-url-row {
+    gap: 6px;
+  }
+
+  .post-related-url {
+    font-size: 16px;
+  }
+
+  .post-related-url-row .post-close-btn {
+
+    width: 34px;
+    height: 34px;
+
+    flex: 0 0 34px;
+
+  }
+
+}
+
+/* ======================================================
+   スポットの場所
+====================================================== */
+
+.post-location-box {
+
+  margin: 8px 0 20px;
+  padding: 16px;
+
+  border: 1px solid #eee;
+  border-radius: 12px;
+
+  background: #fafafa;
+}
+
+
+.post-location-heading {
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 10px;
+}
+
+
+.post-location-heading > .material-symbols-outlined {
+
+  color: var(--spot-accent);
+
+  font-size: 22px;
+
+}
+
+
+.post-location-heading > div {
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+}
+
+
+.post-location-heading strong {
+
+  font-size: 15px;
+
+}
+
+
+.post-location-help {
+
+  margin-top: -2px;
+  margin-bottom: 16px;
+
+}
+
+
+.post-location-box .post-field {
+
+  margin-bottom: 8px;
+
+}
+
+
+.post-location-map-area {
+
+  margin-top: 4px;
+
+}
+
+
+.post-location-map-area
+.post-map-select-btn {
+
+  background: #fff;
+
+}
+
+
+.post-location-map-area
+.post-map-select-btn:hover {
+
+  background: var(--spot-accent);
+  color: #fff;
+
+}
+
+
+.post-location-summary {
+
+  margin-top: 8px;
+  margin-bottom: 14px;
+
+}
+
+/* ======================================================
+   スポットの場所：選択方法
+====================================================== */
+
+.post-location-method {
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  margin-top: 16px;
+}
+
+.post-location-method-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.post-location-method-title > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.post-location-step {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 700;
+}
+
+.post-location-method-title strong {
+  font-size: 15px;
+}
+
+.post-location-method-title > div > span {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.post-location-or {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.post-location-or::before,
+.post-location-or::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.post-location-status {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 12px 14px;
+  background: #eff6ff;
+  border-radius: 10px;
+  color: #334155;
+}
+
+.post-location-status
+  .material-symbols-outlined {
+  color: #2563eb;
+  flex-shrink: 0;
+}
+
+.post-location-status strong {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 13px;
+}
+
+.post-location-status p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* ======================================================
+   イベント情報
+====================================================== */
+
+/* イベント1つ分の枠 */
+.post-event-item {
+  position: relative;
+  margin-top: 18px;
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid #dbe2ea;
+  border-radius: 14px;
+  box-sizing: border-box;
+}
+
+/* イベント番号＋削除ボタン */
+.post-event-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+/* 「イベント1」「イベント2」 */
+.post-event-item-header strong {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  color: #1e293b;
+  font-size: 15px;
+  font-weight: 700;
+  box-sizing: border-box;
+}
+
+/* イベント削除ボタン */
+.post-event-item-header .post-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+
+  padding: 0;
+  margin: 0;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 50%;
+
+  background: #ffffff;
+  color: #475569;
+
+  cursor: pointer;
+
+  box-sizing: border-box;
+}
+
+/* 削除ボタンのアイコン */
+.post-event-item-header .post-close-btn
+.material-symbols-outlined {
+  font-size: 22px;
+  line-height: 1;
+}
+
+/* 削除ボタン：マウスを乗せたとき */
+.post-event-item-header .post-close-btn:hover {
+  background: #fef2f2;
+  border-color: #ef4444;
+  color: #dc2626;
+}
+
+/* 削除ボタン：押しているとき */
+.post-event-item-header .post-close-btn:active {
+  transform: scale(0.95);
+}
+
+
+/* イベント内の入力欄 */
+.post-event-item .post-field {
+  margin-top: 0;
+}
+
+.post-event-item .post-field + .post-field {
+  margin-top: 18px;
+}
+
+
+/* ======================================================
+   イベント追加ボタンとの間隔
+====================================================== */
+
+#addPostEventButton {
+  margin-top: 16px;
+}
+
+.post-location-address-display {
+  min-height: 40px;
+  padding: 9px 10px;
+  margin-top: 8px;
+
+  display: flex;
+  align-items: center;
+
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+
+  color: #333;
+  font-size: 14px;
+  line-height: 1.5;
+
+  box-sizing: border-box;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.post-location-external-form {
+  margin-top: 0px;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.post-location-external-link {
+  display: inline-block;
+
+  color: #555;
+  font-size: 13px;
+  line-height: 1.5;
+
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  cursor: pointer;
+}
+
+.post-location-external-link:hover {
+  color: #333;
+}
+
+/* ======================================================
+   下部ナビ・お気に入りリスト共通幅
+   ====================================================== */
+
+:root {
+  --bottom-nav-width: min(400px, calc(100vw - 16px));
+}
+
+/* ======================================================
+   下部ナビゲーション
+   ====================================================== */
+
+.bottom-nav {
+
+  position: fixed;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 72px;
+
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+
+  align-items: center;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  border-top: 1px solid #e5e7eb;
+
+  box-shadow:
+    0 -4px 16px rgba(0, 0, 0, 0.08);
+
+  z-index: 2000;
+
+  padding:
+    4px
+    8px
+    calc(4px + env(safe-area-inset-bottom));
+
+  box-sizing: border-box;
+
+  backdrop-filter: blur(10px);
+}
+
+/* 通常のナビゲーション */
+
+.bottom-nav-item {
+
+  height: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 2px;
+
+  border: none;
+
+  background: transparent;
+
+  color: #555;
+
+  font-family: sans-serif;
+
+  cursor: pointer;
+
+  padding: 4px 2px;
+
+  -webkit-tap-highlight-color: transparent;
+
+}
+
+
+/* アイコン */
+
+.bottom-nav-item .material-symbols-outlined {
+
+  font-size: 27px;
+
+  line-height: 1;
+
+}
+
+
+/* ラベル */
+
+.bottom-nav-label {
+
+  font-size: 11px;
+
+  line-height: 1.2;
+
+  white-space: nowrap;
+
+}
+
+
+/* ======================================================
+   中央の投稿ボタン
+   ====================================================== */
+
+.bottom-nav-post {
+
+  width: 76px;
+  height: 58px;
+
+  justify-self: center;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 2px;
+
+  border: none;
+
+  border-radius: 999px;
+
+  background: #D90000;
+
+  color: #fff;
+
+  font-family: sans-serif;
+
+  cursor: pointer;
+
+  padding: 5px 10px;
+
+  box-shadow:
+    0 4px 10px rgba(217, 0, 0, 0.25);
+
+  -webkit-tap-highlight-color: transparent;
+
+}
+
+
+/* 投稿アイコン */
+
+.bottom-nav-post .material-symbols-outlined {
+
+  font-size: 27px;
+
+  line-height: 1;
+
+}
+
+
+/* 投稿ラベル */
+
+.bottom-nav-post .bottom-nav-label {
+
+  font-size: 11px;
+
+  line-height: 1.2;
+
+  font-weight: 600;
+
+}
+
+
+/* ======================================================
+   PCでも下部に固定
+   ====================================================== */
+
+@media (min-width: 768px) {
+
+  .bottom-nav {
+
+    width: var(--bottom-nav-width);
+
+    max-width: none;
+
+    left: 50%;
+    right: auto;
+
+    transform: translateX(-50%);
+
+    border-radius: 18px 18px 0 0;
+  }
+
+}
+
+/* ======================================================
+   リストから探す
+   Modern / Clean UI
+   ====================================================== */
+
+.list-modal {
+  z-index: 1300;
+
+  /* 下部ナビゲーションと重ならないようにする */
+  padding: 0 0 72px;
+  box-sizing: border-box;
+}
+
+
+/* ======================================================
+   モーダル本体
+   ====================================================== */
+
+.list-modal-content {
+  width: min(580px, calc(100% - 24px));
+
+  height: calc(100dvh - 104px);
+  max-height: calc(100dvh - 104px);
+
+  overflow: hidden;
+
+  padding: 0;
+
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 18px;
+
+  background: #f5f6f8;
+
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+
+  /*
+   * 共通 .modal-content の
+   * text-align:center を上書き
+   */
+  text-align: left;
+
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.22);
+}
+
+/* ------------------------------------------------------
+   リストモーダル：PC版のみナビゲーションと同じ幅
+   ------------------------------------------------------ */
+
+@media (min-width: 768px) {
+
+  .list-modal-content {
+    width: var(--bottom-nav-width);
+  }
+
+}
+
+
+/* ======================================================
+   ヘッダー
+   ====================================================== */
+
+.list-modal-header {
+  position: relative;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 14px;
+
+  padding: 20px 20px 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #fafbfc 100%
+    );
+
+  border-bottom: 1px solid #e7e9ec;
+}
+
+
+.list-modal-title {
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  min-width: 0;
+}
+
+
+.list-modal-title > .material-symbols-outlined {
+  flex-shrink: 0;
+
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 15px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff0f0,
+      #ffe3e3
+    );
+
+  color: #d90000;
+
+  font-size: 28px;
+
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 600,
+    "GRAD" 0,
+    "opsz" 28;
+}
+
+
+.list-modal-title h3 {
+  margin: 0;
+
+  font-size: 21px;
+  line-height: 1.3;
+
+  font-weight: 750;
+
+  letter-spacing: -0.025em;
+
+  color: #17191c;
+}
+
+
+.list-modal-title p {
+  margin: 5px 0 0;
+
+  font-size: 12px;
+  line-height: 1.45;
+
+  color: #858b93;
+}
+
+
+/* ======================================================
+   リスト一覧
+   ====================================================== */
+
+.list-index {
+  flex: 1;
+
+  min-height: 0;
+
+  overflow-y: auto;
+
+  padding: 16px;
+
+  box-sizing: border-box;
+
+  scrollbar-width: thin;
+  scrollbar-color: #c9cdd2 transparent;
+}
+
+
+/* ======================================================
+   説明ボックス
+   ====================================================== */
+
+.list-guide {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 10px;
+
+  margin: 0 0 14px;
+
+  padding: 12px 14px;
+
+  border: 1px solid #e4e7eb;
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  color: #707780;
+
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+
+.list-guide .material-symbols-outlined {
+  flex-shrink: 0;
+
+  margin-top: 1px;
+
+  font-size: 18px;
+
+  color: #d90000;
+
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 500,
+    "GRAD" 0,
+    "opsz" 20;
+}
+
+
+/* ======================================================
+   リストカード
+   ====================================================== */
+
+.list-index-item {
+  position: relative;
+
+  width: 100%;
+  min-height: 58px;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto
+    22px;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin-bottom: 10px;
+
+  padding: 12px 14px;
+
+  border: 1px solid #e3e6e9;
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  color: #222;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  box-sizing: border-box;
+
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.035);
+
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease,
+    border-color 0.16s ease,
+    background 0.16s ease;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+  .list-index-item:hover {
+    transform: translateY(-2px);
+
+    border-color: #dcdfe3;
+
+    box-shadow:
+      0 9px 24px rgba(0, 0, 0, 0.09);
+  }
+
+}
+
+
+.list-index-item:active {
+  transform: scale(0.985);
+
+  background: #f8f8f9;
+}
+
+
+/* ======================================================
+   リスト名
+   ====================================================== */
+
+.list-index-name {
+  min-width: 0;
+
+  font-size: 15px;
+  font-weight: 750;
+
+  line-height: 1.4;
+
+  letter-spacing: -0.015em;
+
+  color: #1d2024;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+/* ======================================================
+   件数バッジ
+   ====================================================== */
+
+.list-index-count {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 4px;
+
+  flex-shrink: 0;
+
+  padding: 7px 10px;
+
+  border-radius: 999px;
+
+  background: #fff0f0;
+
+  color: #c90000;
+
+  font-size: 11px;
+
+  font-weight: 750;
+
+  line-height: 1;
+
+  white-space: nowrap;
+}
+
+
+.list-index-count .material-symbols-outlined {
+  font-size: 16px;
+}
+
+
+/* ======================================================
+   矢印
+   ====================================================== */
+
+.list-index-arrow {
+  flex-shrink: 0;
+
+  color: #b8bdc4;
+
+  font-size: 23px;
+
+  line-height: 1;
+
+  transition:
+    transform 0.16s ease,
+    color 0.16s ease;
+}
+
+
+@media (hover: hover) and (pointer: fine) {
+
+  .list-index-item:hover .list-index-arrow {
+    color: #d90000;
+
+    transform: translateX(3px);
+  }
+
+}
+
+
+/* ======================================================
+   スポット一覧
+   ====================================================== */
+
+.list-spot-view {
+  flex: 1;
+
+  min-height: 0;
+
+  overflow-y: auto;
+
+  padding: 13px 16px 24px;
+
+  box-sizing: border-box;
+
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    #c9cdd2
+    transparent;
+}
+
+
+/* ======================================================
+   戻るボタン
+   ====================================================== */
+
+.list-back-button {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  margin: 0 0 10px;
+
+  padding: 7px 6px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: #d90000;
+
+  font-size: 13px;
+
+  font-weight: 750;
+
+  line-height: 1.3;
+
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+.list-back-button:hover {
+  background: #fff0f0;
+}
+
+
+.list-back-button .material-symbols-outlined {
+  font-size: 20px;
+
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 600,
+    "GRAD" 0,
+    "opsz" 20;
+}
+
+
+/* ======================================================
+   スポット一覧ヘッダー
+   ====================================================== */
+
+.list-spot-heading {
+  margin: 0 2px 15px;
+}
+
+
+/*
+ * タイトルと件数を横並び
+ * 左寄せを基本にする
+ */
+
+.list-spot-title {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin: 0;
+
+  text-align: left;
+
+  font-size: 22px;
+
+  line-height: 1.35;
+
+  font-weight: 750;
+
+  letter-spacing: -0.025em;
+
+  color: #17191c;
+}
+
+
+.list-spot-title > span:nth-child(2) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+
+.list-spot-title-icon {
+  flex-shrink: 0;
+
+  color: #d90000;
+
+  font-size: 23px;
+
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 550,
+    "GRAD" 0,
+    "opsz" 24;
+}
+
+
+/* ======================================================
+   スポット件数バッジ
+   ====================================================== */
+
+.list-spot-title-count {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 4px;
+
+  flex-shrink: 0;
+
+  margin-left: auto;
+
+  padding: 7px 10px;
+
+  border-radius: 999px;
+
+  background: #fff0f0;
+
+  color: #c90000;
+
+  font-size: 11px;
+
+  font-weight: 750;
+
+  white-space: nowrap;
+}
+
+
+.list-spot-title-count .material-symbols-outlined {
+  font-size: 16px;
+
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 550,
+    "GRAD" 0,
+    "opsz" 18;
+}
+
+
+/* ======================================================
+   説明
+   ====================================================== */
+
+.list-spot-description {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 6px;
+
+  margin: 8px 0 0;
+
+  color: #7d848d;
+
+  font-size: 12px;
+
+  line-height: 1.65;
+
+  text-align: left;
+}
+
+
+.list-spot-description .material-symbols-outlined {
+  flex-shrink: 0;
+
+  margin-top: 1px;
+
+  font-size: 17px;
+
+  color: #a1a7ae;
+
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 500,
+    "GRAD" 0,
+    "opsz" 20;
+}
+
+
+/* ======================================================
+   スポットカード
+   ====================================================== */
+
+.list-spot-card {
+  position: relative;
+
+  width: 100%;
+
+  display: block;
+
+  margin: 0 0 10px;
+
+  padding: 15px 16px;
+
+  border: 1px solid #e1e4e8;
+  border-radius: 18px;
+
+  background: #ffffff;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  box-sizing: border-box;
+
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.035);
+
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease,
+    border-color 0.16s ease,
+    background 0.16s ease;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+@media (hover: hover) and (pointer: fine) {
+
+  .list-spot-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #dcdfe3;
+
+    box-shadow:
+      0 9px 24px rgba(0, 0, 0, 0.085);
+  }
+
+}
+
+
+.list-spot-card:active {
+  transform: scale(0.99);
+
+  background: #fafafa;
+}
+
+
+/* ======================================================
+   スポット名
+   ====================================================== */
+
+.list-spot-card-name {
+  position: relative;
+
+  margin: 0 0 9px;
+
+  padding-right: 28px;
+
+  font-size: 17px;
+
+  font-weight: 750;
+
+  line-height: 1.45;
+
+  letter-spacing: -0.01em;
+
+  color: #1c1f23;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* 地図アイコン */
+
+.list-spot-card-name::after {
+  content: "location_on";
+
+  position: absolute;
+
+  top: 0;
+  right: 0;
+
+  font-family: "Material Symbols Outlined";
+
+  font-size: 21px;
+
+  color: #cdd1d5;
+
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 500,
+    "GRAD" 0,
+    "opsz" 22;
+}
+
+
+@media (hover: hover) and (pointer: fine) {
+
+  .list-spot-card:hover
+  .list-spot-card-name::after {
+    color: #d90000;
+  }
+
+}
+
+
+/* ======================================================
+   カテゴリ
+   ====================================================== */
+
+.list-spot-card-category {
+  display: inline-flex;
+
+  align-items: center;
+
+  min-height: 24px;
+
+  margin-bottom: 8px;
+
+  padding: 5px 10px;
+
+  border-radius: 999px;
+
+  background: #f0f1f3;
+
+  color: #555c65;
+
+  font-size: 11px;
+
+  font-weight: 750;
+
+  line-height: 1;
+
+  white-space: nowrap;
+}
+
+
+/* ======================================================
+   住所
+   ====================================================== */
+
+.list-spot-card-address {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 5px;
+
+  margin-bottom: 9px;
+
+  color: #7e858e;
+
+  font-size: 12px;
+
+  font-weight: 400;
+
+  line-height: 1.55;
+
+  overflow-wrap: anywhere;
+}
+
+
+.list-spot-card-address::before {
+  content: "location_on";
+
+  flex-shrink: 0;
+
+  margin-top: 1px;
+
+  font-family: "Material Symbols Outlined";
+
+  font-size: 16px;
+
+  color: #a1a7ae;
+
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 500,
+    "GRAD" 0,
+    "opsz" 18;
+}
+
+
+/* ======================================================
+   イベント
+   ====================================================== */
+
+.list-spot-card-events {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 5px;
+
+  margin-top: 2px;
+
+  padding-top: 9px;
+
+  border-top: 1px solid #eef0f2;
+}
+
+
+.list-spot-event {
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 6px;
+
+  color: #555c65;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+
+.list-spot-event::before {
+  content: "event";
+
+  flex-shrink: 0;
+
+  font-family: "Material Symbols Outlined";
+
+  font-size: 16px;
+
+  color: #a1a7ae;
+
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 500,
+    "GRAD" 0,
+    "opsz" 20;
+}
+
+
+/* 開催状況 */
+
+.list-spot-event-status {
+  display: inline-flex;
+
+  align-items: center;
+
+  min-height: 20px;
+
+  padding: 4px 8px;
+
+  border-radius: 999px;
+
+  background: #f0f1f3;
+
+  color: #626a73;
+
+  font-size: 10px;
+
+  font-weight: 750;
+
+  line-height: 1;
+
+  white-space: nowrap;
+}
+
+
+/* ======================================================
+   データなし
+   ====================================================== */
+
+.list-empty {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-height: 220px;
+
+  padding: 30px 20px;
+
+  color: #8a9098;
+
+  font-size: 13px;
+
+  line-height: 1.7;
+
+  text-align: center;
+}
+
+
+.list-empty .material-symbols-outlined {
+  margin-bottom: 8px;
+
+  font-size: 36px;
+
+  color: #c8ccd1;
+}
+
+
+/* ======================================================
+   スクロールバー
+   ====================================================== */
+
+.list-index::-webkit-scrollbar,
+.list-spot-view::-webkit-scrollbar {
+  width: 6px;
+}
+
+
+.list-index::-webkit-scrollbar-track,
+.list-spot-view::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+.list-index::-webkit-scrollbar-thumb,
+.list-spot-view::-webkit-scrollbar-thumb {
+  background: #d0d3d7;
+
+  border-radius: 999px;
+}
+
+
+/* ======================================================
+   スマホ
+   ====================================================== */
+
+@media (max-width: 768px) {
+
+  /*
+   * 上下に余裕を確保。
+   * 画面の高さに合わせて自動調整。
+   */
+  .list-modal-content {
+
+    border-radius: 21px;
+
+    width: calc(100vw - 20px);
+    height: calc(100dvh - 92px);
+    max-height: calc(100dvh - 92px);
+
+  }
+
+
+  .list-modal-header {
+    padding: 15px 14px 14px;
+  }
+
+
+  .list-modal-title {
+    gap: 10px;
+  }
+
+
+  .list-modal-title > .material-symbols-outlined {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 12px;
+
+    font-size: 24px;
+  }
+
+
+  .list-modal-title h3 {
+    font-size: 20px;
+  }
+
+
+  .list-modal-title p {
+    font-size: 11px;
+  }
+
+
+  .list-index {
+    padding: 11px 9px 18px;
+  }
+
+
+  .list-guide {
+    margin-bottom: 10px;
+
+    padding: 10px 11px;
+
+    font-size: 11px;
+  }
+
+
+  .list-index-item {
+    min-height: 72px;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      auto
+      20px;
+
+    gap: 9px;
+
+    margin-bottom: 8px;
+
+    padding: 10px 10px;
+
+    border-radius: 15px;
+  }
+
+
+  .list-index-name {
+    font-size: 16px;
+  }
+
+
+  .list-index-count {
+    padding: 6px 8px;
+
+    font-size: 10px;
+  }
+
+
+  .list-index-count .material-symbols-outlined {
+    font-size: 15px;
+  }
+
+
+  .list-index-arrow {
+    font-size: 20px;
+  }
+
+
+  .list-spot-view {
+    padding: 10px 9px 20px;
+  }
+
+
+  .list-back-button {
+    font-size: 13px;
+  }
+
+
+  .list-spot-title {
+    align-items: center;
+
+    font-size: 20px;
+
+    gap: 6px;
+  }
+
+
+  .list-spot-title-icon {
+    margin-top: 2px;
+
+    font-size: 21px;
+  }
+
+
+  .list-spot-title-count {
+    padding: 6px 8px;
+
+    font-size: 10px;
+  }
+
+
+  .list-spot-description {
+    font-size: 11px;
+  }
+
+
+  .list-spot-card {
+    padding: 14px;
+
+    border-radius: 15px;
+  }
+
+
+  .list-spot-card-name {
+    font-size: 16px;
+  }
+
+
+  .list-spot-card-category {
+    font-size: 11px;
+  }
+
+
+  .list-spot-card-address {
+    font-size: 11px;
+  }
+
+
+  .list-spot-event {
+    font-size: 11px;
+  }
+
+}
+
+/* リンク1件 */
+
+.detail-store-item{
+  display:grid;
+
+  grid-template-columns:
+    100px
+    minmax(0,1fr)
+    22px;
+
+  align-items:center;
+
+  gap:6px;
+
+  min-height:42px;
+
+  padding:6px 10px;
+
+  box-sizing:border-box;
+
+  color:#222;
+
+  text-decoration:none;
+
+  font-size:13px;
+}
+
+.detail-store-item + .detail-store-item{
+  border-top:1px solid #eeeeee;
+}
+
+/* ======================================================
+   詳細パネル：お気に入りボタン
+   ====================================================== */
+
+.detail-favorite-btn {
+  position: absolute;
+  top: 14px;
+  right: 58px;
+
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #fff;
+
+  cursor: pointer;
+
+  box-shadow: none;
+
+  transition:
+    color 0.2s ease,
+    transform 0.15s ease;
+
+  z-index: 10;
+}
+
+.detail-favorite-btn:hover {
+  color: #fff;
+}
+
+.detail-favorite-btn:active {
+  transform: scale(0.92);
+}
+
+.detail-favorite-btn .material-symbols-outlined {
+  font-size: 27px;
+  line-height: 1;
+
+  /* 未登録：アウトライン */
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 27;
+}
+
+
+/* ======================================================
+   お気に入り登録済み
+   ====================================================== */
+
+.detail-favorite-btn.is-favorite {
+  background: transparent;
+  border: none;
+  color: #fff;
+}
+
+.detail-favorite-btn.is-favorite:hover {
+  background: transparent;
+  color: #fff;
+}
+
+.detail-favorite-btn.is-favorite .material-symbols-outlined {
+  /* 登録済み：完全に塗りつぶす */
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 27;
+}
+
+/* ======================================================
+   お気に入りリスト
+   ====================================================== */
+
+.favorite-modal {
+
+  padding: 0px 0px 72px;
+  box-sizing: border-box;
+
+  z-index: 1300;
+
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* ------------------------------------------------------
+   モーダル本体
+   ------------------------------------------------------ */
+
+.favorite-modal-content {
+  width: var(--bottom-nav-width);
+
+  height: calc(100dvh - 104px);
+  max-height: calc(100dvh - 104px);
+
+  overflow: hidden;
+  padding: 0;
+
+  box-sizing: border-box;
+
+  border-radius: 18px;
+
+  background: #f5f6f8;
+
+  border: 1px solid rgba(0,0,0,.07);
+
+  box-shadow:
+    0 24px 70px rgba(0,0,0,.22);
+
+  display: flex;
+  flex-direction: column;
+
+  text-align: left;
+}
+
+
+/* ------------------------------------------------------
+   ヘッダー
+   ------------------------------------------------------ */
+
+.favorite-modal-header {
+  flex: 0 0 auto;
+
+  min-height: 62px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 10px 14px 10px 18px;
+
+  background: #fff;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  box-sizing: border-box;
+}
+
+
+.favorite-modal-title {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  color: #222;
+}
+
+
+.favorite-modal-title .material-symbols-outlined {
+  font-size: 24px;
+
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 24;
+
+  color: #e53935;
+}
+
+
+/* ------------------------------------------------------
+   閉じるボタン
+   ------------------------------------------------------ */
+
+.favorite-modal-close {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #f1f2f4;
+
+  color: #333;
+
+  cursor: pointer;
+
+  transition:
+    background .2s ease,
+    transform .15s ease;
+}
+
+
+.favorite-modal-close:hover {
+  background: #e5e7eb;
+}
+
+
+.favorite-modal-close:active {
+  transform: scale(.92);
+}
+
+
+.favorite-modal-close .material-symbols-outlined {
+  font-size: 22px;
+}
+
+
+/* ------------------------------------------------------
+   お気に入り一覧
+   ------------------------------------------------------ */
+
+#favoriteListContainer {
+  flex: 1 1 auto;
+
+  min-height: 0;
+
+  overflow-y: auto;
+
+  padding: 14px;
+
+  box-sizing: border-box;
+}
+
+
+/* ------------------------------------------------------
+   0件表示
+   ------------------------------------------------------ */
+
+.favorite-empty {
+  min-height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  color: #555;
+
+  padding: 30px 20px;
+
+  box-sizing: border-box;
+}
+
+
+.favorite-empty-icon {
+  margin-bottom: 12px;
+
+  color: #aaa;
+}
+
+
+.favorite-empty-icon .material-symbols-outlined {
+  font-size: 48px;
+
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 48;
+}
+
+
+.favorite-empty-count {
+  font-size: 17px;
+  font-weight: 700;
+
+  color: #333;
+
+  margin-bottom: 8px;
+}
+
+
+.favorite-empty-message {
+  font-size: 13px;
+  line-height: 1.6;
+
+  color: #666;
+}
+
+
+/* ------------------------------------------------------
+   スポットカード
+   ------------------------------------------------------ */
+
+.favorite-spot-card {
+  position: relative;
+
+  width: 100%;
+
+  margin-bottom: 12px;
+
+  padding: 14px;
+
+  box-sizing: border-box;
+
+  border: none;
+
+  border-radius: 14px;
+
+  background: #fff;
+
+  box-shadow:
+    0 2px 8px rgba(0,0,0,.08);
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    transform .15s ease,
+    box-shadow .2s ease;
+}
+
+
+.favorite-spot-card:hover {
+  box-shadow:
+    0 4px 14px rgba(0,0,0,.12);
+}
+
+
+.favorite-spot-card:active {
+  transform: scale(.99);
+}
+
+
+/* ------------------------------------------------------
+   カテゴリ
+   ------------------------------------------------------ */
+
+.favorite-spot-category {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  padding: 4px 8px;
+
+  margin-bottom: 8px;
+
+  border-radius: 999px;
+
+  color: #fff;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  box-shadow:
+    0 1px 4px rgba(0,0,0,.12);
+}
+
+
+.favorite-spot-category .material-symbols-outlined {
+  font-size: 15px;
+}
+
+
+/* ------------------------------------------------------
+   場所名
+   ------------------------------------------------------ */
+
+.favorite-spot-name {
+  font-size: 17px;
+  font-weight: 700;
+
+  line-height: 1.35;
+
+  color: #222;
+
+  margin-bottom: 5px;
+}
+
+
+/* ------------------------------------------------------
+   住所
+   ------------------------------------------------------ */
+
+.favorite-spot-address {
+  font-size: 12px;
+
+  line-height: 1.5;
+
+  color: #666;
+
+  margin-bottom: 10px;
+}
+
+
+/* ------------------------------------------------------
+   イベント
+   ------------------------------------------------------ */
+
+.favorite-spot-events {
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+
+.favorite-spot-event {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 12px;
+
+  line-height: 1.45;
+}
+
+
+.favorite-spot-event-name {
+  flex: 1 1 auto;
+
+  min-width: 0;
+
+  color: #333;
+
+  font-weight: 600;
+
+  overflow-wrap: anywhere;
+}
+
+
+.favorite-spot-event-status {
+  flex: 0 0 auto;
+
+  padding: 3px 7px;
+
+  border-radius: 999px;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+
+/* ======================================================
+   お気に入り解除ボタン
+   ====================================================== */
+
+.favorite-spot-remove {
+  position: absolute;
+
+  top: 10px;
+  right: 42px;
+
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #e53935;
+
+  cursor: pointer;
+
+  z-index: 2;
+}
+
+.favorite-spot-remove .material-symbols-outlined {
+  font-size: 25px;
+
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 25;
+}
+
+.favorite-spot-remove:hover {
+  color: #c62828;
+}
+
+
+/* ======================================================
+   右向き矢印
+   ====================================================== */
+
+.favorite-spot-arrow {
+  position: absolute;
+
+  top: 10px;
+  right: 10px;
+
+  width: 28px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #aaa;
+
+  pointer-events: none;
+}
+
+.favorite-spot-arrow .material-symbols-outlined {
+  font-size: 20px;
+}
+
+
+/* ------------------------------------------------------
+   スマホ
+   ------------------------------------------------------ */
+
+@media (max-width: 600px) {
+
+  .favorite-modal {
+    padding: 0px 0px 72px;
+  }
+
+  .favorite-modal-content {
+    width: calc(100% - 20px);
+
+    height: calc(100dvh - 92px);
+    max-height: calc(100dvh - 92px);
+
+    border-radius: 18px;
+  }
+
+  #favoriteListContainer {
+    padding: 10px;
+  }
+
+  .favorite-spot-card {
+    padding: 13px;
+  }
+
+}
+
+/* ------------------------------------------------------
+   リストから探す：お気に入りと共通デザイン
+   ------------------------------------------------------ */
+
+.list-spot-card.favorite-spot-card {
+  appearance: none;
+  -webkit-appearance: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+
+/* リスト側では削除ボタンを使わない */
+.list-spot-card .favorite-spot-remove {
+  display: none;
+}
+
+
+/* リスト側の矢印 */
+.list-spot-card .favorite-spot-arrow {
+  display: flex;
+}
+
+
+/* button要素なのでデフォルトの背景などをリセット */
+.list-spot-card {
+  border: none;
+  text-align: left;
+}
+
+
+/* =========================================================
+   スポット表示管理パネル
+   ========================================================= */
+
+.spot-filter-panel {
+  /*
+   * =======================================================
+   * 基本サイズ
+   * =======================================================
+   *
+   * この変数が「現在のパネル幅」。
+   *
+   * PC：
+   *   最大286px
+   *
+   * スマホ：
+   *   画面幅に応じて自動縮小
+   */
+  --spot-panel-width:
+    min(286px, calc(100vw - 24px));
+
+  --spot-panel-tab-width: 34px;
+
+  position: fixed;
+
+  top: 16px;
+  left: 0;
+
+  width: var(--spot-panel-width);
+
+  max-height: calc(100vh - 108px);
+
+  box-sizing: border-box;
+
+  z-index: 1100;
+
+  color: #202328;
+
+  pointer-events: none;
+
+  /*
+   * =======================================================
+   * 開閉アニメーション
+   * =======================================================
+   *
+   * パネル本体とタブを「親ごと」一緒に動かす。
+   */
+  transform: translateX(0);
+
+  transition:
+    transform .32s cubic-bezier(.22,.8,.24,1);
+}
+
+
+/* =========================================================
+   パネルが閉じた状態
+   ========================================================= */
+
+/*
+ * パネル幅からタブ幅を引いた分だけ左へ移動。
+ *
+ * 例：
+ *   パネル 286px
+ *   タブ  34px
+ *
+ *   → -252px
+ *
+ * 画面にはタブ34pxだけ残る。
+ *
+ * パネル幅が変われば、この値も自動的に変わる。
+ */
+.spot-filter-panel.is-collapsed {
+  transform:
+    translateX(
+      calc(
+        -1 * var(--spot-panel-width)
+      )
+    );
+}
+
+/* =========================================================
+   パネル本体
+   ========================================================= */
+
+.spot-filter-panel-inner {
+  position: relative;
+
+  /*
+   * 親が動くので、本体自身は動かさない。
+   */
+  left: 0;
+
+  width: 100%;
+
+  max-height: calc(100vh - 100px);
+
+  box-sizing: border-box;
+
+  padding: 18px 17px 16px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.98),
+      rgba(247,248,250,.97)
+    );
+
+  border: 1px solid rgba(255,255,255,.9);
+
+  border-radius:
+    0 10px 10px 0;
+
+  box-shadow:
+    0 18px 55px rgba(0,0,0,.18),
+    0 4px 16px rgba(0,0,0,.08),
+    inset 0 1px 0 rgba(255,255,255,.95);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  pointer-events: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: #c7cbd0 transparent;
+}
+
+
+/* =========================================================
+   スクロールバー
+   ========================================================= */
+
+.spot-filter-panel-inner::-webkit-scrollbar {
+  width: 5px;
+}
+
+.spot-filter-panel-inner::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.spot-filter-panel-inner::-webkit-scrollbar-thumb {
+  background: #c7cbd0;
+  border-radius: 999px;
+}
+
+
+/* =========================================================
+   上部の赤いアクセント
+   ========================================================= */
+
+.spot-filter-panel-inner::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 4px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #b90000,
+      #e00000,
+      #ff3b3b,
+      #c80000
+    );
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   ロゴ
+   ========================================================= */
+
+.spot-filter-brand {
+  display: flex;
+  align-items: center;
+
+  min-height: 38px;
+
+  margin-bottom: 13px;
+}
+
+.spot-filter-logo {
+  display: block;
+
+  width: auto;
+  height: 32px;
+  max-width: 190px;
+
+  object-fit: contain;
+}
+
+
+/* =========================================================
+   表示中件数
+   ========================================================= */
+
+.spot-filter-total {
+  display: flex;
+  align-items: baseline;
+
+  gap: 5px;
+
+  margin-bottom: 16px;
+  padding: 13px 14px;
+
+  border-radius: 15px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff1f1,
+      #fff8f8
+    );
+
+  border: 1px solid #ffdcdc;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.8);
+}
+
+#displayedSpotCount {
+  color: #c80000;
+
+  font-size: 30px;
+  font-weight: 850;
+
+  line-height: 1;
+
+  letter-spacing: -.045em;
+
+  font-variant-numeric: tabular-nums;
+}
+
+.spot-filter-total-unit {
+  font-size: 13px;
+  font-weight: 750;
+
+  color: #383c42;
+}
+
+.spot-filter-total-status {
+  margin-left: auto;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  color: #888d94;
+}
+
+
+/* =========================================================
+   セクション
+   ========================================================= */
+
+.spot-filter-section {
+  margin: 0;
+}
+
+.spot-filter-section-title {
+  display: flex;
+  align-items: center;
+
+  margin: 0 3px 8px;
+
+  color: #767b82;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: .12em;
+}
+
+
+/* =========================================================
+   フィルターボタン
+   ========================================================= */
+
+.spot-filter-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.spot-filter-button {
+  position: relative;
+
+  width: 100%;
+  min-height: 42px;
+
+  display: grid;
+
+  grid-template-columns:
+    32px
+    minmax(0,1fr)
+    auto
+    18px;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 6px 8px;
+
+  border: 1px solid transparent;
+  border-radius: 12px;
+
+  background: transparent;
+
+  color: #383c42;
+
+  font-family: inherit;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background .18s ease,
+    border-color .18s ease,
+    box-shadow .18s ease,
+    color .18s ease,
+    transform .12s ease;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/* =========================================================
+   カテゴリ / 状態アイコン
+   ========================================================= */
+
+.spot-filter-icon {
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  color: #fff;
+
+  font-size: 18px;
+
+  box-shadow:
+    0 3px 8px rgba(0,0,0,.12);
+}
+
+.spot-filter-icon .material-symbols-outlined {
+  font-size: 19px;
+  line-height: 1;
+}
+
+
+/* =========================================================
+   名前
+   ========================================================= */
+
+.spot-filter-name {
+  min-width: 0;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   件数
+   ========================================================= */
+
+.spot-filter-count {
+  min-width: 30px;
+
+  padding: 4px 7px;
+
+  border-radius: 999px;
+
+  background: #f0f1f3;
+
+  color: #737880;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  line-height: 1;
+
+  text-align: center;
+
+  font-variant-numeric: tabular-nums;
+
+  transition:
+    background .18s ease,
+    color .18s ease;
+}
+
+
+/* =========================================================
+   ON/OFFインジケーター
+   ========================================================= */
+
+.spot-filter-check {
+  width: 17px;
+  height: 17px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #d9dce0;
+
+  color: transparent;
+
+  transition:
+    background .18s ease,
+    color .18s ease,
+    transform .18s ease;
+}
+
+.spot-filter-check .material-symbols-outlined {
+  font-size: 13px;
+
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 700,
+    "GRAD" 0,
+    "opsz" 16;
+}
+
+
+/* =========================================================
+   ON
+   ========================================================= */
+
+.spot-filter-button.is-active {
+  background: rgba(255,255,255,.95);
+
+  border-color: #e4e6e9;
+
+  box-shadow:
+    0 4px 12px rgba(0,0,0,.055);
+}
+
+.spot-filter-button.is-active .spot-filter-check {
+  background: #c80000;
+  color: #fff;
+
+  transform: scale(1);
+}
+
+.spot-filter-button.is-active .spot-filter-count {
+  background: #fff0f0;
+  color: #c80000;
+}
+
+
+/* =========================================================
+   OFF
+   ========================================================= */
+
+.spot-filter-button:not(.is-active) {
+  opacity: .58;
+}
+
+.spot-filter-button:not(.is-active)
+.spot-filter-icon {
+  filter: grayscale(1);
+  opacity: .65;
+}
+
+
+/* =========================================================
+   hover
+   ========================================================= */
+
+@media (hover:hover) and (pointer:fine) {
+
+  .spot-filter-button:hover {
+    background: #fff;
+
+    border-color: #e3e5e8;
+
+    box-shadow:
+      0 5px 14px rgba(0,0,0,.07);
+
+    transform: translateY(-1px);
+  }
+
+  .spot-filter-button:not(.is-active):hover {
+    opacity: .82;
+  }
+
+}
+
+
+/* =========================================================
+   active
+   ========================================================= */
+
+.spot-filter-button:active {
+  transform: scale(.985);
+}
+
+
+/* =========================================================
+   さらにフィルター
+   ========================================================= */
+
+.spot-filter-more-button {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 10px;
+  padding: 10px 4px 7px;
+
+  border: 0;
+  border-top: 1px solid #e6e7e9;
+
+  background: transparent;
+
+  color: #666b72;
+
+  font-family: inherit;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition: color .18s ease;
+}
+
+.spot-filter-more-button .material-symbols-outlined {
+  font-size: 19px;
+
+  transition:
+    transform .2s ease;
+}
+
+.spot-filter-more-button[aria-expanded="true"] {
+  color: #c80000;
+}
+
+.spot-filter-more-button[aria-expanded="true"]
+.material-symbols-outlined {
+  transform: rotate(180deg);
+}
+
+
+/* =========================================================
+   開催状況フィルター
+   ========================================================= */
+
+.spot-status-filter-area {
+  padding-top: 5px;
+
+  animation: spotFilterSlideDown .18s ease;
+}
+
+@keyframes spotFilterSlideDown {
+
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+
+/* =========================================================
+   パネル開閉タブ
+   ========================================================= */
+
+.spot-filter-panel-toggle {
+  position: absolute;
+
+  /*
+   * パネルの右端に接続。
+   *
+   * 親が動くので、
+   * right / left の切り替えは不要。
+   */
+  top: 18px;
+  left: 100%;
+
+  width: var(--spot-panel-tab-width);
+  height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid rgba(255,255,255,.9);
+  border-left: 0;
+
+  border-radius:
+    0 14px 14px 0;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.98),
+      rgba(245,246,248,.97)
+    );
+
+  color: #555b63;
+
+  box-shadow:
+    8px 8px 24px rgba(0,0,0,.12);
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  cursor: pointer;
+
+  pointer-events: auto;
+
+  -webkit-tap-highlight-color: transparent;
+
+  /*
+   * 親パネルが動くため、
+   * タブ自身のtransitionは不要。
+   */
+}
+
+
+/* =========================================================
+   タブの赤いアクセント
+   ========================================================= */
+
+.spot-filter-panel-toggle::before {
+  content: "";
+
+  position: absolute;
+
+  top: 9px;
+  bottom: 9px;
+  left: 0;
+
+  width: 3px;
+
+  border-radius:
+    0 3px 3px 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      #b90000,
+      #ff3b3b,
+      #c80000
+    );
+}
+
+
+/* =========================================================
+   矢印
+   ========================================================= */
+
+.spot-filter-panel-toggle
+.material-symbols-outlined {
+  font-size: 22px;
+
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 650,
+    "GRAD" 0,
+    "opsz" 24;
+
+  transition:
+    transform .28s cubic-bezier(.22,.8,.24,1);
+}
+
+
+/* =========================================================
+   タブ hover
+   ========================================================= */
+
+@media (hover:hover) and (pointer:fine) {
+
+  .spot-filter-panel-toggle:hover {
+    background: #fff;
+
+    color: #c80000;
+
+    box-shadow:
+      10px 10px 28px rgba(0,0,0,.16);
+  }
+
+}
+
+
+/* =========================================================
+   スマホ
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  .spot-filter-panel {
+
+    top: 12px;
+
+    /*
+     * スマホでは画面幅に合わせて
+     * パネル幅そのものが変化。
+     */
+    --spot-panel-width:
+      min(292px, calc(100vw - 24px));
+
+    width: var(--spot-panel-width);
+
+    max-height:
+      calc(100dvh - 96px);
+
+  }
+
+
+  .spot-filter-panel-inner {
+
+    max-height:
+      calc(100dvh - 96px);
+
+    padding:
+      17px 15px 15px;
+
+    border-radius:
+      0 10px 10px 0;
+
+  }
+
+
+  .spot-filter-panel-toggle {
+
+    top: 14px;
+
+    width: var(--spot-panel-tab-width);
+    height: 68px;
+
+  }
+
+}
+
+
+/* =========================================================
+   PC
+   ========================================================= */
+
+@media (min-width: 769px) {
+
+  .spot-filter-panel {
+
+    top: 16px;
+
+    --spot-panel-width: 286px;
+
+    width: var(--spot-panel-width);
+
+  }
+
+  .spot-filter-panel-inner {
+
+    border-radius:
+      0 10px 10px 0;
+
+  }
+
+}
+
+/* =========================================================
+   マップピン
+   ========================================================= */
+
+.spot-map-marker-wrapper {
+  background: transparent !important;
+  border: 0 !important;
+}
+
+.spot-map-marker {
+  width: 27px;
+  height: 27px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  border: 2px solid #fff;
+
+  box-sizing: border-box;
+
+  box-shadow:
+    0 0 6px rgba(0,0,0,.4);
+
+  contain: layout paint;
+}
+
+.spot-map-marker
+.material-symbols-outlined {
+  font-size: 16px;
+  line-height: 1;
+
+  color: #fff;
+
+  font-variation-settings: "FILL" 0, "wght" 600, "GRAD" 0, "opsz" 20;
+}
+
+/* =========================================================
+   地図移動中
+   ========================================================= */
+
+#leafletMap.map-is-moving
+.leaflet-marker-pane {
+  visibility: hidden;
+}
+
+#leafletMap.map-is-moving
+.leaflet-shadow-pane {
+  visibility: hidden;
+}
+
+
+/* ======================================================
+   現地メモ投稿
+====================================================== */
+
+.memo-post-modal-content {
+  width: min(94vw, 570px);
+}
+
+
+.memo-post-spot-box {
+  margin-bottom: 20px;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  background: #f8f9fb;
+}
+
+
+.memo-post-spot-info {
+  margin-top: 12px;
+}
+
+
+.memo-post-spot-category {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 3px;
+}
+
+
+.memo-post-spot-category span {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: #eeeeee;
+  color: #555;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+.memo-post-spot-name {
+  color: #1d2024;
+  font-size: 15px;
+  font-weight: 750;
+  line-height: 1.5;
+}
+
+
+.memo-post-spot-address {
+  margin-top: 3px;
+  color: #70757d;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+
+.memo-post-modal textarea {
+  min-height: 95px;
+  max-height: 100px;
+  resize: vertical;
+}
+
+
+@media (max-width: 600px) {
+
+  .memo-post-modal-content {
+    width: calc(100vw - 20px);
+  }
+
+}
+
+
+/* =========================================================
+   新検索モーダル
+   ========================================================= */
+
+.search-new-modal {
+
+  padding: 0 0 72px;
+
+  box-sizing: border-box;
+
+  z-index: 1300;
+
+  align-items: center;
+  justify-content: center;
+
+}
+
+
+/* ---------------------------------------------------------
+   モーダル本体
+   --------------------------------------------------------- */
+
+.search-new-modal-content {
+
+  width: var(--bottom-nav-width);
+
+  height: calc(100dvh - 104px);
+
+  max-height: calc(100dvh - 104px);
+
+  overflow: hidden;
+
+  padding: 0;
+
+  box-sizing: border-box;
+
+  border-radius: 18px;
+
+  background: #f5f6f8;
+
+  border: 1px solid rgba(0,0,0,.07);
+
+  box-shadow:
+    0 24px 70px rgba(0,0,0,.22);
+
+  display: flex;
+
+  flex-direction: column;
+
+  text-align: left;
+
+}
+
+
+/* ---------------------------------------------------------
+   ヘッダー
+   --------------------------------------------------------- */
+
+.search-new-header {
+
+  flex: 0 0 auto;
+
+  min-height: 62px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 10px 14px 10px 18px;
+
+  background: #fff;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  box-sizing: border-box;
+
+}
+
+
+.search-new-title {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 18px;
+
+  font-weight: 700;
+
+  color: #222;
+
+}
+
+
+.search-new-title .material-symbols-outlined {
+
+  font-size: 24px;
+
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 24;
+
+  color: #333;
+
+}
+
+
+/* ---------------------------------------------------------
+   閉じる
+   --------------------------------------------------------- */
+
+.search-new-close {
+
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: #f1f2f4;
+
+  color: #333;
+
+  cursor: pointer;
+
+  transition:
+    background .2s ease,
+    transform .15s ease;
+
+}
+
+
+.search-new-close:hover {
+
+  background: #e5e7eb;
+
+}
+
+
+.search-new-close:active {
+
+  transform: scale(.92);
+
+}
+
+
+.search-new-close .material-symbols-outlined {
+
+  font-size: 22px;
+
+}
+
+
+/* ---------------------------------------------------------
+   検索入力エリア
+   --------------------------------------------------------- */
+
+.search-new-input-area {
+
+  flex: 0 0 auto;
+
+  padding: 14px 16px 10px;
+
+  background: #fff;
+
+  border-bottom: 1px solid #e5e7eb;
+
+}
+
+
+.search-new-input-wrap {
+
+  height: 46px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 0 8px 0 13px;
+
+  box-sizing: border-box;
+
+  background: #f1f3f5;
+
+  border: 1px solid transparent;
+
+  border-radius: 12px;
+
+  transition:
+    background .2s ease,
+    border-color .2s ease,
+    box-shadow .2s ease;
+
+}
+
+
+.search-new-input-wrap:focus-within {
+
+  background: #fff;
+
+  border-color: #c9ced6;
+
+  box-shadow:
+    0 0 0 3px rgba(80,90,105,.08);
+
+}
+
+
+.search-new-input-wrap > .material-symbols-outlined {
+
+  flex: 0 0 auto;
+
+  font-size: 21px;
+
+  color: #72777f;
+
+}
+
+
+#searchNewInput {
+  min-width: 0;
+  flex: 1;
+  height: 100%;
+  border: none;
+  outline: none;
+  padding: 0;
+  background: transparent;
+  color: #222;
+  font-size: 15px;
+  font-family: inherit;
+
+  /* ブラウザ標準の検索ボタンを無効化 */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+
+#searchNewInput::placeholder {
+
+  color: #90959d;
+
+}
+
+
+/* ---------------------------------------------------------
+   クリアボタン
+   --------------------------------------------------------- */
+
+.search-new-clear {
+
+  width: 32px;
+  height: 32px;
+
+  flex: 0 0 32px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: transparent;
+
+  color: #777;
+
+  cursor: pointer;
+
+}
+
+
+.search-new-clear:hover {
+
+  background: #e2e5e9;
+
+}
+
+
+.search-new-clear .material-symbols-outlined {
+
+  font-size: 19px;
+
+}
+
+
+/* ---------------------------------------------------------
+   説明
+   --------------------------------------------------------- */
+
+.search-new-help {
+
+  margin-top: 7px;
+
+  padding-left: 3px;
+
+  color: #858a91;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+
+}
+
+
+/* ---------------------------------------------------------
+   フィルター説明
+   --------------------------------------------------------- */
+
+.search-new-filter-note {
+
+  margin-top: 5px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 4px;
+
+  color: #858a91;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+
+}
+
+
+.search-new-filter-note .material-symbols-outlined {
+
+  flex: 0 0 auto;
+
+  margin-top: 1px;
+
+  font-size: 15px;
+
+}
+
+
+/* ---------------------------------------------------------
+   件数
+   --------------------------------------------------------- */
+
+.search-new-result-summary {
+
+  flex: 0 0 auto;
+
+  padding: 10px 16px 7px;
+
+  color: #666b73;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+}
+
+
+/* ---------------------------------------------------------
+   結果一覧
+   --------------------------------------------------------- */
+
+.search-new-result-container {
+
+  flex: 1;
+
+  min-height: 0;
+
+  overflow-y: auto;
+
+  padding: 0 12px 20px;
+
+  box-sizing: border-box;
+
+}
+
+
+/* ---------------------------------------------------------
+   お気に入りカードを検索でも使用
+   --------------------------------------------------------- */
+
+.search-new-result-container .favorite-spot-card {
+
+  position: relative;
+
+  margin-bottom: 9px;
+
+}
+
+
+/* ---------------------------------------------------------
+   検索用お気に入りボタン
+   --------------------------------------------------------- */
+
+.search-new-favorite-button {
+
+  position: absolute;
+
+  top: 14px;
+
+  right: 43px;
+
+  width: 28px;
+
+  height: 28px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #858a91;
+
+  cursor: pointer;
+
+  z-index: 2;
+
+  transition:
+    color .2s ease,
+    transform .15s ease;
+
+}
+
+
+.search-new-favorite-button:hover {
+
+  color: #e85b73;
+
+}
+
+
+.search-new-favorite-button:active {
+
+  transform: scale(.9);
+
+}
+
+
+.search-new-favorite-button.is-favorite {
+
+  color: #e85b73;
+
+}
+
+
+.search-new-favorite-button .material-symbols-outlined {
+
+  font-size: 23px;
+
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 24;
+
+}
+
+
+.search-new-favorite-button.is-favorite
+.material-symbols-outlined {
+
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 24;
+
+}
+
+
+/* ---------------------------------------------------------
+   検索結果なし
+   --------------------------------------------------------- */
+
+.search-new-empty {
+
+  min-height: 230px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 30px 20px;
+
+  text-align: center;
+
+  color: #777;
+
+}
+
+
+.search-new-empty-icon {
+
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 12px;
+
+  border-radius: 50%;
+
+  background: #e9ebee;
+
+  color: #888;
+
+}
+
+
+.search-new-empty-icon .material-symbols-outlined {
+
+  font-size: 29px;
+
+}
+
+
+.search-new-empty-title {
+
+  color: #444;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+}
+
+
+.search-new-empty-message {
+
+  margin-top: 5px;
+
+  color: #888;
+
+  font-size: 12px;
+
+  line-height: 1.6;
+
+}
+
+
+/* ---------------------------------------------------------
+   スマホ
+   --------------------------------------------------------- */
+
+@media (max-width: 600px) {
+
+  .search-new-modal-content {
+
+    width: calc(100vw - 20px);
+
+    height: calc(100dvh - 92px);
+
+    max-height: calc(100dvh - 92px);
+
+    border-radius: 16px;
+
+  }
+
+  .search-new-input-area {
+
+    padding-left: 12px;
+    padding-right: 12px;
+
+  }
+
+}
+
+/* ---------------------------------------------------------
+   検索結果の並び順
+   --------------------------------------------------------- */
+
+.search-new-sort-note {
+
+  flex: 0 0 auto;
+
+  padding: 0 16px 9px;
+
+  color: #858a91;
+
+  font-size: 11px;
+
+  line-height: 1.4;
+
+}
+
+/* ブラウザ標準の検索クリアボタンを非表示 */
+#searchNewInput::-webkit-search-cancel-button,
+#searchNewInput::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+
+/* =========================
+   マップ右上の操作ボタン
+   ========================= */
+
+.extra-buttons {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1000;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.map-action-btn {
+  width: 62px;
+  height: 62px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+
+  padding: 6px 4px;
+
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.90);
+  color: #3f4348;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+
+  cursor: pointer;
+
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
+}
+
+.map-action-btn:hover {
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.16);
+}
+
+.map-action-btn:active {
+  transform: scale(0.94);
+}
+
+.map-action-btn .material-symbols-outlined {
+  font-size: 23px;
+
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+.map-action-label {
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+
+/* =========================
+   スマホ
+   ========================= */
+
+@media (max-width: 768px) {
+
+  .extra-buttons {
+    top: 12px;
+    right: 10px;
+    gap: 6px;
+  }
+
+  .map-action-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 9px;
+    padding: 5px 3px;
+  }
+
+  .map-action-btn .material-symbols-outlined {
+    font-size: 21px;
+  }
+
+  .map-action-label {
+    font-size: 9px;
+  }
+
+}
+
+
+/* =========================
+   マップに戻るボタン
+   ========================= */
+
+.back-to-map-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 8px 13px;
+
+  border: 1px solid #e1e4e8;
+  border-radius: 9px;
+
+  background: #f6f7f8;
+  color: #d90000;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    background .18s ease,
+    border-color .18s ease,
+    transform .12s ease;
+}
+
+.back-to-map-button:hover {
+  background: #eceef0;
+  border-color: #d5d9dd;
+}
+
+.back-to-map-button:active {
+  transform: scale(.97);
+}
+
+.back-to-map-button .material-symbols-outlined {
+  font-size: 18px;
+
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+/* =========================
+   リリースノート
+   ========================= */
+
+.release-note-content {
+  color: #555b62;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.release-note-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 220px;
+
+  margin-top: 24px;
+  padding: 30px 20px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+
+  background: #f7f8f9;
+
+  text-align: center;
+}
+
+.release-note-placeholder > .material-symbols-outlined {
+  margin-bottom: 10px;
+
+  font-size: 34px;
+  color: #8a9097;
+
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+.release-note-placeholder strong {
+  color: #454a50;
+  font-size: 15px;
+}
+
+.release-note-placeholder p {
+  margin: 7px 0 0;
+
+  color: #858a91;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* ======================================================
+   住所から場所を取得
+====================================================== */
+
+.post-address-modal {
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 1400;
+}
+
+.post-address-modal-content {
+  width: min(92vw, 440px);
+  max-height: calc(100dvh - 80px);
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 20px 60px rgba(0,0,0,.22);
+}
+
+.post-address-modal-body {
+  margin-top: 18px;
+}
+
+.post-address-modal-body > label {
+  display: block;
+  margin-bottom: 7px;
+  color: #3f4348;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+#postAddressInput {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #dfe2e6;
+  border-radius: 9px;
+  box-sizing: border-box;
+  background: #fff;
+  color: #222;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+#postAddressInput:focus {
+  border-color: #8aaee8;
+  box-shadow: 0 0 0 3px rgba(74,144,226,.10);
+}
+
+.post-address-modal-body .post-help {
+  margin: 8px 0 0;
+}
+
+.post-address-geocode-result {
+  min-height: 20px;
+  margin: 14px 0;
+  color: #666c73;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.post-address-geocode-result.loading {
+  color: #4a90e2;
+}
+
+.post-address-geocode-result.success {
+  color: #1baa61;
+}
+
+.post-address-geocode-result.error {
+  color: #d84d5b;
+}
+
+#postAddressGeocodeButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+#postAddressGeocodeButton:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+#postAddressGeocodeButton .material-symbols-outlined {
+  font-size: 20px;
+}
+
+@media(max-width:600px) {
+
+  .post-address-modal {
+    padding: 12px;
+  }
+
+  .post-address-modal-content {
+    width: calc(100vw - 24px);
+    padding: 17px;
+    border-radius: 15px;
+  }
+
+}
+
+#postPickerMap {
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: auto;
+}
+
+@media (max-width: 600px) {
+
+  .post-modal-content {
+    width: 94vw;
+    height: calc(100dvh - 104px);
+    max-height: calc(100dvh - 104px);
+  }
+
+  .post-form {
+    padding: 16px;
+  }
+
+  .post-header {
+    padding: 16px;
+  }
+
+  .post-title h3 {
+    font-size: 17px;
+  }
+
+}
+
+.post-map-picker-content {
+  width: min(94vw, 720px);
+  height: calc(100dvh - 104px);
+  max-height: calc(100dvh - 104px);
+
+  padding: 0;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #fff;
+
+  display: flex;
+  flex-direction: column;
+}
+
+#postAddressModal,
+#postAddressModal button,
+#postAddressModal input,
+#postAddressModal select,
+#postAddressModal textarea {
+  font-family: "M PLUS 1", sans-serif;
+}
+  
+.post-location-external-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  margin: 0;
+  padding: 0;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #555;
+
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 400;
+
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  cursor: pointer;
+
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.post-location-external-link:hover {
+  color: #222;
+}
+
+.post-location-external-link:active {
+  color: #777;
+}
+
+.post-location-external-link .material-symbols-outlined {
+  font-size: 17px;
+
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+
+/* ======================================================
+   検索・リスト・お気に入りモーダル
+   M PLUS 1
+   ====================================================== */
+
+#listModal,
+#listModal button,
+#listModal input,
+#listModal select,
+#listModal textarea,
+
+#favoriteModal,
+#favoriteModal button,
+#favoriteModal input,
+#favoriteModal select,
+#favoriteModal textarea,
+
+#searchNewModal,
+#searchNewModal button,
+#searchNewModal input,
+#searchNewModal select,
+#searchNewModal textarea {
+  font-family: "M PLUS 1", sans-serif;
+}
+
+
+/* ======================================================
+   情報修正依頼
+====================================================== */
+
+#correctionRequestModal,
+#correctionRequestModal button,
+#correctionRequestModal input,
+#correctionRequestModal select,
+#correctionRequestModal textarea {
+  font-family: "M PLUS 1", sans-serif;
+}
+
+
+.correction-request-fields {
+  margin-top: 4px;
+}
+
+
+.correction-request-item {
+  position: relative;
+  margin-bottom: 14px;
+  padding: 14px;
+  border: 1px solid #e1e4e8;
+  border-radius: 12px;
+  background: #f8f9fa;
+}
+
+
+.correction-request-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+
+.correction-request-item-number {
+  color: #555b62;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+.correction-request-remove-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #999fa6;
+  cursor: pointer;
+}
+
+
+.correction-request-remove-btn:hover {
+  background: #eeeeef;
+  color: #e05263;
+}
+
+
+.correction-request-remove-btn .material-symbols-outlined {
+  font-size: 19px;
+}
+
+
+.correction-request-item label {
+  display: block;
+  margin-bottom: 6px;
+  color: #444950;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+
+.correction-request-item select,
+.correction-request-item textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d9dde2;
+  border-radius: 9px;
+  background: #fff;
+  color: #30343a;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+
+.correction-request-item select {
+  height: 42px;
+  padding: 0 11px;
+}
+
+
+.correction-request-item textarea {
+  min-height: 100px;
+  padding: 10px 11px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+
+.correction-request-item select:focus,
+.correction-request-item textarea:focus {
+  outline: none;
+  border-color: #8c96a3;
+  box-shadow: 0 0 0 3px rgba(80, 90, 105, .08);
+}
+
+
+.correction-request-add-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 2px;
+  padding: 9px 12px;
+  border: 1px dashed #b8bdc4;
+  border-radius: 10px;
+  background: #fafbfc;
+  color: #555b62;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  transition:
+    background .18s ease,
+    border-color .18s ease,
+    transform .12s ease;
+}
+
+
+.correction-request-add-btn:hover {
+  background: #f1f3f5;
+  border-color: #969da5;
+}
+
+
+.correction-request-add-btn:active {
+  transform: scale(.98);
+}
+
+
+.correction-request-add-btn .material-symbols-outlined {
+  font-size: 19px;
+}
+
+
+@media (max-width: 600px) {
+
+  .correction-request-item {
+    padding: 12px;
+  }
+
+  .correction-request-item select {
+    height: 44px;
+  }
+
+  .correction-request-item textarea {
+    min-height: 110px;
+  }
+
+}
