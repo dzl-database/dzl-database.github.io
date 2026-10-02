@@ -2375,21 +2375,6 @@ function openDetail(data){
       </span>
     </button>
 
-
-    <!-- フォーム：今後実装 -->
-    <button
-      class="detail-btn sub"
-      onclick="futureFeature('フォーム')"
-    >
-      <span class="material-symbols-outlined">
-        edit
-      </span>
-
-      <span class="label">
-        フォーム
-      </span>
-    </button>
-
   `;
 
   topArea.appendChild(actions);
@@ -4093,11 +4078,7 @@ function futureFeature(featureName){
 
   // ================================================
   // TODO:
-  // ここに今後、各機能を実装する
-  //
-  // 例：
-  // ・共有
-  // ・フォーム
+  // ここに今後、共有機能を実装する
   // ================================================
 
   console.log(
