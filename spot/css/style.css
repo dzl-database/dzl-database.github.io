@@ -1544,11 +1544,11 @@ body{
 
   display:grid;
 
-  grid-template-columns:repeat(4, 1fr);
+  grid-template-columns:repeat(3, 1fr);
 
   gap:6px;
 
-  padding:0 8px 10px;
+  padding:0 16px 10px;
 
   box-sizing:border-box;
 
@@ -2112,9 +2112,9 @@ body{
   }
 
   .new-detail-actions{
-    gap:4px;
-    padding-left:6px;
-    padding-right:6px;
+    gap:6px;
+    padding-left:12px;
+    padding-right:12px;
   }
 
   .new-detail-actions .detail-btn{
