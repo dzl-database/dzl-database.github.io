@@ -11126,7 +11126,7 @@ async function renderPostHistory() {
 
         <div class="post-history-empty-icon">
           <span class="material-symbols-outlined">
-            history
+            pin_history
           </span>
         </div>
 
