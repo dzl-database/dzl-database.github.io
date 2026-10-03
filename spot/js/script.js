@@ -6118,9 +6118,6 @@ async function handleSpotPostSubmit(
         result?.data?.spotId || ""
         ).trim(),
 
-    placeName:
-        placeName,
-
     });
 
 
@@ -8285,11 +8282,6 @@ async function handleMemoPostSubmit(event) {
 
     spotId:
         spotId,
-
-    placeName:
-        String(
-        spot["場所名"] || ""
-        ).trim(),
 
     content:
         memoContent
@@ -10771,6 +10763,87 @@ function initCorrectionRequest() {
 
 }
 
+// ======================================================
+// 最新CSVからスポットIDでスポット情報を取得
+// ======================================================
+
+async function fetchLatestSpotById(spotId) {
+
+  const targetId =
+    String(spotId || "").trim();
+
+  if (!targetId) {
+    return null;
+  }
+
+
+  try {
+
+    const cacheBuster =
+      `_=${Date.now()}`;
+
+    const csvUrl =
+      SPOT_CSV_URL +
+      (SPOT_CSV_URL.includes("?") ? "&" : "?") +
+      cacheBuster;
+
+
+    const response =
+      await fetch(
+        csvUrl,
+        {
+          cache: "no-store"
+        }
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "CSVの取得に失敗しました"
+      );
+
+    }
+
+
+    const text =
+      await response.text();
+
+
+    const parsed =
+      Papa.parse(
+        text,
+        {
+          header: true,
+          skipEmptyLines: true
+        }
+      );
+
+
+    const spot =
+      parsed.data.find(
+        item =>
+          String(
+            item["スポットID"] || ""
+          ).trim() === targetId
+      );
+
+
+    return spot || null;
+
+  } catch (error) {
+
+    console.warn(
+      "最新スポット情報の取得に失敗:",
+      error
+    );
+
+    return null;
+
+  }
+
+}
+
 
 // ======================================================
 // 投稿履歴
@@ -10951,7 +11024,7 @@ function formatPostHistoryDate(
 // 投稿履歴モーダルを開く
 // ======================================================
 
-function openPostHistoryModal() {
+async function openPostHistoryModal() {
 
   closeAllBottomNavModals();
 
@@ -10967,12 +11040,13 @@ function openPostHistoryModal() {
   }
 
 
-  renderPostHistory();
-
-
   modal.classList.add(
     "active"
   );
+
+
+  // 最新CSVを確認してから履歴を表示
+  await renderPostHistory();
 
 }
 
@@ -11017,7 +11091,7 @@ function closePostHistoryModal(
 // 履歴表示
 // ======================================================
 
-function renderPostHistory() {
+async function renderPostHistory() {
 
   const container =
     document.getElementById(
@@ -11074,6 +11148,49 @@ function renderPostHistory() {
   }
 
 
+  // -----------------------------------------------
+  // 最新CSVからスポット名を取得
+  // -----------------------------------------------
+
+  const spotMap =
+    new Map();
+
+
+  const spotIds =
+    [
+      ...new Set(
+        history
+          .map(item =>
+            String(
+              item.spotId || ""
+            ).trim()
+          )
+          .filter(Boolean)
+      )
+    ];
+
+
+  // 複数IDを順番に確認
+  for (const spotId of spotIds) {
+
+    const spot =
+      await fetchLatestSpotById(
+        spotId
+      );
+
+
+    if (spot) {
+
+      spotMap.set(
+        spotId,
+        spot
+      );
+
+    }
+
+  }
+
+
   const timeline =
     document.createElement("div");
 
@@ -11085,7 +11202,10 @@ function renderPostHistory() {
     item => {
 
       timeline.appendChild(
-        createPostHistoryItem(item)
+        createPostHistoryItem(
+          item,
+          spotMap
+        )
       );
 
     }
@@ -11106,7 +11226,8 @@ function renderPostHistory() {
 // ======================================================
 
 function createPostHistoryItem(
-  item
+  item,
+  spotMap
 ) {
 
   const wrapper =
@@ -11211,42 +11332,43 @@ function createPostHistoryItem(
     ).trim();
 
 
-  if (
-    item.type === "correction"
-  ) {
-
-    // 情報修正依頼はスポットIDのみ
-    spot.innerHTML = `
-      <span class="post-history-spot-id">
-        ${escapeHtml(spotId)}
-      </span>
-    `;
-
-  } else {
-
-    // 新規投稿・現地メモは場所名も表示
-    const placeName =
-      String(
-        item.placeName || ""
-      ).trim();
+  const latestSpot =
+    spotMap instanceof Map
+      ? spotMap.get(spotId)
+      : null;
 
 
-    spot.innerHTML = `
-      <span class="post-history-spot-id">
-        ${escapeHtml(spotId)}
-      </span>
-      ${placeName
+  const placeName =
+    latestSpot
+      ? String(
+          latestSpot["場所名"] || ""
+        ).trim()
+      : "";
+
+
+  spot.innerHTML = `
+
+    <span class="post-history-spot-id">
+      ${escapeHtml(spotId)}
+    </span>
+
+    ${
+      placeName
         ? `
           <span class="post-history-spot-name">
-            📍${escapeHtml(placeName)}
+            <span
+              class="material-symbols-outlined post-history-location-icon"
+              aria-hidden="true"
+            >
+              location_on
+            </span>
+            ${escapeHtml(placeName)}
           </span>
         `
         : ""
-      }
-    `;
+    }
 
-  }
-
+  `;
 
   card.appendChild(
     spot

@@ -7885,7 +7885,24 @@ body{
 }
 
 .post-history-spot-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+
   color: #454a50;
+}
+
+.post-history-location-icon {
+  flex: 0 0 auto;
+
+  font-size: 15px;
+  color: #737980;
+
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 24;
 }
 
 
