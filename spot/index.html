@@ -341,6 +341,58 @@
   </div>
 </div>
 
+<!-- ======================================================
+     投稿履歴モーダル
+====================================================== -->
+
+<div
+  id="postHistoryModal"
+  class="modal post-history-modal"
+  onclick="closePostHistoryModal(event)"
+>
+  <div
+    class="modal-content post-history-modal-content"
+    onclick="event.stopPropagation()"
+  >
+
+    <!-- ヘッダー -->
+    <div class="post-history-header">
+
+      <div class="post-history-title">
+        <span class="material-symbols-outlined">
+          history
+        </span>
+
+        <div>
+          <h3>投稿履歴</h3>
+          <p>この端末から送信した投稿の履歴です</p>
+        </div>
+      </div>
+
+
+      <button
+        type="button"
+        class="post-close-btn"
+        onclick="closePostHistoryModal()"
+        aria-label="閉じる"
+      >
+        <span class="material-symbols-outlined">
+          close
+        </span>
+      </button>
+
+    </div>
+
+
+    <!-- 履歴一覧 -->
+    <div
+      id="postHistoryContainer"
+      class="post-history-container"
+    ></div>
+
+  </div>
+</div>
+
 <!-- ===== 使い方 ===== -->
 <div id="howto" class="section">
   <div class="content howto-container">
@@ -704,7 +756,7 @@
         <button
           type="button"
           class="menu-grid-button"
-          onclick="showSection('map'); closeModalForce();"
+          onclick="showSection('map'); closeModalForce(); openPostHistoryModal();"
         >
           <span class="material-symbols-outlined">pin_history</span>
           <span>投稿履歴</span>

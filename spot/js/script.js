@@ -4196,6 +4196,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
   initSpotFilterPanel();
   initSearchNew();
   initCorrectionRequest();
+  // 投稿履歴
+  renderPostHistory();
 
   const input = document.getElementById("modalSearchInput");
   const resultBox = document.getElementById("modalSearchResult");
@@ -6102,6 +6104,24 @@ async function handleSpotPostSubmit(
       return;
    
     }
+
+    // ============================================
+    // 投稿履歴に保存
+    // ============================================
+
+    addPostHistory({
+
+    type: "newSpot",
+
+    spotId:
+        String(
+        result?.data?.spotId || ""
+        ).trim(),
+
+    placeName:
+        placeName,
+
+    });
 
 
     // ============================================
@@ -8254,6 +8274,27 @@ async function handleMemoPostSubmit(event) {
       "投稿しました。",
       "success"
     );
+
+    // -----------------------------------------------
+    // 投稿履歴に保存
+    // -----------------------------------------------
+
+    addPostHistory({
+
+    type: "memo",
+
+    spotId:
+        spotId,
+
+    placeName:
+        String(
+        spot["場所名"] || ""
+        ).trim(),
+
+    content:
+        memoContent
+
+    });
 
     deleteMemoDraft(
       spotId
@@ -10485,6 +10526,32 @@ async function handleCorrectionRequestSubmit(
       "success"
     );
 
+    // -----------------------------------------------
+    // 投稿履歴に保存
+    // -----------------------------------------------
+
+    addPostHistory({
+
+    type: "correction",
+
+    spotId:
+        spotId,
+
+    items:
+        items.map(item => ({
+        type:
+            String(
+            item.type || ""
+            ),
+
+        content:
+            String(
+            item.content || ""
+            )
+        }))
+
+    });
+
 
     deleteCorrectionRequestDraft(
       spotId
@@ -10701,5 +10768,593 @@ function initCorrectionRequest() {
 
 
   initCorrectionRequestDraftAutosave();
+
+}
+
+
+// ======================================================
+// 投稿履歴
+// ======================================================
+
+const POST_HISTORY_STORAGE_KEY =
+  "dzlSpotPostHistory";
+
+
+// ======================================================
+// 履歴取得
+// ======================================================
+
+function getPostHistory() {
+
+  try {
+
+    const saved =
+      localStorage.getItem(
+        POST_HISTORY_STORAGE_KEY
+      );
+
+    if (!saved) {
+      return [];
+    }
+
+    const history =
+      JSON.parse(saved);
+
+    if (
+      !Array.isArray(history)
+    ) {
+      return [];
+    }
+
+    return history;
+
+  } catch (error) {
+
+    console.warn(
+      "投稿履歴の読み込みに失敗:",
+      error
+    );
+
+    return [];
+
+  }
+
+}
+
+
+// ======================================================
+// 履歴保存
+// ======================================================
+
+function savePostHistory(
+  history
+) {
+
+  try {
+
+    localStorage.setItem(
+      POST_HISTORY_STORAGE_KEY,
+      JSON.stringify(history)
+    );
+
+  } catch (error) {
+
+    console.warn(
+      "投稿履歴の保存に失敗:",
+      error
+    );
+
+  }
+
+}
+
+
+// ======================================================
+// 履歴を1件追加
+// ======================================================
+
+function addPostHistory(
+  historyItem
+) {
+
+  if (
+    !historyItem ||
+    typeof historyItem !== "object"
+  ) {
+    return;
+  }
+
+
+  const history =
+    getPostHistory();
+
+
+  history.unshift({
+    id:
+      "history-" +
+      Date.now() +
+      "-" +
+      Math.random()
+        .toString(36)
+        .slice(2, 8),
+
+    timestamp:
+      new Date().toISOString(),
+
+    ...historyItem
+
+  });
+
+
+  savePostHistory(
+    history
+  );
+
+}
+
+
+// ======================================================
+// 日時表示
+// ======================================================
+
+function formatPostHistoryDate(
+  value
+) {
+
+  const date =
+    new Date(value);
+
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ) {
+
+    return "";
+
+  }
+
+
+  const year =
+    date.getFullYear();
+
+  const month =
+    String(
+      date.getMonth() + 1
+    ).padStart(2, "0");
+
+  const day =
+    String(
+      date.getDate()
+    ).padStart(2, "0");
+
+  const hours =
+    String(
+      date.getHours()
+    ).padStart(2, "0");
+
+  const minutes =
+    String(
+      date.getMinutes()
+    ).padStart(2, "0");
+
+
+  return (
+    `${year}/${month}/${day} ` +
+    `${hours}:${minutes}`
+  );
+
+}
+
+
+// ======================================================
+// 投稿履歴モーダルを開く
+// ======================================================
+
+function openPostHistoryModal() {
+
+  closeAllBottomNavModals();
+
+
+  const modal =
+    document.getElementById(
+      "postHistoryModal"
+    );
+
+
+  if (!modal) {
+    return;
+  }
+
+
+  renderPostHistory();
+
+
+  modal.classList.add(
+    "active"
+  );
+
+}
+
+
+// ======================================================
+// 投稿履歴モーダルを閉じる
+// ======================================================
+
+function closePostHistoryModal(
+  event
+) {
+
+  if (
+    event &&
+    event.target !== event.currentTarget
+  ) {
+
+    return;
+
+  }
+
+
+  const modal =
+    document.getElementById(
+      "postHistoryModal"
+    );
+
+
+  if (!modal) {
+    return;
+  }
+
+
+  modal.classList.remove(
+    "active"
+  );
+
+}
+
+
+// ======================================================
+// 履歴表示
+// ======================================================
+
+function renderPostHistory() {
+
+  const container =
+    document.getElementById(
+      "postHistoryContainer"
+    );
+
+
+  if (!container) {
+    return;
+  }
+
+
+  const history =
+    getPostHistory();
+
+
+  // 新しい順
+  history.sort(
+    (a, b) =>
+      new Date(b.timestamp).getTime() -
+      new Date(a.timestamp).getTime()
+  );
+
+
+  if (
+    history.length === 0
+  ) {
+
+    container.innerHTML = `
+
+      <div class="post-history-empty">
+
+        <div class="post-history-empty-icon">
+          <span class="material-symbols-outlined">
+            history
+          </span>
+        </div>
+
+        <div class="post-history-empty-title">
+          投稿履歴はありません
+        </div>
+
+        <div class="post-history-empty-message">
+          新規スポット投稿・現地メモ投稿・<br>
+          情報修正依頼を送信すると、ここに表示されます。
+        </div>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  const timeline =
+    document.createElement("div");
+
+  timeline.className =
+    "post-history-timeline";
+
+
+  history.forEach(
+    item => {
+
+      timeline.appendChild(
+        createPostHistoryItem(item)
+      );
+
+    }
+  );
+
+
+  container.innerHTML = "";
+
+  container.appendChild(
+    timeline
+  );
+
+}
+
+
+// ======================================================
+// 履歴1件を生成
+// ======================================================
+
+function createPostHistoryItem(
+  item
+) {
+
+  const wrapper =
+    document.createElement("div");
+
+  wrapper.className =
+    "post-history-item";
+
+
+  const dot =
+    document.createElement("div");
+
+  dot.className =
+    "post-history-dot";
+
+
+  const card =
+    document.createElement("div");
+
+  card.className =
+    "post-history-card";
+
+
+  // -----------------------------------------------
+  // 日時
+  // -----------------------------------------------
+
+  const date =
+    document.createElement("div");
+
+  date.className =
+    "post-history-date";
+
+  date.textContent =
+    `[${formatPostHistoryDate(item.timestamp)}]`;
+
+
+  card.appendChild(
+    date
+  );
+
+
+  // -----------------------------------------------
+  // 種類
+  // -----------------------------------------------
+
+  const type =
+    document.createElement("div");
+
+  type.className =
+    "post-history-type";
+
+
+  if (
+    item.type === "newSpot"
+  ) {
+
+    type.textContent =
+      "新規スポットを投稿しました";
+
+  } else if (
+    item.type === "memo"
+  ) {
+
+    type.textContent =
+      "現地メモを投稿しました";
+
+  } else if (
+    item.type === "correction"
+  ) {
+
+    type.textContent =
+      "情報修正依頼を送信しました";
+
+  } else {
+
+    type.textContent =
+      "投稿しました";
+
+  }
+
+
+  card.appendChild(
+    type
+  );
+
+
+  // -----------------------------------------------
+  // スポット
+  // -----------------------------------------------
+
+  const spot =
+    document.createElement("div");
+
+  spot.className =
+    "post-history-spot";
+
+
+  const spotId =
+    String(
+      item.spotId || ""
+    ).trim();
+
+
+  if (
+    item.type === "correction"
+  ) {
+
+    // 情報修正依頼はスポットIDのみ
+    spot.innerHTML = `
+      <span class="post-history-spot-id">
+        ${escapeHtml(spotId)}
+      </span>
+    `;
+
+  } else {
+
+    // 新規投稿・現地メモは場所名も表示
+    const placeName =
+      String(
+        item.placeName || ""
+      ).trim();
+
+
+    spot.innerHTML = `
+      <span class="post-history-spot-id">
+        ${escapeHtml(spotId)}
+      </span>
+      ${placeName
+        ? `
+          <span class="post-history-spot-name">
+            📍${escapeHtml(placeName)}
+          </span>
+        `
+        : ""
+      }
+    `;
+
+  }
+
+
+  card.appendChild(
+    spot
+  );
+
+
+  // -----------------------------------------------
+  // 現地メモ
+  // -----------------------------------------------
+
+  if (
+    item.type === "memo" &&
+    item.content
+  ) {
+
+    const content =
+      document.createElement("div");
+
+    content.className =
+      "post-history-content";
+
+    content.textContent =
+      String(item.content);
+
+
+    card.appendChild(
+      content
+    );
+
+  }
+
+
+  // -----------------------------------------------
+  // 情報修正依頼
+  // -----------------------------------------------
+
+  if (
+    item.type === "correction" &&
+    Array.isArray(item.items)
+  ) {
+
+    item.items.forEach(
+      correctionItem => {
+
+        if (
+          !correctionItem ||
+          !correctionItem.content
+        ) {
+          return;
+        }
+
+
+        const correction =
+          document.createElement("div");
+
+        correction.className =
+          "post-history-correction-item";
+
+
+        const correctionType =
+          document.createElement("div");
+
+        correctionType.className =
+          "post-history-correction-type";
+
+        correctionType.textContent =
+          correctionItem.type
+            ? String(correctionItem.type)
+            : "修正内容";
+
+
+        const correctionContent =
+          document.createElement("div");
+
+        correctionContent.textContent =
+          String(
+            correctionItem.content
+          );
+
+
+        correction.appendChild(
+          correctionType
+        );
+
+        correction.appendChild(
+          correctionContent
+        );
+
+
+        card.appendChild(
+          correction
+        );
+
+      }
+    );
+
+  }
+
+
+  wrapper.appendChild(
+    dot
+  );
+
+  wrapper.appendChild(
+    card
+  );
+
+
+  return wrapper;
 
 }

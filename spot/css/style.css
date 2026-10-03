@@ -7639,3 +7639,404 @@ body{
   }
 
 }
+
+
+/* =========================================================
+   投稿履歴モーダル
+========================================================= */
+
+#postHistoryModal,
+#postHistoryModal button {
+  font-family: "M PLUS 1", sans-serif;
+}
+
+.post-history-modal {
+  padding: 0 0 72px;
+  box-sizing: border-box;
+
+  align-items: center;
+  justify-content: center;
+
+  z-index: 1300;
+}
+
+.post-history-modal-content {
+  width: min(92vw, 560px);
+  height: calc(100dvh - 104px);
+  max-height: calc(100dvh - 104px);
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 0;
+
+  box-sizing: border-box;
+  overflow: hidden;
+
+  border-radius: 18px;
+  background: #f5f6f8;
+
+  border: 1px solid rgba(0, 0, 0, .07);
+
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, .22);
+
+  text-align: left;
+}
+
+
+/* =========================================================
+   ヘッダー
+========================================================= */
+
+.post-history-header {
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 17px 18px;
+
+  background: #fff;
+
+  border-bottom: 1px solid #e5e7ea;
+}
+
+.post-history-title {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.post-history-title > .material-symbols-outlined {
+  flex: 0 0 auto;
+
+  font-size: 25px;
+  color: #626870;
+
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+.post-history-title h3 {
+  margin: 0;
+
+  color: #30343a;
+
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.post-history-title p {
+  margin: 2px 0 0;
+
+  color: #8a9097;
+
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   履歴一覧
+========================================================= */
+
+.post-history-container {
+  flex: 1 1 auto;
+
+  min-height: 0;
+
+  overflow-y: auto;
+
+  padding: 20px 20px 30px;
+}
+
+
+/* =========================================================
+   タイムライン
+========================================================= */
+
+.post-history-timeline {
+  position: relative;
+
+  margin: 0;
+  padding: 2px 0 2px 28px;
+}
+
+
+/* 縦線 */
+
+.post-history-timeline::before {
+  content: "";
+
+  position: absolute;
+
+  top: 7px;
+  bottom: 7px;
+  left: 8px;
+
+  width: 1px;
+
+  background: #dfe2e6;
+}
+
+
+/* =========================================================
+   履歴1件
+========================================================= */
+
+.post-history-item {
+  position: relative;
+
+  margin: 0 0 22px;
+}
+
+.post-history-item:last-child {
+  margin-bottom: 0;
+}
+
+
+/* タイムラインの丸 */
+
+.post-history-dot {
+  position: absolute;
+
+  top: 7px;
+  left: -24px;
+
+  width: 9px;
+  height: 9px;
+
+  border-radius: 50%;
+
+  background: #858a91;
+
+  border: 3px solid #f5f6f8;
+
+  box-sizing: content-box;
+}
+
+
+/* =========================================================
+   履歴カード
+========================================================= */
+
+.post-history-card {
+  padding: 12px 14px;
+
+  border: 1px solid #e1e4e8;
+  border-radius: 11px;
+
+  background: #fff;
+
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, .04);
+}
+
+
+/* 日時 */
+
+.post-history-date {
+  margin-bottom: 5px;
+
+  color: #8a9097;
+
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+
+/* 種類 */
+
+.post-history-type {
+  margin-bottom: 7px;
+
+  color: #363a40;
+
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+
+/* スポット情報 */
+
+.post-history-spot {
+  margin-bottom: 6px;
+
+  color: #555b62;
+
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.post-history-spot-id {
+  color: #737980;
+}
+
+.post-history-spot-name {
+  color: #454a50;
+}
+
+
+/* 内容 */
+
+.post-history-content {
+  margin-top: 6px;
+  padding: 8px 10px;
+
+  border-radius: 8px;
+
+  background: #f7f8f9;
+
+  color: #666c73;
+
+  font-size: 11px;
+  line-height: 1.7;
+
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+
+/* 修正依頼 */
+
+.post-history-correction-item {
+  margin-top: 6px;
+  padding: 8px 10px;
+
+  border-radius: 8px;
+
+  background: #f7f8f9;
+
+  color: #666c73;
+
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.post-history-correction-type {
+  margin-bottom: 2px;
+
+  color: #555b62;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   履歴なし
+========================================================= */
+
+.post-history-empty {
+  min-height: 300px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px 20px;
+
+  box-sizing: border-box;
+
+  text-align: center;
+}
+
+.post-history-empty-icon {
+  margin-bottom: 10px;
+
+  color: #a0a5ab;
+}
+
+.post-history-empty-icon .material-symbols-outlined {
+  font-size: 40px;
+
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+.post-history-empty-title {
+  color: #555b62;
+
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.post-history-empty-message {
+  margin-top: 6px;
+
+  color: #8a9097;
+
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   スマホ
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .post-history-modal-content {
+    width: calc(100vw - 24px);
+
+    height: calc(100dvh - 104px);
+    max-height: calc(100dvh - 104px);
+
+    border-radius: 16px;
+  }
+
+  .post-history-header {
+    padding: 15px 15px;
+  }
+
+  .post-history-title h3 {
+    font-size: 15px;
+  }
+
+  .post-history-title p {
+    font-size: 9px;
+  }
+
+  .post-history-container {
+    padding: 17px 15px 25px;
+  }
+
+  .post-history-timeline {
+    padding-left: 25px;
+  }
+
+  .post-history-timeline::before {
+    left: 7px;
+  }
+
+  .post-history-dot {
+    left: -22px;
+  }
+
+  .post-history-card {
+    padding: 11px 12px;
+  }
+
+  .post-history-item {
+    margin-bottom: 18px;
+  }
+
+}
+
