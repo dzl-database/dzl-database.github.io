@@ -361,20 +361,20 @@ body{
 }
 
 /* =========================
-   3分割ボタン
+   4分割ボタン
    ========================= */
 
-.menu-grid-3 {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+.menu-grid-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-.menu-grid-3 .menu-grid-button {
+.menu-grid-4 .menu-grid-button {
   min-width: 0;
   padding-left: 4px;
   padding-right: 4px;
 }
 
-.menu-grid-3 .menu-grid-button span:last-child {
+.menu-grid-4 .menu-grid-button span:last-child {
   white-space: nowrap;
   font-size: 10px;
 }
@@ -409,17 +409,17 @@ body{
     min-height: 68px;
   }
 
-  .menu-grid-3 {
+  .menu-grid-4 {
     gap: 6px;
   }
 
-  .menu-grid-3 .menu-grid-button {
+  .menu-grid-4 .menu-grid-button {
     min-height: 68px;
     padding-left: 3px;
     padding-right: 3px;
   }
 
-  .menu-grid-3 .menu-grid-button span:last-child {
+  .menu-grid-4 .menu-grid-button span:last-child {
     font-size: 9px;
   }
 
