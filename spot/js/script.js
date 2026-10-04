@@ -990,6 +990,10 @@ function showSection(id){
     renderReleaseNotes();
   }
 
+  if(id==="faq"){
+    loadFaqData();
+  }
+
 
   // ===== ハッシュ連動 =====
   // ハッシュからページを開いた場合は、
@@ -12866,4 +12870,181 @@ async function renderReleaseNotes() {
 
   });
 
+}
+
+
+// ------------------------------------------------------
+// FAQ CSV
+// ------------------------------------------------------
+
+const FAQ_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQYy_PtEIhPRx7qC-n0Yjan12MtkNoeAXnYyjMEBTDP7Lv_gfI2TLKSXnS07AvfDt9B3iNVz5Nie27_/pub?gid=878541483&single=true&output=csv";
+
+// ------------------------------------------------------
+// FAQ
+// ------------------------------------------------------
+
+let faqData = [];
+let faqLoaded = false;
+let faqLoading = false;
+
+
+// FAQ専用
+// <b>...</b> だけを太字として扱う
+function formatFaqText(value) {
+
+  const text = String(value ?? "");
+
+  // まず全体をエスケープ
+  const escaped = escapeHtml(text);
+
+  // エスケープ後の <b>...</b> を太字HTMLに変換
+  return escaped.replace(
+    /&lt;b&gt;([\s\S]*?)&lt;\/b&gt;/gi,
+    "<strong>$1</strong>"
+  );
+}
+
+
+// FAQ CSVを読み込む
+async function loadFaqData() {
+
+  if (faqLoaded || faqLoading) {
+    return;
+  }
+
+  faqLoading = true;
+
+  const container =
+    document.getElementById("faqList");
+
+  if (container) {
+    container.innerHTML = `
+      <div class="faq-loading">
+        よくある質問を読み込んでいます…
+      </div>
+    `;
+  }
+
+  try {
+
+    const response = await fetch(
+      FAQ_CSV_URL,
+      {
+        cache: "no-store"
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `FAQ CSVの読み込みに失敗しました: ${response.status}`
+      );
+    }
+
+    const csvText = await response.text();
+
+    faqData = Papa.parse(
+      csvText,
+      {
+        header: true,
+        skipEmptyLines: true
+      }
+    ).data || [];
+
+    faqLoaded = true;
+
+    renderFaq();
+
+  } catch (error) {
+
+    console.error(
+      "FAQ読み込みエラー:",
+      error
+    );
+
+    if (container) {
+      container.innerHTML = `
+        <div class="faq-error">
+          よくある質問を読み込めませんでした。<br>
+          しばらくしてからもう一度お試しください。
+        </div>
+      `;
+    }
+
+  } finally {
+
+    faqLoading = false;
+
+  }
+}
+
+
+// FAQを画面に表示
+function renderFaq() {
+
+  const container =
+    document.getElementById("faqList");
+
+  if (!container) {
+    return;
+  }
+
+  if (!Array.isArray(faqData) || faqData.length === 0) {
+
+    container.innerHTML = `
+      <div class="faq-empty">
+        現在、よくある質問はありません。
+      </div>
+    `;
+
+    return;
+  }
+
+  const items = faqData.filter(row => {
+
+    const question =
+      String(row["質問"] || "").trim();
+
+    const answer =
+      String(row["回答"] || "").trim();
+
+    return question || answer;
+
+  });
+
+  if (items.length === 0) {
+
+    container.innerHTML = `
+      <div class="faq-empty">
+        現在、よくある質問はありません。
+      </div>
+    `;
+
+    return;
+  }
+
+  container.innerHTML = items.map(row => {
+
+    const question =
+      formatFaqText(row["質問"] || "");
+
+    const answer =
+      formatFaqText(row["回答"] || "");
+
+    return `
+      <div class="faq-item">
+
+        <div class="faq-question">
+          <span class="faq-label">Q</span>
+          <div class="faq-text">${question}</div>
+        </div>
+
+        <div class="faq-answer">
+          <span class="faq-label">A</span>
+          <div class="faq-text">${answer}</div>
+        </div>
+
+      </div>
+    `;
+
+  }).join("");
 }

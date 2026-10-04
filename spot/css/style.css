@@ -993,6 +993,12 @@ body{
     padding: 20px 30px;
 }
 
+#faq .content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 30px;
+}
+
 /* =======================
    (9) 機能ボタン3種
 ======================= */
@@ -8369,4 +8375,88 @@ body{
     font-size: 11px;
   }
 
+}
+
+/* ===== FAQ ===== */
+
+.faq-content {
+  margin-top: 20px;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.faq-item {
+  padding: 18px 20px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .04);
+}
+
+.faq-question,
+.faq-answer {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #333;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.faq-question {
+  font-weight: 700;
+}
+
+.faq-answer {
+  margin-top: 10px;
+  color: #555;
+}
+
+.faq-label {
+  flex: 0 0 auto;
+  font-weight: 800;
+}
+
+.faq-question .faq-label {
+  color: #333;
+}
+
+.faq-answer .faq-label {
+  color: #666;
+}
+
+.faq-text {
+  min-width: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.faq-loading,
+.faq-empty,
+.faq-error {
+  padding: 30px 20px;
+  text-align: center;
+  color: #777;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+@media (max-width: 600px) {
+  .faq-content {
+    margin-top: 16px;
+  }
+
+  .faq-item {
+    padding: 15px 16px;
+  }
+
+  .faq-question,
+  .faq-answer {
+    font-size: 13px;
+    line-height: 1.75;
+  }
 }
