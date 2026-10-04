@@ -7194,6 +7194,7 @@ function renderListIndex() {
 
   container.hidden = false;
 
+  container.innerHTML = "";
 
   const groups =
     buildListGroups();
