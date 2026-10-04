@@ -88,6 +88,27 @@ function getHashRoute() {
     };
   }
 
+  // #howto
+  if (hash === "howto") {
+    return {
+      type: "howto"
+    };
+  }
+
+  // #terms
+  if (hash === "terms") {
+    return {
+      type: "terms"
+    };
+  }
+
+  // #release
+  if (hash === "release") {
+    return {
+      type: "release"
+    };
+  }
+
   // #spot_XXXX
   if (hash.startsWith("spot_")) {
     return {
@@ -173,6 +194,27 @@ function applyHashRoute() {
       closeDetail();
       showSection("map");
       openPostModal();
+      return;
+    }
+
+    if (route.type === "howto") {
+      closeAllBottomNavModals();
+      closeDetail();
+      showSection("howto");
+      return;
+    }
+
+    if (route.type === "terms") {
+      closeAllBottomNavModals();
+      closeDetail();
+      showSection("terms");
+      return;
+    }
+
+    if (route.type === "release") {
+      closeAllBottomNavModals();
+      closeDetail();
+      showSection("release");
       return;
     }
 
@@ -874,7 +916,8 @@ function showSection(id){
     el.classList.remove("active");
   });
 
-  const targetSection = document.getElementById(id);
+  const targetSection =
+    document.getElementById(id);
 
   if(targetSection){
     targetSection.classList.add("active");
@@ -888,7 +931,6 @@ function showSection(id){
   const detailPanel =
     document.getElementById("detailPanel");
 
-  // 表示管理パネル
   const spotFilterPanel =
     document.querySelector(".spot-filter-panel");
 
@@ -928,8 +970,29 @@ function showSection(id){
 
   closeModalForce();
 
-  if (id === "release") {
+
+  // ===== リリースノート =====
+  if(id === "release"){
     renderReleaseNotes();
+  }
+
+
+  // ===== ハッシュ連動 =====
+  // ハッシュからページを開いた場合は、
+  // applyHashRoute() 側ですでにURLが決まっているため変更しない
+  if(!isApplyingHashRoute){
+
+    if(id === "map"){
+      navigateHash("");
+
+    }else if(
+      id === "howto" ||
+      id === "terms" ||
+      id === "release"
+    ){
+      navigateHash(id);
+    }
+
   }
 
 }
