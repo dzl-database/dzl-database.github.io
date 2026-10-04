@@ -622,6 +622,11 @@ function showSection(id){
 
 
   closeModalForce();
+
+  if (id === "release") {
+    renderReleaseNotes();
+  }
+
 }
 
 // ======================================================
@@ -11478,5 +11483,809 @@ function createPostHistoryItem(
 
 
   return wrapper;
+
+}
+
+
+
+// ======================================================
+// リリースノートCSV
+// ======================================================
+
+const RELEASE_CSV_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQYy_PtEIhPRx7qC-n0Yjan12MtkNoeAXnYyjMEBTDP7Lv_gfI2TLKSXnS07AvfDt9B3iNVz5Nie27_/pub?gid=580480056&single=true&output=csv";
+
+// ======================================================
+// リリースノート読み込み
+// ======================================================
+
+let releaseNoteData = [];
+let releaseNoteLoaded = false;
+let releaseNoteLoading = false;
+
+
+// ------------------------------------------------------
+// CSVからリリースノートを取得
+// ------------------------------------------------------
+
+async function loadReleaseNotes() {
+
+  if (releaseNoteLoading) return releaseNoteData;
+
+  releaseNoteLoading = true;
+
+  try {
+
+    const cacheBuster =
+      `_=${Date.now()}`;
+
+    const csvUrl =
+      RELEASE_CSV_URL +
+      (RELEASE_CSV_URL.includes("?") ? "&" : "?") +
+      cacheBuster;
+
+    const response =
+      await fetch(
+        csvUrl,
+        {
+          cache: "no-store"
+        }
+      );
+
+    if (!response.ok) {
+
+      throw new Error(
+        "リリースノートCSVの取得に失敗しました"
+      );
+
+    }
+
+    const text =
+      await response.text();
+
+    const parsed =
+      Papa.parse(
+        text,
+        {
+          header: true,
+          skipEmptyLines: true
+        }
+      );
+
+    if (parsed.errors && parsed.errors.length) {
+
+      console.warn(
+        "リリースノートCSV解析警告:",
+        parsed.errors
+      );
+
+    }
+
+    releaseNoteData =
+      Array.isArray(parsed.data)
+        ? parsed.data
+        : [];
+
+    releaseNoteLoaded = true;
+
+    return releaseNoteData;
+
+  } catch (error) {
+
+    console.error(
+      "リリースノート読み込みエラー:",
+      error
+    );
+
+    releaseNoteData = [];
+
+    return [];
+
+  } finally {
+
+    releaseNoteLoading = false;
+
+  }
+
+}
+
+function escapeReleaseHtml(value) {
+
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+// ======================================================
+// リリースノート本文整形
+// ======================================================
+
+function formatReleaseText(value) {
+
+  const text =
+    String(value || "");
+
+  if (!text) return "";
+
+  /*
+   * いったんHTMLとして解釈されないように
+   * エスケープする
+   */
+  let result =
+    escapeReleaseHtml(text);
+
+  /*
+   * <b>...</b> だけ許可する
+   *
+   * CSV上では
+   * <b>重要</b>
+   * のように入力する。
+   */
+  result =
+    result
+      .replace(
+        /&lt;b&gt;([\s\S]*?)&lt;\/b&gt;/gi,
+        "<strong>$1</strong>"
+      );
+
+  /*
+   * スプレッドシート内の改行をそのまま反映
+   */
+  result =
+    result.replace(/\r\n|\r|\n/g, "<br>");
+
+  return result;
+
+}
+
+// ======================================================
+// X投稿埋め込み
+// ======================================================
+
+function createReleaseXEmbed(html) {
+
+  const wrapper =
+    document.createElement("div");
+
+  wrapper.className =
+    "release-x-embed";
+
+  const source =
+    String(html || "").trim();
+
+  if (!source) {
+    return wrapper;
+  }
+
+  /*
+   * スプレッドシート内のscriptタグは
+   * こちらでは実行しない。
+   *
+   * blockquoteだけ取り出して表示する。
+   */
+  const blockquoteMatch =
+    source.match(
+      /<blockquote\b[\s\S]*?<\/blockquote>/i
+    );
+
+  if (blockquoteMatch) {
+
+    wrapper.innerHTML =
+      blockquoteMatch[0];
+
+  } else {
+
+    /*
+     * blockquoteが見つからない場合は
+     * 念のため空欄にする。
+     */
+    wrapper.textContent =
+      "X投稿を表示できませんでした。";
+
+  }
+
+  /*
+   * Xのwidgets.jsを読み込む。
+   */
+  loadXWidgets();
+
+  return wrapper;
+
+}
+
+// ======================================================
+// X widgets.js読み込み
+// ======================================================
+
+let xWidgetsLoading = false;
+
+function loadXWidgets() {
+
+  /*
+   * すでに読み込み済みなら
+   * 新しくscriptを追加しない。
+   */
+  if (
+    window.twttr &&
+    window.twttr.widgets
+  ) {
+
+    requestAnimationFrame(() => {
+
+      window.twttr.widgets.load(
+        document.getElementById("release")
+      );
+
+    });
+
+    return;
+
+  }
+
+  if (xWidgetsLoading) return;
+
+  xWidgetsLoading = true;
+
+  const script =
+    document.createElement("script");
+
+  script.src =
+    "https://platform.x.com/widgets.js";
+
+  script.async = true;
+
+  script.charset =
+    "utf-8";
+
+  script.onload = () => {
+
+    xWidgetsLoading = false;
+
+    if (
+      window.twttr &&
+      window.twttr.widgets
+    ) {
+
+      window.twttr.widgets.load(
+        document.getElementById("release")
+      );
+
+    }
+
+  };
+
+  document.head.appendChild(script);
+
+}
+
+// ======================================================
+// リリースノートのレイアウト
+// ======================================================
+
+function createReleaseDetail(row, index) {
+
+  const pattern =
+    String(
+      row["レイアウトパターン"] || ""
+    ).trim();
+
+  const heading =
+    String(
+      row["詳細見出し"] || ""
+    ).trim();
+
+  const body =
+    String(
+      row["詳細本文"] || ""
+    ).trim();
+
+
+  // ------------------------------------------
+  // 本文のみ
+  // ------------------------------------------
+
+  if (pattern === "本文のみ") {
+
+    const element =
+      document.createElement("div");
+
+    element.className =
+      "release-detail-body release-layout-body";
+
+    element.innerHTML =
+      formatReleaseText(body);
+
+    return element;
+
+  }
+
+
+  // ------------------------------------------
+  // ナンバー見出し＋説明
+  // ------------------------------------------
+
+  if (pattern === "ナンバー見出し＋説明") {
+
+    const element =
+      document.createElement("div");
+
+    element.className =
+      "release-detail-number";
+
+    element.innerHTML = `
+      <div class="release-detail-number-heading">
+        <span class="release-detail-number-index">
+          ${index + 1}.
+        </span>
+        <span>
+          ${escapeReleaseHtml(heading)}
+        </span>
+      </div>
+
+      ${
+        body
+          ? `
+            <div class="release-detail-description">
+              ${formatReleaseText(body)}
+            </div>
+          `
+          : ""
+      }
+    `;
+
+    return element;
+
+  }
+
+
+  // ------------------------------------------
+  // リスト見出し＋説明
+  // ------------------------------------------
+
+  if (pattern === "リスト見出し＋説明") {
+
+    const element =
+      document.createElement("div");
+
+    element.className =
+      "release-detail-list";
+
+    element.innerHTML = `
+      <div class="release-detail-list-heading">
+        <span class="release-detail-list-marker">・</span>
+        <span>
+          ${escapeReleaseHtml(heading)}
+        </span>
+      </div>
+
+      ${
+        body
+          ? `
+            <div class="release-detail-description">
+              ${formatReleaseText(body)}
+            </div>
+          `
+          : ""
+      }
+    `;
+
+    return element;
+
+  }
+
+
+  // ------------------------------------------
+  // X投稿埋め込み
+  // ------------------------------------------
+
+  if (pattern === "X投稿埋め込み") {
+
+    return createReleaseXEmbed(body);
+
+  }
+
+
+  // ------------------------------------------
+  // 未定義のパターン
+  // ------------------------------------------
+
+  const element =
+    document.createElement("div");
+
+  element.className =
+    "release-detail-body";
+
+  element.innerHTML =
+    formatReleaseText(
+      body || heading
+    );
+
+  return element;
+
+}
+
+// ======================================================
+// リリースIDごとのグループ化
+// ======================================================
+
+function groupReleaseNotes(rows) {
+
+  const releaseMap =
+    new Map();
+
+  rows.forEach(row => {
+
+    const releaseId =
+      String(
+        row["リリースID"] || ""
+      ).trim();
+
+    if (!releaseId) return;
+
+    if (!releaseMap.has(releaseId)) {
+
+      releaseMap.set(
+        releaseId,
+        {
+          id: releaseId,
+          title: "",
+          category: "",
+          version: "",
+          createdAt: "",
+          updatedAt: "",
+          rows: []
+        }
+      );
+
+    }
+
+    const release =
+      releaseMap.get(releaseId);
+
+    /*
+     * メタ情報は同じreleaseID内の
+     * 最初に値が入っているものを使用
+     */
+    if (!release.title) {
+      release.title =
+        String(row["タイトル"] || "").trim();
+    }
+
+    if (!release.category) {
+      release.category =
+        String(row["カテゴリ"] || "").trim();
+    }
+
+    if (!release.version) {
+      release.version =
+        String(row["バージョン"] || "").trim();
+    }
+
+    if (!release.createdAt) {
+      release.createdAt =
+        String(row["作成日"] || "").trim();
+    }
+
+    if (!release.updatedAt) {
+      release.updatedAt =
+        String(row["最終更新日"] || "").trim();
+    }
+
+    release.rows.push(row);
+
+  });
+
+  return Array.from(
+    releaseMap.values()
+  );
+
+}
+
+// ======================================================
+// リリースカード生成
+// ======================================================
+
+function createReleaseCard(release) {
+
+  const article =
+    document.createElement("article");
+
+  article.className =
+    "release-note-card";
+
+
+  // ------------------------------------------
+  // ヘッダー
+  // ------------------------------------------
+
+  const header =
+    document.createElement("div");
+
+  header.className =
+    "release-note-card-header";
+
+  header.innerHTML = `
+
+    <div class="release-note-title-row">
+
+      <h3 class="release-note-title">
+        ${escapeReleaseHtml(release.title)}
+      </h3>
+
+      ${
+        release.version
+          ? `
+            <span class="release-note-version">
+              v${escapeReleaseHtml(release.version)}
+            </span>
+          `
+          : ""
+      }
+
+    </div>
+
+    <div class="release-note-meta">
+
+      ${
+        release.category
+          ? `
+            <span class="release-note-category">
+              ${escapeReleaseHtml(release.category)}
+            </span>
+          `
+          : ""
+      }
+
+      ${
+        release.createdAt
+          ? `
+            <span>
+              作成日：${escapeReleaseHtml(release.createdAt)}
+            </span>
+          `
+          : ""
+      }
+
+      ${
+        release.updatedAt
+          ? `
+            <span>
+              最終更新日：${escapeReleaseHtml(release.updatedAt)}
+            </span>
+          `
+          : ""
+      }
+
+    </div>
+
+  `;
+
+  article.appendChild(header);
+
+
+  // ------------------------------------------
+  // 本文・グループ
+  // ------------------------------------------
+
+  const body =
+    document.createElement("div");
+
+  body.className =
+    "release-note-card-body";
+
+
+  /*
+   * グループ見出しが空欄の行
+   *
+   * 例：
+   * 本文のみ
+   * サイトをリニューアルしました
+   */
+  const ungroupedRows =
+    release.rows.filter(row => {
+
+      return !String(
+        row["グループ見出し"] || ""
+      ).trim();
+
+    });
+
+
+  ungroupedRows.forEach((row, index) => {
+
+    const detail =
+      createReleaseDetail(
+        row,
+        index
+      );
+
+    body.appendChild(detail);
+
+  });
+
+
+  // ------------------------------------------
+  // グループを作る
+  // ------------------------------------------
+
+  const groups =
+    new Map();
+
+  release.rows.forEach(row => {
+
+    const groupName =
+      String(
+        row["グループ見出し"] || ""
+      ).trim();
+
+    if (!groupName) return;
+
+    if (!groups.has(groupName)) {
+
+      groups.set(
+        groupName,
+        []
+      );
+
+    }
+
+    groups
+      .get(groupName)
+      .push(row);
+
+  });
+
+
+  groups.forEach(
+    (rows, groupName) => {
+
+      const group =
+        document.createElement("section");
+
+      group.className =
+        "release-note-group";
+
+
+      const groupTitle =
+        document.createElement("h4");
+
+      groupTitle.className =
+        "release-note-group-title";
+
+      groupTitle.textContent =
+        groupName;
+
+      group.appendChild(
+        groupTitle
+      );
+
+
+      rows.forEach((row, index) => {
+
+        const detail =
+          createReleaseDetail(
+            row,
+            index
+          );
+
+        group.appendChild(
+          detail
+        );
+
+      });
+
+
+      body.appendChild(
+        group
+      );
+
+    }
+  );
+
+
+  article.appendChild(body);
+
+  return article;
+
+}
+
+// ======================================================
+// リリースノート表示
+// ======================================================
+
+async function renderReleaseNotes() {
+
+  const container =
+    document.getElementById(
+      "releaseNoteList"
+    );
+
+  if (!container) return;
+
+
+  container.innerHTML = `
+    <div class="release-note-loading">
+      <span class="material-symbols-outlined">
+        sync
+      </span>
+      <span>リリースノートを読み込んでいます</span>
+    </div>
+  `;
+
+
+  const rows =
+    await loadReleaseNotes();
+
+
+  if (!rows.length) {
+
+    container.innerHTML = `
+      <div class="release-note-empty">
+
+        <span class="material-symbols-outlined">
+          history
+        </span>
+
+        <strong>
+          リリースノートがありません
+        </strong>
+
+        <p>
+          現在表示できる更新履歴はありません。
+        </p>
+
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  const releases =
+    groupReleaseNotes(rows);
+
+
+  /*
+   * CSVの並び順を基本的に維持する。
+   *
+   * 新しいものを上にしたい場合は、
+   * 後述の並び替え処理に変更可能。
+   */
+
+
+  container.innerHTML = "";
+
+
+  releases.forEach(release => {
+
+    container.appendChild(
+      createReleaseCard(release)
+    );
+
+  });
+
+
+  /*
+   * X投稿があればウィジェットを再変換
+   */
+  requestAnimationFrame(() => {
+
+    if (
+      window.twttr &&
+      window.twttr.widgets
+    ) {
+
+      window.twttr.widgets.load(
+        container
+      );
+
+    }
+
+  });
 
 }

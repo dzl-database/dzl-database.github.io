@@ -662,7 +662,9 @@
       class="back-to-map-button"
       onclick="showSection('map')"
     >
-      <span class="material-symbols-outlined">arrow_back</span>
+      <span class="material-symbols-outlined">
+        arrow_back
+      </span>
       マップに戻る
     </button>
 
@@ -670,22 +672,14 @@
 
     <div class="release-note-content">
 
-      <p>
-        ドズル社スポットの更新履歴を掲載するページです。
+      <p class="release-note-introduction">
+        ドズル社スポットの更新履歴を掲載しています。
       </p>
 
-      <div class="release-note-placeholder">
-        <span class="material-symbols-outlined">
-          construction
-        </span>
-
-        <strong>このページは作成中です</strong>
-
-        <p>
-          今後のアップデート情報や機能追加などを
-          こちらでお知らせする予定です。
-        </p>
-      </div>
+      <div
+        id="releaseNoteList"
+        class="release-note-list"
+      ></div>
 
     </div>
 

@@ -8057,3 +8057,316 @@ body{
 
 }
 
+
+/* ======================================================
+   リリースノート
+====================================================== */
+
+.release-note-content {
+  color: #555b62;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.release-note-introduction {
+  margin: 0 0 22px;
+}
+
+
+/* ------------------------------------------------------
+   リリースノート一覧
+------------------------------------------------------ */
+
+.release-note-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+/* ------------------------------------------------------
+   リリースカード
+------------------------------------------------------ */
+
+.release-note-card {
+  overflow: hidden;
+  border: 1px solid #e1e4e8;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,.04);
+}
+
+
+/* ------------------------------------------------------
+   ヘッダー
+------------------------------------------------------ */
+
+.release-note-card-header {
+  padding: 18px 20px;
+  border-bottom: 1px solid #e8eaed;
+  background: #f7f8f9;
+}
+
+.release-note-title-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.release-note-title {
+  margin: 0;
+  color: #30343a;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.release-note-version {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #e7e9ec;
+  color: #626870;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.release-note-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px 14px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  color: #858a91;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.release-note-category {
+  color: #555b62;
+  font-weight: 700;
+}
+
+
+/* ------------------------------------------------------
+   本文
+------------------------------------------------------ */
+
+.release-note-card-body {
+  padding: 20px;
+}
+
+.release-layout-body {
+  color: #454a50;
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+
+/* ------------------------------------------------------
+   グループ
+------------------------------------------------------ */
+
+.release-note-group {
+  margin-top: 25px;
+}
+
+.release-note-group:first-child {
+  margin-top: 0;
+}
+
+.release-note-group-title {
+  margin: 0 0 13px;
+  padding: 0 0 7px;
+  border-bottom: 2px solid #e1e4e8;
+  color: #34383d;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+
+/* ------------------------------------------------------
+   ナンバー見出し＋説明
+------------------------------------------------------ */
+
+.release-detail-number {
+  margin: 0 0 13px;
+}
+
+.release-detail-number-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  color: #3f4348;
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.7;
+}
+
+.release-detail-number-index {
+  flex: 0 0 auto;
+  min-width: 20px;
+  color: #737980;
+}
+
+
+/* ------------------------------------------------------
+   リスト見出し＋説明
+------------------------------------------------------ */
+
+.release-detail-list {
+  margin: 0 0 13px;
+}
+
+.release-detail-list-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  color: #3f4348;
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.7;
+}
+
+.release-detail-list-marker {
+  flex: 0 0 auto;
+}
+
+
+/* ------------------------------------------------------
+   詳細本文
+------------------------------------------------------ */
+
+.release-detail-description {
+  margin: 2px 0 0 25px;
+  color: #777e86;
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.release-layout-body strong,
+.release-detail-description strong {
+  color: #30343a;
+  font-weight: 700;
+}
+
+
+/* ------------------------------------------------------
+   X投稿
+------------------------------------------------------ */
+
+.release-x-embed {
+  margin: 16px 0;
+  overflow-x: auto;
+}
+
+.release-x-embed .twitter-tweet {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+
+/* ------------------------------------------------------
+   読み込み中
+------------------------------------------------------ */
+
+.release-note-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 140px;
+  color: #858a91;
+  font-size: 13px;
+}
+
+.release-note-loading .material-symbols-outlined {
+  font-size: 20px;
+  animation: releaseNoteSpin 1.2s linear infinite;
+}
+
+@keyframes releaseNoteSpin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* ------------------------------------------------------
+   空状態
+------------------------------------------------------ */
+
+.release-note-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  padding: 30px 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #f7f8f9;
+  text-align: center;
+}
+
+.release-note-empty > .material-symbols-outlined {
+  margin-bottom: 9px;
+  color: #8a9097;
+  font-size: 32px;
+}
+
+.release-note-empty strong {
+  color: #454a50;
+  font-size: 14px;
+}
+
+.release-note-empty p {
+  margin: 6px 0 0;
+  color: #858a91;
+  font-size: 12px;
+}
+
+
+/* ------------------------------------------------------
+   スマートフォン
+------------------------------------------------------ */
+
+@media (max-width: 600px) {
+
+  .release-note-card-header {
+    padding: 15px 16px;
+  }
+
+  .release-note-title {
+    font-size: 16px;
+  }
+
+  .release-note-card-body {
+    padding: 17px 16px;
+  }
+
+  .release-note-group-title {
+    font-size: 15px;
+  }
+
+  .release-layout-body,
+  .release-detail-number-heading,
+  .release-detail-list-heading {
+    font-size: 13px;
+  }
+
+  .release-detail-description {
+    margin-left: 22px;
+    font-size: 11px;
+  }
+
+}
