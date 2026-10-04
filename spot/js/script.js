@@ -12194,6 +12194,40 @@ function createReleaseCard(release) {
 }
 
 // ======================================================
+// リリースノートの日付を比較用に変換
+// ======================================================
+
+function parseReleaseDate(value) {
+
+  const text =
+    String(value || "").trim();
+
+  if (!text) {
+    return 0;
+  }
+
+  /*
+   * YYYY/MM/DD
+   * YYYY-MM-DD
+   * YYYY.MM.DD
+   * などを統一
+   */
+  const normalized =
+    text.replace(
+      /[./]/g,
+      "-"
+    );
+
+  const time =
+    Date.parse(normalized);
+
+  return Number.isFinite(time)
+    ? time
+    : 0;
+
+}
+
+// ======================================================
 // リリースノート表示
 // ======================================================
 
@@ -12250,12 +12284,35 @@ async function renderReleaseNotes() {
     groupReleaseNotes(rows);
 
 
-  /*
-   * CSVの並び順を基本的に維持する。
-   *
-   * 新しいものを上にしたい場合は、
-   * 後述の並び替え処理に変更可能。
-   */
+  // ------------------------------------------
+  // 作成日の新しい順に並び替え
+  // ------------------------------------------
+
+  releases.sort((a, b) => {
+
+    const dateA =
+      String(a.createdAt || "").trim();
+
+    const dateB =
+      String(b.createdAt || "").trim();
+
+    /*
+    * YYYY/MM/DD
+    * YYYY-MM-DD
+    * などをDateで比較できる形にする
+    */
+    const timeA =
+      parseReleaseDate(dateA);
+
+    const timeB =
+      parseReleaseDate(dateB);
+
+    /*
+    * 作成日が新しいものを上にする
+    */
+    return timeB - timeA;
+
+  });
 
 
   container.innerHTML = "";
