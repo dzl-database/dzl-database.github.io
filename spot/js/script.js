@@ -7184,7 +7184,9 @@ function renderListIndex() {
     document.getElementById("listSpotView");
 
 
-  if (!container) return;
+  if (!container) {
+    return;
+  }
 
 
   if (spotView) {
@@ -7194,15 +7196,26 @@ function renderListIndex() {
 
   container.hidden = false;
 
-  container.innerHTML = "";
+
+  // ====================================================
+  // ここで必ず現在の表示内容を完全にクリア
+  // ====================================================
+
+  container.replaceChildren();
+
 
   const groups =
     buildListGroups();
 
 
+  // ====================================================
+  // リストがない場合
+  // ====================================================
+
   if (groups.size === 0) {
 
     container.innerHTML = `
+
       <div class="list-empty">
 
         <span class="material-symbols-outlined">
@@ -7214,6 +7227,7 @@ function renderListIndex() {
         </div>
 
       </div>
+
     `;
 
     return;
@@ -7221,9 +7235,9 @@ function renderListIndex() {
   }
 
 
-  // ==============================================
+  // ====================================================
   // スポット数が多い順
-  // ==============================================
+  // ====================================================
 
   const sortedGroups =
     Array.from(groups.entries())
@@ -7245,6 +7259,11 @@ function renderListIndex() {
 
       });
 
+
+  // ====================================================
+  // リストカードを生成
+  // ====================================================
+
   sortedGroups.forEach(
     ([listName, spots]) => {
 
@@ -7258,7 +7277,6 @@ function renderListIndex() {
         "list-index-item";
 
 
-      // リスト名を安全に保持
       button.dataset.listName =
         listName;
 
@@ -7269,7 +7287,6 @@ function renderListIndex() {
           ${escapeHtml(listName)}
         </span>
 
-
         <span class="list-index-count">
 
           <span class="material-symbols-outlined">
@@ -7279,7 +7296,6 @@ function renderListIndex() {
           ${spots.length}スポット
 
         </span>
-
 
         <span class="material-symbols-outlined list-index-arrow">
           chevron_right
@@ -7292,23 +7308,33 @@ function renderListIndex() {
         "click",
         function() {
 
-          const listName =
+          const selectedListName =
             this.dataset.listName;
 
-          openListSpots(listName);
+
+          openListSpots(
+            selectedListName
+          );
+
 
           if (!isApplyingHashRoute) {
+
             navigateHash(
               "list=" +
-              encodeURIComponent(listName)
+              encodeURIComponent(
+                selectedListName
+              )
             );
+
           }
 
         }
       );
 
 
-      container.appendChild(button);
+      container.appendChild(
+        button
+      );
 
     }
   );
