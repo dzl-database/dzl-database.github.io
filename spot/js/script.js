@@ -35,20 +35,33 @@ function navigateHash(hash) {
 // ------------------------------------------------------
 
 function getHashRoute() {
-
-  let hash =
-    location.hash.replace(/^#/, "");
+  let hash = location.hash.replace(/^#/, "");
 
   try {
     hash = decodeURIComponent(hash);
-  } catch(error) {
-    console.warn("URLの解析に失敗しました:", error);
+  } catch (error) {
+    console.warn("ハッシュのデコードに失敗:", error);
   }
 
-  // ハッシュなし
   if (!hash) {
     return {
       type: "map"
+    };
+  }
+
+  // #search
+  if (hash === "search") {
+    return {
+      type: "search",
+      keyword: ""
+    };
+  }
+
+  // #search=検索文字
+  if (hash.startsWith("search=")) {
+    return {
+      type: "search",
+      keyword: hash.slice("search=".length)
     };
   }
 
@@ -63,7 +76,6 @@ function getHashRoute() {
   return {
     type: "unknown"
   };
-
 }
 
 
@@ -103,6 +115,22 @@ function applyHashRoute() {
   isApplyingHashRoute = true;
 
   try {
+
+    if (route.type === "search") {
+      closeDetail();
+      showSection("map");
+
+      const input =
+        document.getElementById("searchNewInput");
+
+      if (input) {
+        input.value = route.keyword || "";
+      }
+
+      openSearchNewModal();
+
+      return;
+    }
 
     // ------------------------------
     // 通常のマップ
@@ -8946,6 +8974,11 @@ function openSearchNewModal() {
 
   });
 
+  // 通常の操作で開いた場合だけ #search にする
+  if (!isApplyingHashRoute) {
+    navigateHash("search");
+  }
+
 }
 
 
@@ -8972,6 +9005,10 @@ function closeSearchNewModal(event) {
   }
 
   modal.classList.remove("active");
+
+  if (!isApplyingHashRoute) {
+    navigateHash("");
+  }
 
 }
 
@@ -9671,7 +9708,33 @@ function initSearchNew() {
       "input",
       function() {
 
+        // 入力中はURLを変更しない
         renderSearchNewResults();
+
+      }
+    );
+
+    input.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (event.key !== "Enter") {
+          return;
+        }
+
+        event.preventDefault();
+
+        const keyword =
+          input.value.trim();
+
+        if (keyword) {
+          navigateHash(
+            "search=" +
+            encodeURIComponent(keyword)
+          );
+        } else {
+          navigateHash("search");
+        }
 
       }
     );
