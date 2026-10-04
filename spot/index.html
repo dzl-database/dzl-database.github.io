@@ -687,6 +687,28 @@
 
 </div>
 
+<!-- ===== よくある質問 ===== -->
+<div id="faq" class="section">
+
+  <div class="content">
+
+    <button
+      type="button"
+      class="back-to-map-button"
+      onclick="showSection('map')"
+    >
+      <span class="material-symbols-outlined">
+        arrow_back
+      </span>
+      マップに戻る
+    </button>
+
+    <h2>よくある質問</h2>
+
+  </div>
+
+</div>
+
 <!-- ===== メニューモーダル ===== -->
 <div id="modal" class="modal" onclick="closeModal(event)">
 
@@ -788,6 +810,7 @@
         <button
           type="button"
           class="menu-grid-button"
+          onclick="showSection('faq'); closeModalForce();"
         >
           <span class="material-symbols-outlined">quiz</span>
           <span>FAQ</span>

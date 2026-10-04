@@ -109,6 +109,13 @@ function getHashRoute() {
     };
   }
 
+  // #faq
+  if (hash === "faq") {
+    return {
+      type: "faq"
+    };
+  }
+
   // #spot_XXXX
   if (hash.startsWith("spot_")) {
     return {
@@ -215,6 +222,13 @@ function applyHashRoute() {
       closeAllBottomNavModals();
       closeDetail();
       showSection("release");
+      return;
+    }
+
+    if (route.type === "faq") {
+      closeAllBottomNavModals();
+      closeDetail();
+      showSection("faq");
       return;
     }
 
@@ -986,9 +1000,10 @@ function showSection(id){
       navigateHash("");
 
     }else if(
-      id === "howto" ||
-      id === "terms" ||
-      id === "release"
+      id==="howto" ||
+      id==="terms" ||
+      id==="release" ||
+      id==="faq"
     ){
       navigateHash(id);
     }
