@@ -65,6 +65,22 @@ function getHashRoute() {
     };
   }
 
+  // #list
+  if (hash === "list") {
+    return {
+      type: "list",
+      listName: ""
+    };
+  }
+
+  // #list=リスト名
+  if (hash.startsWith("list=")) {
+    return {
+      type: "list",
+      listName: hash.slice("list=".length)
+    };
+  }
+
   // #spot_XXXX
   if (hash.startsWith("spot_")) {
     return {
@@ -128,6 +144,20 @@ function applyHashRoute() {
       }
 
       openSearchNewModal();
+
+      return;
+    }
+
+    if (route.type === "list") {
+      closeDetail();
+      showSection("map");
+
+      if (route.listName) {
+        openListModal();
+        openListSpots(route.listName);
+      } else {
+        openListModal();
+      }
 
       return;
     }
@@ -7042,6 +7072,10 @@ function openListModal() {
 
   modal.classList.add("active");
 
+  if (!isApplyingHashRoute) {
+    navigateHash("list");
+  }
+
 }
 
 
@@ -7066,6 +7100,10 @@ function closeListModal(event) {
 
 
   modal.classList.remove("active");
+
+  if (!isApplyingHashRoute) {
+    navigateHash("");
+  }
 
 }
 
@@ -7253,9 +7291,17 @@ function renderListIndex() {
         "click",
         function() {
 
-          openListSpots(
-            this.dataset.listName
-          );
+          const listName =
+            this.dataset.listName;
+
+          openListSpots(listName);
+
+          if (!isApplyingHashRoute) {
+            navigateHash(
+              "list=" +
+              encodeURIComponent(listName)
+            );
+          }
 
         }
       );
@@ -7673,8 +7719,11 @@ function backToListIndex() {
 
   currentListName = "";
 
-
   renderListIndex();
+
+  if (!isApplyingHashRoute) {
+    navigateHash("list");
+  }
 
 }
 
@@ -7719,9 +7768,15 @@ function openSpotFromList(spot) {
 
   // ==============================================
   // リストモーダルを閉じる
+  // URLはopenDetail()側で #spot_XXXX に変更する
   // ==============================================
 
-  closeListModal();
+  const listModal =
+    document.getElementById("listModal");
+
+  if (listModal) {
+    listModal.classList.remove("active");
+  }
 
 
   // ==============================================
