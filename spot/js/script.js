@@ -1082,12 +1082,19 @@ const categories = [
 const statuses = ["開催前","開催中","開催終了"];
 
 window.addEventListener("DOMContentLoaded", () => {
-  showSection("map");
 
-  // URLにハッシュが付いていれば反映
+  // URLにハッシュが付いていれば、そのルートを反映
   if (location.hash) {
+
     applyHashRoute();
+
+  } else {
+
+    // ハッシュがない場合だけマップを表示
+    showSection("map");
+
   }
+
 });
 
 // =======================
