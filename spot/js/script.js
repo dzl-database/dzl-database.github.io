@@ -10,19 +10,23 @@ let isApplyingHashRoute = false;
 // ------------------------------------------------------
 
 function navigateHash(hash) {
+  const value = String(hash || "").replace(/^#/, "");
 
-  const nextHash =
-    hash
-      ? `#${String(hash).replace(/^#/, "")}`
-      : "";
+  if (!value) {
+    // ハッシュを完全に削除して /spot/ に戻す
+    history.pushState(null, "", location.pathname + location.search);
+    applyHashRoute();
+    return;
+  }
+
+  const nextHash = `#${value}`;
 
   if (location.hash === nextHash) {
     applyHashRoute();
     return;
   }
 
-  location.hash =
-    nextHash || "";
+  location.hash = nextHash;
 }
 
 
