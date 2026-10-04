@@ -81,6 +81,13 @@ function getHashRoute() {
     };
   }
 
+  // #post
+  if (hash === "post") {
+    return {
+      type: "post"
+    };
+  }
+
   // #spot_XXXX
   if (hash.startsWith("spot_")) {
     return {
@@ -159,6 +166,13 @@ function applyHashRoute() {
         openListModal();
       }
 
+      return;
+    }
+
+    if (route.type === "post") {
+      closeDetail();
+      showSection("map");
+      openPostModal();
       return;
     }
 
@@ -4861,10 +4875,12 @@ async function postToGas(payload){
 
 function openPostModal(){
 
-  closeAllBottomNavModals()
+  closeAllBottomNavModals();
 
   const modal =
     document.getElementById("postModal");
+
+  if (!modal) return;
 
   modal.classList.add("active");
 
@@ -4875,10 +4891,15 @@ function openPostModal(){
 
 
   // 履歴がなければ新規フォーム
-  if(!restored){
-
+  if (!restored) {
     resetPostForm();
+  }
 
+
+  // 通常操作で開いた場合は #post にする
+  // ハッシュから開いた場合は変更しない
+  if (!isApplyingHashRoute) {
+    navigateHash("post");
   }
 
 }
@@ -4895,9 +4916,18 @@ function closePostModal(e){
     e.target === e.currentTarget
   ){
 
-    document
-      .getElementById("postModal")
-      .classList.remove("active");
+    const modal =
+      document.getElementById("postModal");
+
+    if (modal) {
+      modal.classList.remove("active");
+    }
+
+
+    // 通常操作で閉じた場合はハッシュを消す
+    if (!isApplyingHashRoute) {
+      navigateHash("");
+    }
 
   }
 
