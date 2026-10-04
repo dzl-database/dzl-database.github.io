@@ -8460,3 +8460,120 @@ body{
     line-height: 1.75;
   }
 }
+
+
+/* ======================================================
+   共有モーダル
+   ====================================================== */
+
+.share-modal-content {
+  width: min(88vw, 340px);
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px;
+  box-sizing: border-box;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .22);
+}
+
+.share-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.share-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #333;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.share-modal-title .material-symbols-outlined {
+  font-size: 22px;
+  color: #555;
+}
+
+.share-modal-close {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #f3f4f5;
+  color: #666;
+  cursor: pointer;
+}
+
+.share-modal-close:hover {
+  background: #e9eaec;
+}
+
+.share-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.share-choice-button {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    opacity .18s ease,
+    transform .12s ease;
+}
+
+.share-choice-button:hover {
+  opacity: .9;
+}
+
+.share-choice-button:active {
+  transform: scale(.98);
+}
+
+.share-x-button {
+  background: #000;
+}
+
+.share-line-button {
+  background: #06c755;
+}
+
+.share-x-icon {
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 500;
+}
+
+.share-line-icon {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: -.3px;
+}
+
+@media (max-width: 600px) {
+
+  .share-modal-content {
+    width: calc(100vw - 32px);
+    padding: 16px;
+    border-radius: 15px;
+  }
+
+}

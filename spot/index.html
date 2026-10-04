@@ -398,6 +398,66 @@
   </div>
 </div>
 
+<!-- ===== 共有先選択モーダル ===== -->
+<div
+  id="shareModal"
+  class="modal share-modal"
+  onclick="closeShareModal(event)"
+>
+  <div
+    class="share-modal-content"
+    onclick="event.stopPropagation()"
+  >
+
+    <div class="share-modal-header">
+
+      <div class="share-modal-title">
+        <span class="material-symbols-outlined">
+          share
+        </span>
+        <span>共有</span>
+      </div>
+
+      <button
+        type="button"
+        class="share-modal-close"
+        onclick="closeShareModal()"
+        aria-label="閉じる"
+      >
+        <span class="material-symbols-outlined">
+          close
+        </span>
+      </button>
+
+    </div>
+
+
+    <div class="share-modal-body">
+
+      <button
+        type="button"
+        class="share-choice-button share-x-button"
+        onclick="shareToX()"
+      >
+        <span class="share-x-icon">𝕏</span>
+        <span>𝕏で共有</span>
+      </button>
+
+
+      <button
+        type="button"
+        class="share-choice-button share-line-button"
+        onclick="shareToLine()"
+      >
+        <span class="share-line-icon">LINE</span>
+        <span>LINEで共有</span>
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
 <!-- ===== 使い方 ===== -->
 <div id="howto" class="section">
   <div class="content howto-container">

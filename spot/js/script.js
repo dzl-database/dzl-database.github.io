@@ -2770,10 +2770,11 @@ function openDetail(data){
     </button>
 
 
-    <!-- 共有：今後実装 -->
+    <!-- 共有 -->
     <button
       class="detail-btn sub"
-      onclick="futureFeature('共有')"
+      type="button"
+      onclick="openShareModal()"
     >
       <span class="material-symbols-outlined">
         share
@@ -13057,4 +13058,172 @@ function renderFaq() {
     `;
 
   }).join("");
+}
+
+
+// ======================================================
+// スポット共有
+// ======================================================
+
+function openShareModal() {
+
+  const spot =
+    window.currentDetailSpot;
+
+  if (!spot) {
+    return;
+  }
+
+  const modal =
+    document.getElementById("shareModal");
+
+  if (!modal) {
+    return;
+  }
+
+  modal.classList.add("active");
+}
+
+
+function closeShareModal(event) {
+
+  if (
+    event &&
+    event.target !== event.currentTarget
+  ) {
+    return;
+  }
+
+  const modal =
+    document.getElementById("shareModal");
+
+  if (!modal) {
+    return;
+  }
+
+  modal.classList.remove("active");
+}
+
+
+// ------------------------------------------------------
+// 共有文を作成
+// ------------------------------------------------------
+
+function getSpotShareText(includeHashtag = true) {
+
+  const spot =
+    window.currentDetailSpot;
+
+  if (!spot) {
+    return "";
+  }
+
+  const placeName =
+    String(
+      spot["場所名"] || ""
+    ).trim();
+
+  const spotId =
+    String(
+      spot["スポットID"] || ""
+    ).trim();
+
+  const events =
+    getEvents(spot);
+
+  const lines = [];
+
+  // 場所名
+  lines.push(placeName);
+
+
+  // イベント情報
+  if (events.length > 0) {
+
+    const activeCount =
+      events.filter(
+        event => event.status === "開催中"
+      ).length;
+
+    lines.push(
+      `イベント${events.length}件中${activeCount}件開催中`
+    );
+
+  }
+
+
+  // 詳細ページ
+  const detailUrl =
+    `${location.origin}${location.pathname}#${encodeURIComponent(spotId)}`;
+
+  lines.push(
+    "▼ドズル社スポットで詳細を見る"
+  );
+
+  lines.push(
+    detailUrl
+  );
+
+
+  // Xのみハッシュタグを追加
+  if (includeHashtag) {
+    lines.push(
+      "#ドズル社スポット"
+    );
+  }
+
+
+  return lines.join("\n");
+}
+
+
+// ------------------------------------------------------
+// Xで共有
+// ------------------------------------------------------
+
+function shareToX() {
+
+  const text =
+    getSpotShareText(true);
+
+  if (!text) {
+    return;
+  }
+
+  const url =
+    `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+
+  window.open(
+    url,
+    "_blank",
+    "noopener,noreferrer"
+  );
+
+  closeShareModal();
+}
+
+
+// ------------------------------------------------------
+// LINEで共有
+// ------------------------------------------------------
+
+function shareToLine() {
+
+  const text =
+    getSpotShareText(false);
+
+  if (!text) {
+    return;
+  }
+
+  const url =
+    `https://line.me/R/msg/text/?${encodeURIComponent(text)}`;
+
+  window.open(
+    url,
+    "_blank",
+    "noopener,noreferrer"
+  );
+
+  closeShareModal();
 }
