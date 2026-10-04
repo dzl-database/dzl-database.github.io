@@ -1,3 +1,232 @@
+// ======================================================
+// URLハッシュによるページ移動
+// ======================================================
+
+let isApplyingHashRoute = false;
+
+
+// ------------------------------------------------------
+// URLのハッシュを変更
+// ------------------------------------------------------
+
+function navigateHash(hash) {
+
+  const nextHash =
+    hash
+      ? `#${String(hash).replace(/^#/, "")}`
+      : "";
+
+  if (location.hash === nextHash) {
+    applyHashRoute();
+    return;
+  }
+
+  location.hash =
+    nextHash || "";
+}
+
+
+// ------------------------------------------------------
+// URLから現在のルートを取得
+// ------------------------------------------------------
+
+function getHashRoute() {
+
+  let hash =
+    location.hash.replace(/^#/, "");
+
+  try {
+    hash = decodeURIComponent(hash);
+  } catch(error) {
+    console.warn("URLの解析に失敗しました:", error);
+  }
+
+  // ハッシュなし
+  if (!hash) {
+    return {
+      type: "map"
+    };
+  }
+
+  // #spot_XXXX
+  if (hash.startsWith("spot_")) {
+    return {
+      type: "spot",
+      spotId: hash
+    };
+  }
+
+  return {
+    type: "unknown"
+  };
+
+}
+
+
+// ------------------------------------------------------
+// スポットIDからスポットを探す
+// ------------------------------------------------------
+
+function findSpotById(spotId) {
+
+  if (!Array.isArray(dataList)) {
+    return null;
+  }
+
+  const id =
+    String(spotId || "").trim();
+
+  return dataList.find(spot => {
+
+    return String(
+      spot["スポットID"] || ""
+    ).trim() === id;
+
+  }) || null;
+
+}
+
+
+// ------------------------------------------------------
+// URLルートを実際の画面に反映
+// ------------------------------------------------------
+
+function applyHashRoute() {
+
+  const route =
+    getHashRoute();
+
+  isApplyingHashRoute = true;
+
+  try {
+
+    // ------------------------------
+    // 通常のマップ
+    // ------------------------------
+
+    if(route.type === "map") {
+
+      closeAllBottomNavModals();
+      closeDetail();
+
+      showSection("map");
+
+      return;
+
+    }
+
+
+    // ------------------------------
+    // スポット詳細
+    // ------------------------------
+
+    if(route.type === "spot") {
+
+      const spot =
+        findSpotById(
+          route.spotId
+        );
+
+      // 存在しないスポット
+      if(!spot) {
+
+        console.warn(
+          "指定されたスポットが見つかりません:",
+          route.spotId
+        );
+
+        closeAllBottomNavModals();
+        closeDetail();
+
+        showSection("map");
+
+        return;
+
+      }
+
+
+      closeAllBottomNavModals();
+      closeDetail();
+
+      showSection("map");
+
+
+      const lat =
+        parseFloat(
+          spot["緯度"]
+        );
+
+      const lng =
+        parseFloat(
+          spot["経度"]
+        );
+
+
+      // 地図をスポットへ移動
+      if(
+        Number.isFinite(lat) &&
+        Number.isFinite(lng)
+      ) {
+
+        map.setView(
+          [lat, lng],
+          Math.max(
+            map.getZoom(),
+            16
+          ),
+          {
+            animate: true,
+            duration: 0.5
+          }
+        );
+
+      }
+
+
+      // 詳細パネルを開く
+      openDetail(spot);
+
+      return;
+
+    }
+
+
+    // ------------------------------
+    // 不明なURL
+    // ------------------------------
+
+    console.warn(
+      "不明なURLハッシュです:",
+      location.hash
+    );
+
+    closeAllBottomNavModals();
+    closeDetail();
+    showSection("map");
+
+  } finally {
+
+    isApplyingHashRoute = false;
+
+  }
+
+}
+
+
+// ------------------------------------------------------
+// ブラウザの戻る・進む・URL変更に対応
+// ------------------------------------------------------
+
+window.addEventListener(
+  "hashchange",
+  applyHashRoute
+);
+
+window.addEventListener(
+  "popstate",
+  applyHashRoute
+);
+
 function closeAllBottomNavModals() {
 
   document.querySelectorAll(".modal.active").forEach(modal => {
@@ -715,6 +944,11 @@ const statuses = ["開催前","開催中","開催終了"];
 
 window.addEventListener("DOMContentLoaded", () => {
   showSection("map");
+
+  // URLにハッシュが付いていれば反映
+  if (location.hash) {
+    applyHashRoute();
+  }
 });
 
 // =======================
@@ -1058,6 +1292,11 @@ async function loadSpotData(){
   // ==============================================
 
   applySpotDisplayFilters();
+
+  // URLからスポットを開く
+  if (location.hash) {
+    applyHashRoute();
+  }
 
   return dataList;
 
@@ -2150,6 +2389,20 @@ loadSpotData()
 function openDetail(data){
 
   window.currentDetailSpot = data;
+
+  // URLにスポットIDを反映
+  if (!isApplyingHashRoute) {
+
+    const spotId =
+      String(
+        data["スポットID"] || ""
+      ).trim();
+
+    if (spotId) {
+      navigateHash(spotId);
+    }
+
+  }
 
   const panel = document.getElementById("detailBody");
   panel.innerHTML = "";
@@ -3301,6 +3554,10 @@ function closeDetail(){
   document
     .getElementById("detailPanel")
     .classList.remove("active");
+
+  if (!isApplyingHashRoute) {
+    navigateHash("");
+  }
 
 }
 
