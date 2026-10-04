@@ -2757,7 +2757,8 @@ function openDetail(data){
     <!-- 経路 -->
     <button
       class="detail-btn sub"
-      onclick="openRoute(${JSON.stringify(address)})"
+      type="button"
+      id="detailRouteButton"
     >
       <span class="material-symbols-outlined">
         directions_car
@@ -2799,6 +2800,15 @@ function openDetail(data){
     </button>
 
   `;
+
+  const routeButton =
+    actions.querySelector("#detailRouteButton");
+
+  if (routeButton) {
+    routeButton.addEventListener("click", function() {
+      openRoute(address);
+    });
+  }
 
   topArea.appendChild(actions);
 
