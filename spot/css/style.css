@@ -946,45 +946,245 @@ body{
 /* =======================
    (8) 利用規約
 ======================= */
-   
-#terms h2{
-  text-align:center;
-  margin-bottom:20px;
+
+#terms .content {
+  width: min(92vw, 800px);
+  margin: 0 auto;
+  padding: 24px 0 40px;
+  box-sizing: border-box;
 }
 
-#terms hr{
-  border:none;
-  height:1px;
-  background:black;
-}
-   
-#terms h3{
-  margin-top:20px;
-}
-
-#terms ul{
-  padding-left:18px;
+/* タイトル */
+#terms h2 {
+  margin: 18px 0 28px;
+  text-align: center;
+  color: #2d3035;
+  font-size: 24px;
+  line-height: 1.5;
 }
 
-#terms li{
-  margin:6px 0;
-  line-height:1.6;
+/* 冒頭 */
+#terms .terms-introduction {
+  margin-bottom: 34px;
+  padding: 18px 20px;
+  background: #f7f8f9;
+  border: 1px solid #e6e8eb;
+  border-radius: 12px;
 }
 
-#terms a{
-  color:#d90000;
-  font-weight:bold;
-  text-decoration:none;
+#terms .terms-introduction p {
+  margin: 0;
+  line-height: 1.9;
 }
 
-#terms a:hover{
-  text-decoration:underline;
+#terms .terms-introduction p + p {
+  margin-top: 14px;
 }
 
-#terms .content{
-  max-width:800px;   /* ← 横幅制限（超重要） */
-  margin:0 auto;     /* ← 中央配置 */
-  padding:20px 30px; /* ← 左右余白広げる */
+/* 各項目 */
+#terms .terms-section {
+  margin-top: 34px;
+}
+
+#terms .terms-section + .terms-section {
+  padding-top: 4px;
+}
+
+/* 見出し */
+#terms h3 {
+  margin: 0 0 14px;
+  padding: 10px 14px;
+  border-left: 4px solid #d90000;
+  background: #f7f8f9;
+  color: #33363b;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+/* 本文 */
+#terms p {
+  margin: 0 0 14px;
+  color: #454a50;
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+/* 箇条書き */
+#terms ul {
+  margin: 10px 0 0;
+  padding-left: 22px;
+}
+
+#terms li {
+  margin: 7px 0;
+  color: #454a50;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+#terms li::marker {
+  color: #8b8f95;
+}
+
+/* 小見出し */
+#terms .terms-subheading {
+  margin-top: 18px;
+  margin-bottom: 6px;
+  font-weight: 700;
+  color: #383c41;
+}
+
+/* 注意書き */
+#terms .terms-note {
+  margin-top: 18px;
+  padding: 12px 14px;
+  background: #fafafa;
+  border-radius: 8px;
+  color: #70757c;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* Google関連リンク
+   ※現在のリンクデザインを維持 */
+#terms a:not(.site-action-button) {
+  color: #d90000;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+#terms a:not(.site-action-button):hover {
+  text-decoration: underline;
+}
+
+
+/* =======================
+   共通アクションボタン
+   他ページでも使用可能
+======================= */
+
+.site-action-button {
+  width: 100%;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 18px;
+  padding: 11px 16px;
+  box-sizing: border-box;
+
+  border: 1px solid #d90000;
+  border-radius: 11px;
+
+  background: #d90000;
+  color: #fff !important;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-decoration: none !important;
+
+  cursor: pointer;
+  transition:
+    background .18s ease,
+    border-color .18s ease,
+    transform .12s ease,
+    box-shadow .18s ease;
+}
+
+.site-action-button:hover {
+  background: #c00000;
+  border-color: #c00000;
+  color: #fff !important;
+  text-decoration: none !important;
+  box-shadow: 0 4px 12px rgba(217, 0, 0, .18);
+}
+
+.site-action-button:active {
+  transform: scale(.98);
+}
+
+.site-action-button .material-symbols-outlined {
+  font-size: 21px;
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+.site-action-button-arrow {
+  font-size: 18px !important;
+  margin-left: 2px;
+}
+
+
+/* お問い合わせ */
+#terms .terms-contact-section {
+  margin-top: 40px;
+  padding-top: 26px;
+  border-top: 1px solid #e5e7ea;
+}
+
+
+/* =======================
+   スマホ
+======================= */
+
+@media (max-width: 600px) {
+
+  #terms .content {
+    width: calc(100vw - 28px);
+    padding: 18px 0 32px;
+  }
+
+  #terms h2 {
+    margin: 16px 0 22px;
+    font-size: 20px;
+    line-height: 1.5;
+  }
+
+  #terms .terms-introduction {
+    padding: 15px 16px;
+    margin-bottom: 28px;
+  }
+
+  #terms .terms-section {
+    margin-top: 28px;
+  }
+
+  #terms h3 {
+    margin-bottom: 12px;
+    padding: 9px 11px;
+    font-size: 14px;
+  }
+
+  #terms p,
+  #terms li {
+    font-size: 13px;
+  }
+
+  #terms ul {
+    padding-left: 20px;
+  }
+
+  #terms li {
+    margin: 6px 0;
+    line-height: 1.75;
+  }
+
+  #terms .terms-note {
+    font-size: 12px;
+    padding: 11px 12px;
+  }
+
+  .site-action-button {
+    min-height: 48px;
+    font-size: 13px;
+  }
 }
 
 #release .content {
