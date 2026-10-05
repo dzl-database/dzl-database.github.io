@@ -1302,93 +1302,710 @@ body{
 }
 
 /* =======================
-   (10) 使い方ページ
+   (10) 使い方ガイド
 ======================= */
 
-.howto-container{
-  max-width:900px;
-  margin:0 auto;
+#howto .content {
+  width: min(92vw, 900px);
+  margin: 0 auto;
+  padding: 24px 0 50px;
+  box-sizing: border-box;
 }
 
-.howto-lead{
-  text-align:center;
-  color:#555;
-  margin-bottom:20px;
+.howto-container {
+  color: #383c41;
 }
 
-.howto-card{
-  background:#fff;
-  border-radius:12px;
-  padding:16px;
-  margin-bottom:16px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.05);
+
+/* =======================
+   ヒーロー
+======================= */
+
+.howto-hero {
+  text-align: center;
+  margin: 12px 0 44px;
 }
 
-.howto-card h3{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  margin-bottom:10px;
+.howto-hero-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 17px;
+  background: linear-gradient(135deg, #d90000, #b90000);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(217, 0, 0, .18);
 }
 
-.howto-card ul{
-  padding-left:18px;
+.howto-hero-icon .material-symbols-outlined {
+  font-size: 31px;
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 24;
 }
 
-.howto-card li{
-  margin:6px 0;
-  line-height:1.6;
+#howto h2 {
+  margin: 0 0 12px;
+  text-align: center;
+  color: #25282d;
+  font-size: 27px;
+  line-height: 1.45;
 }
 
-/* アイコン一覧 */
-.icon-grid{
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap:12px;
-  margin-top:10px;
+.howto-lead {
+  margin: 0;
+  color: #777d84;
+  font-size: 14px;
+  line-height: 1.9;
 }
 
-.icon-item{
-  text-align:center;
+
+/* =======================
+   セクション見出し
+======================= */
+
+.howto-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 42px 0 16px;
 }
 
-.icon-circle{
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin:0 auto 6px;
-  color:#fff;
+.howto-section-number {
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #f1f2f4;
+  color: #d00000;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .04em;
 }
 
-.icon-circle.red{ background:#C80000; }
-.icon-circle.purple{ background:#733C93; }
-.icon-circle.yellow{ background:#FCC700; color:#333; }
-.icon-circle.blue{ background:#54C3F1; }
-.icon-circle.pink{ background:#EB6D9A; }
-.icon-circle.black{ background:#333; }
-
-/* 強調カード */
-.howto-card.highlight{
-  border:2px solid #d90000;
-  text-align:center;
+.howto-section-label {
+  display: block;
+  margin-bottom: 2px;
+  color: #999ea5;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
 }
 
-.howto-btn{
-  margin-top:10px;
-  padding:12px 16px;
-  border:none;
-  border-radius:8px;
-  background:#d90000;
-  color:#fff;
-  font-size:14px;
-  cursor:pointer;
+.howto-section-heading h3 {
+  margin: 0;
+  color: #2c3035;
+  font-size: 19px;
+  line-height: 1.4;
 }
 
-.howto-btn:hover{
-  background:#b80000;
+
+/* =======================
+   カード
+======================= */
+
+.howto-card {
+  margin-bottom: 14px;
+  padding: 20px;
+  border: 1px solid #e6e8eb;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, .045);
+  box-sizing: border-box;
+}
+
+.howto-card-main {
+  border-color: #e1e3e6;
+}
+
+.howto-card-feature {
+  border-color: #ead0d0;
+  background: linear-gradient(180deg, #fff, #fffafa);
+}
+
+.howto-card-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 17px;
+}
+
+.howto-card-title > .material-symbols-outlined {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+  background: #f5f6f7;
+  color: #555b63;
+  font-size: 22px;
+}
+
+.howto-card-title h4 {
+  margin: 1px 0 4px;
+  color: #30343a;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.howto-card-title p {
+  margin: 0;
+  color: #7b8188;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+
+/* =======================
+   基本ポイント
+======================= */
+
+.howto-point-list {
+  display: grid;
+  gap: 9px;
+}
+
+.howto-point {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 10px 11px;
+  border-radius: 9px;
+  background: #f7f8f9;
+  color: #4c5157;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.howto-point .material-symbols-outlined {
+  flex: 0 0 auto;
+  margin-top: 1px;
+  color: #d00000;
+  font-size: 19px;
+}
+
+
+/* =======================
+   カテゴリアイコン
+======================= */
+
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 8px;
+}
+
+.icon-item {
+  padding: 12px 5px 9px;
+  border: 1px solid #eceef0;
+  border-radius: 11px;
+  background: #fafafa;
+  text-align: center;
+}
+
+.icon-circle {
+  width: 42px;
+  height: 42px;
+  margin: 0 auto 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #fff;
+}
+
+.icon-circle .material-symbols-outlined {
+  font-size: 21px;
+}
+
+.icon-circle.red {
+  background: #C80000;
+}
+
+.icon-circle.purple {
+  background: #733C93;
+}
+
+.icon-circle.yellow {
+  background: #FCC700;
+  color: #333;
+}
+
+.icon-circle.blue {
+  background: #54C3F1;
+}
+
+.icon-circle.pink {
+  background: #EB6D9A;
+}
+
+.icon-circle.black {
+  background: #333;
+}
+
+.icon-item p {
+  margin: 0;
+  color: #555a61;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+
+/* =======================
+   ステップ
+======================= */
+
+.howto-step-list {
+  display: grid;
+  gap: 10px;
+}
+
+.howto-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+}
+
+.howto-step > span {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: #f2f3f4;
+  color: #d00000;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.howto-step strong {
+  display: block;
+  margin-bottom: 2px;
+  color: #383c41;
+  font-size: 13px;
+}
+
+.howto-step p {
+  margin: 0;
+  color: #70767d;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+
+/* =======================
+   3列機能カード
+======================= */
+
+.howto-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.howto-feature-grid .howto-card {
+  margin-bottom: 0;
+}
+
+.howto-feature-grid .howto-card-title {
+  gap: 9px;
+}
+
+.howto-feature-grid .howto-card-title > .material-symbols-outlined {
+  width: 36px;
+  height: 36px;
+  font-size: 20px;
+}
+
+.howto-feature-grid .howto-card-title h4 {
+  font-size: 14px;
+}
+
+.howto-card ul {
+  margin: 0;
+  padding-left: 19px;
+}
+
+.howto-card li {
+  margin: 5px 0;
+  color: #555b62;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.howto-card-note {
+  margin: 14px 0 0;
+  padding: 9px 10px;
+  border-radius: 8px;
+  background: #f7f8f9;
+  color: #7a8087;
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+
+/* =======================
+   詳細パネル
+======================= */
+
+.howto-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.howto-detail-grid > div {
+  padding: 13px 10px;
+  border-radius: 10px;
+  background: #f7f8f9;
+}
+
+.howto-detail-grid .material-symbols-outlined {
+  display: block;
+  margin-bottom: 7px;
+  color: #666c73;
+  font-size: 21px;
+}
+
+.howto-detail-grid strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #41464c;
+  font-size: 12px;
+}
+
+.howto-detail-grid p {
+  margin: 0;
+  color: #7a8087;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+
+/* =======================
+   下部ナビ
+======================= */
+
+.howto-nav-guide {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 7px;
+  padding: 10px;
+  border: 1px solid #e5e7ea;
+  border-radius: 15px;
+  background: #f7f8f9;
+}
+
+.howto-nav-item {
+  min-width: 0;
+  padding: 14px 7px;
+  border-radius: 10px;
+  background: #fff;
+  text-align: center;
+}
+
+.howto-nav-item .material-symbols-outlined {
+  display: block;
+  margin-bottom: 7px;
+  color: #555b63;
+  font-size: 23px;
+}
+
+.howto-nav-item strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #42474d;
+  font-size: 11px;
+}
+
+.howto-nav-item p {
+  margin: 0;
+  color: #858a91;
+  font-size: 9px;
+  line-height: 1.55;
+}
+
+.howto-nav-item-post .material-symbols-outlined {
+  color: #d00000;
+}
+
+
+/* =======================
+   マップ上ボタン
+======================= */
+
+.howto-action-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.howto-action-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 13px;
+  border-radius: 10px;
+  background: #f7f8f9;
+}
+
+.howto-action-item > .material-symbols-outlined {
+  flex: 0 0 auto;
+  color: #5e646b;
+  font-size: 23px;
+}
+
+.howto-action-item strong {
+  display: block;
+  margin-bottom: 3px;
+  color: #44494f;
+  font-size: 12px;
+}
+
+.howto-action-item p {
+  margin: 0;
+  color: #7d838a;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+
+/* =======================
+   メニュー
+======================= */
+
+.howto-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.howto-menu-item {
+  min-width: 0;
+  padding: 15px 11px;
+  border: 1px solid #e7e9eb;
+  border-radius: 11px;
+  background: #fff;
+}
+
+.howto-menu-item .material-symbols-outlined {
+  display: block;
+  margin-bottom: 8px;
+  color: #626870;
+  font-size: 22px;
+}
+
+.howto-menu-item strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #41464c;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.howto-menu-item p {
+  margin: 0;
+  color: #83888f;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.howto-menu-item-report {
+  border-color: #ead4d4;
+  background: #fffafa;
+}
+
+.howto-menu-item-report .material-symbols-outlined {
+  color: #c00000;
+}
+
+
+/* =======================
+   最後のメッセージ
+======================= */
+
+.howto-final-card {
+  margin-top: 44px;
+  padding: 28px 22px;
+  border-radius: 17px;
+  background: linear-gradient(135deg, #fff5f5, #fffafa);
+  border: 1px solid #f0d7d7;
+  text-align: center;
+}
+
+.howto-final-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: #d90000;
+  color: #fff;
+}
+
+.howto-final-icon .material-symbols-outlined {
+  font-size: 25px;
+}
+
+.howto-final-card h3 {
+  margin: 0 0 10px;
+  color: #383c41;
+  font-size: 17px;
+}
+
+.howto-final-card p {
+  margin: 0 auto;
+  max-width: 620px;
+  color: #71777e;
+  font-size: 12px;
+  line-height: 1.85;
+}
+
+.howto-final-card .site-action-button {
+  max-width: 360px;
+  margin: 20px auto 0;
+}
+
+
+/* =======================
+   スマホ
+======================= */
+
+@media (max-width: 700px) {
+
+  #howto .content {
+    width: calc(100vw - 28px);
+    padding: 18px 0 35px;
+  }
+
+  .howto-hero {
+    margin-bottom: 34px;
+  }
+
+  .howto-hero-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+  }
+
+  #howto h2 {
+    font-size: 22px;
+  }
+
+  .howto-lead {
+    font-size: 12px;
+  }
+
+  .howto-section-heading {
+    margin-top: 32px;
+    gap: 9px;
+  }
+
+  .howto-section-number {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+
+  .howto-section-heading h3 {
+    font-size: 16px;
+  }
+
+  .howto-card {
+    padding: 16px;
+    border-radius: 13px;
+  }
+
+  .howto-card-title {
+    gap: 9px;
+  }
+
+  .howto-card-title > .material-symbols-outlined {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+
+  .howto-card-title h4 {
+    font-size: 14px;
+  }
+
+  .howto-card-title p {
+    font-size: 11px;
+  }
+
+
+  /* カテゴリ */
+  .icon-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+
+  /* 検索・リスト・現在地 */
+  .howto-feature-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+
+  /* 詳細 */
+  .howto-detail-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+
+  /* 下部ナビ */
+  .howto-nav-guide {
+    grid-template-columns: repeat(5, minmax(78px, 1fr));
+    overflow-x: auto;
+    padding: 7px;
+  }
+
+  .howto-nav-item {
+    padding: 12px 6px;
+  }
+
+
+  /* マップ上ボタン */
+  .howto-action-list {
+    grid-template-columns: 1fr;
+  }
+
+
+  /* メニュー */
+  .howto-menu-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+
+  /* 最後 */
+  .howto-final-card {
+    padding: 23px 16px;
+  }
+
+  .howto-final-card h3 {
+    font-size: 15px;
+  }
+
+  .howto-final-card p {
+    font-size: 11px;
+  }
 }
 
 .contributors-list{
@@ -1408,11 +2025,6 @@ body{
 /* 情報提供者ページ */
 #contributors h2,
 #contributors p{
-  text-align: center;
-}
-
-/* 使い方ページ */
-#howto h2{
   text-align: center;
 }
 

@@ -304,7 +304,7 @@ function applyHashRoute() {
           [lat, lng],
           Math.max(
             map.getZoom(),
-            16
+            14
           ),
           {
             animate: true,
