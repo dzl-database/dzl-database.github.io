@@ -1058,6 +1058,14 @@ body{
   text-decoration: underline;
 }
 
+.terms-established-date {
+  margin-top: 10px;
+  text-align: right;
+  color: #8a8f96;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
 
 /* =======================
    共通アクションボタン
