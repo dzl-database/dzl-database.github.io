@@ -1538,7 +1538,7 @@ body{
 
 .icon-circle.yellow {
   background: #FCC700;
-  color: #333;
+  color: #fff;
 }
 
 .icon-circle.blue {
@@ -1879,6 +1879,22 @@ body{
 .howto-final-card .site-action-button {
   max-width: 360px;
   margin: 20px auto 0;
+}
+
+/* 下部ナビとマップ上ボタンの間隔 */
+.howto-nav-guide + .howto-card {
+  margin-top: 24px;
+}
+
+/* =======================
+   カード本文
+======================= */
+
+.howto-card > p {
+  margin: 0;
+  color: #555b62;
+  font-size: 12px;
+  line-height: 1.7;
 }
 
 
