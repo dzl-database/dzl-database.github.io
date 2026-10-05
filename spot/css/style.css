@@ -1891,9 +1891,8 @@ body{
 ======================= */
 
 .howto-card > p {
-  margin: 0;
   color: #555b62;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.7;
 }
 
