@@ -6632,7 +6632,7 @@ async function handleSpotPostSubmit(
     }else{
 
       showPostToast(
-        "投稿完了！保存されました。公開データへの反映に少し時間がかかる場合があります。"
+        "投稿完了！保存されました。表示されない場合はフィルターを変更してください。"
       );
 
     }
