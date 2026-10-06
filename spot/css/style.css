@@ -2639,7 +2639,7 @@ body{
 .memo-latest{
   margin:0;
 
-  border:2px solid #ed1c24;
+  border:1px solid #ed1c24;
 
   background:#fffafa;
 
@@ -2653,7 +2653,7 @@ body{
   width:14px;
   height:14px;
 
-  left:-21px;
+  left:-23px;
   top:16px;
 
   background:#ed1c24;
