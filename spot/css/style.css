@@ -1196,15 +1196,37 @@ body{
 }
 
 #release .content {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px 30px;
+  width: min(92vw, 800px);
+  margin: 0 auto;
+  padding: 24px 0 40px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+
+
+  #release .content {
+    width: calc(100vw - 28px);
+    padding: 18px 0 32px;
+  }
+
 }
 
 #faq .content {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px 30px;
+  width: min(92vw, 800px);
+  margin: 0 auto;
+  padding: 24px 0 40px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+
+
+  #faq .content {
+    width: calc(100vw - 28px);
+    padding: 18px 0 32px;
+  }
+
 }
 
 /* =======================
