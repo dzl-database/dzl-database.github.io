@@ -2478,24 +2478,25 @@ function initSpotFilterPanelHeader() {
       () => {
 
         /*
-         * サイトを再読み込み。
-         *
-         * これにより、
-         *
-         * ・モーダル
-         * ・スポット詳細
-         * ・選択中のスポット
-         * ・フィルター状態
-         * ・地図の移動
-         * ・ズーム
-         *
-         * などをすべて初期状態へ戻す。
-         *
-         * 初回読み込み時の地図中心が
-         * 東京なので、東京中心に戻る。
-         */
+        * 現在のURLからハッシュ（#spot_0123など）を消して、
+        * スポットトップを再読み込みする。
+        *
+        * 例：
+        * https://dzl-database.github.io/spot/#spot_0123
+        *
+        * ↓
+        *
+        * https://dzl-database.github.io/spot/
+        */
 
-        window.location.reload();
+        const baseUrl =
+          window.location.origin +
+          window.location.pathname;
+
+
+        window.location.replace(
+          baseUrl
+        );
 
       }
     );
