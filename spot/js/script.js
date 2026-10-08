@@ -12500,7 +12500,7 @@ function createReleaseDetail(row, index) {
           ${index + 1}.
         </span>
         <span>
-          ${escapeReleaseHtml(heading)}
+          ${formatReleaseText(heading)}
         </span>
       </div>
 
@@ -12536,7 +12536,7 @@ function createReleaseDetail(row, index) {
       <div class="release-detail-list-heading">
         <span class="release-detail-list-marker">・</span>
         <span>
-          ${escapeReleaseHtml(heading)}
+          ${formatReleaseText(heading)}
         </span>
       </div>
 
