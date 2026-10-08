@@ -6425,7 +6425,7 @@ body{
   display: block;
 
   width: auto;
-  height: 32px;
+  height: 42px;
   max-width: 190px;
 
   object-fit: contain;
@@ -6440,10 +6440,10 @@ body{
   display: flex;
   align-items: baseline;
 
-  gap: 5px;
+  gap: 10px;
 
-  margin-bottom: 16px;
-  padding: 13px 14px;
+  margin-bottom: 14px;
+  padding: 13px 24px;
 
   border-radius: 15px;
 
@@ -6463,7 +6463,7 @@ body{
 #displayedSpotCount {
   color: #c80000;
 
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 850;
 
   line-height: 1;
@@ -6476,14 +6476,14 @@ body{
 .spot-filter-total-unit {
   font-size: 13px;
   font-weight: 750;
-
+  margin-left: 5px;
   color: #383c42;
 }
 
 .spot-filter-total-status {
   margin-left: auto;
 
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
 
   color: #888d94;
