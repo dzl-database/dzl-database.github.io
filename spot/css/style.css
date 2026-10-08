@@ -6409,26 +6409,181 @@ body{
 
 
 /* =========================================================
-   ロゴ
+   ロゴ・パネル閉じるボタン
    ========================================================= */
 
 .spot-filter-brand {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
-  min-height: 38px;
+  gap: 8px;
+
+  min-height: 42px;
 
   margin-bottom: 13px;
 }
 
+
+/* =========================================================
+   ロゴボタン
+   ========================================================= */
+
+.spot-filter-logo-button {
+
+  display: flex;
+  align-items: center;
+
+  min-width: 0;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+
+}
+
+
+/* ロゴ */
+
 .spot-filter-logo {
+
   display: block;
 
   width: auto;
   height: 42px;
+
   max-width: 190px;
 
   object-fit: contain;
+
+  transition:
+    opacity .16s ease,
+    transform .16s ease;
+
+}
+
+
+/* ロゴ hover */
+
+@media (hover:hover) and (pointer:fine) {
+
+  .spot-filter-logo-button:hover
+  .spot-filter-logo {
+
+    opacity: .78;
+
+    transform:
+      scale(.98);
+
+  }
+
+}
+
+
+/* =========================================================
+   × ボタン
+   ========================================================= */
+
+.spot-filter-close-button {
+
+  flex: 0 0 auto;
+
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0;
+  padding: 0;
+
+  border: 1px solid #e0e2e5;
+
+  border-radius: 10px;
+
+  background: #fff;
+
+  color: #5f656c;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 3px 10px rgba(0,0,0,.06);
+
+  -webkit-tap-highlight-color: transparent;
+
+  transition:
+    background .16s ease,
+    border-color .16s ease,
+    color .16s ease,
+    transform .12s ease,
+    box-shadow .16s ease;
+
+}
+
+
+.spot-filter-close-button
+.material-symbols-outlined {
+
+  font-size: 21px;
+
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 650,
+    "GRAD" 0,
+    "opsz" 24;
+
+}
+
+
+/* × hover */
+
+@media (hover:hover) and (pointer:fine) {
+
+  .spot-filter-close-button:hover {
+
+    background: #fff0f0;
+
+    border-color: #ffcaca;
+
+    color: #c80000;
+
+    box-shadow:
+      0 4px 12px rgba(200,0,0,.10);
+
+  }
+
+}
+
+
+/* × 押下 */
+
+.spot-filter-close-button:active {
+
+  transform:
+    scale(.94);
+
+}
+
+
+/* キーボードフォーカス */
+
+.spot-filter-close-button:focus-visible,
+.spot-filter-logo-button:focus-visible {
+
+  outline:
+    3px solid rgba(200,0,0,.25);
+
+  outline-offset: 2px;
+
 }
 
 

@@ -2703,11 +2703,36 @@ if ("serviceWorker" in navigator) {
   <div class="spot-filter-panel-inner">
 
     <div class="spot-filter-brand">
-      <img
-        src="spot-title-logo.png"
-        alt="ドズル社スポット"
-        class="spot-filter-logo"
+
+      <!-- ロゴ：押すとサイトを初期状態に戻す -->
+      <button
+        type="button"
+        id="spotFilterLogoButton"
+        class="spot-filter-logo-button"
+        aria-label="スポットを初期状態に戻す"
+        title="初期状態に戻す"
       >
+        <img
+          src="spot-title-logo.png"
+          alt="ドズル社スポット"
+          class="spot-filter-logo"
+        >
+      </button>
+
+
+      <!-- パネルを閉じる -->
+      <button
+        type="button"
+        id="spotFilterCloseButton"
+        class="spot-filter-close-button"
+        aria-label="スポット表示管理パネルを閉じる"
+        title="パネルを閉じる"
+      >
+        <span class="material-symbols-outlined">
+          close
+        </span>
+      </button>
+
     </div>
 
     <div class="spot-filter-total">

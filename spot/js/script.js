@@ -2440,6 +2440,105 @@ function initSpotFilterPanelToggle() {
 
 
 /* =========================================================
+   スポット表示管理
+   ロゴ・×ボタン
+   ========================================================= */
+
+function initSpotFilterPanelHeader() {
+
+  const logoButton =
+    document.getElementById(
+      "spotFilterLogoButton"
+    );
+
+  const closeButton =
+    document.getElementById(
+      "spotFilterCloseButton"
+    );
+
+  const panel =
+    document.getElementById(
+      "spotFilterPanel"
+    );
+
+
+  if (!panel) {
+    return;
+  }
+
+
+  /* =======================================================
+     ロゴ
+     ======================================================= */
+
+  if (logoButton) {
+
+    logoButton.addEventListener(
+      "click",
+      () => {
+
+        /*
+         * サイトを再読み込み。
+         *
+         * これにより、
+         *
+         * ・モーダル
+         * ・スポット詳細
+         * ・選択中のスポット
+         * ・フィルター状態
+         * ・地図の移動
+         * ・ズーム
+         *
+         * などをすべて初期状態へ戻す。
+         *
+         * 初回読み込み時の地図中心が
+         * 東京なので、東京中心に戻る。
+         */
+
+        window.location.reload();
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     ×ボタン
+     ======================================================= */
+
+  if (closeButton) {
+
+    closeButton.addEventListener(
+      "click",
+      () => {
+
+        /*
+         * パネルだけ閉じる。
+         *
+         * 地図やフィルター状態はそのまま。
+         */
+
+        panel.classList.add(
+          "is-collapsed"
+        );
+
+        panel.classList.add(
+          "is-panel-user-collapsed"
+        );
+
+
+        updateSpotFilterPanelToggleUI();
+
+      }
+    );
+
+  }
+
+}
+
+
+/* =========================================================
    開閉ボタン表示更新
    ========================================================= */
 
@@ -2510,6 +2609,8 @@ function initSpotFilterPanel() {
   initSpotFilterMoreButton();
 
   initSpotFilterPanelToggle();
+
+  initSpotFilterPanelHeader();
 
   updateSpotFilterCounts();
 
