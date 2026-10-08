@@ -2477,26 +2477,8 @@ function initSpotFilterPanelHeader() {
       "click",
       () => {
 
-        /*
-        * 現在のURLからハッシュ（#spot_0123など）を消して、
-        * スポットトップを再読み込みする。
-        *
-        * 例：
-        * https://dzl-database.github.io/spot/#spot_0123
-        *
-        * ↓
-        *
-        * https://dzl-database.github.io/spot/
-        */
-
-        const baseUrl =
-          window.location.origin +
-          window.location.pathname;
-
-
-        window.location.replace(
-          baseUrl
-        );
+        window.location.href =
+          "https://dzl-database.github.io/spot/";
 
       }
     );
