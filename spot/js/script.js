@@ -12230,32 +12230,130 @@ function formatReleaseText(value) {
 
   if (!text) return "";
 
-  /*
-   * いったんHTMLとして解釈されないように
-   * エスケープする
-   */
-  let result =
-    escapeReleaseHtml(text);
 
   /*
+   * ------------------------------------------------------
+   * 独自リンク記法を先に取り出す
+   *
+   * スプレッドシート：
+   *
+   * <link url="https://example.com" title="こちらをクリック">
+   *
+   * ------------------------------------------------------
+   */
+
+  const releaseLinks = [];
+
+  const textWithPlaceholders =
+    text.replace(
+      /<link\s+url="(https?:\/\/[^"]+)"\s+title="([^"]*)"\s*>/gi,
+      (match, url, title) => {
+
+        const index =
+          releaseLinks.length;
+
+        releaseLinks.push({
+          url: String(url || ""),
+          title: String(title || "")
+        });
+
+        return `___RELEASE_LINK_${index}___`;
+
+      }
+    );
+
+
+  /*
+   * ------------------------------------------------------
+   * いったんHTMLとして解釈されないように
+   * エスケープする
+   * ------------------------------------------------------
+   */
+
+  let result =
+    escapeReleaseHtml(
+      textWithPlaceholders
+    );
+
+
+  /*
+   * ------------------------------------------------------
    * <b>...</b> だけ許可する
    *
    * CSV上では
+   *
    * <b>重要</b>
+   *
    * のように入力する。
+   * ------------------------------------------------------
    */
+
   result =
-    result
-      .replace(
-        /&lt;b&gt;([\s\S]*?)&lt;\/b&gt;/gi,
-        "<strong>$1</strong>"
-      );
+    result.replace(
+      /&lt;b&gt;([\s\S]*?)&lt;\/b&gt;/gi,
+      "<strong>$1</strong>"
+    );
+
 
   /*
-   * スプレッドシート内の改行をそのまま反映
+   * ------------------------------------------------------
+   * 独自リンク記法を
+   * 実際のリンクに変換
+   * ------------------------------------------------------
    */
+
+  releaseLinks.forEach(
+    (link, index) => {
+
+      /*
+       * http / https のみ許可
+       */
+
+      if (
+        !/^https?:\/\//i.test(
+          link.url
+        )
+      ) {
+        return;
+      }
+
+
+      const placeholder =
+        `___RELEASE_LINK_${index}___`;
+
+
+      const linkHtml = `
+        <a
+          class="release-note-link"
+          href="${escapeReleaseHtml(link.url)}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >${escapeReleaseHtml(link.title)}</a>
+      `;
+
+
+      result =
+        result.replace(
+          placeholder,
+          linkHtml
+        );
+
+    }
+  );
+
+
+  /*
+   * ------------------------------------------------------
+   * スプレッドシート内の改行をそのまま反映
+   * ------------------------------------------------------
+   */
+
   result =
-    result.replace(/\r\n|\r|\n/g, "<br>");
+    result.replace(
+      /\r\n|\r|\n/g,
+      "<br>"
+    );
+
 
   return result;
 

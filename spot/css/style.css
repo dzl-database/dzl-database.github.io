@@ -9285,6 +9285,54 @@ body{
   font-weight: 700;
 }
 
+/* ------------------------------------------------------
+   リリースノート内リンク
+------------------------------------------------------ */
+
+.release-note-link {
+
+  color: #c80000;
+
+  font-weight: 650;
+
+  text-decoration: underline;
+  text-decoration-color: rgba(200,0,0,.35);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+
+  transition:
+    color .18s ease,
+    text-decoration-color .18s ease;
+
+}
+
+
+/* ------------------------------------------------------
+   リンク hover
+------------------------------------------------------ */
+
+@media (hover:hover) and (pointer:fine) {
+
+  .release-note-link:hover {
+
+    color: #900000;
+
+    text-decoration-color: #900000;
+
+  }
+
+}
+
+
+/* ------------------------------------------------------
+   リンク active
+------------------------------------------------------ */
+
+.release-note-link:active {
+
+  color: #700000;
+
+}
 
 /* ------------------------------------------------------
    X投稿
