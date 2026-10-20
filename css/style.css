@@ -14,7 +14,7 @@ body{
     radial-gradient(circle at 90% 80%, rgba(181,0,18,0.05), transparent 40%),
     linear-gradient(135deg, #f4f6f9 0%, #e9edf3 100%);
 
-  font-family: sans-serif;
+  font-family: 'LINE Seed JP', sans-serif;
 }
   
 .logo{
