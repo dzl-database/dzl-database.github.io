@@ -215,14 +215,6 @@ text-align:center;
 margin-top:40px;
 }
 
-.guide-box{
-background:#fff5f5;
-padding:20px;
-border-left:6px solid #d90000;
-margin-bottom:30px;
-box-shadow:0 2px 8px rgba(0,0,0,0.05);
-}
-
 .feature-card{
 background:white;
 padding:20px;
@@ -344,11 +336,6 @@ display:flex;
 flex-wrap:wrap;
 gap:8px;
 margin-bottom:20px;
-}
-  
-.random-content{
-  flex:1;
-  min-width:0; 
 }
 
 .random-heading{
@@ -826,6 +813,7 @@ box-shadow:0 2px 8px rgba(0,0,0,0.05);
   color:#aaa;
   text-align:center;
   font-size:14px;
+  line-height: 1.3;
 }
 
 .main-inner{
@@ -898,7 +886,7 @@ box-shadow:0 2px 8px rgba(0,0,0,0.05);
   align-items:center;
   gap:10px;
   font-size:14px;
-  margin-bottom:8px;
+  margin-bottom:10px;
 }
 
 .news-icon{
@@ -923,9 +911,10 @@ box-shadow:0 2px 8px rgba(0,0,0,0.05);
 /* タイトル */
 .news-title{
   font-size:16px;
-  margin:6px 0;
+  margin: 11px 0 8px 0;
   font-weight:700 !important;
   letter-spacing:0.5px;
+  line-height: 1.3;
 }
 
 /* 本文 */
@@ -1000,6 +989,7 @@ box-shadow:0 2px 8px rgba(0,0,0,0.05);
   flex:1;
   display:flex;
   flex-direction:column;
+  margin-bottom:4px;
 }
   
 /* ===== 画像がないときは縦表示 ===== */
@@ -1020,21 +1010,6 @@ box-shadow:0 2px 8px rgba(0,0,0,0.05);
 
 }
 
-/* タイトル */
-.random-title{
-  font-size:16px;
-  font-weight:700 !important;
-  margin-bottom:8px;
-}
-
-/* 説明 */
-.random-description{
-  font-size:14px;
-  color:#444;
-  margin-bottom:8px;
-  line-height:1.6;
-}
-
 /* リンク */
 .random-link{
   display:inline-flex;
@@ -1044,6 +1019,7 @@ box-shadow:0 2px 8px rgba(0,0,0,0.05);
   color:#000;
   text-decoration:none;
   font-weight:500;
+  margin-top:8px;
 }
 
 .random-link:hover{
@@ -1430,32 +1406,22 @@ box-shadow:0 2px 8px rgba(0,0,0,0.05);
   font-size:16px;
   font-weight:700 !important;
   margin:0 0 8px 0;
+  line-height:1.3;
 }
-  
+
 /* キャラメタ（演者など） */
 .random-meta{
   font-size:14px;
   color:#333;
-  margin:0 0 8px 0;
+  margin:0;
   line-height:1.5;
 }
 
 .random-description{
   font-size:14px;
   color:#333;
-  margin:0 0 12px 0;
+  margin:0;
   line-height:1.6;
-}
-
-.random-link{
-  display:inline-flex;
-  align-items:center;
-  gap:4px;
-  font-size:14px;
-  color:#000;
-  text-decoration:none;
-  font-weight:500;
-  margin-top:4px;
 }
 
 .random-video{
@@ -1599,6 +1565,10 @@ font-size:18px;
   border: 1px solid #eee;
 }
 
+.guide-box p {
+  line-height: 1.6;
+}
+
 /* ===== カード共通 ===== */
 .feature-card {
   background: #ffffff;
@@ -1650,7 +1620,7 @@ font-size:18px;
 }
 
 .feature-card p {
-  line-height: 1.4;
+  line-height: 1.45;
   margin: 6px 0;
 }
 
@@ -1726,7 +1696,7 @@ font-size:18px;
 .stat-label {
   font-size: 12px;
   color: #888;
-  margin-top: 2px;
+  margin-top: 6px;
 }
 
 /* タブ全体 */
@@ -1851,6 +1821,7 @@ font-size:18px;
   font-size: 12px;
   color: #888;
   margin-bottom: 8px;
+  line-height: 1.4;
 }
 
 /* タイトル */
@@ -1860,7 +1831,7 @@ font-size:18px;
   gap: 8px;
   font-size: 22px;
   font-weight: 800;
-  margin-bottom: 15px;
+  margin: 25px 0 20px 0;
   border-left: 4px solid #ff0000;
   padding-left: 10px;
 }
@@ -2216,7 +2187,8 @@ font-size:18px;
 .history-intro{
   margin-bottom:18px;
   color:#666;
-  font-size:14px;
+  font-size: 13px;
+  line-height: 1.4;
 }
 
 /* 全体 */
@@ -2323,6 +2295,8 @@ font-size:18px;
   display:flex;
   align-items:center;
   gap:10px;
+  margin: 7px 0 9px 0;
+  line-height: 1.25;
 }
 
 /* タイトル */
@@ -2399,6 +2373,8 @@ font-size:18px;
 
   text-decoration:none;
   word-break:break-all;
+
+  line-height: 1.4;
 }
 
 .history-link-icon{
@@ -2644,10 +2620,11 @@ font-size:18px;
 }
 
 .event-title{
-  margin:0 0 14px;
+  margin:0 0 12px;
   font-size:22px;
   font-weight:700;
   color:#222;
+  line-height: 1.4;
 }
 
 @media(max-width:768px){
@@ -2662,6 +2639,7 @@ font-size:18px;
   gap:8px;
   margin:8px 0;
   color:#444;
+  line-height: 1.35;
 }
 
 @media(max-width:768px){
@@ -2815,7 +2793,7 @@ line-height:1.7;
 @media(max-width:768px){
   .event-detail-section p{
     font-size:15px;
-    line-height: 1.3;
+    line-height: 1.4;
   }
 }
 
@@ -2918,25 +2896,19 @@ font-size:18px;
 }
 
 .related-card-title{
-
   font-size:18px;
-
   font-weight:bold;
-
-  margin:10px 0;
-
+  margin:13px 0;
+  line-height: 1.35;
 }
 
 .related-card-date{
-
   display:flex;
-
   align-items:center;
-
-  gap:6px;
-
+  gap:8px;
   color:#666;
-
+  line-height: 1.35;
+  margin-top: 6px;
 }
 
 .related-more{
@@ -3719,8 +3691,8 @@ font-size:18px;
 
 .related-card-label{
 
-  margin-top:10px;
-  margin-bottom:4px;
+  margin-top:12px;
+  margin-bottom:8px;
 
 }
 
@@ -3895,7 +3867,7 @@ font-size:18px;
 
   margin:12px 0;
 
-  line-height:1.9;
+  line-height:1.5;
   color:#333;
 
 }
@@ -3927,23 +3899,15 @@ font-size:18px;
 }
 
 .policy-card a:hover{
-
   color:#D90000;
-
   border-bottom-color:#D90000;
-
 }
 
 .policy-note{
-
   margin-top:28px;
-
   padding-top:18px;
-
   border-top:1px solid #666;
-
-  line-height:1.9;
-
+  line-height:1.7;
 }
 
 .contact-card{
