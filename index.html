@@ -69,6 +69,11 @@
     <span>ホーム</span>
   </button>
 
+  <button onclick="showSection('countdown')" data-section="countdown">
+    <span class="material-symbols-outlined">timer</span>
+    <span>カウントダウン</span>
+  </button>
+
   <button onclick="showSection('event')" data-section="event">
     <span class="material-symbols-outlined">event</span>
     <span>イベント</span>
@@ -82,11 +87,6 @@
   <button onclick="showSection('lives')" data-section="lives">
     <span class="material-symbols-outlined">smart_display</span>
     <span>配信・動画</span>
-  </button>
-
-  <button onclick="showSection('mylist')" data-section="mylist">
-    <span class="material-symbols-outlined">bookmark</span>
-    <span>マイリスト</span>
   </button>
 
 </nav>
@@ -159,11 +159,6 @@
         <span>お問い合わせ・感想</span>
       </button>
 
-      <button onclick="closeMenuModal(); showSection('planned')">
-        <span class="material-symbols-outlined">build</span>
-        <span>現在検討中の機能</span>
-      </button>
-
     </div>
 
   </div>
@@ -181,6 +176,24 @@
 <div id="newsBox"></div>
 
 <div id="todayBox"></div>
+
+</div>
+
+<div id="countdown" class="section">
+
+  <h2>
+    <span class="material-symbols-outlined">timer</span>
+    カウントダウン
+  </h2>
+
+  <div class="feature-card">
+    <p>
+      カウントダウンページは現在準備中です。
+    </p>
+    <p>
+      公開までしばらくお待ちください！
+    </p>
+  </div>
 
 </div>
 
@@ -581,47 +594,6 @@
   <div id="cardToolArea" style="margin-top:20px;"></div>
 
 </div>
-  
-<div id="mylist" class="section">
-
-  <h2>マイリスト</h2>
-
-  <div class="mylist-type-tabs">
-    <button onclick="switchMyListType('event')" id="tab-event" class="active-type">
-      イベント
-    </button>
-    <button onclick="switchMyListType('goods')" id="tab-goods">
-      グッズ
-    </button>
-  </div>
-
-  <div class="filter-row">
-    <button class="filter-btn active"
-      onclick="filterMyList('all', this)">
-      すべて
-    </button>
-
-    <button class="filter-btn"
-      onclick="filterMyList('fav', this)">
-      お気に入り
-    </button>
-
-    <button class="filter-btn"
-      onclick="filterMyList('予定', this)">
-      <span id="filter-plan-label">参加予定</span>
-    </button>
-
-    <button class="filter-btn"
-      onclick="filterMyList('済', this)">
-      <span id="filter-done-label">参加済</span>
-    </button>
-  </div>
-
-  <p id="mylist-count"></p>
-
-  <div id="mylist-container"></div>
-
-</div>
 
 <div id="aboutSite" class="section">
 
@@ -846,12 +818,6 @@
 <p>こちらのページにあるフォームまでお願いします。</p>
 </div>
 
-<div class="feature-card">
-<h3><span class="material-symbols-outlined">build</span> 現在検討中の機能</h3>
-<p>現在検討中・実装予定の機能を表示します。</p>
-<p>お問い合わせフォームからアイデアを募集しています。</p>
-</div>
-
 </div>
 
 <div id="policy" class="section">
@@ -1021,20 +987,6 @@
 
   </div>
 
-</div>
-  
-<div id="planned" class="section">
-  <h2>現在検討中の機能</h2>
-
-  <div class="planned-filter">
-    <button class="filter-btn active" onclick="filterPlanned('all')">すべて</button>
-    <button class="filter-btn" onclick="filterPlanned('アイデア')">アイデア</button>
-    <button class="filter-btn" onclick="filterPlanned('検討中')">検討中</button>
-    <button class="filter-btn" onclick="filterPlanned('実装予定')">実装予定</button>
-    <button class="filter-btn" onclick="filterPlanned('実装済')">実装済</button>
-  </div>
-
-  <div id="plannedFeaturesPage"></div>
 </div>
 
 </div>
