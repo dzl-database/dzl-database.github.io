@@ -200,12 +200,6 @@ border-radius:6px;
   margin-top:18px;
 }
 
-.countdown{
-font-weight:bold;
-color:#ff3b3b;
-margin-top:10px;
-}
-
 footer{
 background:#111;
 color:#ccc;
@@ -361,18 +355,6 @@ padding:20px;
 margin-bottom:20px;
 border-left:6px solid #ff3b3b;
 box-shadow:0 2px 8px rgba(0,0,0,0.05);
-}
-
-.event-countdown{
-  color:#ff2b2b;
-  font-weight:800;
-
-  font-size: clamp(16px, 3.5vw, 22px);  /* ← 少し控えめ */
-
-  margin-bottom:16px;
-  letter-spacing:0.3px;
-
-  white-space:nowrap;   /* ← 改行させない */
 }
 
 .event-meta{
@@ -593,22 +575,6 @@ box-shadow:0 2px 8px rgba(0,0,0,0.05);
   font-size:13px;
   color:#777;
 }
-  
-.countdown-icon{
-  font-size:22px;
-  vertical-align:middle;
-  margin-right:6px;
-  color:#e60023; /* カウントダウンと同じ赤 */
-}
-
-#countdown{
-  font-weight:bold;
-  font-size:22px;
-  color:#e60023;
-  display:flex;
-  align-items:center;
-  gap:6px;
-}
 
 .latest-wrapper{
   background:white;
@@ -617,27 +583,10 @@ box-shadow:0 2px 8px rgba(0,0,0,0.05);
   border-radius:16px;
   box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
-  
-.latest-countdown{
-  font-size:22px;
-  font-weight:bold;
-  color:#e60023;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin-bottom:20px;
-}
+
   
 #latestEvent .latest-wrapper{
   border-left:6px solid #ff8800;
-}
-
-#latestEvent .latest-countdown{
-  color:#ff8800;
-}
-
-#latestEvent .countdown-icon{
-  color:#ff8800;
 }
 
 .goods-meta{
