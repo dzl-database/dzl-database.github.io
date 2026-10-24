@@ -307,20 +307,44 @@
 </div>
 
 
-<div id="countdown" class="section">
+<div id="countdown" class="section countdown-page">
 
-  <h2>
-    <span class="material-symbols-outlined">timer</span>
-    カウントダウン
-  </h2>
+  <section class="countdown-hero">
+    <div class="countdown-hero-icon">
+      <span class="material-symbols-outlined">timer</span>
+    </div>
 
-  <div class="feature-card">
+    <div class="countdown-hero-text">
+      <span class="countdown-eyebrow">EVENT COUNTDOWN</span>
+      <h2>カウントダウン</h2>
+      <p>
+        楽しみなイベントまで、あとどれくらい？
+        開催日までの時間をリアルタイムでチェック！
+      </p>
+    </div>
+  </section>
+
+  <div class="countdown-info">
+    <span class="material-symbols-outlined">schedule</span>
     <p>
-      カウントダウンページは現在準備中です。
+      カウントダウンは日本時間（JST）を基準に表示しています。
+      イベント情報はスプレッドシートと連携して更新されます。
     </p>
-    <p>
-      公開までしばらくお待ちください！
-    </p>
+  </div>
+
+  <div id="countdownList" class="countdown-list">
+
+    <div class="countdown-loading">
+      <span class="material-symbols-outlined">hourglass_top</span>
+      <p>イベント情報を読み込み中...</p>
+    </div>
+
+  </div>
+
+  <div id="countdownEmpty" class="countdown-empty" hidden>
+    <span class="material-symbols-outlined">event_busy</span>
+    <h3>現在、表示中のイベントはありません</h3>
+    <p>イベント情報は随時更新されます。</p>
   </div>
 
 </div>
@@ -1147,6 +1171,7 @@
 <script src="js/script.js"></script>
 <script src="js/event.js"></script>
 <script src="js/goods.js"></script>
+<script src="js/countdown.js"></script>
 
 </main>
 </div>

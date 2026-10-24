@@ -4472,3 +4472,590 @@ transition: none;
 
 }
 
+
+/* ========================================
+   カウントダウンページ
+======================================== */
+
+.countdown-page {
+  --countdown-primary: #d90000;
+  --countdown-text: #292929;
+  --countdown-muted: #777;
+}
+
+
+/* ヒーロー */
+
+.countdown-hero {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 5px 0 20px;
+  padding: 28px;
+  color: #fff;
+  background:
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(255, 255, 255, 0.16),
+      transparent 35%
+    ),
+    linear-gradient(120deg, #a90000 0%, #d90000 60%, #ef3030 100%);
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(150, 0, 0, 0.15);
+}
+
+.countdown-hero-icon {
+  display: grid;
+  width: 66px;
+  height: 66px;
+  flex-shrink: 0;
+  place-items: center;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 17px;
+}
+
+.countdown-hero-icon .material-symbols-outlined {
+  font-size: 38px;
+}
+
+.countdown-hero-text {
+  min-width: 0;
+}
+
+.countdown-eyebrow {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  opacity: 0.85;
+}
+
+.countdown-hero-text h2 {
+  margin: 0 0 8px;
+  color: #fff;
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  font-weight: 800;
+}
+
+.countdown-hero-text p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+
+/* 説明 */
+
+.countdown-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 0 0 24px;
+  padding: 13px 15px;
+  color: #666;
+  background: #fff8f8;
+  border: 1px solid #f1dddd;
+  border-radius: 10px;
+}
+
+.countdown-info .material-symbols-outlined {
+  flex-shrink: 0;
+  color: var(--countdown-primary);
+  font-size: 20px;
+}
+
+.countdown-info p {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.8;
+}
+
+
+/* カード一覧 */
+
+.countdown-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  align-items: stretch;
+}
+
+
+/* カード本体 */
+
+.countdown-card {
+  --event-color: #d90000;
+
+  position: relative;
+  display: flex;
+  min-width: 0;
+  overflow: hidden;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid #e9e9e9;
+  border-radius: 16px;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.045);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.countdown-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.09);
+}
+
+.countdown-card-accent {
+  height: 7px;
+  flex-shrink: 0;
+  background: var(--event-color);
+}
+
+.countdown-card-main {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  padding: 20px;
+}
+
+
+/* 日付・状態 */
+
+.countdown-card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.countdown-event-date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #555;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.countdown-event-date .material-symbols-outlined {
+  color: var(--event-color);
+  font-size: 19px;
+}
+
+.countdown-status {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 9px;
+  color: #666;
+  background: #f1f1f1;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.countdown-status.is-upcoming {
+  color: #b00000;
+  background: #fff0f0;
+}
+
+.countdown-status.is-today {
+  color: #fff;
+  background: #d90000;
+}
+
+
+/* イベント名 */
+
+.countdown-event-name {
+  margin: 0 0 13px;
+  color: var(--countdown-text);
+  font-size: 1.13rem;
+  font-weight: 800;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+
+/* メタ情報 */
+
+.countdown-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 17px;
+}
+
+.countdown-meta-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  color: #666;
+  font-size: 0.8rem;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.countdown-meta-item .material-symbols-outlined {
+  flex-shrink: 0;
+  color: #999;
+  font-size: 18px;
+}
+
+
+/* タイマー */
+
+.countdown-timer-area {
+  margin-top: auto;
+  padding: 16px 12px 14px;
+  background: #fff7f7;
+  border: 1px solid #f5dddd;
+  border-radius: 12px;
+}
+
+.countdown-timer-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 12px;
+  color: #9a2929;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.countdown-timer-label .material-symbols-outlined {
+  font-size: 17px;
+}
+
+.countdown-timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.countdown-unit {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.countdown-number {
+  display: flex;
+  width: 100%;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 2px;
+  color: #fff;
+  background: #292929;
+  border-radius: 7px;
+  font-family: "M PLUS 1", sans-serif;
+  font-size: clamp(1rem, 1.8vw, 1.5rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.countdown-unit-label {
+  color: #777;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.countdown-time-separator {
+  margin-top: -16px;
+  color: #b00000;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.countdown-finished-message {
+  padding: 12px 5px;
+  color: #c00000;
+  font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+  font-weight: 800;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.countdown-timer[hidden],
+.countdown-finished-message[hidden] {
+  display: none !important;
+}
+
+
+/* リンク */
+
+.countdown-card-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.countdown-sub-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #666;
+  font-size: 0.75rem;
+  text-decoration: none;
+  line-height: 1.7;
+}
+
+.countdown-sub-link:hover {
+  color: var(--countdown-primary);
+  text-decoration: underline;
+}
+
+.countdown-sub-link .material-symbols-outlined {
+  font-size: 16px;
+}
+
+
+/* 外部リンクボタン */
+
+.countdown-action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.countdown-action-button {
+  display: inline-flex;
+  min-height: 38px;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 9px 12px;
+  color: #fff;
+  background: var(--event-color);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  transition:
+    filter 0.2s ease,
+    transform 0.2s ease;
+}
+
+.countdown-action-button:hover {
+  filter: brightness(0.9);
+  transform: translateY(-1px);
+}
+
+.countdown-action-button .material-symbols-outlined {
+  flex-shrink: 0;
+  font-size: 17px;
+}
+
+
+/* 読み込み中 */
+
+.countdown-loading,
+.countdown-error,
+.countdown-empty {
+  padding: 38px 20px;
+  color: #777;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.countdown-loading {
+  grid-column: 1 / -1;
+}
+
+.countdown-loading .material-symbols-outlined,
+.countdown-error .material-symbols-outlined,
+.countdown-empty .material-symbols-outlined {
+  color: #d90000;
+  font-size: 36px;
+}
+
+.countdown-loading p,
+.countdown-error p,
+.countdown-empty p {
+  margin: 10px 0 0;
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+
+.countdown-error h3,
+.countdown-empty h3 {
+  margin: 10px 0 0;
+  color: #333;
+  font-size: 1rem;
+}
+
+.countdown-error {
+  grid-column: 1 / -1;
+}
+
+.countdown-empty[hidden] {
+  display: none !important;
+}
+
+
+/* ========================================
+   タブレット
+======================================== */
+
+@media (max-width: 850px) {
+  .countdown-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .countdown-card-main {
+    padding: 18px;
+  }
+
+  .countdown-number {
+    font-size: clamp(1.2rem, 4vw, 1.6rem);
+  }
+}
+
+
+/* ========================================
+   スマートフォン
+======================================== */
+
+@media (max-width: 600px) {
+  .countdown-hero {
+    align-items: flex-start;
+    gap: 13px;
+    margin-top: 3px;
+    padding: 20px 17px;
+    border-radius: 14px;
+  }
+
+  .countdown-hero-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+  }
+
+  .countdown-hero-icon .material-symbols-outlined {
+    font-size: 27px;
+  }
+
+  .countdown-eyebrow {
+    font-size: 0.62rem;
+  }
+
+  .countdown-hero-text h2 {
+    margin-bottom: 6px;
+    font-size: 1.35rem;
+  }
+
+  .countdown-hero-text p {
+    font-size: 0.79rem;
+    line-height: 1.8;
+  }
+
+  .countdown-info {
+    gap: 7px;
+    margin-bottom: 18px;
+    padding: 11px;
+  }
+
+  .countdown-info p {
+    font-size: 0.74rem;
+  }
+
+  .countdown-card {
+    border-radius: 13px;
+  }
+
+  .countdown-card-main {
+    padding: 15px 13px;
+  }
+
+  .countdown-card-heading {
+    margin-bottom: 10px;
+  }
+
+  .countdown-event-date {
+    font-size: 0.76rem;
+  }
+
+  .countdown-status {
+    padding: 4px 7px;
+    font-size: 0.62rem;
+  }
+
+  .countdown-event-name {
+    margin-bottom: 10px;
+    font-size: 1rem;
+  }
+
+  .countdown-meta {
+    margin-bottom: 14px;
+  }
+
+  .countdown-meta-item {
+    font-size: 0.76rem;
+  }
+
+  .countdown-timer-area {
+    padding: 13px 7px 11px;
+  }
+
+  .countdown-timer {
+    gap: 4px;
+  }
+
+  .countdown-number {
+    min-height: 43px;
+    padding: 5px 1px;
+    border-radius: 6px;
+    font-size: clamp(0.95rem, 4.2vw, 1.35rem);
+  }
+
+  .countdown-unit-label {
+    font-size: 0.61rem;
+  }
+
+  .countdown-time-separator {
+    font-size: 0.85rem;
+  }
+
+  .countdown-action-buttons {
+    gap: 7px;
+  }
+
+  .countdown-action-button {
+    min-height: 36px;
+    padding: 8px 9px;
+    font-size: 0.73rem;
+  }
+}
+
+
+/* 動きを抑える設定 */
+
+@media (prefers-reduced-motion: reduce) {
+  .countdown-card,
+  .countdown-action-button {
+    transition: none;
+  }
+}
