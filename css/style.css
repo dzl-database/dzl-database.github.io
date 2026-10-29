@@ -90,6 +90,7 @@ height:64px;   /* ← 追加 */
 .quick-menu button span:last-child{
   font-size:10px;
   font-weight:600;
+  white-space: nowrap;
 }
 
 .quick-menu button.active-tab{
