@@ -451,7 +451,20 @@
       ? `
         <div class="countdown-meta-item">
           <span class="material-symbols-outlined">location_on</span>
-          <span>${escapeHTML(event.location)}</span>
+          ${
+            event.spotURL
+              ? `
+                <a
+                  class="countdown-location-link"
+                  href="${escapeHTML(event.spotURL)}"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  <span>${escapeHTML(event.location)}</span>
+                  <span class="material-symbols-outlined">open_in_new</span>
+                </a>
+              `
+              : `<span>${escapeHTML(event.location)}</span>`
+          }
         </div>
       `
       : "";
@@ -464,23 +477,6 @@
           <span>${escapeHTML(timeText)} 開始</span>
         </div>
       `;
-
-    const spotHTML = createExternalLink(
-      event.spotURL,
-      "スポットを見る",
-      "countdown-sub-link"
-    );
-
-    const databaseHTML = event.databaseURL
-      ? `
-        <a
-          class="countdown-sub-link"
-          href="${escapeHTML(event.databaseURL)}">
-          データベースで詳しく見る
-          <span class="material-symbols-outlined">arrow_forward</span>
-        </a>
-      `
-      : "";
 
     const buttonsHTML = event.buttons.length
       ? `
@@ -514,7 +510,20 @@
         </div>
 
         <h3 class="countdown-event-name">
-          ${escapeHTML(event.name)}
+          ${
+            event.databaseURL
+              ? `
+                <a
+                  class="countdown-event-name-link"
+                  href="${escapeHTML(event.databaseURL)}"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  <span>${escapeHTML(event.name)}</span>
+                  <span class="material-symbols-outlined">open_in_new</span>
+                </a>
+              `
+              : escapeHTML(event.name)
+          }
         </h3>
 
         <div class="countdown-meta">
@@ -557,11 +566,6 @@
           </div>
 
           <div class="countdown-finished-message" hidden></div>
-        </div>
-
-        <div class="countdown-card-links">
-          ${spotHTML}
-          ${databaseHTML}
         </div>
 
         ${buttonsHTML}

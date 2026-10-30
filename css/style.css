@@ -4931,3 +4931,97 @@ transition: none;
   font-weight: 800;
   line-height: 1.5;
 }
+
+/* ========================================
+   ページ説明カード
+======================================== */
+
+.countdown-description {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 15px 0 24px;
+  padding: 16px 20px;
+  color: #555;
+  background: #fff8f8;
+  border: 1px solid #f1dddd;
+  border-left: 4px solid #d90000;
+  border-radius: 10px;
+}
+
+.countdown-description > .material-symbols-outlined {
+  flex-shrink: 0;
+  color: #d90000;
+  font-size: 23px;
+}
+
+.countdown-description p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+
+
+/* ========================================
+   イベント名のリンク
+======================================== */
+
+.countdown-event-name-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.countdown-event-name-link:hover {
+  color: #c00000;
+  text-decoration: underline;
+}
+
+.countdown-event-name-link .material-symbols-outlined {
+  flex-shrink: 0;
+  font-size: 17px;
+  vertical-align: middle;
+}
+
+
+/* ========================================
+   場所名のリンク
+======================================== */
+
+.countdown-location-link {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 5px;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.countdown-location-link:hover {
+  color: #c00000;
+  text-decoration: underline;
+}
+
+.countdown-location-link .material-symbols-outlined {
+  flex-shrink: 0;
+  color: #999;
+  font-size: 16px;
+}
+
+@media (max-width: 600px) {
+  .countdown-description {
+    gap: 9px;
+    margin: 12px 0 20px;
+    padding: 12px 13px;
+  }
+
+  .countdown-description p {
+    font-size: 0.76rem;
+  }
+
+  .countdown-description > .material-symbols-outlined {
+    font-size: 21px;
+  }
+}
