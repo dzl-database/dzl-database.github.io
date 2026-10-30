@@ -5025,3 +5025,10 @@ transition: none;
     font-size: 21px;
   }
 }
+
+.countdown-description-text {
+  color: #666;
+  font-size: 0.85rem;
+  line-height: 1.8;
+  white-space: pre-line;
+}

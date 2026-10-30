@@ -11,6 +11,7 @@
   const JST_OFFSET = 9 * 60 * 60 * 1000;
 
   let countdownEvents = [];
+  let visibleCountdownEvents = [];
   let countdownTimer = null;
   let countdownLoadToken = 0;
 
@@ -266,16 +267,19 @@
   function normalizeCountdownEvent(row, index) {
     const name = (row["イベント名"] || "").trim();
 
-    const dateParts = parseDateParts(row["開催日付"]);
-    const timeParts = parseTimeParts(row["開催時間"]);
+    const dateParts = parseDateParts(row["日付"]);
+    const timeParts = parseTimeParts(row["時間"]);
 
-    const allDay = !(row["開催時間"] || "").trim();
+    const allDay = !(row["時間"] || "").trim();
+
+    const expression = (row["表現"] || "").trim();
+    const description = (row["説明"] || "").trim();
 
     const startDateParts = parseDateParts(row["公開開始日"]);
     const endDateParts = parseDateParts(row["公開終了日"]);
 
     // 必須情報や日付が不正な行は表示しない
-    if (!name || !dateParts) {
+    if (!name || !dateParts || !expression) {
       return null;
     }
 
@@ -332,6 +336,9 @@
       timeParts: allDay ? null : timeParts,
       allDay,
       eventTimestamp,
+
+      expression,
+      description,
 
       location: (row["場所"] || "").trim(),
 
@@ -469,12 +476,20 @@
       `
       : "";
 
+    const descriptionHTML = event.description
+      ? `
+        <div class="countdown-description-text">
+          ${escapeHTML(event.description)}
+        </div>
+      `
+      : "";
+
     const timeHTML = event.allDay
       ? ""
       : `
         <div class="countdown-meta-item">
           <span class="material-symbols-outlined">schedule</span>
-          <span>${escapeHTML(timeText)} 開始</span>
+          <span>${escapeHTML(timeText)} ${escapeHTML(event.expression)}</span>
         </div>
       `;
 
@@ -528,6 +543,7 @@
 
         <div class="countdown-meta">
           ${timeHTML}
+          ${descriptionHTML}
           ${locationHTML}
         </div>
 
@@ -586,7 +602,7 @@
 
     document.querySelectorAll(".countdown-card").forEach(card => {
       const index = Number(card.dataset.eventIndex);
-      const event = countdownEvents[index];
+      const event = visibleCountdownEvents[index];
 
       if (!event) return;
 
@@ -619,13 +635,13 @@
         card.querySelector('[data-unit="seconds"]').textContent =
           String(seconds).padStart(2, "0");
 
-        status.textContent = "開催前";
+        status.textContent = `${event.expression}前`;
         status.className = "countdown-status is-upcoming";
 
         timer.hidden = false;
         finishedMessage.hidden = true;
 
-        timerLabel.textContent = "開催まで";
+        timerLabel.textContent = `${event.expression}まで`;
 
         return;
       }
@@ -641,8 +657,8 @@
           timer.hidden = true;
           finishedMessage.hidden = false;
 
-          finishedMessage.textContent = "🎉 本日開催！";
-          status.textContent = "本日開催";
+          finishedMessage.textContent = `🎉 ${event.expression}当日！`;
+          status.textContent = `${event.expression}当日`;
           status.className = "countdown-status is-today";
 
           return;
@@ -655,12 +671,12 @@
       finishedMessage.hidden = false;
 
       finishedMessage.textContent = event.allDay
-        ? "本日開催！"
-        : "🎉 開催時刻になりました！";
+        ? `🎉 ${event.expression}当日！`
+        : `🎉 ${event.expression}時刻になりました！`;
 
       status.textContent = event.allDay
-        ? "本日開催"
-        : "開始時刻";
+        ? `${event.expression}当日`
+        : `${event.expression}時刻`;
 
       status.className = "countdown-status is-today";
     });
@@ -690,15 +706,8 @@
     list.hidden = false;
     empty.hidden = true;
 
-    // indexでイベント本体を参照できるよう、配列を並び順どおりにする
-    countdownEvents = countdownEvents.filter(event => {
-      return (
-        Date.now() >= event.publishStart &&
-        Date.now() <= event.publishEnd
-      );
-    });
-
-    countdownEvents = visibleEvents;
+    // 現在表示するイベントだけを別の配列に保存
+    visibleCountdownEvents = visibleEvents;
 
     visibleEvents.forEach((event, index) => {
       list.appendChild(createCountdownCard(event, index));
