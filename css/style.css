@@ -4968,7 +4968,7 @@ transition: none;
 
 .countdown-event-name-link {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: 6px;
   color: inherit;
   text-decoration: none;
@@ -4992,7 +4992,7 @@ transition: none;
 
 .countdown-location-link {
   display: inline-flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 5px;
   min-width: 0;
   color: inherit;
