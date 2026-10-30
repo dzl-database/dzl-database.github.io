@@ -454,6 +454,32 @@
     const dateText = formatDate(event.dateParts);
     const timeText = formatTime(event.timeParts);
 
+    // 進捗バーを表示できる条件
+    const hasProgressBar =
+      Number.isFinite(event.publishStart) &&
+      event.eventTimestamp > event.publishStart;
+
+    const progressHTML = hasProgressBar
+      ? `
+        <div class="countdown-progress-area">
+          <div class="countdown-progress-heading">
+            <span>公開から${escapeHTML(event.expression)}まで</span>
+            <span class="countdown-progress-percent">0%</span>
+          </div>
+
+          <div
+            class="countdown-progress-track"
+            role="progressbar"
+            aria-label="イベントまでの進捗"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0">
+            <div class="countdown-progress-fill"></div>
+          </div>
+        </div>
+      `
+      : "";
+
     const locationHTML = event.location
       ? `
         <div class="countdown-meta-item">
@@ -549,6 +575,9 @@
         </div>
 
         <div class="countdown-timer-area">
+
+          ${progressHTML}
+
           <div class="countdown-timer-label">
             <span class="material-symbols-outlined">hourglass_top</span>
             <span class="countdown-timer-caption">開催まで</span>
@@ -608,6 +637,47 @@
       if (!event) return;
 
       const remaining = event.eventTimestamp - now;
+
+      // 公開開始日からイベント日時までの進捗を計算
+      const progressTrack = card.querySelector(
+        ".countdown-progress-track"
+      );
+
+      if (progressTrack) {
+        const progressFill = progressTrack.querySelector(
+          ".countdown-progress-fill"
+        );
+
+        const progressPercent = card.querySelector(
+          ".countdown-progress-percent"
+        );
+
+        const totalDuration =
+          event.eventTimestamp - event.publishStart;
+
+        const elapsedDuration =
+          now - event.publishStart;
+
+        const progress = Math.min(
+          100,
+          Math.max(
+            0,
+            (elapsedDuration / totalDuration) * 100
+          )
+        );
+
+        const roundedProgress = Math.floor(progress);
+
+        progressFill.style.width = `${progress}%`;
+
+        progressTrack.setAttribute(
+          "aria-valuenow",
+          String(roundedProgress)
+        );
+
+        progressPercent.textContent =
+          `${roundedProgress}%`;
+      }
 
       const status = card.querySelector(".countdown-status");
       const timer = card.querySelector(".countdown-timer");

@@ -5034,3 +5034,65 @@ transition: none;
   line-height: 1.8;
   white-space: pre-line;
 }
+
+/* ========================================
+   イベント進捗バー
+======================================== */
+
+.countdown-progress-area {
+  margin-bottom: 17px;
+}
+
+.countdown-progress-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 7px;
+  color: #777;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.countdown-progress-percent {
+  flex-shrink: 0;
+  color: #555;
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown-progress-track {
+  width: 100%;
+  height: 8px;
+  overflow: hidden;
+  background: #e9e9e9;
+  border-radius: 999px;
+}
+
+.countdown-progress-fill {
+  width: 0%;
+  height: 100%;
+  background: var(--event-color);
+  border-radius: 999px;
+  transition: width 0.8s linear;
+}
+
+@media (max-width: 600px) {
+  .countdown-progress-area {
+    margin-bottom: 14px;
+  }
+
+  .countdown-progress-heading {
+    font-size: 0.64rem;
+  }
+
+  .countdown-progress-track {
+    height: 7px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .countdown-progress-fill {
+    transition: none;
+  }
+}
