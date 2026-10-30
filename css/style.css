@@ -5027,6 +5027,8 @@ transition: none;
 }
 
 .countdown-description-text {
+  display: block;
+  min-width: 0;
   color: #666;
   font-size: 0.85rem;
   line-height: 1.8;

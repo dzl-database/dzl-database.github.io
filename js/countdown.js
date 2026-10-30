@@ -478,8 +478,9 @@
 
     const descriptionHTML = event.description
       ? `
-        <div class="countdown-description-text">
-          ${escapeHTML(event.description)}
+        <div class="countdown-meta-item">
+          <span class="material-symbols-outlined">description</span>
+          <span class="countdown-description-text">${escapeHTML(event.description)}</span>
         </div>
       `
       : "";
@@ -614,6 +615,9 @@
       const finishedMessage = card.querySelector(
         ".countdown-finished-message"
       );
+
+      // 表現列の内容に合わせてラベルを設定
+      timerLabel.textContent = `${event.expression}まで`;
 
       if (remaining > 0) {
         const totalSeconds = Math.floor(remaining / 1000);
