@@ -316,8 +316,8 @@
     ]
       .map(parseColorRule)
       .filter(Boolean)
-      // 日数が大きい順に並べる
-      .sort((a, b) => b.days - a.days);
+      // 日数が小さい順に並べる
+      .sort((a, b) => a.days - b.days);
   }
 
 
