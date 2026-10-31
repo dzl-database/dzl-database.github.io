@@ -4684,7 +4684,7 @@ transition: none;
 }
 
 .countdown-finished-message {
-  padding: 12px 5px;
+  padding: 0px 5px;
   color: #c00000;
   font-size: clamp(1.1rem, 2.5vw, 1.45rem);
   font-weight: 800;
@@ -5040,7 +5040,8 @@ transition: none;
 ======================================== */
 
 .countdown-progress-area {
-  margin-top: 17px;
+  margin-top: 18px;
+  margin-bottom: 7px;
 }
 
 .countdown-progress-heading {
@@ -5079,7 +5080,8 @@ transition: none;
 
 @media (max-width: 600px) {
   .countdown-progress-area {
-    margin-top: 14px;
+    margin-top: 15px;
+    margin-bottom: 5px;
   }
 
   .countdown-progress-heading {
