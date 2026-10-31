@@ -5040,7 +5040,7 @@ transition: none;
 ======================================== */
 
 .countdown-progress-area {
-  margin-bottom: 17px;
+  margin-top: 17px;
 }
 
 .countdown-progress-heading {
@@ -5079,7 +5079,7 @@ transition: none;
 
 @media (max-width: 600px) {
   .countdown-progress-area {
-    margin-bottom: 14px;
+    margin-top: 14px;
   }
 
   .countdown-progress-heading {

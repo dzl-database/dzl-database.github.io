@@ -186,6 +186,16 @@
     );
   }
 
+  function formatDateSlash(dateParts) {
+    if (!dateParts) return "";
+
+    return (
+      dateParts.year + "/" +
+      String(dateParts.month).padStart(2, "0") + "/" +
+      String(dateParts.day).padStart(2, "0")
+    );
+  }
+
 
   function formatTime(timeParts) {
     if (!timeParts) return "";
@@ -357,7 +367,8 @@
       originalIndex: index,
 
       publishStart,
-      publishEnd
+      publishEnd,
+      publishStartDateParts: startDateParts
     };
   }
 
@@ -463,7 +474,7 @@
       ? `
         <div class="countdown-progress-area">
           <div class="countdown-progress-heading">
-            <span>公開から${escapeHTML(event.expression)}まで</span>
+            <span>${escapeHTML(formatDateSlash(event.publishStartDateParts))}から${escapeHTML(event.expression)}まで</span>
             <span class="countdown-progress-percent">0%</span>
           </div>
 
@@ -576,8 +587,6 @@
 
         <div class="countdown-timer-area">
 
-          ${progressHTML}
-
           <div class="countdown-timer-label">
             <span class="material-symbols-outlined">hourglass_top</span>
             <span class="countdown-timer-caption">開催まで</span>
@@ -612,6 +621,9 @@
           </div>
 
           <div class="countdown-finished-message" hidden></div>
+
+          ${progressHTML}
+
         </div>
 
         ${buttonsHTML}
@@ -731,7 +743,7 @@
           timer.hidden = true;
           finishedMessage.hidden = false;
 
-          finishedMessage.textContent = `🎉 ${event.expression}当日！`;
+          finishedMessage.textContent = `${event.expression}当日になりました！`;
           status.textContent = `${event.expression}当日`;
           status.className = "countdown-status is-today";
 
@@ -745,8 +757,8 @@
       finishedMessage.hidden = false;
 
       finishedMessage.textContent = event.allDay
-        ? `🎉 ${event.expression}当日！`
-        : `🎉 ${event.expression}時刻になりました！`;
+        ? `${event.expression}当日になりました！`
+        : `${event.expression}時刻になりました！`;
 
       status.textContent = event.allDay
         ? `${event.expression}当日`
