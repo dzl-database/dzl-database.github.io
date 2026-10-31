@@ -1629,7 +1629,7 @@ card.innerHTML = `
 
     <div class="countdown-auto-card-top">
       <span class="countdown-auto-date">
-        <span class="material-symbols-outlined">event</span>
+        <span class="material-symbols-outlined">calendar_today</span>
         ${dateLabel}：${autoEscapeHTML(formatAutoDate(date))}
       </span>
 
