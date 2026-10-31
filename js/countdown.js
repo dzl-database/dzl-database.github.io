@@ -243,6 +243,100 @@
     return "#d90000";
   }
 
+  // ========================================
+  // カウントダウン背景色の設定
+  // ========================================
+
+  // CSSで使用できる色か確認
+  function safeBackground(value) {
+    const color = (value || "").trim();
+
+    if (!color) return "";
+
+    // 通常の16進数カラーコード
+    const isHex = /^#[0-9a-fA-F]{3,8}$/.test(color);
+
+    // linear-gradientのみ許可
+    const isGradient =
+      /^linear-gradient\([\s\S]*\)$/i.test(color);
+
+    if (!isHex && !isGradient) {
+      return "";
+    }
+
+    if (!CSS.supports("background", color)) {
+      return "";
+    }
+
+    return color;
+  }
+
+
+  // 「50日前｜linear-gradient(...)」を解析
+  function parseColorRule(value) {
+    if (!value) return null;
+
+    const separator = value.indexOf("｜");
+
+    if (separator === -1) {
+      return null;
+    }
+
+    const dayText = value.slice(0, separator).trim();
+    const colorText = value.slice(separator + 1).trim();
+
+    const match = dayText.match(/^(\d+)日前$/);
+
+    if (!match) {
+      return null;
+    }
+
+    const days = Number(match[1]);
+    const color = safeBackground(colorText);
+
+    if (!Number.isSafeInteger(days) || !color) {
+      return null;
+    }
+
+    return {
+      days,
+      color
+    };
+  }
+
+
+  // イベントに設定された色の変更条件を取得
+  function getColorRules(row) {
+    return [
+      row["カラーコード1"],
+      row["カラーコード2"],
+      row["カラーコード3"],
+      row["カラーコード4"],
+      row["カラーコード5"]
+    ]
+      .map(parseColorRule)
+      .filter(Boolean)
+      // 日数が大きい順に並べる
+      .sort((a, b) => b.days - a.days);
+  }
+
+
+  // 残り時間に応じて背景色を決定
+  function getCountdownBackground(event, remaining) {
+    let selectedColor = event.color;
+
+    for (const rule of event.colorRules) {
+      const threshold = rule.days * 24 * 60 * 60 * 1000;
+
+      if (remaining <= threshold) {
+        selectedColor = rule.color;
+        break;
+      }
+    }
+
+    return selectedColor;
+  }
+
 
   // ========================================
   // リンクボタン
@@ -355,6 +449,8 @@
       spotURL: safeURL(row["ドズル社スポットリンク"]),
 
       color: safeColor(row["カード背景カラーコード"]),
+
+      colorRules: getColorRules(row),
 
       buttons,
 
@@ -649,6 +745,14 @@
       if (!event) return;
 
       const remaining = event.eventTimestamp - now;
+
+      // 残り時間に応じてカードの背景色を変更
+      const backgroundColor = getCountdownBackground(
+        event,
+        remaining
+      );
+
+      card.style.setProperty("--event-color", backgroundColor);
 
       // 公開開始日からイベント日時までの進捗を計算
       const progressTrack = card.querySelector(
