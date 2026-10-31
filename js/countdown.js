@@ -474,7 +474,7 @@
       ? `
         <div class="countdown-progress-area">
           <div class="countdown-progress-heading">
-            <span>${escapeHTML(formatDateSlash(event.publishStartDateParts))}から${escapeHTML(event.expression)}まで</span>
+            <span>${escapeHTML(formatDateSlash(event.publishStartDateParts))} から ${escapeHTML(event.expression)} まで</span>
             <span class="countdown-progress-percent">0%</span>
           </div>
 
