@@ -92,7 +92,7 @@
     if (!value) return null;
 
     const match = value.trim().match(
-      /^(\d{4})[\/.-](\d{1,2})[\/.-](\d{1,2})$/
+      /^(\d{4})[\\/.-](\d{1,2})[\\/.-](\d{1,2})$/
     );
 
     if (!match) return null;
@@ -1264,11 +1264,11 @@ try {
 function autoEscapeHTML(value) {
 return String(value || "").replace(/[&<>"']/g, char => {
 const map = {
-"&": "&",
-"<": "<",
-">": ">",
-'"': """,
-"'": "'"
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': "&quot;",
+  "'": "&#39;"
 };
 
   return map[char];
