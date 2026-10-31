@@ -316,8 +316,8 @@
   <div class="countdown-description">
     <span class="material-symbols-outlined">info</span>
     <p>
-      注目イベントの開催日までの残り時間をカウントダウン！
-      気になるイベントをチェックして、開催日を楽しみに待ちましょう。
+      注目イベントの開催日や終了日までの残り時間をカウントダウン！
+      たまにサイトを訪れて、残り日数をチェックしよう！
     </p>
   </div>
 
@@ -339,6 +339,67 @@
     <h3>現在、表示中のイベントはありません</h3>
     <p>イベント情報は随時更新されます。</p>
   </div>
+
+  <!-- 開催間近のイベント・グッズ -->
+
+  <section class="countdown-auto-section" id="upcomingAutoSection" hidden>
+
+    <h3 class="countdown-section-title">
+      開催間近のイベント・グッズ
+    </h3>
+
+    <div class="countdown-auto-grid">
+
+      <div class="countdown-auto-item" id="upcomingEventItem" hidden>
+        <h4 class="countdown-auto-heading">
+          <span class="material-symbols-outlined">event</span>
+          イベント
+        </h4>
+        <div id="upcomingEventCard"></div>
+      </div>
+
+      <div class="countdown-auto-item" id="upcomingGoodsItem" hidden>
+        <h4 class="countdown-auto-heading">
+          <span class="material-symbols-outlined">shopping_bag</span>
+          グッズ
+        </h4>
+        <div id="upcomingGoodsCard"></div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- 終了間近のイベント・グッズ -->
+
+  <section class="countdown-auto-section" id="endingAutoSection" hidden>
+
+    <h3 class="countdown-section-title">
+      終了間近のイベント・グッズ
+    </h3>
+
+    <div class="countdown-auto-grid">
+
+      <div class="countdown-auto-item" id="endingEventItem" hidden>
+        <h4 class="countdown-auto-heading">
+          <span class="material-symbols-outlined">event_busy</span>
+          イベント
+        </h4>
+        <div id="endingEventCard"></div>
+      </div>
+
+      <div class="countdown-auto-item" id="endingGoodsItem" hidden>
+        <h4 class="countdown-auto-heading">
+          <span class="material-symbols-outlined">shopping_bag</span>
+          グッズ
+        </h4>
+        <div id="endingGoodsCard"></div>
+      </div>
+
+    </div>
+
+  </section>
+
 
 </div>
 

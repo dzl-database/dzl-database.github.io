@@ -1022,3 +1022,937 @@
   }
 
 })();
+
+
+
+// ======================================================
+// 開催間近・終了間近イベント＆グッズ
+// 既存の注目イベント機能とは独立して動作
+// ======================================================
+
+(() => {
+"use strict";
+
+// ------------------------------------------------------
+// CSV URL
+// ------------------------------------------------------
+
+const AUTO_EVENT_CSV_URL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vQeScX6j_3nRvOlYuVa0P4wGG6piBpQ2ZwXzZxEPscII79uBByy9Z8_MDND2wouDZboQQon7XVVN4Gp/pub?gid=0&single=true&output=csv";
+
+const AUTO_GOODS_CSV_URL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vQeScX6j_3nRvOlYuVa0P4wGG6piBpQ2ZwXzZxEPscII79uBByy9Z8_MDND2wouDZboQQon7XVVN4Gp/pub?gid=1794976478&single=true&output=csv";
+
+// ------------------------------------------------------
+// データ
+// ------------------------------------------------------
+
+let autoEvents = [];
+let autoGoods = [];
+
+let autoRefreshTimer = null;
+let autoLoadTimer = null;
+
+let autoInitialized = false;
+
+// ------------------------------------------------------
+// CSV解析
+// ------------------------------------------------------
+
+function parseAutoCSV(text) {
+const rows = [];
+
+let row = [];
+let value = "";
+let inQuotes = false;
+
+text = text.replace(/^\uFEFF/, "");
+
+for (let i = 0; i < text.length; i++) {
+  const c = text[i];
+  const next = text[i + 1];
+
+  if (c === '"') {
+    if (inQuotes && next === '"') {
+      value += '"';
+      i++;
+    } else {
+      inQuotes = !inQuotes;
+    }
+
+  } else if (c === "," && !inQuotes) {
+    row.push(value);
+    value = "";
+
+  } else if ((c === "\n" || c === "\r") && !inQuotes) {
+    if (c === "\r" && next === "\n") {
+      i++;
+    }
+
+    row.push(value);
+    rows.push(row);
+
+    row = [];
+    value = "";
+
+  } else {
+    value += c;
+  }
+}
+
+if (value !== "" || row.length > 0) {
+  row.push(value);
+  rows.push(row);
+}
+
+if (!rows.length) return [];
+
+const headers = rows.shift().map(value => value.trim());
+
+return rows
+  .filter(values => values.some(value => value.trim() !== ""))
+  .map(values => {
+    const obj = {};
+
+    headers.forEach((header, index) => {
+      obj[header] = (values[index] || "").trim();
+    });
+
+    return obj;
+  });
+
+}
+
+// ------------------------------------------------------
+// 日付・時刻
+// ------------------------------------------------------
+
+function parseAutoDate(value) {
+if (!value) return null;
+
+const match = value.trim().match(
+  /^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})$/
+);
+
+if (!match) return null;
+
+const year = Number(match[1]);
+const month = Number(match[2]);
+const day = Number(match[3]);
+
+const date = new Date(Date.UTC(year, month - 1, day));
+
+if (
+  date.getUTCFullYear() !== year ||
+  date.getUTCMonth() !== month - 1 ||
+  date.getUTCDate() !== day
+) {
+  return null;
+}
+
+return { year, month, day };
+
+}
+
+function parseAutoTime(value) {
+if (!value) return null;
+
+const match = value.trim().match(
+  /^(\d{1,2}):(\d{2})(?::(\d{2}))?$/
+);
+
+if (!match) return null;
+
+const hours = Number(match[1]);
+const minutes = Number(match[2]);
+const seconds = Number(match[3] || 0);
+
+if (
+  hours > 23 ||
+  minutes > 59 ||
+  seconds > 59
+) {
+  return null;
+}
+
+return { hours, minutes, seconds };
+
+}
+
+function autoDateToTimestamp(date, time) {
+if (!date) return NaN;
+
+const t = time || {
+  hours: 0,
+  minutes: 0,
+  seconds: 0
+};
+
+return Date.UTC(
+  date.year,
+  date.month - 1,
+  date.day,
+  t.hours - 9,
+  t.minutes,
+  t.seconds
+);
+
+}
+
+function autoEndOfDay(date, time) {
+if (!date) return NaN;
+
+// 終了時間がなければ、その日の23:59:59
+return autoDateToTimestamp(
+  date,
+  time || {
+    hours: 23,
+    minutes: 59,
+    seconds: 59
+  }
+);
+
+}
+
+function formatAutoDate(date) {
+if (!date) return "";
+
+return (
+  date.year + "年" +
+  date.month + "月" +
+  date.day + "日"
+);
+
+}
+
+function formatAutoTime(time) {
+if (!time) return "";
+
+return (
+  String(time.hours).padStart(2, "0") +
+  ":" +
+  String(time.minutes).padStart(2, "0")
+);
+
+}
+
+// ------------------------------------------------------
+// URL
+// ------------------------------------------------------
+
+function safeAutoURL(value) {
+if (!value) return "";
+
+try {
+  const url = new URL(value.trim());
+
+  if (
+    url.protocol !== "https:" &&
+    url.protocol !== "http:"
+  ) {
+    return "";
+  }
+
+  return url.href;
+
+} catch {
+  return "";
+}
+
+}
+
+function autoEscapeHTML(value) {
+return String(value || "").replace(/[&<>"']/g, char => {
+const map = {
+"&": "&",
+"<": "<",
+">": ">",
+'"': """,
+"'": "'"
+};
+
+  return map[char];
+});
+
+}
+
+// ------------------------------------------------------
+// イベントデータ
+// ------------------------------------------------------
+
+function normalizeAutoEvent(row, index) {
+const title = (row["title"] || "").trim();
+
+const startDate = parseAutoDate(row["start_date"]);
+const startTime = parseAutoTime(row["start_time"]);
+
+const endDate = parseAutoDate(row["end_date"]);
+const endTime = parseAutoTime(row["end_time"]);
+
+if (!title || !startDate) {
+  return null;
+}
+
+if (row["start_time"] && !startTime) {
+  console.warn("イベント開始時間が不正です:", title);
+  return null;
+}
+
+if (row["end_time"] && !endTime) {
+  console.warn("イベント終了時間が不正です:", title);
+  return null;
+}
+
+const startTimestamp = autoDateToTimestamp(
+  startDate,
+  startTime
+);
+
+const endTimestamp = endDate
+  ? autoEndOfDay(endDate, endTime)
+  : NaN;
+
+if (
+  endDate &&
+  (
+    !Number.isFinite(endTimestamp) ||
+    endTimestamp < startTimestamp
+  )
+) {
+  return null;
+}
+
+return {
+  type: "event",
+  title,
+  startDate,
+  startTime,
+  endDate,
+  endTime,
+  startTimestamp,
+  endTimestamp,
+
+  location: (row["location"] || "").trim(),
+
+  specialURL: safeAutoURL(row["special_url"]),
+  officialURL: safeAutoURL(row["official_url"]),
+
+  originalIndex: index
+};
+
+}
+
+// ------------------------------------------------------
+// グッズデータ
+// 現地販売・通販を別々に扱う
+// ------------------------------------------------------
+
+function normalizeAutoGoods(row, index) {
+const title = (row["title"] || "").trim();
+
+if (!title) return [];
+
+const detailURL = safeAutoURL(row["detail_link"]);
+
+const offers = [];
+
+// 現地販売
+const onsiteStartDate = parseAutoDate(
+  row["onsite_start_date"]
+);
+
+const onsiteStartTime = parseAutoTime(
+  row["onsite_start_time"]
+);
+
+const onsiteEndDate = parseAutoDate(
+  row["onsite_end_date"]
+);
+
+const onsiteEndTime = parseAutoTime(
+  row["onsite_end_time"]
+);
+
+if (
+  row["onsite_start_time"] &&
+  !onsiteStartTime
+) {
+  console.warn("現地販売開始時間が不正です:", title);
+
+} else if (
+  row["onsite_end_time"] &&
+  !onsiteEndTime
+) {
+  console.warn("現地販売終了時間が不正です:", title);
+
+} else if (onsiteStartDate) {
+  const startTimestamp = autoDateToTimestamp(
+    onsiteStartDate,
+    onsiteStartTime
+  );
+
+  const endTimestamp = onsiteEndDate
+    ? autoEndOfDay(onsiteEndDate, onsiteEndTime)
+    : NaN;
+
+  if (
+    Number.isFinite(startTimestamp) &&
+    (
+      !onsiteEndDate ||
+      endTimestamp >= startTimestamp
+    )
+  ) {
+    offers.push({
+      type: "goods",
+      method: "現地販売",
+      title,
+      startDate: onsiteStartDate,
+      startTime: onsiteStartTime,
+      endDate: onsiteEndDate,
+      endTime: onsiteEndTime,
+      startTimestamp,
+      endTimestamp,
+      place: (row["onsite_location"] || "").trim(),
+      detailURL,
+      shopURL: "",
+      originalIndex: index
+    });
+  }
+}
+
+
+// 通販
+const onlineStartDate = parseAutoDate(
+  row["online_start_date"]
+);
+
+const onlineStartTime = parseAutoTime(
+  row["online_start_time"]
+);
+
+const onlineEndDate = parseAutoDate(
+  row["online_end_date"]
+);
+
+const onlineEndTime = parseAutoTime(
+  row["online_end_time"]
+);
+
+if (
+  row["online_start_time"] &&
+  !onlineStartTime
+) {
+  console.warn("通販開始時間が不正です:", title);
+
+} else if (
+  row["online_end_time"] &&
+  !onlineEndTime
+) {
+  console.warn("通販終了時間が不正です:", title);
+
+} else if (onlineStartDate) {
+  const startTimestamp = autoDateToTimestamp(
+    onlineStartDate,
+    onlineStartTime
+  );
+
+  const endTimestamp = onlineEndDate
+    ? autoEndOfDay(onlineEndDate, onlineEndTime)
+    : NaN;
+
+  if (
+    Number.isFinite(startTimestamp) &&
+    (
+      !onlineEndDate ||
+      endTimestamp >= startTimestamp
+    )
+  ) {
+    offers.push({
+      type: "goods",
+      method: "通販",
+      title,
+      startDate: onlineStartDate,
+      startTime: onlineStartTime,
+      endDate: onlineEndDate,
+      endTime: onlineEndTime,
+      startTimestamp,
+      endTimestamp,
+      place: (row["online_name"] || "").trim(),
+      detailURL,
+      shopURL: safeAutoURL(row["online_url"]),
+      originalIndex: index
+    });
+  }
+}
+
+return offers;
+
+}
+
+// ------------------------------------------------------
+// 最も近いイベント・販売方法を取得
+// ------------------------------------------------------
+
+function getNearestUpcoming(items, now) {
+return items
+.filter(item => item.startTimestamp > now)
+.sort((a, b) => {
+return (
+a.startTimestamp - b.startTimestamp ||
+a.originalIndex - b.originalIndex
+);
+})[0] || null;
+}
+
+function getNearestEnding(items, now) {
+return items
+.filter(item => {
+return (
+Number.isFinite(item.endTimestamp) &&
+item.startTimestamp <= now &&
+now <= item.endTimestamp
+);
+})
+.sort((a, b) => {
+return (
+a.endTimestamp - b.endTimestamp ||
+a.originalIndex - b.originalIndex
+);
+})[0] || null;
+}
+
+// ------------------------------------------------------
+// リンクHTML
+// ------------------------------------------------------
+
+function createAutoLink(url, label) {
+if (!url) return "";
+
+return `
+  <a
+    class="countdown-auto-link"
+    href="${autoEscapeHTML(url)}"
+    target="_blank"
+    rel="noopener noreferrer">
+    ${autoEscapeHTML(label)}
+    <span class="material-symbols-outlined">open_in_new</span>
+  </a>
+`;
+
+}
+
+// ------------------------------------------------------
+// カードHTML
+// ------------------------------------------------------
+
+function createAutoCard(item, mode) {
+const isUpcoming = mode === "upcoming";
+
+const targetTimestamp = isUpcoming
+  ? item.startTimestamp
+  : item.endTimestamp;
+
+const date = isUpcoming
+  ? item.startDate
+  : item.endDate;
+
+const time = isUpcoming
+  ? item.startTime
+  : item.endTime;
+
+const dateLabel = isUpcoming
+  ? "開始日"
+  : "終了日";
+
+const timeLabel = isUpcoming
+  ? "開始時間"
+  : "終了時間";
+
+const timerLabel = isUpcoming
+  ? "開始まで"
+  : "終了まで";
+
+const methodHTML = item.method
+  ? `
+    <span class="countdown-auto-method">
+      ${autoEscapeHTML(item.method)}
+    </span>
+  `
+  : "";
+
+const locationHTML = item.location || item.place
+  ? `
+    <div class="countdown-auto-meta">
+      <span class="material-symbols-outlined">
+        ${item.method === "通販" ? "storefront" : "location_on"}
+      </span>
+      <span>
+        ${autoEscapeHTML(item.location || item.place)}
+      </span>
+    </div>
+  `
+  : "";
+
+const timeHTML = time
+  ? `
+    <div class="countdown-auto-meta">
+      <span class="material-symbols-outlined">schedule</span>
+      <span>${timeLabel}：${formatAutoTime(time)}</span>
+    </div>
+  `
+  : "";
+
+const links = [];
+
+if (item.specialURL) {
+  links.push(createAutoLink(item.specialURL, "特設サイト"));
+}
+
+if (item.officialURL) {
+  links.push(createAutoLink(item.officialURL, "公式サイト"));
+}
+
+if (item.detailURL) {
+  links.push(createAutoLink(item.detailURL, "詳細を見る"));
+}
+
+if (item.shopURL) {
+  links.push(createAutoLink(item.shopURL, "通販サイト"));
+}
+
+const card = document.createElement("article");
+
+card.className = "countdown-auto-card";
+
+card.innerHTML = `
+  <div class="countdown-auto-card-main">
+
+    <div class="countdown-auto-card-top">
+      <span class="countdown-auto-date">
+        <span class="material-symbols-outlined">event</span>
+        ${dateLabel}：${autoEscapeHTML(formatAutoDate(date))}
+      </span>
+
+      ${methodHTML}
+    </div>
+
+    <h4 class="countdown-auto-title">
+      ${autoEscapeHTML(item.title)}
+    </h4>
+
+    ${timeHTML}
+    ${locationHTML}
+
+    <div class="countdown-auto-timer-area">
+
+      <div class="countdown-auto-timer-label">
+        <span class="material-symbols-outlined">hourglass_top</span>
+        ${timerLabel}
+      </div>
+
+      <div class="countdown-auto-timer"
+        data-target="${targetTimestamp}"
+        data-mode="${mode}">
+
+        <span data-auto-days>0</span>
+        <small>日</small>
+
+        <span data-auto-hours>00</span>
+        <small>時間</small>
+
+        <span data-auto-minutes>00</span>
+        <small>分</small>
+
+        <span data-auto-seconds>00</span>
+        <small>秒</small>
+
+      </div>
+
+      <div class="countdown-auto-finished" hidden></div>
+
+    </div>
+
+    ${links.length
+      ? `<div class="countdown-auto-links">${links.join("")}</div>`
+      : ""
+    }
+
+  </div>
+`;
+
+return card;
+
+}
+
+// ------------------------------------------------------
+// カードの表示・非表示
+// ------------------------------------------------------
+
+function setAutoCard(item, mode, itemId, cardId) {
+const itemElement = document.getElementById(itemId);
+const cardElement = document.getElementById(cardId);
+
+if (!itemElement || !cardElement) return false;
+
+cardElement.innerHTML = "";
+
+if (!item) {
+  itemElement.hidden = true;
+  return false;
+}
+
+cardElement.appendChild(createAutoCard(item, mode));
+itemElement.hidden = false;
+
+return true;
+
+}
+
+function renderAutoCards() {
+const now = Date.now();
+
+const upcomingEvent = getNearestUpcoming(
+  autoEvents,
+  now
+);
+
+const endingEvent = getNearestEnding(
+  autoEvents,
+  now
+);
+
+const upcomingGoods = getNearestUpcoming(
+  autoGoods,
+  now
+);
+
+const endingGoods = getNearestEnding(
+  autoGoods,
+  now
+);
+
+
+const hasUpcomingEvent = setAutoCard(
+  upcomingEvent,
+  "upcoming",
+  "upcomingEventItem",
+  "upcomingEventCard"
+);
+
+const hasUpcomingGoods = setAutoCard(
+  upcomingGoods,
+  "upcoming",
+  "upcomingGoodsItem",
+  "upcomingGoodsCard"
+);
+
+const hasEndingEvent = setAutoCard(
+  endingEvent,
+  "ending",
+  "endingEventItem",
+  "endingEventCard"
+);
+
+const hasEndingGoods = setAutoCard(
+  endingGoods,
+  "ending",
+  "endingGoodsItem",
+  "endingGoodsCard"
+);
+
+
+const upcomingSection = document.getElementById(
+  "upcomingAutoSection"
+);
+
+const endingSection = document.getElementById(
+  "endingAutoSection"
+);
+
+if (upcomingSection) {
+  upcomingSection.hidden = !(
+    hasUpcomingEvent || hasUpcomingGoods
+  );
+}
+
+if (endingSection) {
+  endingSection.hidden = !(
+    hasEndingEvent || hasEndingGoods
+  );
+}
+
+updateAutoCountdowns();
+
+}
+
+// ------------------------------------------------------
+// カウントダウン更新
+// ------------------------------------------------------
+
+function updateAutoCountdowns() {
+const now = Date.now();
+
+document.querySelectorAll(
+  ".countdown-auto-timer"
+).forEach(timer => {
+
+  const target = Number(timer.dataset.target);
+  const mode = timer.dataset.mode;
+
+  const remaining = target - now;
+
+  const card = timer.closest(".countdown-auto-card");
+
+  if (!card) return;
+
+  const finished = card.querySelector(
+    ".countdown-auto-finished"
+  );
+
+  if (remaining <= 0) {
+    timer.hidden = true;
+    finished.hidden = false;
+
+    finished.textContent = mode === "upcoming"
+      ? "開始時刻になりました！"
+      : "終了時刻になりました！";
+
+    return;
+  }
+
+  timer.hidden = false;
+  finished.hidden = true;
+
+  const totalSeconds = Math.floor(
+    remaining / 1000
+  );
+
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  timer.querySelector("[data-auto-days]").textContent =
+    days.toLocaleString("ja-JP");
+
+  timer.querySelector("[data-auto-hours]").textContent =
+    String(hours).padStart(2, "0");
+
+  timer.querySelector("[data-auto-minutes]").textContent =
+    String(minutes).padStart(2, "0");
+
+  timer.querySelector("[data-auto-seconds]").textContent =
+    String(seconds).padStart(2, "0");
+});
+
+}
+
+// ------------------------------------------------------
+// CSV取得
+// ------------------------------------------------------
+
+async function fetchAutoCSV(url) {
+const response = await fetch(
+url + "&_=" + Date.now(),
+{ cache: "no-store" }
+);
+
+if (!response.ok) {
+  throw new Error("CSV取得失敗: " + response.status);
+}
+
+return parseAutoCSV(await response.text());
+
+}
+
+async function loadAutoEvents() {
+try {
+const rows = await fetchAutoCSV(
+AUTO_EVENT_CSV_URL
+);
+
+  autoEvents = rows
+    .map(normalizeAutoEvent)
+    .filter(Boolean);
+
+} catch (error) {
+  console.error(
+    "開催間近・終了間近イベントの読み込みエラー:",
+    error
+  );
+}
+
+renderAutoCards();
+
+}
+
+async function loadAutoGoods() {
+try {
+const rows = await fetchAutoCSV(
+AUTO_GOODS_CSV_URL
+);
+
+  autoGoods = rows.flatMap(normalizeAutoGoods);
+
+} catch (error) {
+  console.error(
+    "開催間近・終了間近グッズの読み込みエラー:",
+    error
+  );
+}
+
+renderAutoCards();
+
+}
+
+// ------------------------------------------------------
+// 初期化
+// ------------------------------------------------------
+
+function initAutoCountdowns() {
+if (autoInitialized) return;
+
+if (
+  !document.getElementById("upcomingAutoSection") ||
+  !document.getElementById("endingAutoSection")
+) {
+  return;
+}
+
+autoInitialized = true;
+
+loadAutoEvents();
+loadAutoGoods();
+
+if (autoRefreshTimer) {
+  clearInterval(autoRefreshTimer);
+}
+
+if (autoLoadTimer) {
+  clearInterval(autoLoadTimer);
+}
+
+// 1秒ごとに残り時間を更新
+autoRefreshTimer = setInterval(() => {
+  updateAutoCountdowns();
+  renderAutoCards();
+}, 1000);
+
+// CSVは60秒ごとに再取得
+autoLoadTimer = setInterval(() => {
+  loadAutoEvents();
+  loadAutoGoods();
+}, 60000);
+
+}
+
+if (document.readyState === "loading") {
+document.addEventListener(
+"DOMContentLoaded",
+initAutoCountdowns
+);
+} else {
+initAutoCountdowns();
+}
+
+})();
