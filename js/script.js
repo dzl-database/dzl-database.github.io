@@ -1236,9 +1236,8 @@ async function downloadCard(){
 
 function shareCardToX(){
 
-  const text = `非公式ファンサイトで #ドズル社自己紹介カード を作成しました！
-https://dzl-database.github.io/
-#ドズル社データベース`;
+  const text = `非公式ファンサイト #ドズル社データベース で #ドズル社自己紹介カード を作成しました！
+▶ https://dzl-database.github.io/#community`;
 
   const url = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text);
 
