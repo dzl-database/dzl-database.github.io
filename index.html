@@ -836,26 +836,144 @@
   <!-- ツール -->
   <div id="community-tool" class="community-tab-content active">
 
-    <div class="feature-card">
-      <h3>ドズル社自己紹介カード</h3>
+    <!-- =========================
+        ツール一覧ページ
+    ========================== -->
+    <div id="tool-list-page" class="tool-page">
 
-      <p>
-        自分だけのドズル社自己紹介カードを作成できます！<br>
-        完成したカードは画像として保存し、Xでシェアできます。
+      <div class="tool-page-heading">
+        <span class="material-symbols-outlined">apps</span>
+        <div>
+          <h3>ツール一覧</h3>
+          <p>ドズル社ファン向けの便利なツールを紹介します。</p>
+        </div>
+      </div>
+
+      <div class="tool-card-list">
+
+        <!-- 自己紹介カード -->
+        <button
+          class="tool-item-card"
+          onclick="switchToolPage('profile-maker')"
+        >
+          <div class="tool-item-icon">
+            <span class="material-symbols-outlined">badge</span>
+          </div>
+
+          <div class="tool-item-info">
+            <span class="tool-item-category">PROFILE MAKER</span>
+            <h3>ドズル社自己紹介カード</h3>
+            <p>
+              自分だけのドズル社自己紹介カードを作成！
+              完成したカードは画像として保存して、Xでシェアできます。
+            </p>
+          </div>
+
+          <span class="material-symbols-outlined tool-item-arrow">
+            arrow_forward_ios
+          </span>
+        </button>
+
+
+        <!-- 推し活ビンゴ -->
+        <button
+          class="tool-item-card"
+          onclick="switchToolPage('bingo-maker')"
+        >
+          <div class="tool-item-icon">
+            <span class="material-symbols-outlined">grid_on</span>
+          </div>
+
+          <div class="tool-item-info">
+            <span class="tool-item-category">BINGO MAKER</span>
+            <h3>ドズル社推し活ビンゴ</h3>
+            <p>
+              ドズル社の推し活をもっと楽しめるビンゴ作成ツールです。
+            </p>
+          </div>
+
+          <span class="material-symbols-outlined tool-item-arrow">
+            arrow_forward_ios
+          </span>
+        </button>
+
+      </div>
+
+      <p class="tool-list-note">
+        ※各ツールは非公式のファン制作コンテンツです。
       </p>
 
-      <p>
-        ※このツールは非公式なものであり、公式様とは一切関係ございません。<br>
-        ※万が一、不具合がありましたらすぐにお知らせください。
-      </p>
-
-      <button class="main-btn" onclick="openCardTool()">
-        作成ツールを開く
-      </button>
     </div>
 
-    <!-- 自己紹介カード作成ツール本体 -->
-    <div id="cardToolArea" style="margin-top:20px;"></div>
+
+    <!-- =========================
+        自己紹介カード固有ページ
+    ========================== -->
+    <div id="profile-maker-page" class="tool-page" style="display:none;">
+
+      <button
+        class="tool-back-btn"
+        onclick="switchToolPage('list')"
+      >
+        <span class="material-symbols-outlined">arrow_back</span>
+        ツール一覧に戻る
+      </button>
+
+      <div class="tool-detail-heading">
+        <span class="material-symbols-outlined">badge</span>
+        <div>
+          <span class="tool-item-category">PROFILE MAKER</span>
+          <h3>ドズル社自己紹介カード</h3>
+          <p>自分だけの自己紹介カードを作成しよう！</p>
+        </div>
+      </div>
+
+      <div class="tool-detail-notice">
+        <span class="material-symbols-outlined">info</span>
+        <p>
+          このツールは非公式なものであり、公式様とは一切関係ございません。<br>
+          万が一、不具合がありましたらすぐにお知らせください。
+        </p>
+      </div>
+
+      <!-- 既存の自己紹介カード作成ツール -->
+      <div id="cardToolArea" style="margin-top:20px;"></div>
+
+    </div>
+
+
+    <!-- =========================
+        推し活ビンゴ固有ページ
+    ========================== -->
+    <div id="bingo-maker-page" class="tool-page" style="display:none;">
+
+      <button
+        class="tool-back-btn"
+        onclick="switchToolPage('list')"
+      >
+        <span class="material-symbols-outlined">arrow_back</span>
+        ツール一覧に戻る
+      </button>
+
+      <div class="tool-detail-heading">
+        <span class="material-symbols-outlined">grid_on</span>
+        <div>
+          <span class="tool-item-category">BINGO MAKER</span>
+          <h3>ドズル社推し活ビンゴ</h3>
+          <p>推し活をもっと楽しもう！</p>
+        </div>
+      </div>
+
+      <div class="tool-coming-soon">
+        <span class="material-symbols-outlined">construction</span>
+        <h3>現在、作成中です</h3>
+        <p>
+          ドズル社推し活ビンゴは、現在準備を進めています。<br>
+          公開まで、もうしばらくお待ちください！
+        </p>
+      </div>
+
+    </div>
 
   </div>
 

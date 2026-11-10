@@ -980,6 +980,90 @@ function switchCommunityTab(tabName, updateHash = true) {
   }
 }
 
+// ========================================
+// ファンコミュニティ：ツールページ切り替え
+// ========================================
+
+function switchToolPage(pageName, updateHash = true) {
+
+  const pageMap = {
+    "list": "tool-list-page",
+    "profile-maker": "profile-maker-page",
+    "bingo-maker": "bingo-maker-page"
+  };
+
+  const targetId = pageMap[pageName];
+
+  if (!targetId) return;
+
+  // すべてのツールページを非表示
+  Object.values(pageMap).forEach(id => {
+    const page = document.getElementById(id);
+
+    if (page) {
+      page.style.display = "none";
+    }
+  });
+
+  // 選択したページを表示
+  const target = document.getElementById(targetId);
+
+  if (target) {
+    target.style.display = "block";
+  }
+
+  // 自己紹介カードページを開いた場合
+  // ツール本体がまだ作られていなければ生成する
+  if (pageName === "profile-maker") {
+
+    const area = document.getElementById("cardToolArea");
+
+    if (area && area.innerHTML.trim() === "") {
+      openCardTool();
+    }
+
+  }
+
+  // ハッシュを更新
+  if (updateHash) {
+
+    const hashMap = {
+      "list": "tool",
+      "profile-maker": "profile-maker",
+      "bingo-maker": "bingo-maker"
+    };
+
+    history.pushState(null, "", `#${hashMap[pageName]}`);
+  }
+
+  // ファンコミュニティページを表示
+  showSection("community", false);
+
+  // ツールタブを選択状態にする
+  document.querySelectorAll(".community-tab-btn").forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+  const toolButton = document.querySelector(
+    '.community-tab-btn[data-tab="tool"]'
+  );
+
+  if (toolButton) {
+    toolButton.classList.add("active");
+  }
+
+  document.querySelectorAll(".community-tab-content").forEach(tab => {
+    tab.classList.remove("active");
+  });
+
+  const communityTool = document.getElementById("community-tool");
+
+  if (communityTool) {
+    communityTool.classList.add("active");
+  }
+
+}
+
 const cardState = {
   bg: 1,
   creator: "",
@@ -1643,11 +1727,29 @@ function handleLocationHash() {
     return;
   }
 
-  // ファンコミュニティのタブ
+  // ファンコミュニティ：ツール固有ページ
+  if (hash === "profile-maker") {
+    switchToolPage("profile-maker", false);
+    return;
+  }
+
+  if (hash === "bingo-maker") {
+    switchToolPage("bingo-maker", false);
+    return;
+  }
+
+  // ファンコミュニティ：タブ
   const communityTabs = ["tool", "free-store", "gallery"];
 
   if (communityTabs.includes(hash)) {
+
     switchCommunityTab(hash, false);
+
+    // ツール一覧を表示
+    if (hash === "tool") {
+      switchToolPage("list", false);
+    }
+
     return;
   }
 
