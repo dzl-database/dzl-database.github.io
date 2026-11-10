@@ -1726,22 +1726,22 @@ font-size:18px;
   color: #fff;
 }
 
-/* Member（紫） */
-.tab-member {
+/* Portal（紫） */
+.tab-portal {
   border-color: #733C93;
   color: #733C93;
 }
-.tab-member.active {
+.tab-portal.active {
   background: #733C93;
   color: #fff;
 }
 
-/* Portal（黄） */
-.tab-portal {
+/* Dictionary（黄） */
+.tab-dictionary {
   border-color: #FCC700;
   color: #CC9F00;
 }
-.tab-portal.active {
+.tab-dictionary.active {
   background: #FCC700;
   color: #fff;
 }

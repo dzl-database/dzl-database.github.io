@@ -869,53 +869,62 @@ function formatNumber(num){
   return Number(num).toLocaleString();
 }
 
-function switchAboutTab(tabId, updateHash = true){
+function switchAboutTab(tabId, updateHash = true) {
+
+  // タブとハッシュの対応
+  const tabMap = {
+    aboutTab: "about",
+    portalTab: "portal",
+    dictionaryTab: "dictionary",
+    channelTab: "channel",
+    historyTab: "history"
+  };
+
+  // 存在しないタブIDは処理しない
+  if (!tabMap[tabId]) {
+    return;
+  }
 
   // 全タブ非表示
   document.querySelectorAll(".tab-content")
-    .forEach(el=>{
+    .forEach(el => {
       el.classList.remove("active");
     });
 
   // 全ボタン非active
   document.querySelectorAll(".tab-btn")
-    .forEach(btn=>{
+    .forEach(btn => {
       btn.classList.remove("active");
     });
 
   // タブ表示
-  document.getElementById(tabId)
-    .classList.add("active");
+  const targetTab = document.getElementById(tabId);
+
+  if (!targetTab) {
+    return;
+  }
+
+  targetTab.classList.add("active");
 
   // ボタンactive
   const btn = document.querySelector(
     `[data-tab="${tabId}"]`
   );
 
-  if(btn){
+  if (btn) {
     btn.classList.add("active");
   }
 
-  // Aboutページ表示
+  // ドズル社情報ページを表示
   showSection("about", false);
 
   // URL変更
-  if(updateHash){
-
-    const tabMap = {
-      aboutTab: "about",
-      memberTab: "member",
-      portalTab: "portal",
-      channelTab: "channel",
-      historyTab: "history"
-    };
-
+  if (updateHash) {
     history.pushState(
       null,
       "",
-      `#about-${tabMap[tabId]}`
+      `#${tabMap[tabId]}`
     );
-   
   }
 
 }
@@ -1542,108 +1551,64 @@ window.addEventListener("scroll", ()=>{
 /* 起動 */
 loadHistoryTimeline();
 
-window.addEventListener("DOMContentLoaded", ()=>{
+// ========================================
+// ハッシュに応じたページ・タブ表示
+// ========================================
+function handleLocationHash() {
 
-  const hash =
-    location.hash.replace("#","");
+  const hash = location.hash.replace(/^#/, "");
 
   // ハッシュなし
-  if(!hash){
+  if (!hash) {
     showSection("home", false);
     return;
   }
 
   // イベント詳細
-  if(hash.startsWith("event_")){
-
+  if (hash.startsWith("event_")) {
     showEventDetail(hash);
-
     return;
-
   }
 
   // グッズ詳細
-  if(hash.startsWith("goods_")){
-
+  if (hash.startsWith("goods_")) {
     showGoodsDetail(hash);
-
     return;
-
   }
 
-  // About系
-  if(hash.startsWith("about-")){
+  // ドズル社情報ページのタブ
+  const aboutTabMap = {
+    about: "aboutTab",
+    portal: "portalTab",
+    dictionary: "dictionaryTab",
+    channel: "channelTab",
+    history: "historyTab"
+  };
 
-    const tabName =
-      hash.replace("about-","");
+  const tabId = aboutTabMap[hash];
 
-    const tabMap = {
-      about: "aboutTab",
-      member: "memberTab",
-      portal: "portalTab",
-      channel: "channelTab",
-      history: "historyTab"
-    };
-
-    const tabId = tabMap[tabName];
-
-    if(tabId){
-      switchAboutTab(tabId, false);
-      return;
-    }
+  if (tabId) {
+    switchAboutTab(tabId, false);
+    return;
   }
 
-  // 通常ページ
+  // それ以外は通常ページ
   showSection(hash, false);
 
+}
+
+// ========================================
+// 初期表示
+// ========================================
+window.addEventListener("DOMContentLoaded", () => {
+  handleLocationHash();
 });
 
-window.addEventListener("hashchange", ()=>{
-
-  const hash = location.hash.replace("#","");
-
-  // ハッシュなし
-  if(!hash){
-    showSection("home", false);
-    return;
-  }
-
-  // イベント詳細
-  if(hash.startsWith("event_")){
-    showEventDetail(hash);
-    return;
-  }
-
-  // グッズ詳細
-  if(hash.startsWith("goods_")){
-    showGoodsDetail(hash);
-    return;
-  }
-
-  // About
-  if(hash.startsWith("about-")){
-
-    const tabName = hash.replace("about-","");
-
-    const tabMap = {
-      about:"aboutTab",
-      member:"memberTab",
-      portal:"portalTab",
-      channel:"channelTab",
-      history:"historyTab"
-    };
-
-    const tabId = tabMap[tabName];
-
-    if(tabId){
-      switchAboutTab(tabId,false);
-      return;
-    }
-
-  }
-
-  showSection(hash,false);
-
+// ========================================
+// ブラウザの戻る・進む
+// ========================================
+window.addEventListener("hashchange", () => {
+  handleLocationHash();
 });
 
 // =========================
