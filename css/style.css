@@ -1736,12 +1736,12 @@ font-size:18px;
   color: #fff;
 }
 
-/* Dictionary（黄） */
-.tab-dictionary {
+/* Visual（黄） */
+.tab-visual {
   border-color: #FCC700;
   color: #CC9F00;
 }
-.tab-dictionary.active {
+.tab-visual.active {
   background: #FCC700;
   color: #fff;
 }
@@ -5366,4 +5366,81 @@ font-size: 0.7rem;
 .countdown-auto-link {
 transition: none;
 }
+}
+
+
+/* =========================
+   ファンコミュニティ タブ
+========================= */
+
+.community-tabs {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  margin: 25px 0;
+  border-bottom: 1px solid #ddd;
+  gap: 0;
+}
+
+.community-tab-btn {
+  flex: 1;
+  padding: 16px 10px;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  color: #777;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.community-tab-btn:hover {
+  color: #d90000;
+  background: #fff5f5;
+}
+
+.community-tab-btn.active {
+  color: #d90000;
+  border-bottom: 3px solid #d90000;
+}
+
+
+/* タブの中身 */
+
+.community-tab-content {
+  display: none;
+  animation: communityFadeIn 0.25s ease;
+}
+
+.community-tab-content.active {
+  display: block;
+}
+
+@keyframes communityFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* スマホ表示 */
+
+@media screen and (max-width: 600px) {
+
+  .community-tabs {
+    margin: 20px 0;
+  }
+
+  .community-tab-btn {
+    padding: 14px 5px;
+    font-size: 13px;
+  }
+
 }

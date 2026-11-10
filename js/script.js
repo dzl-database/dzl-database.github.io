@@ -875,7 +875,7 @@ function switchAboutTab(tabId, updateHash = true) {
   const tabMap = {
     aboutTab: "about",
     portalTab: "portal",
-    dictionaryTab: "dictionary",
+    visualTab: "visual",
     channelTab: "channel",
     historyTab: "history"
   };
@@ -927,6 +927,57 @@ function switchAboutTab(tabId, updateHash = true) {
     );
   }
 
+}
+
+// =========================
+// ファンコミュニティ タブ切り替え
+// =========================
+
+function switchCommunityTab(tabName, updateHash = true) {
+
+  const tabMap = {
+    "tool": "community-tool",
+    "free-store": "community-free-store",
+    "gallery": "community-gallery"
+  };
+
+  const targetId = tabMap[tabName];
+
+  if (!targetId) return;
+
+  // タブの中身をすべて非表示
+  document.querySelectorAll(".community-tab-content").forEach(tab => {
+    tab.classList.remove("active");
+  });
+
+  // ボタンの選択状態をリセット
+  document.querySelectorAll(".community-tab-btn").forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+  // 選択したタブを表示
+  const target = document.getElementById(targetId);
+
+  if (target) {
+    target.classList.add("active");
+  }
+
+  // 選択したボタンを有効化
+  const button = document.querySelector(
+    `.community-tab-btn[data-tab="${tabName}"]`
+  );
+
+  if (button) {
+    button.classList.add("active");
+  }
+
+  // ファンコミュニティページを表示
+  showSection("community", false);
+
+  // ハッシュを更新
+  if (updateHash) {
+    history.pushState(null, "", `#${tabName}`);
+  }
 }
 
 const cardState = {
@@ -1580,7 +1631,7 @@ function handleLocationHash() {
   const aboutTabMap = {
     about: "aboutTab",
     portal: "portalTab",
-    dictionary: "dictionaryTab",
+    visual: "visualTab",
     channel: "channelTab",
     history: "historyTab"
   };
@@ -1589,6 +1640,14 @@ function handleLocationHash() {
 
   if (tabId) {
     switchAboutTab(tabId, false);
+    return;
+  }
+
+  // ファンコミュニティのタブ
+  const communityTabs = ["tool", "free-store", "gallery"];
+
+  if (communityTabs.includes(hash)) {
+    switchCommunityTab(hash, false);
     return;
   }
 

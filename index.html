@@ -645,10 +645,10 @@
       Portal
     </button>
 
-    <button class="tab-btn tab-dictionary"
-      data-tab="dictionaryTab"
-      onclick="switchAboutTab('dictionaryTab')">
-      Dictionary
+    <button class="tab-btn tab-visual"
+      data-tab="visualTab"
+      onclick="switchAboutTab('visualTab')">
+      Visual
     </button>
 
     <button class="tab-btn tab-channel"
@@ -677,9 +677,9 @@
       <p>Portalページは作成中です！</p>
     </div>
 
-    <!-- Dictionary -->
-    <div id="dictionaryTab" class="tab-content">
-      <p>Dictionaryページは作成中です！</p>
+    <!-- Visual -->
+    <div id="visualTab" class="tab-content">
+      <p>Visualページは作成中です！</p>
     </div>
 
     <!-- Channel -->
@@ -805,24 +805,97 @@
 <div id="community" class="section">
   <h2>ファンコミュニティ</h2>
 
-  <div class="feature-card">
-    <h3>ドズル社自己紹介カード</h3>
-    <p>
-      自分だけのドズル社自己紹介カードを作成できます！<br>
-      完成したカードは画像として保存し、Xでシェアできます<br>
-    </p>
-    <p>
-      ※このツールは非公式なものであり、公式様とは一切関係ございません。<br>
-      ※万が一、不具合がありましたらすぐにお知らせください。
-    </p>
+  <!-- タブボタン -->
+  <div class="community-tabs">
+    <button
+      class="community-tab-btn active"
+      data-tab="tool"
+      onclick="switchCommunityTab('tool')"
+    >
+      ツール
+    </button>
 
-    <button class="main-btn" onclick="openCardTool()">
-      作成ツールを開く
+    <button
+      class="community-tab-btn"
+      data-tab="free-store"
+      onclick="switchCommunityTab('free-store')"
+    >
+      素材配布
+    </button>
+
+    <button
+      class="community-tab-btn"
+      data-tab="gallery"
+      onclick="switchCommunityTab('gallery')"
+    >
+      ファンアートギャラリー
     </button>
   </div>
 
-  <!-- ツール本体 -->
-  <div id="cardToolArea" style="margin-top:20px;"></div>
+
+  <!-- ツール -->
+  <div id="community-tool" class="community-tab-content active">
+
+    <div class="feature-card">
+      <h3>ドズル社自己紹介カード</h3>
+
+      <p>
+        自分だけのドズル社自己紹介カードを作成できます！<br>
+        完成したカードは画像として保存し、Xでシェアできます。
+      </p>
+
+      <p>
+        ※このツールは非公式なものであり、公式様とは一切関係ございません。<br>
+        ※万が一、不具合がありましたらすぐにお知らせください。
+      </p>
+
+      <button class="main-btn" onclick="openCardTool()">
+        作成ツールを開く
+      </button>
+    </div>
+
+    <!-- 自己紹介カード作成ツール本体 -->
+    <div id="cardToolArea" style="margin-top:20px;"></div>
+
+  </div>
+
+
+  <!-- 素材配布 -->
+  <div id="community-free-store" class="community-tab-content">
+
+    <div class="feature-card">
+      <h3>素材配布</h3>
+
+      <p>
+        ドズル社ファン向けの素材を配布するページです。
+      </p>
+
+      <p>
+        現在、準備中です！<br>
+        素材の公開まで、もうしばらくお待ちください。
+      </p>
+    </div>
+
+  </div>
+
+
+  <!-- ファンアートギャラリー -->
+  <div id="community-gallery" class="community-tab-content">
+
+    <div class="feature-card">
+      <h3>ファンアートギャラリー</h3>
+
+      <p>
+        ファンの皆さんが制作したファンアートを紹介するページです。
+      </p>
+
+      <p>
+        現在、準備中です！<br>
+        皆さんの素敵な作品を紹介できるよう、準備を進めています。
+      </p>
+    </div>
+
+  </div>
 
 </div>
 
