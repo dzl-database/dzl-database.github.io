@@ -1694,6 +1694,7 @@ font-size:18px;
 
   font-weight: 600;
   font-size: 16px;
+  font-family: "LINE Seed JP", sans-serif;
 
   transition: all 0.2s ease;
 
@@ -5370,77 +5371,88 @@ transition: none;
 
 
 /* =========================
-   ファンコミュニティ タブ
+ファンコミュニティ タブ
 ========================= */
 
 .community-tabs {
-  display: flex;
-  align-items: stretch;
-  width: 100%;
-  margin: 25px 0;
-  border-bottom: 1px solid #ddd;
-  gap: 0;
+display: flex;
+align-items: stretch;
+justify-content: flex-start;
+width: 100%;
+margin: 25px 0;
+border-bottom: 1px solid #ddd;
+gap: 0;
+
+/* 横スクロール */
+overflow-x: auto;
+overflow-y: hidden;
+white-space: nowrap;
+
+/* スクロールバーの見た目 */
+scrollbar-width: thin;
+scrollbar-color: #ccc transparent;
 }
 
 .community-tab-btn {
-  flex: 1;
-  padding: 16px 10px;
-  border: none;
-  border-bottom: 3px solid transparent;
-  background: transparent;
-  color: #777;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.2s;
+flex: 0 0 auto;
+width: auto;
+padding: 16px 20px;
+border: none;
+border-bottom: 3px solid transparent;
+background: transparent;
+color: #777;
+font-family: "LINE Seed JP", sans-serif;
+font-size: 16px;
+font-weight: bold;
+white-space: nowrap;
+cursor: pointer;
+transition: 0.2s;
 }
 
-.community-tab-btn:hover {
-  color: #d90000;
-  background: #fff5f5;
+.community-tab-btn {
+color: #d90000;
+background: #fff5f5;
 }
 
 .community-tab-btn.active {
-  color: #d90000;
-  border-bottom: 3px solid #d90000;
+color: #d90000;
+border-bottom: 3px solid #d90000;
 }
-
 
 /* タブの中身 */
 
 .community-tab-content {
-  display: none;
-  animation: communityFadeIn 0.25s ease;
+display: none;
+animation: communityFadeIn 0.25s ease;
 }
 
 .community-tab-content.active {
-  display: block;
+display: block;
 }
 
 @keyframes communityFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+from {
+opacity: 0;
+transform: translateY(5px);
 }
 
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
 
 /* スマホ表示 */
 
 @media screen and (max-width: 600px) {
 
-  .community-tabs {
-    margin: 20px 0;
-  }
+.community-tabs {
+margin: 20px 0;
+}
 
-  .community-tab-btn {
-    padding: 14px 5px;
-    font-size: 13px;
-  }
+.community-tab-btn {
+padding: 14px 16px;
+font-size: 13px;
+}
 
 }
