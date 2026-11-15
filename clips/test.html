@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>名場面・連続再生プレイヤー テスト</title>
+<style>
+  body { font-family: sans-serif; max-width: 700px; margin: 20px auto; padding: 0 15px; background: #f4f4f9; }
+  /* レスポンシブなYouTube埋め込み枠 */
+  .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; border-radius: 8px; }
+  .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+  /* コントロールボタン */
+  .controls { display: flex; gap: 10px; margin: 15px 0; justify-content: center; }
+  button { padding: 10px 18px; font-size: 15px; cursor: pointer; border: none; border-radius: 6px; background: #e60012; color: white; font-weight: bold; }
+  button:hover { opacity: 0.85; }
+  button.sub { background: #555; }
+  /* プレイリスト一覧 */
+  .clip-list { list-style: none; padding: 0; }
+  .clip-item { background: white; padding: 12px; margin-bottom: 8px; border-radius: 6px; cursor: pointer; border-left: 5px solid #ccc; display: flex; justify-content: space-between; }
+  .clip-item.active { border-left-color: #e60012; background: #fff5f5; font-weight: bold; }
+</style>
+</head>
+<body>
+
+  <h2>🎬 名場面・連続再生プレイヤー（テスト版）</h2>
+  
+  <!-- プレイヤー本体 -->
+  <div class="video-wrapper">
+    <div id="player"></div>
+  </div>
+
+  <!-- 操作ボタン -->
+  <div class="controls">
+    <button class="sub" onclick="prevClip()">◀ 前のシーン</button>
+    <button onclick="startPlaylist()">▶ 最初から連続再生</button>
+    <button class="sub" onclick="replayClip()">🔁 もう1回</button>
+    <button class="sub" onclick="nextClip()">次のシーン ▶</button>
+  </div>
+
+  <!-- 再生中のコメント表示 -->
+  <p id="now-playing" style="text-align:center; font-weight:bold; color:#e60012;">上の「最初から連続再生」を押してください</p>
+
+  <!-- クリップ一覧 -->
+  <ul class="clip-list" id="clip-list"></ul>
+
+<script>
+  // ★テスト用の名場面データ（実際はここをGASから取得したJSONに差し替えます）
+  // ※テスト用に公式の短い動画IDを入れています。好きなドズル社動画IDに変えて試してみてください！
+  const playlist = [
+    { videoId: "R0YxjQN9eOI", start: 10, end: 16, title: "シーン1：神プレイの瞬間（0:10〜0:16）" },
+    { videoId: "eQKgUlSTSQI", start: 30, end: 36, title: "シーン2：ぼんさん絶叫シーン（0:30〜0:36）" },
+    { videoId: "y22jm-1o78k", start: 50, end: 55, title: "シーン3：全員大爆笑のオチ（0:50〜0:55）" }
+  ];
+
+  let player;
+  let currentIndex = 0;
+  let isPlayingList = false;
+
+  // 1. YouTube IFrame APIの読み込み
+  const tag = document.createElement('script');
+  tag.src = "https://youtube.com";
+  document.head.appendChild(tag);
+
+  // 2. API準備完了時に自動で呼ばれる関数
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      videoId: playlist[0].videoId,
+      playerVars: {
+        'playsinline': 1, // スマホで全画面にならずインライン再生する設定
+        'rel': 0          // 関連動画を同チャンネル優先にする
+      },
+      events: {
+        'onStateChange': onPlayerStateChange
+      }
+    });
+    renderList();
+  }
+
+  // 3. プレイヤーの状態が変わった時に呼ばれる関数（連続再生の心臓部！）
+  function onPlayerStateChange(event) {
+    // endSecondsに達すると「YT.PlayerState.ENDED（終了）」になる
+    if (event.data === YT.PlayerState.ENDED && isPlayingList) {
+      if (currentIndex + 1 < playlist.length) {
+        currentIndex++;
+        playClip(currentIndex);
+      } else {
+        document.getElementById('now-playing').innerText = "🎉 すべての名場面の再生が終了しました！";
+        isPlayingList = false;
+      }
+    }
+  }
+
+  // 指定した番号のクリップを再生する
+  function playClip(index) {
+    currentIndex = index;
+    isPlayingList = true;
+    const clip = playlist[index];
+    
+    // 指定秒数で動画をロード＆再生
+    player.loadVideoById({
+      videoId: clip.videoId,
+      startSeconds: clip.start,
+      endSeconds: clip.end
+    });
+
+    document.getElementById('now-playing').innerText = "再生中：" + clip.title;
+    renderList();
+  }
+
+  // ボタン操作用関数
+  function startPlaylist() { playClip(0); }
+  function replayClip() { playClip(currentIndex); }
+  function nextClip() {
+    if (currentIndex + 1 < playlist.length) playClip(currentIndex + 1);
+  }
+  function prevClip() {
+    if (currentIndex - 1 >= 0) playClip(currentIndex - 1);
+  }
+
+  // リストの描画
+  function renderList() {
+    const listEl = document.getElementById('clip-list');
+    listEl.innerHTML = "";
+    playlist.forEach((clip, idx) => {
+      const li = document.createElement('li');
+      li.className = "clip-item" + (idx === currentIndex ? " active" : "");
+      li.innerHTML = `<span>${idx + 1}. ${clip.title}</span><span>▶</span>`;
+      li.onclick = () => playClip(idx);
+      listEl.appendChild(li);
+    });
+  }
+</script>
+</body>
+</html>
