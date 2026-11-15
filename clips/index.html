@@ -48,13 +48,13 @@
   let isPlayingList = false;
 
   // APIが読み込まれたら自動で呼ばれる
-  function onYouTubeIframeAPIReady() {
+  window.onYouTubeIframeAPIReady = function() {
+    const firstClip = playlist.at(0);
     player = new YT.Player('player', {
-      videoId: playlist[0].videoId, // ← ここを[0]に修正済み
+      videoId: firstClip.videoId,
       playerVars: {
         'playsinline': 1,
-        'rel': 0,
-        'origin': window.location.origin
+        'rel': 0
       },
       events: {
         'onReady': onPlayerReady,
@@ -62,9 +62,8 @@
       }
     });
     renderList();
-  }
+  };
 
-  // プレイヤーの操作準備が完全に整ったら呼ばれる
   function onPlayerReady(event) {
     document.getElementById('now-playing').innerText = "準備完了！「最初から連続再生」を押してください";
   }
@@ -88,7 +87,7 @@
     }
     currentIndex = index;
     isPlayingList = true;
-    const clip = playlist[index];
+    const clip = playlist.at(index);
     
     player.loadVideoById({
       videoId: clip.videoId,
@@ -118,7 +117,6 @@
   }
 </script>
 
-<!-- YouTube IFrame API を確実に読み込むタグ -->
 <script src="https://youtube.com"></script>
 
 </body>
