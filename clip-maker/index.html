@@ -438,7 +438,11 @@ header {
 
   width: 100%;
 
-  padding-bottom: 56.25%;
+  max-width: 760px;
+
+  margin: 0 auto;
+
+  padding-bottom: 42.75%;
 
   background: black;
 
@@ -973,6 +977,18 @@ footer {
 
 }
 
+@media(max-width: 550px) {
+
+  .video-wrapper {
+
+    max-width: 100%;
+
+    padding-bottom: 56.25%;
+
+  }
+
+}
+
 </style>
 
 </head>
@@ -1095,6 +1111,10 @@ let playerReady = false;
 let isPlayingList = false;
 
 let playerInitialized = false;
+
+let isAdvancing = false;
+
+let playerInstanceReady = false;
 
 
 /* =================================
@@ -1822,7 +1842,7 @@ function initializePlayer() {
 
   player = new YT.Player("player", {
 
-    videoId: first.videoId,
+    // 最初の動画はonReadyで一度だけ読み込む
 
     playerVars: {
 
@@ -1838,10 +1858,13 @@ function initializePlayer() {
 
       onReady: function() {
 
+        playerInstanceReady = true;
+
         document.getElementById(
           "player-placeholder"
         ).style.display = "none";
 
+        // 最初の動画を一度だけ再生
         playClip(0);
 
       },
@@ -1861,10 +1884,23 @@ function initializePlayer() {
 
 function onPlayerStateChange(event) {
 
+  // 次の動画の再生が始まったらロック解除
+  if (event.data === YT.PlayerState.PLAYING) {
+
+    isAdvancing = false;
+
+    return;
+
+  }
+
   if (
     event.data === YT.PlayerState.ENDED &&
-    isPlayingList
+    isPlayingList &&
+    !isAdvancing
   ) {
+
+    // 重複した終了イベントを防ぐ
+    isAdvancing = true;
 
     if (
       currentIndex + 1 <
@@ -1876,6 +1912,8 @@ function onPlayerStateChange(event) {
     } else {
 
       isPlayingList = false;
+
+      isAdvancing = false;
 
       document.getElementById(
         "now-playing"
@@ -1910,7 +1948,7 @@ function playClip(index) {
 
   }
 
-  if (!player || !playerReady) return;
+  if (!player || !playerReady || !playerInstanceReady) return;
 
   if (player.getPlayerState() === -1 &&
       !player.getVideoData().video_id) {
