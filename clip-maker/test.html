@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>YouTube広告表示テスト</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  background: #f7f7f9;
+  color: #222;
+  font-family: sans-serif;
+}
+
+.container {
+  max-width: 850px;
+  margin: auto;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.description {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.input-area {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 25px 0;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  font-size: 16px;
+}
+
+button {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 7px;
+  background: #e60012;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+button:hover {
+  opacity: .8;
+}
+
+.test-section {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+}
+
+.test-section h2 {
+  font-size: 19px;
+  margin-top: 0;
+}
+
+.method {
+  color: #777;
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 15px;
+}
+
+.video-wrapper {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #111;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.video-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  position: absolute;
+  inset: 0;
+}
+
+.status {
+  font-size: 13px;
+  color: #777;
+  margin-top: 12px;
+}
+
+.notice {
+  background: #fff8e6;
+  border: 1px solid #f0dfad;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+@media(max-width:550px) {
+  body {
+    padding: 12px;
+  }
+
+  .test-section,
+  .input-area {
+    padding: 14px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>YouTube広告表示テスト</h1>
+
+  <p class="description">
+    同じYouTube動画を使用して、現在のプレイヤー方式と
+    標準埋め込み方式の広告表示を比較します。
+  </p>
+
+  <!-- 動画ID入力 -->
+
+  <div class="input-area">
+
+    <label for="videoId">
+      比較するYouTube動画のID
+    </label>
+
+    <input
+      type="text"
+      id="videoId"
+      placeholder="ここにYouTube動画IDを入力"
+    >
+
+    <button onclick="setVideo()">
+      動画IDを設定する
+    </button>
+
+    <p class="status" id="inputStatus">
+      動画IDを入力してください。
+    </p>
+
+  </div>
+
+
+  <!-- A：現在の方式 -->
+
+  <section class="test-section">
+
+    <h2>A：現在のプレイヤー方式</h2>
+
+    <p class="method">
+      YouTube IFrame APIを使用します。
+      プレイヤーの準備が完了した後、
+      JavaScriptの loadVideoById() で再生を開始します。
+    </p>
+
+    <div class="video-wrapper">
+      <div id="playerA"></div>
+    </div>
+
+    <button onclick="playA()">
+      Aを再生する
+    </button>
+
+    <p class="status" id="statusA">
+      動画IDを設定してください。
+    </p>
+
+  </section>
+
+
+  <!-- B：標準埋め込み -->
+
+  <section class="test-section">
+
+    <h2>B：標準埋め込み方式</h2>
+
+    <p class="method">
+      通常のYouTube iframe埋め込みです。
+      動画内に表示される標準の再生ボタンを押してください。
+    </p>
+
+    <div class="video-wrapper" id="wrapperB">
+      <div style="
+        color:white;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        height:100%;
+        font-size:14px;
+      ">
+        動画IDを設定してください。
+      </div>
+    </div>
+
+    <p class="status">
+      YouTube標準のプレイヤー操作で再生します。
+    </p>
+
+  </section>
+
+
+  <!-- 注意事項 -->
+
+  <div class="notice">
+
+    <strong>テスト時の注意</strong><br>
+
+    ・AとBには必ず同じ動画IDを使用してください。<br>
+    ・同じ端末、ブラウザ、アカウント状態で比較してください。<br>
+    ・広告は毎回同じように表示されるとは限りません。<br>
+    ・広告の表示を保証したり、抑制したりする機能ではありません。<br>
+    ・通常の視聴範囲で比較すれば十分です。
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =================================
+   CONFIG
+================================= */
+
+// YouTube IFrame API
+const API_URL =
+  "https://www.youtube.com/iframe_api";
+
+
+/* =================================
+   GLOBAL
+================================= */
+
+let videoId = "";
+
+let playerA = null;
+
+let apiReady = false;
+
+let playerAReady = false;
+
+
+/* =================================
+   LOAD YOUTUBE API
+================================= */
+
+const apiScript = document.createElement("script");
+
+apiScript.src = API_URL;
+
+document.head.appendChild(apiScript);
+
+
+window.onYouTubeIframeAPIReady = function() {
+
+  apiReady = true;
+
+  document.getElementById("statusA").textContent =
+    "YouTube APIの準備ができました。";
+
+};
+
+
+/* =================================
+   SET VIDEO
+================================= */
+
+function setVideo() {
+
+  const input = document.getElementById("videoId");
+
+  const value = input.value.trim();
+
+  // IDだけでなくURLが入力された場合にも対応
+  let id = value;
+
+  try {
+
+    if (value.includes("youtube.com") ||
+        value.includes("youtu.be")) {
+
+      const url = new URL(value);
+
+      if (url.hostname.includes("youtu.be")) {
+
+        id = url.pathname.substring(1);
+
+      } else {
+
+        id = url.searchParams.get("v") ||
+          url.pathname.split("/").pop();
+
+      }
+
+    }
+
+  } catch(e) {
+
+    document.getElementById("inputStatus").textContent =
+      "動画IDまたはURLを確認してください。";
+
+    return;
+
+  }
+
+  // YouTube動画IDの形式を確認
+  if (!/^[a-zA-Z0-9_-]{11}$/.test(id)) {
+
+    document.getElementById("inputStatus").textContent =
+      "正しいYouTube動画IDを入力してください。";
+
+    return;
+
+  }
+
+  videoId = id;
+
+  // Aのプレイヤーをリセット
+  if (playerA) {
+
+    playerA.destroy();
+
+    playerA = null;
+
+  }
+
+  playerAReady = false;
+
+  document.getElementById("playerA").innerHTML = "";
+
+  // Bの標準埋め込みを準備
+  const wrapper = document.getElementById("wrapperB");
+
+  wrapper.innerHTML = "";
+
+  const iframe = document.createElement("iframe");
+
+  iframe.src =
+    "https://www.youtube.com/embed/" +
+    encodeURIComponent(videoId) +
+    "?playsinline=1&rel=0";
+
+  iframe.title = "YouTube video player";
+
+  iframe.allow =
+    "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+
+  iframe.allowFullscreen = true;
+
+  wrapper.appendChild(iframe);
+
+  document.getElementById("inputStatus").textContent =
+    "設定完了： " + videoId;
+
+  document.getElementById("statusA").textContent =
+    "Aの再生ボタンを押してください。";
+
+}
+
+
+/* =================================
+   A：CURRENT PLAYER METHOD
+================================= */
+
+function playA() {
+
+  if (!videoId) {
+
+    alert("先に動画IDを設定してください。");
+
+    return;
+
+  }
+
+  if (!apiReady) {
+
+    alert("YouTube APIを準備しています。");
+
+    return;
+
+  }
+
+  // すでにプレイヤーがある場合
+  if (playerA && playerAReady) {
+
+    playerA.loadVideoById({
+      videoId: videoId
+    });
+
+    return;
+
+  }
+
+  // プレイヤーを生成
+  playerA = new YT.Player("playerA", {
+
+    playerVars: {
+      playsinline: 1,
+      rel: 0,
+      enablejsapi: 1
+    },
+
+    events: {
+
+      onReady: function() {
+
+        playerAReady = true;
+
+        // 現在のサイトと同じように
+        // JavaScriptから動画を読み込んで再生
+        playerA.loadVideoById({
+          videoId: videoId
+        });
+
+        document.getElementById("statusA").textContent =
+          "A：JavaScriptから再生を開始しました。";
+
+      },
+
+      onError: function(event) {
+
+        document.getElementById("statusA").textContent =
+          "再生エラー：" + event.data;
+
+      }
+
+    }
+
+  });
+
+}
+
+</script>
+
+</body>
+</html>
