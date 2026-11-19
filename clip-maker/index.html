@@ -1845,13 +1845,10 @@ function initializePlayer() {
     // 最初の動画はonReadyで一度だけ読み込む
 
     playerVars: {
-
       playsinline: 1,
-
       rel: 0,
-
-      enablejsapi: 1
-
+      enablejsapi: 1,
+      origin: window.location.origin
     },
 
     events: {
