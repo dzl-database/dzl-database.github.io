@@ -930,59 +930,8 @@ function switchAboutTab(tabId, updateHash = true) {
 }
 
 // =========================
-// ファンコミュニティ タブ切り替え
+// ツールページ切り替え
 // =========================
-
-function switchCommunityTab(tabName, updateHash = true) {
-
-  const tabMap = {
-    "tool": "community-tool",
-    "free-store": "community-free-store",
-    "gallery": "community-gallery"
-  };
-
-  const targetId = tabMap[tabName];
-
-  if (!targetId) return;
-
-  // タブの中身をすべて非表示
-  document.querySelectorAll(".community-tab-content").forEach(tab => {
-    tab.classList.remove("active");
-  });
-
-  // ボタンの選択状態をリセット
-  document.querySelectorAll(".community-tab-btn").forEach(btn => {
-    btn.classList.remove("active");
-  });
-
-  // 選択したタブを表示
-  const target = document.getElementById(targetId);
-
-  if (target) {
-    target.classList.add("active");
-  }
-
-  // 選択したボタンを有効化
-  const button = document.querySelector(
-    `.community-tab-btn[data-tab="${tabName}"]`
-  );
-
-  if (button) {
-    button.classList.add("active");
-  }
-
-  // ファンコミュニティページを表示
-  showSection("community", false);
-
-  // ハッシュを更新
-  if (updateHash) {
-    history.pushState(null, "", `#${tabName}`);
-  }
-}
-
-// ========================================
-// ファンコミュニティ：ツールページ切り替え
-// ========================================
 
 function switchToolPage(pageName, updateHash = true) {
 
@@ -998,11 +947,13 @@ function switchToolPage(pageName, updateHash = true) {
 
   // すべてのツールページを非表示
   Object.values(pageMap).forEach(id => {
+
     const page = document.getElementById(id);
 
     if (page) {
       page.style.display = "none";
     }
+
   });
 
   // 選択したページを表示
@@ -1024,7 +975,10 @@ function switchToolPage(pageName, updateHash = true) {
 
   }
 
-  // ハッシュを更新
+  // ツールページを表示
+  showSection("tool", false);
+
+  // URLハッシュを更新
   if (updateHash) {
 
     const hashMap = {
@@ -1033,33 +987,12 @@ function switchToolPage(pageName, updateHash = true) {
       "bingo-maker": "bingo-maker"
     };
 
-    history.pushState(null, "", `#${hashMap[pageName]}`);
-  }
+    history.pushState(
+      null,
+      "",
+      `#${hashMap[pageName]}`
+    );
 
-  // ファンコミュニティページを表示
-  showSection("community", false);
-
-  // ツールタブを選択状態にする
-  document.querySelectorAll(".community-tab-btn").forEach(btn => {
-    btn.classList.remove("active");
-  });
-
-  const toolButton = document.querySelector(
-    '.community-tab-btn[data-tab="tool"]'
-  );
-
-  if (toolButton) {
-    toolButton.classList.add("active");
-  }
-
-  document.querySelectorAll(".community-tab-content").forEach(tab => {
-    tab.classList.remove("active");
-  });
-
-  const communityTool = document.getElementById("community-tool");
-
-  if (communityTool) {
-    communityTool.classList.add("active");
   }
 
 }
@@ -1687,8 +1620,9 @@ window.addEventListener("scroll", ()=>{
 loadHistoryTimeline();
 
 // ========================================
-// ハッシュに応じたページ・タブ表示
+// ハッシュに応じたページ表示
 // ========================================
+
 function handleLocationHash() {
 
   const hash = location.hash.replace(/^#/, "");
@@ -1727,7 +1661,7 @@ function handleLocationHash() {
     return;
   }
 
-  // ファンコミュニティ：ツール固有ページ
+  // ツール固有ページ
   if (hash === "profile-maker") {
     switchToolPage("profile-maker", false);
     return;
@@ -1738,18 +1672,15 @@ function handleLocationHash() {
     return;
   }
 
-  // ファンコミュニティ：タブ
-  const communityTabs = ["tool", "free-store", "gallery"];
+  // ツール一覧
+  if (hash === "tool") {
+    switchToolPage("list", false);
+    return;
+  }
 
-  if (communityTabs.includes(hash)) {
-
-    switchCommunityTab(hash, false);
-
-    // ツール一覧を表示
-    if (hash === "tool") {
-      switchToolPage("list", false);
-    }
-
+  // 素材配布
+  if (hash === "free-store") {
+    showSection("free-store", false);
     return;
   }
 
@@ -1758,16 +1689,20 @@ function handleLocationHash() {
 
 }
 
+
 // ========================================
 // 初期表示
 // ========================================
+
 window.addEventListener("DOMContentLoaded", () => {
   handleLocationHash();
 });
 
+
 // ========================================
 // ブラウザの戻る・進む
 // ========================================
+
 window.addEventListener("hashchange", () => {
   handleLocationHash();
 });
