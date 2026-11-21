@@ -5587,7 +5587,6 @@ padding: 12px 16px;
 .tool-detail-heading {
   margin: 10px 0 25px;
   padding-bottom: 15px;
-  border-bottom: 2px solid #eee;
 }
 
 .tool-detail-heading h2 {
@@ -5603,7 +5602,7 @@ padding: 12px 16px;
 
 .tool-detail-notice {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 10px;
   padding: 15px 18px;
   border-left: 4px solid #d90000;
