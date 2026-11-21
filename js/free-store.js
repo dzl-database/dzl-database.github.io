@@ -205,23 +205,11 @@ function renderFreeStore(items, groupSettings) {
     let html = "";
 
     if (setting["全体_説明"]) {
-
-      html += `
-        <div class="store-description">
-          <span class="store-info-label">説明</span>
-          ${escapeStoreHTML(setting["全体_説明"])}
-        </div>
-      `;
+      html += `<div class="store-description"><span class="store-info-label">説明</span>${escapeStoreHTML(setting["全体_説明"])}</div>`;
     }
 
     if (setting["全体_利用規約"]) {
-
-      html += `
-        <div class="store-terms">
-          <span class="store-info-label">利用規約</span>
-          ${escapeStoreHTML(setting["全体_利用規約"])}
-        </div>
-      `;
+      html += `<div class="store-terms"><span class="store-info-label">利用規約</span>${escapeStoreHTML(setting["全体_利用規約"])}</div>`;
     }
 
     return html;
@@ -389,11 +377,7 @@ function createStoreItemCard(item) {
       ` : ""}
 
 
-      ${description ? `
-        <p class="store-item-description">
-          ${escapeStoreHTML(description)}
-        </p>
-      ` : ""}
+      ${description ? `<p class="store-item-description">${escapeStoreHTML(description)}</p>` : ""}
 
 
       <div class="store-creator">
