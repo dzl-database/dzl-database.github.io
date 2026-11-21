@@ -5697,3 +5697,340 @@ padding: 12px 16px;
   }
 
 }
+
+
+/* ========================================
+   素材配布ページ
+======================================== */
+
+#freeStoreContent {
+  width: 100%;
+}
+
+
+/* 読み込み中 */
+
+.store-loading {
+  padding: 50px 20px;
+  color: #888;
+  text-align: center;
+}
+
+
+/* タイプ全体 */
+
+.store-type-section {
+  margin-top: 35px;
+}
+
+.store-type-title {
+  margin: 0 0 18px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #d90000;
+  font-size: 23px;
+}
+
+
+/* グループ */
+
+.store-group {
+  margin: 25px 0 35px;
+}
+
+.store-group-title {
+  margin: 0 0 15px;
+  font-size: 19px;
+  font-weight: bold;
+}
+
+
+/* 全体説明・利用規約 */
+
+.store-description,
+.store-terms {
+  margin: 12px 0;
+  padding: 15px 18px;
+  border-radius: 9px;
+  background: #f7f7f7;
+  color: #555;
+  font-size: 13px;
+  line-height: 1.9;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.store-terms {
+  border-left: 3px solid #d90000;
+}
+
+.store-info-label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+
+/* 素材一覧 */
+
+.store-item-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+
+/* 素材カード */
+
+.store-item-card {
+  position: relative;
+  min-width: 0;
+  padding: 15px;
+  border: 1px solid #e5e5e5;
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+}
+
+
+/* いいね */
+
+.store-like-area {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.store-like-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border: 1px solid #eee;
+  border-radius: 20px;
+  background: #fff;
+  color: #777;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.store-like-btn:hover {
+  border-color: #ffb0b0;
+  color: #d90000;
+}
+
+.store-like-btn.liked {
+  border-color: #ffcaca;
+  background: #fff1f1;
+  color: #d90000;
+}
+
+.store-like-btn .material-symbols-outlined {
+  font-size: 17px;
+}
+
+
+/* 素材画像 */
+
+.store-item-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  padding: 5px;
+  border-radius: 8px;
+  background: #f4f4f4;
+  cursor: zoom-in;
+  overflow: hidden;
+}
+
+.store-item-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+
+/* ファイル名 */
+
+.store-file-name {
+  margin: 12px 0 8px;
+  color: #777;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+
+/* メンバー */
+
+.store-member {
+  margin: 7px 0;
+  color: #555;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+
+/* 個別説明 */
+
+.store-item-description {
+  margin: 10px 0;
+  color: #666;
+  font-size: 13px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+
+/* 制作者 */
+
+.store-creator {
+  margin-top: 15px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+  color: #777;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.store-creator a {
+  color: #d90000;
+  text-decoration: none;
+}
+
+.store-creator a:hover {
+  text-decoration: underline;
+}
+
+
+/* ボタン */
+
+.store-item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.store-download-btn {
+  flex: 1;
+  min-width: 100px;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 7px;
+  background: #d90000;
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.store-download-btn:hover {
+  background: #b90000;
+}
+
+.store-terms-btn {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  background: #fff;
+  color: #666;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.store-terms-btn:hover {
+  border-color: #d90000;
+  color: #d90000;
+}
+
+
+/* 個別利用規約 */
+
+.store-item-terms {
+  display: none;
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 7px;
+  background: #fff5f5;
+  color: #555;
+  font-size: 12px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.store-item-terms.open {
+  display: block;
+}
+
+
+/* 素材画像の拡大表示 */
+
+.store-image-modal {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.store-image-modal.open {
+  display: flex;
+}
+
+.store-image-modal img {
+  display: block;
+  max-width: 95%;
+  max-height: 90vh;
+  object-fit: contain;
+}
+
+.store-image-close {
+  position: absolute;
+  top: 15px;
+  right: 22px;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+
+/* スマホ */
+
+@media screen and (max-width: 600px) {
+
+  .store-item-list {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .store-item-card {
+    padding: 13px;
+  }
+
+  .store-type-title {
+    font-size: 20px;
+  }
+
+  .store-group-title {
+    font-size: 17px;
+  }
+
+  .store-image-modal {
+    padding: 15px;
+  }
+
+}

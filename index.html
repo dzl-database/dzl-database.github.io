@@ -938,20 +938,32 @@
 
   <h2>素材配布</h2>
 
-  <div class="feature-card">
+  <!-- 素材一覧の読み込み先 -->
+  <div id="freeStoreContent">
 
-    <h3>素材配布</h3>
-
-    <p>
-      ドズル社ファン向けの素材を配布するページです。
-    </p>
-
-    <p>
-      現在、準備中です！<br>
-      素材の公開まで、もうしばらくお待ちください。
-    </p>
+    <div class="store-loading">
+      素材を読み込んでいます...
+    </div>
 
   </div>
+
+</div>
+
+
+<!-- =========================
+    素材画像の拡大表示
+========================== -->
+<div id="storeImageModal" class="store-image-modal">
+
+  <button
+    class="store-image-close"
+    onclick="closeStoreImage()"
+    aria-label="閉じる"
+  >
+    ×
+  </button>
+
+  <img id="storeLargeImage" src="" alt="素材画像">
 
 </div>
 
