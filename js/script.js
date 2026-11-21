@@ -51,6 +51,10 @@ function showSection(sectionId, updateHash = true){
     loadNewsPage();
   }
 
+  if (sectionId === "free-store") {
+    loadFreeStore();
+  }
+
   requestAnimationFrame(() => {
 
     window.scrollTo(0, 0);
