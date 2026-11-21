@@ -445,11 +445,7 @@ function createStoreItemCard(item) {
       </div>
 
 
-      ${terms ? `
-        <div class="store-item-terms">
-          ${escapeStoreHTML(terms)}
-        </div>
-      ` : ""}
+      ${terms ? `<div class="store-item-terms">${escapeStoreHTML(terms)}</div>` : ""}
 
     </article>
 
