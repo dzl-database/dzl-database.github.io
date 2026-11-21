@@ -5479,60 +5479,30 @@ padding: 12px 16px;
 }
 
 
-/* 見出し */
-
-.tool-page-heading {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin: 30px 0 22px;
-}
-
-.tool-page-heading > .material-symbols-outlined {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  background: #fff0f0;
-  color: #d90000;
-  font-size: 28px;
-}
-
-.tool-page-heading h3 {
-  margin: 0 0 5px;
-  font-size: 22px;
-}
-
-.tool-page-heading p {
-  margin: 0;
-  color: #777;
-  font-size: 14px;
-}
-
-
-/* ツールカード一覧 */
+/* ========================================
+   ツールカード一覧
+======================================== */
 
 .tool-card-list {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fill, 280px);
+  justify-content: center;
+  gap: 24px;
+  margin-top: 25px;
 }
 
 
 /* ツールカード */
 
 .tool-item-card {
-  position: relative;
   display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  width: 100%;
-  min-width: 0;
-  padding: 24px 20px;
+  flex-direction: column;
+  align-items: stretch;
+  width: 280px;
+  padding: 0;
+  overflow: hidden;
   border: 1px solid #e5e5e5;
-  border-radius: 16px;
+  border-radius: 14px;
   background: #fff;
   color: #222;
   text-align: left;
@@ -5543,44 +5513,25 @@ padding: 12px 16px;
 
 .tool-item-card:hover {
   border-color: #d90000;
-  transform: translateY(-4px);
+  transform: translateY(-5px);
   box-shadow: 0 8px 24px rgba(217, 0, 0, 0.10);
 }
 
 
-/* アイコン */
+/* サムネイル */
 
-.tool-item-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 54px;
-  height: 54px;
-  border-radius: 14px;
-  background: #fff0f0;
-  color: #d90000;
-}
-
-.tool-item-icon .material-symbols-outlined {
-  font-size: 29px;
+.tool-item-thumbnail {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
 }
 
 
 /* カード内テキスト */
 
 .tool-item-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.tool-item-category {
-  display: block;
-  margin-bottom: 7px;
-  color: #d90000;
-  font-size: 11px;
-  font-weight: bold;
-  letter-spacing: 1.5px;
+  padding: 17px 18px 20px;
 }
 
 .tool-item-info h3 {
@@ -5595,31 +5546,6 @@ padding: 12px 16px;
   color: #777;
   font-size: 13px;
   line-height: 1.8;
-}
-
-
-/* 右側の矢印 */
-
-.tool-item-arrow {
-  flex-shrink: 0;
-  align-self: center;
-  color: #aaa;
-  font-size: 20px;
-  transition: 0.2s;
-}
-
-.tool-item-card:hover .tool-item-arrow {
-  color: #d90000;
-  transform: translateX(4px);
-}
-
-
-/* 注意書き */
-
-.tool-list-note {
-  margin-top: 20px;
-  color: #999;
-  font-size: 12px;
 }
 
 
@@ -5656,45 +5582,20 @@ padding: 12px 16px;
 }
 
 
-/* 固有ページの見出し */
+/* 固有ページのシンプルなタイトル */
 
 .tool-detail-heading {
-  display: flex;
-  align-items: center;
-  gap: 18px;
   margin: 10px 0 25px;
-  padding: 25px;
-  border-radius: 16px;
-  background: linear-gradient(120deg, #222, #444);
-  color: #fff;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #eee;
 }
 
-.tool-detail-heading > .material-symbols-outlined {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 60px;
-  height: 60px;
-  border-radius: 15px;
-  background: #d90000;
-  color: #fff;
-  font-size: 32px;
-}
-
-.tool-detail-heading .tool-item-category {
-  color: #ff7777;
-}
-
-.tool-detail-heading h3 {
-  margin: 0 0 7px;
-  font-size: 21px;
-}
-
-.tool-detail-heading p {
+.tool-detail-heading h2 {
   margin: 0;
-  color: #ddd;
-  font-size: 13px;
+  color: #222;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1.5;
 }
 
 
@@ -5763,61 +5664,33 @@ padding: 12px 16px;
    スマホ表示
 ======================================== */
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 600px) {
 
   .tool-card-list {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
   }
 
   .tool-item-card {
-    padding: 19px 15px;
-    gap: 12px;
+    width: 100%;
+    max-width: 360px;
+    justify-self: center;
   }
 
-  .tool-item-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 12px;
-  }
-
-  .tool-item-icon .material-symbols-outlined {
-    font-size: 25px;
+  .tool-item-info {
+    padding: 15px 16px 18px;
   }
 
   .tool-item-info h3 {
-    font-size: 15px;
+    font-size: 16px;
   }
 
   .tool-item-info p {
     font-size: 12px;
   }
 
-  .tool-page-heading h3 {
-    font-size: 19px;
-  }
-
-  .tool-page-heading p {
-    font-size: 12px;
-  }
-
-  .tool-detail-heading {
-    gap: 12px;
-    padding: 19px 15px;
-  }
-
-  .tool-detail-heading > .material-symbols-outlined {
-    width: 48px;
-    height: 48px;
-    font-size: 27px;
-  }
-
-  .tool-detail-heading h3 {
-    font-size: 17px;
-  }
-
-  .tool-detail-heading p {
-    font-size: 12px;
+  .tool-detail-heading h2 {
+    font-size: 20px;
   }
 
   .tool-coming-soon {
