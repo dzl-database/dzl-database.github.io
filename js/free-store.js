@@ -258,7 +258,7 @@ function renderFreeStore(items, groupSettings) {
       <section class="store-type-section">
 
         <h3 class="store-type-title">
-          <span class="material-symbols-outlined">folder</span>
+          <span class="material-symbols-outlined">hexagon</span>
           ${escapeStoreHTML(type)}
         </h3>
     `;
@@ -284,7 +284,7 @@ function renderFreeStore(items, groupSettings) {
 
         html += `
           <h4 class="store-group-title">
-            <span class="material-symbols-outlined">folder_open</span>
+            <span class="material-symbols-outlined">sell</span>
             ${escapeStoreHTML(groupName)}
           </h4>
         `;

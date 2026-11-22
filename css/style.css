@@ -6097,3 +6097,109 @@ padding: 12px 16px;
   }
 
 }
+
+/* =========================
+   素材配布ページ：説明
+========================== */
+
+.store-page-description {
+  margin: 20px 0 30px;
+  padding: 18px 22px;
+  background: #f7f8fc;
+  border-left: 4px solid #6c8ee3;
+  border-radius: 8px;
+  line-height: 1.8;
+  color: #444;
+}
+
+.store-page-description p {
+  margin: 0 0 10px;
+}
+
+.store-page-description p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* =========================
+   素材配布ページ：共通利用規約
+========================== */
+
+.store-common-terms {
+  margin-top: 45px;
+  padding: 25px;
+  background: #f7f8fc;
+  border: 1px solid #e2e6f0;
+  border-radius: 12px;
+  line-height: 1.8;
+  color: #444;
+}
+
+.store-common-terms h3 {
+  margin: 0 0 25px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #6c8ee3;
+  font-size: 1.35rem;
+  color: #333;
+}
+
+.store-common-terms h4 {
+  margin: 25px 0 10px;
+  font-size: 1.05rem;
+  color: #444;
+}
+
+.store-common-terms h4:first-of-type {
+  margin-top: 0;
+}
+
+.store-common-terms p {
+  margin: 0;
+}
+
+.store-common-terms ul {
+  margin: 10px 0 0;
+  padding-left: 1.5em;
+}
+
+.store-common-terms li {
+  margin-bottom: 12px;
+  padding-left: 3px;
+}
+
+.store-common-terms li:last-child {
+  margin-bottom: 0;
+}
+
+.store-common-terms strong {
+  color: #333;
+}
+
+
+/* =========================
+   スマートフォン対応
+========================== */
+
+@media (max-width: 600px) {
+
+  .store-page-description {
+    padding: 15px;
+    margin: 15px 0 25px;
+    font-size: 0.92rem;
+  }
+
+  .store-common-terms {
+    margin-top: 30px;
+    padding: 18px 15px;
+    font-size: 0.92rem;
+  }
+
+  .store-common-terms h3 {
+    font-size: 1.2rem;
+  }
+
+  .store-common-terms h4 {
+    font-size: 1rem;
+  }
+
+}
