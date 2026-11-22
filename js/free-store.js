@@ -152,151 +152,160 @@ async function loadFreeStore() {
 function renderFreeStore(items, groupSettings) {
 
   const container = document.getElementById("freeStoreContent");
-
   if (!container) return;
 
   if (items.length === 0) {
-
     container.innerHTML = `
       <p class="store-loading">
         現在公開されている素材はありません。
       </p>
     `;
-
     return;
   }
 
-  // タイプごとに分類
-  const typeMap = new Map();
-
-  items.forEach(item => {
-
-    const type = item["タイプ"] || "その他";
-
-    if (!typeMap.has(type)) {
-      typeMap.set(type, new Map());
-    }
-
-    const group = item["グループ"] || "";
-
-    if (!typeMap.get(type).has(group)) {
-      typeMap.get(type).set(group, []);
-    }
-
-    typeMap.get(type).get(group).push(item);
-  });
-
-
   // グループ設定を検索
   function findGroupSetting(type, group) {
-
     return groupSettings.find(setting =>
       setting["タイプ"] === type &&
       (setting["グループ"] || "") === group
     );
   }
 
+  // 表示順番を取得
+  function getDisplayOrder(type, group) {
+    const setting = findGroupSetting(type, group);
+    const order = Number(setting?.["表示順番"]);
+    return Number.isFinite(order) && order > 0 ? order : 999999;
+  }
 
-  // グループ全体設定のHTML
+  // タイプ・グループに分類
+  const typeMap = new Map();
+
+  items.forEach(item => {
+
+    const type = item["タイプ"] || "その他";
+    const group = item["グループ"] || "";
+
+    if (!typeMap.has(type)) {
+      typeMap.set(type, new Map());
+    }
+
+    const groupMap = typeMap.get(type);
+
+    if (!groupMap.has(group)) {
+      groupMap.set(group, []);
+    }
+
+    groupMap.get(group).push(item);
+  });
+
+  // 全体説明・利用規約カード
   function createGroupInfo(setting) {
 
     if (!setting) return "";
 
-    let html = "";
+    const description = setting["全体_説明"] || "";
+    const terms = setting["全体_利用規約"] || "";
 
-    if (setting["全体_説明"]) {
-      html += `<div class="store-description"><span class="store-info-label">説明</span>${escapeStoreHTML(setting["全体_説明"])}</div>`;
-    }
+    if (!description && !terms) return "";
 
-    if (setting["全体_利用規約"]) {
-      html += `<div class="store-terms"><span class="store-info-label">利用規約</span>${escapeStoreHTML(setting["全体_利用規約"])}</div>`;
-    }
+    return `
+      <div class="store-group-info">
 
-    return html;
+        ${description ? `
+          <div class="store-group-description">
+            <div class="store-info-label">
+              <span class="material-symbols-outlined">info</span>
+              説明
+            </div>
+            <div class="store-info-text">${escapeStoreHTML(description)}</div>
+          </div>
+        ` : ""}
+
+        ${terms ? `
+          <div class="store-group-terms">
+            <div class="store-info-label">
+              <span class="material-symbols-outlined">description</span>
+              利用規約
+            </div>
+            <div class="store-info-text">${escapeStoreHTML(terms)}</div>
+          </div>
+        ` : ""}
+
+      </div>
+    `;
   }
 
+  // タイプの表示順を計算
+  const sortedTypes = [...typeMap.entries()].sort((a, b) => {
+
+    const orderA = Math.min(
+      ...[...a[1].keys()].map(group => getDisplayOrder(a[0], group))
+    );
+
+    const orderB = Math.min(
+      ...[...b[1].keys()].map(group => getDisplayOrder(b[0], group))
+    );
+
+    return orderA - orderB;
+  });
 
   let html = "";
 
-
-  // タイプごとに表示
-  typeMap.forEach((groupMap, type) => {
+  sortedTypes.forEach(([type, groupMap]) => {
 
     html += `
       <section class="store-type-section">
 
         <h3 class="store-type-title">
+          <span class="material-symbols-outlined">folder</span>
           ${escapeStoreHTML(type)}
         </h3>
     `;
 
+    // タイプ全体設定（グループ空欄）
+    html += createGroupInfo(findGroupSetting(type, ""));
 
-    // タイプ全体設定（グループが空欄）
-    const typeSetting = findGroupSetting(type, "");
+    // グループを表示順番で並べる
+    const sortedGroups = [...groupMap.entries()].sort((a, b) => {
+      return getDisplayOrder(type, a[0]) - getDisplayOrder(type, b[0]);
+    });
 
-    html += createGroupInfo(typeSetting);
+    sortedGroups.forEach(([groupName, groupItems]) => {
 
-
-    // グループごとに表示
-    groupMap.forEach((groupItems, groupName) => {
-
-      // 番号順に並べる
+      // 番号順
       groupItems.sort((a, b) => {
         return Number(a["番号"] || 0) - Number(b["番号"] || 0);
       });
 
+      html += `<div class="store-group">`;
 
-      html += `
-        <div class="store-group">
-      `;
-
-
-      // グループ名がある場合だけタイトルを表示
       if (groupName) {
 
         html += `
           <h4 class="store-group-title">
+            <span class="material-symbols-outlined">folder_open</span>
             ${escapeStoreHTML(groupName)}
           </h4>
         `;
+
+        html += createGroupInfo(findGroupSetting(type, groupName));
       }
 
-
-      // グループ個別の全体設定
-      if (groupName) {
-
-        const setting = findGroupSetting(type, groupName);
-
-        html += createGroupInfo(setting);
-      }
-
-
-      html += `
-          <div class="store-item-list">
-      `;
-
+      html += `<div class="store-item-list">`;
 
       groupItems.forEach(item => {
-
         html += createStoreItemCard(item);
-
       });
-
 
       html += `
           </div>
         </div>
       `;
-
     });
 
-
-    html += `
-      </section>
-    `;
-
+    html += `</section>`;
   });
-
 
   container.innerHTML = html;
   updateStoreLikedButtons();
@@ -312,6 +321,8 @@ function createStoreItemCard(item) {
   const fileName = item["ファイル名"] || "";
   const imageUrl = STORE_IMAGE_PATH + encodeURIComponent(fileName);
 
+  const itemId = item["素材ID"] || "";
+
   const creator = item["制作者"] || "";
   const creatorId = item["制作者X ID"] || "";
 
@@ -321,71 +332,57 @@ function createStoreItemCard(item) {
 
   const likeCount = Number(item["いいね数"] || 0);
 
-  const member = item["メンバー"] || "";
+  const title = item["タイトル"] || "";
   const description = item["個別_説明"] || "";
   const terms = item["個別_利用規約"] || "";
 
-  // 素材を識別するキー
-  const itemKey = [
-    item["タイプ"],
-    item["グループ"],
-    item["番号"],
-    fileName
-  ].join("|");
-
-  const encodedKey = encodeURIComponent(itemKey);
+  const encodedId = encodeURIComponent(itemId);
+  const encodedImageUrl = escapeStoreAttribute(imageUrl);
+  const encodedFileName = escapeStoreAttribute(fileName);
 
   return `
-
     <article class="store-item-card">
 
       <div class="store-like-area">
-
         <button
           class="store-like-btn"
-          data-item-key="${encodedKey}"
+          data-item-id="${escapeStoreAttribute(itemId)}"
+          data-like-count="${likeCount}"
           onclick="likeStoreItem(this)"
+          aria-label="いいね"
         >
           <span class="material-symbols-outlined">favorite</span>
           <span class="store-like-count">${likeCount}</span>
         </button>
-
       </div>
-
 
       <div
         class="store-item-image"
-        onclick="openStoreImage('${escapeStoreAttribute(imageUrl)}')"
+        onclick="openStoreImage('${encodedImageUrl}')"
       >
         <img
-          src="${escapeStoreAttribute(imageUrl)}"
-          alt="${escapeStoreAttribute(fileName)}"
+          src="${encodedImageUrl}"
+          alt="${escapeStoreAttribute(title || "素材画像")}"
           loading="lazy"
         >
       </div>
 
-
-      <p class="store-file-name">
-        ${escapeStoreHTML(fileName)}
-      </p>
-
-
-      ${member ? `
-        <p class="store-member">
-          ${escapeStoreHTML(member)}
-        </p>
+      ${title ? `
+        <h5 class="store-item-title">
+          ${escapeStoreHTML(title)}
+        </h5>
       ` : ""}
 
-
-      ${description ? `<p class="store-item-description">${escapeStoreHTML(description)}</p>` : ""}
-
+      ${description ? `
+        <p class="store-item-description">
+          ${escapeStoreHTML(description)}
+        </p>
+      ` : ""}
 
       <div class="store-creator">
 
         ${creator ? `
-          <div>
-            制作者：${escapeStoreHTML(creator)}
-          </div>
+          <div>制作者：${escapeStoreHTML(creator)}</div>
         ` : ""}
 
         ${creatorId ? `
@@ -395,23 +392,20 @@ function createStoreItemCard(item) {
               href="${escapeStoreAttribute(creatorUrl)}"
               target="_blank"
               rel="noopener noreferrer"
-            >
-              ${escapeStoreHTML(creatorId)}
-            </a>
+            >${escapeStoreHTML(creatorId)}</a>
           </div>
         ` : ""}
 
       </div>
-
 
       <div class="store-item-actions">
 
         <button
           class="store-download-btn"
           onclick="downloadStoreItem(
-            '${escapeStoreAttribute(encodedKey)}',
-            '${escapeStoreAttribute(imageUrl)}',
-            '${escapeStoreAttribute(fileName)}'
+            '${encodedId}',
+            '${encodedImageUrl}',
+            '${encodedFileName}'
           )"
         >
           ダウンロード
@@ -428,11 +422,13 @@ function createStoreItemCard(item) {
 
       </div>
 
-
-      ${terms ? `<div class="store-item-terms">${escapeStoreHTML(terms)}</div>` : ""}
+      ${terms ? `
+        <div class="store-item-terms">
+          ${escapeStoreHTML(terms)}
+        </div>
+      ` : ""}
 
     </article>
-
   `;
 }
 
@@ -519,74 +515,140 @@ document.getElementById("storeImageModal")?.addEventListener("click", function(e
    いいね・ダウンロード
 ======================================== */
 
+// ローカルストレージから取得
 function getStoreLikedItems() {
 
   try {
-    return JSON.parse(localStorage.getItem("storeLikedItems") || "[]");
+    return JSON.parse(
+      localStorage.getItem("storeLikedItems") || "[]"
+    );
   } catch {
     return [];
   }
 }
 
 
-// いいね
-async function likeStoreItem(button) {
+// ローカルストレージに保存
+function saveStoreLikedItems(items) {
 
-  const key = decodeURIComponent(button.dataset.itemKey);
+  localStorage.setItem(
+    "storeLikedItems",
+    JSON.stringify([...new Set(items)])
+  );
+}
+
+
+// 素材ごとの通信キュー
+const storeActionQueues = new Map();
+
+
+// いいね
+function likeStoreItem(button) {
+
+  const itemId = button.dataset.itemId;
+
+  if (!itemId) return;
 
   const likedItems = getStoreLikedItems();
+  const wasLiked = likedItems.includes(itemId);
 
-  if (likedItems.includes(key)) {
-    alert("この素材には、すでにいいねしています。");
-    return;
+  // 今回の操作後の状態
+  const willBeLiked = !wasLiked;
+
+  // ローカルストレージを即時更新
+  const newLikedItems = willBeLiked
+    ? [...likedItems, itemId]
+    : likedItems.filter(id => id !== itemId);
+
+  saveStoreLikedItems(newLikedItems);
+
+  // 見た目を即時更新
+  button.classList.toggle("liked", willBeLiked);
+
+  // 数字を即時更新
+  const countElement = button.querySelector(".store-like-count");
+
+  const currentCount = Number(button.dataset.likeCount || 0);
+
+  const newCount = Math.max(
+    0,
+    currentCount + (willBeLiked ? 1 : -1)
+  );
+
+  button.dataset.likeCount = newCount;
+
+  if (countElement) {
+    countElement.textContent = newCount;
   }
 
-  button.disabled = true;
+  // 裏側でGASへ送信
+  enqueueStoreAction(
+    willBeLiked ? "like" : "unlike",
+    itemId
+  );
+}
 
-  try {
 
-    const result = await sendStoreAction("like", key);
+// 素材ごとに通信を順番に処理
+function enqueueStoreAction(action, itemId) {
 
-    if (!result.success) {
-      throw new Error(result.message || "いいねに失敗しました");
+  const previous = storeActionQueues.get(itemId) || Promise.resolve();
+
+  const next = previous
+    .catch(error => {
+      console.error("前回の素材通信エラー:", error);
+    })
+    .then(async () => {
+
+      const result = await sendStoreAction(action, itemId);
+
+      if (!result.success) {
+        throw new Error(result.message || "通信に失敗しました");
+      }
+
+      // GASから返された数字で表示を補正
+      const buttons = document.querySelectorAll(
+        ".store-like-btn"
+      );
+
+      buttons.forEach(button => {
+
+        if (button.dataset.itemId !== itemId) return;
+
+        // 通信中に次の操作が発生している可能性があるため、
+        // 現在の表示状態は変更せず、カウントだけ確認する。
+        const countElement = button.querySelector(".store-like-count");
+
+        if (countElement) {
+          // 連続操作による表示の巻き戻りを防ぐため、
+          // ここではGASの値で上書きしない。
+        }
+
+      });
+
+    })
+    .catch(error => {
+      console.error("素材アクションの送信に失敗:", error);
+    });
+
+  storeActionQueues.set(itemId, next);
+
+  next.finally(() => {
+    if (storeActionQueues.get(itemId) === next) {
+      storeActionQueues.delete(itemId);
     }
-
-    likedItems.push(key);
-
-    localStorage.setItem(
-      "storeLikedItems",
-      JSON.stringify(likedItems)
-    );
-
-    button.classList.add("liked");
-
-    const count = button.querySelector(".store-like-count");
-
-    if (count) {
-      count.textContent = result.likeCount;
-    }
-
-  } catch (error) {
-
-    console.error(error);
-    alert("いいねに失敗しました。時間をおいて再度お試しください。");
-
-  } finally {
-
-    button.disabled = false;
-
-  }
+  });
 }
 
 
 // ダウンロード
-async function downloadStoreItem(key, imageUrl, fileName) {
+async function downloadStoreItem(itemId, imageUrl, fileName) {
 
   try {
 
     const result = await sendStoreAction(
       "download",
-      decodeURIComponent(key)
+      decodeURIComponent(itemId)
     );
 
     if (!result.success) {
@@ -599,23 +661,23 @@ async function downloadStoreItem(key, imageUrl, fileName) {
     link.download = fileName;
 
     document.body.appendChild(link);
-
     link.click();
-
     link.remove();
 
   } catch (error) {
 
     console.error(error);
 
-    alert("ダウンロードの記録に失敗しました。時間をおいて再度お試しください。");
+    alert(
+      "ダウンロードの記録に失敗しました。時間をおいて再度お試しください。"
+    );
 
   }
 }
 
 
 // GASへ送信
-async function sendStoreAction(action, itemKey) {
+async function sendStoreAction(action, itemId) {
 
   const response = await fetch(STORE_GAS_URL, {
 
@@ -627,7 +689,7 @@ async function sendStoreAction(action, itemKey) {
 
     body: JSON.stringify({
       action: action,
-      itemKey: itemKey
+      itemId: itemId
     })
 
   });
@@ -636,21 +698,19 @@ async function sendStoreAction(action, itemKey) {
 }
 
 
-// 素材配布ページを開いたときに読み込む
-
-
+// いいね状態を反映
 function updateStoreLikedButtons() {
 
   const likedItems = getStoreLikedItems();
 
   document.querySelectorAll(".store-like-btn").forEach(button => {
 
-    const key = decodeURIComponent(button.dataset.itemKey);
+    const itemId = button.dataset.itemId;
 
-    if (likedItems.includes(key)) {
-      button.classList.add("liked");
-    }
+    button.classList.toggle(
+      "liked",
+      likedItems.includes(itemId)
+    );
 
   });
-
 }
