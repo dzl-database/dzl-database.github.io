@@ -6106,14 +6106,15 @@ padding: 12px 16px;
   margin: 20px 0 30px;
   padding: 18px 22px;
   background: #f7f8fc;
-  border-left: 4px solid #6c8ee3;
+  border-left: 4px solid #333;
   border-radius: 8px;
-  line-height: 1.8;
+  line-height: 1.6;
   color: #444;
+  font-size: 14px;
 }
 
 .store-page-description p {
-  margin: 0 0 10px;
+  margin: 0 0 8px;
 }
 
 .store-page-description p:last-child {
@@ -6131,21 +6132,22 @@ padding: 12px 16px;
   background: #f7f8fc;
   border: 1px solid #e2e6f0;
   border-radius: 12px;
-  line-height: 1.8;
+  line-height: 1.6;
   color: #444;
+  font-size: 14px;
 }
 
 .store-common-terms h3 {
-  margin: 0 0 25px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid #6c8ee3;
-  font-size: 1.35rem;
+  margin: 0 0 18px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #777;
+  font-size: 20px;
   color: #333;
 }
 
 .store-common-terms h4 {
-  margin: 25px 0 10px;
-  font-size: 1.05rem;
+  margin: 18px 0 8px;
+  font-size: 16px;
   color: #444;
 }
 
@@ -6163,7 +6165,7 @@ padding: 12px 16px;
 }
 
 .store-common-terms li {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   padding-left: 3px;
 }
 
@@ -6185,21 +6187,21 @@ padding: 12px 16px;
   .store-page-description {
     padding: 15px;
     margin: 15px 0 25px;
-    font-size: 0.92rem;
+    font-size: 14px;
   }
 
   .store-common-terms {
     margin-top: 30px;
     padding: 18px 15px;
-    font-size: 0.92rem;
+    font-size: 14px;
   }
 
   .store-common-terms h3 {
-    font-size: 1.2rem;
+    font-size: 19px;
   }
 
   .store-common-terms h4 {
-    font-size: 1rem;
+    font-size: 16px;
   }
 
 }
