@@ -154,15 +154,6 @@ function renderFreeStore(items, groupSettings) {
   const container = document.getElementById("freeStoreContent");
   if (!container) return;
 
-  if (items.length === 0) {
-    container.innerHTML = `
-      <p class="store-loading">
-        現在公開されている素材はありません。
-      </p>
-    `;
-    return;
-  }
-
   // グループ設定を検索
   function findGroupSetting(type, group) {
     return groupSettings.find(setting =>
@@ -199,7 +190,125 @@ function renderFreeStore(items, groupSettings) {
     groupMap.get(group).push(item);
   });
 
-  // 全体説明・利用規約カード
+
+  // タイプの表示順を計算
+  const sortedTypes = [...typeMap.entries()].sort((a, b) => {
+
+    const orderA = Math.min(
+      ...[...a[1].keys()].map(group => getDisplayOrder(a[0], group))
+    );
+
+    const orderB = Math.min(
+      ...[...b[1].keys()].map(group => getDisplayOrder(b[0], group))
+    );
+
+    return orderA - orderB;
+  });
+
+
+  /* ========================================
+     ページ説明・配布素材数
+  ======================================== */
+
+  function createStorePageIntro() {
+
+    // タイプごとの素材数を集計
+    const typeCounts = sortedTypes.map(([type, groupMap]) => {
+
+      let count = 0;
+
+      groupMap.forEach(groupItems => {
+        count += groupItems.length;
+      });
+
+      return {
+        type: type,
+        count: count
+      };
+
+    });
+
+    let countHTML = "";
+
+    if (typeCounts.length > 0) {
+
+      countHTML = typeCounts.map(data => `
+        <div class="store-count-item">
+
+          <span class="material-symbols-outlined">
+            inventory_2
+          </span>
+
+          <span class="store-count-type">
+            ${escapeStoreHTML(data.type)}
+          </span>
+
+          <strong>${data.count}</strong>
+
+          <span class="store-count-unit">
+            種類
+          </span>
+
+        </div>
+      `).join("");
+
+    } else {
+
+      countHTML = `
+        <p class="store-count-empty">
+          現在配布中の素材はありません。
+        </p>
+      `;
+
+    }
+
+    return `
+
+      <!-- ページの説明 -->
+      <div class="store-page-description">
+
+        <p>
+          本ページに掲載されている素材は、すべて非公式のコンテンツであり、無料でご利用いただけます。
+        </p>
+
+        <p>
+          ご利用の際は、本ページ下部の「全素材共通の利用規約」および各素材に記載された「個別利用規約」をお読みいただき、内容に同意のうえご使用ください。
+        </p>
+
+      </div>
+
+
+      <!-- 現在配布中の素材数 -->
+      <div class="store-count-area">
+
+        <div class="store-count-heading">
+
+          <span class="material-symbols-outlined">
+            widgets
+          </span>
+
+          現在配布中の素材
+
+          <span class="store-count-badge">
+            配布中
+          </span>
+
+        </div>
+
+        <div class="store-count-list">
+          ${countHTML}
+        </div>
+
+      </div>
+
+    `;
+  }
+
+
+  /* ========================================
+     グループ全体説明・利用規約
+  ======================================== */
+
   function createGroupInfo(setting) {
 
     if (!setting) return "";
@@ -236,22 +345,30 @@ function renderFreeStore(items, groupSettings) {
     `;
   }
 
-  // タイプの表示順を計算
-  const sortedTypes = [...typeMap.entries()].sort((a, b) => {
 
-    const orderA = Math.min(
-      ...[...a[1].keys()].map(group => getDisplayOrder(a[0], group))
-    );
+  /* ========================================
+     HTML生成
+  ======================================== */
 
-    const orderB = Math.min(
-      ...[...b[1].keys()].map(group => getDisplayOrder(b[0], group))
-    );
+  // 最初にページ説明と素材数を表示
+  let html = createStorePageIntro();
 
-    return orderA - orderB;
-  });
 
-  let html = "";
+  // 公開素材がない場合
+  if (items.length === 0) {
 
+    html += `
+      <p class="store-loading">
+        現在公開されている素材はありません。
+      </p>
+    `;
+
+    container.innerHTML = html;
+    return;
+  }
+
+
+  // タイプごとに表示
   sortedTypes.forEach(([type, groupMap]) => {
 
     html += `
@@ -263,13 +380,16 @@ function renderFreeStore(items, groupSettings) {
         </h3>
     `;
 
+
     // タイプ全体設定（グループ空欄）
     html += createGroupInfo(findGroupSetting(type, ""));
+
 
     // グループを表示順番で並べる
     const sortedGroups = [...groupMap.entries()].sort((a, b) => {
       return getDisplayOrder(type, a[0]) - getDisplayOrder(type, b[0]);
     });
+
 
     sortedGroups.forEach(([groupName, groupItems]) => {
 
@@ -292,6 +412,7 @@ function renderFreeStore(items, groupSettings) {
         html += createGroupInfo(findGroupSetting(type, groupName));
       }
 
+
       html += `<div class="store-item-list">`;
 
       groupItems.forEach(item => {
@@ -302,13 +423,20 @@ function renderFreeStore(items, groupSettings) {
           </div>
         </div>
       `;
+
     });
 
     html += `</section>`;
+
   });
 
+
+  // ページに反映
   container.innerHTML = html;
+
+  // いいね状態を反映
   updateStoreLikedButtons();
+
 }
 
 
