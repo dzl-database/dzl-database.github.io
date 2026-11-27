@@ -526,7 +526,7 @@ function createStoreItemCard(item) {
 
         <button
           class="store-download-btn"
-          onclick="downloadStoreItem(
+          onclick="downloadStoreItem(this,
             '${encodedId}',
             '${encodedImageUrl}',
             '${encodedFileName}'
@@ -568,62 +568,79 @@ function escapeStoreHTML(value) {
 }
 
 /* ========================================
-   素材配布：CSV内リンク変換
+   素材配布：リンク・太字変換
 ======================================== */
 
 function formatStoreText(value) {
 
-  const text = String(value ?? "");
+  let text = String(value ?? "");
 
+  // HTMLとして解釈させたくない文字を一時的に退避
+  const placeholders = [];
+
+  function savePlaceholder(html) {
+    const index = placeholders.length;
+    placeholders.push(html);
+    return `STORE_PLACEHOLDER_${index}_END`;
+  }
+
+  // ① リンクを変換
   const linkPattern = /<link\s+url="([^"]*)"\s+title="([^"]*)">/g;
 
-  let result = "";
-  let lastIndex = 0;
-  let match;
-
-  while ((match = linkPattern.exec(text)) !== null) {
-
-    // リンクより前の通常テキスト
-    result += escapeStoreHTML(
-      text.slice(lastIndex, match.index)
-    );
-
-    const url = match[1];
-    const title = match[2];
+  text = text.replace(linkPattern, (match, url, title) => {
 
     try {
 
       const parsedUrl = new URL(url);
 
-      // http / https の絶対URLのみ許可
       if (
         parsedUrl.protocol === "https:" ||
         parsedUrl.protocol === "http:"
       ) {
 
-        result += `<a href="${escapeStoreAttribute(url)}" class="store-text-link" target="_blank" rel="noopener noreferrer">${escapeStoreHTML(title)}</a>`;
-
-      } else {
-
-        // 不正なURLは通常テキストとして表示
-        result += escapeStoreHTML(match[0]);
+        return savePlaceholder(`
+          <a
+            href="${escapeStoreAttribute(url)}"
+            class="store-text-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >${escapeStoreHTML(title)}</a>
+        `);
 
       }
 
-    } catch {
+    } catch {}
 
-      // URLが不正な場合も通常テキストとして表示
-      result += escapeStoreHTML(match[0]);
+    return escapeStoreHTML(match);
 
-    }
+  });
 
-    lastIndex = linkPattern.lastIndex;
-  }
 
-  // 最後のリンク以降の通常テキスト
-  result += escapeStoreHTML(
-    text.slice(lastIndex)
-  );
+  // ② 太字を変換
+  const boldPattern = /<b>([\s\S]*?)<\/b>/g;
+
+  text = text.replace(boldPattern, (match, content) => {
+
+    return savePlaceholder(`
+      <strong class="store-text-bold">${escapeStoreHTML(content)}</strong>
+    `);
+
+  });
+
+
+  // ③ 残りの通常テキストをHTMLエスケープ
+  let result = escapeStoreHTML(text);
+
+
+  // ④ 退避したリンク・太字を元に戻す
+  placeholders.forEach((html, index) => {
+
+    result = result.replace(
+      `STORE_PLACEHOLDER_${index}_END`,
+      html
+    );
+
+  });
 
   return result;
 }
@@ -823,7 +840,28 @@ function enqueueStoreAction(action, itemId) {
 
 
 // ダウンロード
-async function downloadStoreItem(itemId, imageUrl, fileName) {
+async function downloadStoreItem(button, itemId, imageUrl, fileName) {
+
+  // すでに無効化されている場合は処理しない
+  if (button.disabled) return;
+
+  // ボタンを即時無効化
+  button.disabled = true;
+  button.classList.add("disabled");
+
+  const originalText = button.textContent;
+
+  button.textContent = "ダウンロード準備中";
+
+  // 5秒後にボタンを復帰
+  const restoreTimer = setTimeout(() => {
+
+    button.disabled = false;
+    button.classList.remove("disabled");
+    button.textContent = originalText;
+
+  }, 5000);
+
 
   try {
 
@@ -845,6 +883,8 @@ async function downloadStoreItem(itemId, imageUrl, fileName) {
     link.click();
     link.remove();
 
+    button.textContent = "ダウンロード開始";
+
   } catch (error) {
 
     console.error(error);
@@ -854,6 +894,7 @@ async function downloadStoreItem(itemId, imageUrl, fileName) {
     );
 
   }
+
 }
 
 
