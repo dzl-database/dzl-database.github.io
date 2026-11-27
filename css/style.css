@@ -6217,6 +6217,7 @@ padding: 12px 16px;
   background: #fff5f5;
   border: 1px solid #ffdcdc;
   border-radius: 12px;
+  max-width: 290px;
 }
 
 .store-count-heading {
@@ -6260,6 +6261,7 @@ padding: 12px 16px;
   border-radius: 8px;
   color: #444;
   font-size: 0.95rem;
+  max-width: 250px;
 }
 
 .store-count-item > .material-symbols-outlined {
@@ -6297,6 +6299,7 @@ padding: 12px 16px;
   .store-count-area {
     padding: 15px;
     margin: 20px 0 30px;
+    max-width: unset;
   }
 
   .store-count-heading {
