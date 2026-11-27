@@ -598,14 +598,12 @@ function formatStoreText(value) {
         parsedUrl.protocol === "http:"
       ) {
 
-        return savePlaceholder(`
-          <a
+        return savePlaceholder(`<a
             href="${escapeStoreAttribute(url)}"
             class="store-text-link"
             target="_blank"
             rel="noopener noreferrer"
-          >${escapeStoreHTML(title)}</a>
-        `);
+          >${escapeStoreHTML(title)}</a>`);
 
       }
 
@@ -621,9 +619,7 @@ function formatStoreText(value) {
 
   text = text.replace(boldPattern, (match, content) => {
 
-    return savePlaceholder(`
-      <strong class="store-text-bold">${escapeStoreHTML(content)}</strong>
-    `);
+    return savePlaceholder(`<strong class="store-text-bold">${escapeStoreHTML(content)}</strong>`);
 
   });
 
