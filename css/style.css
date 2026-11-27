@@ -6331,3 +6331,20 @@ padding: 12px 16px;
 
 }
 
+/* ========================================
+   素材配布：CSV内リンク
+======================================== */
+
+.store-text-link {
+  color: #d90000;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.store-text-link:hover {
+  color: #a00000;
+  text-decoration-thickness: 2px;
+}

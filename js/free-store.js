@@ -327,7 +327,7 @@ function renderFreeStore(items, groupSettings) {
               <span class="material-symbols-outlined">info</span>
               説明
             </div>
-            <div class="store-info-text">${escapeStoreHTML(description)}</div>
+            <div class="store-info-text">${formatStoreText(description)}</div>
           </div>
         ` : ""}
 
@@ -337,7 +337,7 @@ function renderFreeStore(items, groupSettings) {
               <span class="material-symbols-outlined">description</span>
               利用規約
             </div>
-            <div class="store-info-text">${escapeStoreHTML(terms)}</div>
+            <div class="store-info-text">${formatStoreText(terms)}</div>
           </div>
         ` : ""}
 
@@ -501,7 +501,7 @@ function createStoreItemCard(item) {
         </h5>
       ` : ""}
 
-      ${description ? `<p class="store-item-description">${escapeStoreHTML(description)}</p>` : ""}
+      ${description ? `<p class="store-item-description">${formatStoreText(description)}</p>` : ""}
 
       <div class="store-creator">
 
@@ -546,7 +546,7 @@ function createStoreItemCard(item) {
 
       </div>
 
-      ${terms ? `<div class="store-item-terms">${escapeStoreHTML(terms)}</div>` : ""}
+      ${terms ? `<div class="store-item-terms">${formatStoreText(terms)}</div>` : ""}
 
     </article>
   `;
@@ -565,6 +565,74 @@ function escapeStoreHTML(value) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
+}
+
+/* ========================================
+   素材配布：CSV内リンク変換
+======================================== */
+
+function formatStoreText(value) {
+
+  const text = String(value ?? "");
+
+  const linkPattern = /<link\s+url="([^"]*)"\s+title="([^"]*)">/g;
+
+  let result = "";
+  let lastIndex = 0;
+  let match;
+
+  while ((match = linkPattern.exec(text)) !== null) {
+
+    // リンクより前の通常テキスト
+    result += escapeStoreHTML(
+      text.slice(lastIndex, match.index)
+    );
+
+    const url = match[1];
+    const title = match[2];
+
+    try {
+
+      const parsedUrl = new URL(url);
+
+      // http / https の絶対URLのみ許可
+      if (
+        parsedUrl.protocol === "https:" ||
+        parsedUrl.protocol === "http:"
+      ) {
+
+        result += `
+          <a
+            href="${escapeStoreAttribute(url)}"
+            class="store-text-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >${escapeStoreHTML(title)}</a>
+        `;
+
+      } else {
+
+        // 不正なURLは通常テキストとして表示
+        result += escapeStoreHTML(match[0]);
+
+      }
+
+    } catch {
+
+      // URLが不正な場合も通常テキストとして表示
+      result += escapeStoreHTML(match[0]);
+
+    }
+
+    lastIndex = linkPattern.lastIndex;
+  }
+
+  // 最後のリンク以降の通常テキスト
+  result += escapeStoreHTML(
+    text.slice(lastIndex)
+  );
+
+  return result;
 }
 
 
