@@ -942,12 +942,14 @@ function switchToolPage(pageName, updateHash = true) {
   const pageMap = {
     "list": "tool-list-page",
     "profile-maker": "profile-maker-page",
-    "bingo-maker": "bingo-maker-page"
+    "bingo-maker": "bingo-maker-page",
+    "icon-frame": "icon-frame-page"
   };
 
   const targetId = pageMap[pageName];
 
   if (!targetId) return;
+
 
   // すべてのツールページを非表示
   Object.values(pageMap).forEach(id => {
@@ -960,6 +962,7 @@ function switchToolPage(pageName, updateHash = true) {
 
   });
 
+
   // 選択したページを表示
   const target = document.getElementById(targetId);
 
@@ -967,8 +970,8 @@ function switchToolPage(pageName, updateHash = true) {
     target.style.display = "block";
   }
 
-  // 自己紹介カードページを開いた場合
-  // ツール本体がまだ作られていなければ生成する
+
+  // 自己紹介カードページ
   if (pageName === "profile-maker") {
 
     const area = document.getElementById("cardToolArea");
@@ -979,8 +982,16 @@ function switchToolPage(pageName, updateHash = true) {
 
   }
 
+
+  // アイコンフレームツール
+  if (pageName === "icon-frame") {
+    initializeIconFrameTool();
+  }
+
+
   // ツールページを表示
   showSection("tool", false);
+
 
   // URLハッシュを更新
   if (updateHash) {
@@ -988,7 +999,8 @@ function switchToolPage(pageName, updateHash = true) {
     const hashMap = {
       "list": "tool",
       "profile-maker": "profile-maker",
-      "bingo-maker": "bingo-maker"
+      "bingo-maker": "bingo-maker",
+      "icon-frame": "icon-frame"
     };
 
     history.pushState(
@@ -1671,6 +1683,12 @@ function handleLocationHash() {
     return;
   }
 
+  // アイコンフレーム合成ツール
+  if (hash === "icon-frame") {
+    switchToolPage("icon-frame", false);
+    return;
+  }
+
   if (hash === "bingo-maker") {
     switchToolPage("bingo-maker", false);
     return;
@@ -1799,6 +1817,369 @@ function formatEventPeriod(event){
   return `${startText}～${endText}`;
 
 }
+
+
+// ========================================
+// アイコンフレーム合成ツール
+// ========================================
+
+const iconFrameState = {
+  frameImage: null,
+  baseImage: null,
+
+  frameSize: 100,
+  baseSize: 100,
+  baseRadius: 50,
+
+  backgroundColor: "#C80000"
+};
+
+
+// ========================================
+// Canvas取得
+// ========================================
+
+function getIconFrameCanvas() {
+  return document.getElementById("iconFrameCanvas");
+}
+
+
+// ========================================
+// プレビュー描画
+// ========================================
+
+function drawIconFrame() {
+
+  const canvas = getIconFrameCanvas();
+
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+
+  const width = canvas.width;
+  const height = canvas.height;
+
+  ctx.clearRect(0, 0, width, height);
+
+
+  // 背景色
+  ctx.fillStyle = iconFrameState.backgroundColor;
+
+  ctx.fillRect(0, 0, width, height);
+
+
+  // アイコン画像
+  if (iconFrameState.baseImage) {
+
+    const size = width * iconFrameState.baseSize / 100;
+
+    const x = (width - size) / 2;
+    const y = (height - size) / 2;
+
+    const radius = size * iconFrameState.baseRadius / 100 / 2;
+
+    ctx.save();
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+      x,
+      y,
+      size,
+      size,
+      radius
+    );
+
+    ctx.clip();
+
+    ctx.drawImage(
+      iconFrameState.baseImage,
+      x,
+      y,
+      size,
+      size
+    );
+
+    ctx.restore();
+
+  }
+
+
+  // フレーム画像（必ず上に重ねる）
+  if (iconFrameState.frameImage) {
+
+    const size = width * iconFrameState.frameSize / 100;
+
+    const x = (width - size) / 2;
+    const y = (height - size) / 2;
+
+    ctx.drawImage(
+      iconFrameState.frameImage,
+      x,
+      y,
+      size,
+      size
+    );
+
+  }
+
+}
+
+
+// ========================================
+// 画像読み込み
+// ========================================
+
+function loadIconFrameImage(file, type) {
+
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    alert("画像ファイルを選択してください。");
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = function(event) {
+
+    const image = new Image();
+
+    image.onload = function() {
+
+      if (type === "frame") {
+
+        iconFrameState.frameImage = image;
+
+        document.getElementById("iconFrameFileName").textContent =
+          file.name;
+
+      } else {
+
+        iconFrameState.baseImage = image;
+
+        document.getElementById("iconBaseFileName").textContent =
+          file.name;
+
+      }
+
+      drawIconFrame();
+
+    };
+
+    image.onerror = function() {
+      alert("画像を読み込めませんでした。");
+    };
+
+    image.src = event.target.result;
+
+  };
+
+  reader.onerror = function() {
+    alert("画像ファイルを読み込めませんでした。");
+  };
+
+  reader.readAsDataURL(file);
+
+}
+
+
+// ========================================
+// 初期化
+// ========================================
+
+function initializeIconFrameTool() {
+
+  const frameInput =
+    document.getElementById("iconFrameImageInput");
+
+  const baseInput =
+    document.getElementById("iconBaseImageInput");
+
+  const frameSize =
+    document.getElementById("iconFrameSize");
+
+  const baseSize =
+    document.getElementById("iconBaseSize");
+
+  const baseRadius =
+    document.getElementById("iconBaseRadius");
+
+
+  if (!frameInput || frameInput.dataset.initialized) return;
+
+  frameInput.dataset.initialized = "true";
+
+
+  // ① フレーム画像
+  frameInput.addEventListener("change", function() {
+
+    loadIconFrameImage(this.files[0], "frame");
+
+  });
+
+
+  // ② アイコン画像
+  baseInput.addEventListener("change", function() {
+
+    loadIconFrameImage(this.files[0], "base");
+
+  });
+
+
+  // ③ フレームサイズ
+  frameSize.addEventListener("input", function() {
+
+    iconFrameState.frameSize = Number(this.value);
+
+    document.getElementById("iconFrameSizeValue").textContent =
+      this.value + "%";
+
+    drawIconFrame();
+
+  });
+
+
+  // ④ アイコンサイズ
+  baseSize.addEventListener("input", function() {
+
+    iconFrameState.baseSize = Number(this.value);
+
+    document.getElementById("iconBaseSizeValue").textContent =
+      this.value + "%";
+
+    drawIconFrame();
+
+  });
+
+
+  // ⑤ 角丸
+  baseRadius.addEventListener("input", function() {
+
+    iconFrameState.baseRadius = Number(this.value);
+
+    document.getElementById("iconBaseRadiusValue").textContent =
+      this.value + "%";
+
+    drawIconFrame();
+
+  });
+
+
+  // ⑥ 背景色
+  document.querySelectorAll(".icon-frame-color").forEach(button => {
+
+    button.addEventListener("click", function() {
+
+      document.querySelectorAll(".icon-frame-color").forEach(btn => {
+        btn.classList.remove("active");
+      });
+
+      this.classList.add("active");
+
+      iconFrameState.backgroundColor =
+        this.dataset.color;
+
+      drawIconFrame();
+
+    });
+
+  });
+
+
+  // ⑦ ダウンロード
+  document.getElementById("iconFrameDownloadBtn")
+    .addEventListener("click", downloadIconFrameImage);
+
+
+  // ⑧ X投稿
+  document.getElementById("iconFrameXButton")
+    .addEventListener("click", postIconFrameToX);
+
+
+  drawIconFrame();
+
+}
+
+
+// ========================================
+// 合成画像ダウンロード
+// ========================================
+
+function downloadIconFrameImage() {
+
+  if (!iconFrameState.frameImage || !iconFrameState.baseImage) {
+
+    alert("フレーム画像とアイコン画像の両方を選択してください。");
+
+    return;
+
+  }
+
+  const canvas = getIconFrameCanvas();
+
+  canvas.toBlob(function(blob) {
+
+    if (!blob) {
+      alert("画像を作成できませんでした。");
+      return;
+    }
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "icon-frame.png";
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+    setTimeout(() => {
+      URL.revokeObjectURL(url);
+    }, 1000);
+
+  }, "image/png");
+
+}
+
+
+// ========================================
+// Xにポスト
+// ========================================
+
+function postIconFrameToX() {
+
+  const text =
+    "#ドズル社データベース でアイコンを合成しました！\n" +
+    "https://dzl-database.github.io/#icon-frame";
+
+  const url =
+    "https://twitter.com/intent/tweet?text=" +
+    encodeURIComponent(text);
+
+  window.open(
+    url,
+    "_blank",
+    "noopener,noreferrer"
+  );
+
+}
+
+
+// ========================================
+// ツールページを開いたときに初期化
+// ========================================
+
+document.addEventListener("DOMContentLoaded", function() {
+
+  initializeIconFrameTool();
+
+});
+
  
 loadNews();
 loadTodayContent();

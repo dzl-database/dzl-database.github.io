@@ -845,6 +845,26 @@
         </div>
       </button>
 
+      <!-- アイコンフレーム合成ツール -->
+      <button
+        class="tool-item-card"
+        onclick="switchToolPage('icon-frame')"
+      >
+        <img
+          src="images/icon-frame.jpg"
+          alt="アイコンフレーム合成ツール"
+          class="tool-item-thumbnail"
+        >
+
+        <div class="tool-item-info">
+          <h3>アイコンフレーム合成ツール</h3>
+          <p>
+            好きなフレームと自分のアイコンを組み合わせて、
+            オリジナルのアイコン画像を作成できます！
+          </p>
+        </div>
+      </button>
+
       <!-- 推し活ビンゴ -->
       <button
         class="tool-item-card"
@@ -896,6 +916,330 @@
 
     <!-- 既存の自己紹介カード作成ツール -->
     <div id="cardToolArea" style="margin-top:20px;"></div>
+
+  </div>
+
+
+  <!-- =========================
+      アイコンフレーム合成ツール
+  ========================== -->
+  <div id="icon-frame-page" class="tool-page" style="display:none;">
+
+    <button
+      class="tool-back-btn"
+      onclick="switchToolPage('list')"
+    >
+      <span class="material-symbols-outlined">arrow_back</span>
+      ツール一覧に戻る
+    </button>
+
+    <div class="tool-detail-heading">
+      <h2>アイコンフレーム合成ツール</h2>
+    </div>
+
+    <div class="tool-detail-notice">
+      <span class="material-symbols-outlined">info</span>
+      <p>
+        このツールは非公式なものであり、公式様とは一切関係ございません。<br>
+        画像はブラウザ内で処理され、サーバーには送信されません。
+      </p>
+    </div>
+
+    <div class="icon-frame-description">
+      <h3>自分だけのアイコンを作ろう！</h3>
+      <p>
+        フレーム画像と自分のアイコン画像を組み合わせて、
+        オリジナルのアイコンを作成できます。<br>
+        下の手順に沿って画像を調整してみてください！
+      </p>
+    </div>
+
+    <div class="icon-frame-workspace">
+
+      <!-- 左側：プレビュー -->
+      <div class="icon-frame-preview-area">
+
+        <h3>
+          <span class="material-symbols-outlined">visibility</span>
+          完成プレビュー
+        </h3>
+
+        <div class="icon-frame-preview-background">
+          <canvas
+            id="iconFrameCanvas"
+            width="1024"
+            height="1024"
+          ></canvas>
+        </div>
+
+        <p class="icon-frame-preview-caption">
+          調整した内容がリアルタイムで反映されます。
+        </p>
+
+      </div>
+
+
+      <!-- 右側：調整パネル -->
+      <div class="icon-frame-controls">
+
+        <!-- ① フレーム画像 -->
+        <div class="icon-frame-control-card">
+
+          <div class="icon-frame-step-heading">
+            <span>1</span>
+            <h3>フレーム画像をインポート</h3>
+          </div>
+
+          <p>
+            使用したいフレーム画像を選択してください。
+            先に素材配布サイトなどからダウンロードしておく必要があります。
+          </p>
+
+          <label class="icon-frame-upload-btn">
+            <span class="material-symbols-outlined">add_photo_alternate</span>
+            フレーム画像を選択
+            <input
+              type="file"
+              id="iconFrameImageInput"
+              accept="image/*"
+            >
+          </label>
+
+          <span id="iconFrameFileName" class="icon-frame-file-name">
+            画像が選択されていません
+          </span>
+
+        </div>
+
+
+        <!-- ② アイコン画像 -->
+        <div class="icon-frame-control-card">
+
+          <div class="icon-frame-step-heading">
+            <span>2</span>
+            <h3>アイコン画像をインポート</h3>
+          </div>
+
+          <p>
+            合成したい自分のアイコン画像を選択してください。
+          </p>
+
+          <label class="icon-frame-upload-btn">
+            <span class="material-symbols-outlined">account_circle</span>
+            アイコン画像を選択
+            <input
+              type="file"
+              id="iconBaseImageInput"
+              accept="image/*"
+            >
+          </label>
+
+          <span id="iconBaseFileName" class="icon-frame-file-name">
+            画像が選択されていません
+          </span>
+
+        </div>
+
+
+        <!-- ③ フレームサイズ -->
+        <div class="icon-frame-control-card">
+
+          <div class="icon-frame-step-heading">
+            <span>3</span>
+            <h3>フレーム画像のサイズ調整</h3>
+          </div>
+
+          <p>
+            フレーム画像の大きさを調整できます。
+            基本的には変更する必要はありません。
+          </p>
+
+          <div class="icon-frame-range-row">
+            <input
+              type="range"
+              id="iconFrameSize"
+              min="50"
+              max="150"
+              value="100"
+            >
+            <span id="iconFrameSizeValue">100%</span>
+          </div>
+
+        </div>
+
+
+        <!-- ④ アイコンサイズ -->
+        <div class="icon-frame-control-card">
+
+          <div class="icon-frame-step-heading">
+            <span>4</span>
+            <h3>アイコン画像のサイズ調整</h3>
+          </div>
+
+          <p>
+            フレームに収まるように、アイコン画像の大きさを調整してください。
+          </p>
+
+          <div class="icon-frame-range-row">
+            <input
+              type="range"
+              id="iconBaseSize"
+              min="50"
+              max="150"
+              value="100"
+            >
+            <span id="iconBaseSizeValue">100%</span>
+          </div>
+
+        </div>
+
+
+        <!-- ⑤ 角丸 -->
+        <div class="icon-frame-control-card">
+
+          <div class="icon-frame-step-heading">
+            <span>5</span>
+            <h3>アイコン画像の角を丸く調整</h3>
+          </div>
+
+          <p>
+            アイコン画像の角を丸くできます。
+            四角い画像を使用する場合は、フレームから角がはみ出さないように調整してください。
+          </p>
+
+          <div class="icon-frame-range-row">
+            <input
+              type="range"
+              id="iconBaseRadius"
+              min="0"
+              max="50"
+              value="50"
+            >
+            <span id="iconBaseRadiusValue">50%</span>
+          </div>
+
+        </div>
+
+
+        <!-- ⑥ 背景色 -->
+        <div class="icon-frame-control-card">
+
+          <div class="icon-frame-step-heading">
+            <span>6</span>
+            <h3>背景の色を選択</h3>
+          </div>
+
+          <p>
+            アイコン画像の外側部分の色を選択できます。
+            任意の設定ですが、Xではアイコン画像をタップした際に外側部分も表示されるため、お好みの色に変更してみてください。
+          </p>
+
+          <div class="icon-frame-color-list">
+
+            <button
+              class="icon-frame-color active"
+              style="background:#C80000;"
+              data-color="#C80000"
+              aria-label="赤"
+            ></button>
+
+            <button
+              class="icon-frame-color"
+              style="background:#733C93;"
+              data-color="#733C93"
+              aria-label="紫"
+            ></button>
+
+            <button
+              class="icon-frame-color"
+              style="background:#FCC700;"
+              data-color="#FCC700"
+              aria-label="黄色"
+            ></button>
+
+            <button
+              class="icon-frame-color"
+              style="background:#54C3F1;"
+              data-color="#54C3F1"
+              aria-label="水色"
+            ></button>
+
+            <button
+              class="icon-frame-color"
+              style="background:#EB6D9A;"
+              data-color="#EB6D9A"
+              aria-label="ピンク"
+            ></button>
+
+            <button
+              class="icon-frame-color"
+              style="background:#FFFFFF;"
+              data-color="#FFFFFF"
+              aria-label="白"
+            ></button>
+
+            <button
+              class="icon-frame-color"
+              style="background:#000000;"
+              data-color="#000000"
+              aria-label="黒"
+            ></button>
+
+          </div>
+
+        </div>
+
+
+        <!-- ⑦ ダウンロード -->
+        <div class="icon-frame-control-card">
+
+          <div class="icon-frame-step-heading">
+            <span>7</span>
+            <h3>合成画像をダウンロード</h3>
+          </div>
+
+          <p>
+            完成した画像をPNG形式で保存できます。
+          </p>
+
+          <button
+            type="button"
+            class="icon-frame-download-btn"
+            id="iconFrameDownloadBtn"
+          >
+            <span class="material-symbols-outlined">download</span>
+            合成画像をダウンロード
+          </button>
+
+        </div>
+
+
+        <!-- ⑧ Xに投稿 -->
+        <div class="icon-frame-control-card">
+
+          <div class="icon-frame-step-heading">
+            <span>8</span>
+            <h3>アイコンをXにポスト</h3>
+          </div>
+
+          <p>
+            完成したアイコンを使って、ツールを紹介してみましょう！
+          </p>
+
+          <button
+            type="button"
+            class="icon-frame-x-btn"
+            id="iconFrameXButton"
+          >
+            <span class="material-symbols-outlined">open_in_new</span>
+            Xでポストする
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
 
   </div>
 

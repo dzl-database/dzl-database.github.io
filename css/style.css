@@ -6380,3 +6380,275 @@ padding: 12px 16px;
   background: #aaa;
 
 }
+
+
+/* ========================================
+   アイコンフレーム合成ツール
+======================================== */
+
+.icon-frame-description {
+  margin: 24px 0;
+  padding: 20px;
+  background: #fff7f7;
+  border-radius: 12px;
+  border-left: 5px solid #c80000;
+}
+
+.icon-frame-description h3 {
+  margin: 0 0 10px;
+  color: #c80000;
+}
+
+.icon-frame-description p {
+  margin: 0;
+  line-height: 1.8;
+}
+
+
+/* 全体レイアウト */
+
+.icon-frame-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  margin-top: 24px;
+}
+
+
+/* プレビュー */
+
+.icon-frame-preview-area {
+  position: sticky;
+  top: 20px;
+  min-width: 0;
+  padding: 20px;
+  background: #f5f5f5;
+  border-radius: 14px;
+}
+
+.icon-frame-preview-area h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 18px;
+}
+
+.icon-frame-preview-area h3 .material-symbols-outlined {
+  color: #c80000;
+}
+
+.icon-frame-preview-background {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 10px;
+}
+
+#iconFrameCanvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.icon-frame-preview-caption {
+  margin: 14px 0 0;
+  color: #777;
+  font-size: 13px;
+  text-align: center;
+}
+
+
+/* 調整パネル */
+
+.icon-frame-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.icon-frame-control-card {
+  padding: 18px;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+}
+
+.icon-frame-step-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.icon-frame-step-heading > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  color: #fff;
+  background: #c80000;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+.icon-frame-step-heading h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.icon-frame-control-card p {
+  margin: 0 0 14px;
+  color: #666;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+
+/* 画像選択 */
+
+.icon-frame-upload-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  color: #c80000;
+  background: #fff;
+  border: 1px solid #c80000;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.icon-frame-upload-btn:hover {
+  color: #fff;
+  background: #c80000;
+}
+
+.icon-frame-upload-btn input {
+  display: none;
+}
+
+.icon-frame-file-name {
+  display: block;
+  margin-top: 8px;
+  color: #888;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+
+/* スライダー */
+
+.icon-frame-range-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.icon-frame-range-row input {
+  flex: 1;
+  min-width: 0;
+  accent-color: #c80000;
+  cursor: pointer;
+}
+
+.icon-frame-range-row span {
+  width: 55px;
+  color: #c80000;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: right;
+}
+
+
+/* 背景色 */
+
+.icon-frame-color-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.icon-frame-color {
+  width: 36px;
+  height: 36px;
+  border: 2px solid #ddd;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.icon-frame-color:hover {
+  transform: scale(1.1);
+}
+
+.icon-frame-color.active {
+  outline: 3px solid #c80000;
+  outline-offset: 3px;
+}
+
+
+/* ダウンロード */
+
+.icon-frame-download-btn,
+.icon-frame-x-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.icon-frame-download-btn {
+  background: #c80000;
+}
+
+.icon-frame-download-btn:hover {
+  background: #a00000;
+}
+
+.icon-frame-x-btn {
+  background: #222;
+}
+
+.icon-frame-x-btn:hover {
+  background: #444;
+}
+
+
+/* スマホ */
+
+@media (max-width: 768px) {
+
+  .icon-frame-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .icon-frame-preview-area {
+    position: static;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .icon-frame-preview-background {
+    max-width: 400px;
+  }
+
+}
