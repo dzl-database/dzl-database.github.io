@@ -1829,9 +1829,9 @@ const iconFrameState = {
 
   frameSize: 100,
   baseSize: 100,
-  baseRadius: 50,
+  baseRadius: 100,
 
-  backgroundColor: "#C80000"
+  backgroundColor: "#FFFFFF"
 };
 
 
@@ -2002,8 +2002,8 @@ function initializeIconFrameTool() {
   const baseSize =
     document.getElementById("iconBaseSize");
 
-  const baseRadius =
-    document.getElementById("iconBaseRadius");
+  const frameSizeReset =
+    document.getElementById("iconFrameSizeReset");
 
 
   if (!frameInput || frameInput.dataset.initialized) return;
@@ -2040,6 +2040,21 @@ function initializeIconFrameTool() {
   });
 
 
+  // フレームサイズを100%に戻す
+  frameSizeReset.addEventListener("click", function() {
+
+    frameSize.value = 100;
+
+    iconFrameState.frameSize = 100;
+
+    document.getElementById("iconFrameSizeValue").textContent =
+      "100%";
+
+    drawIconFrame();
+
+  });
+
+
   // ④ アイコンサイズ
   baseSize.addEventListener("input", function() {
 
@@ -2054,14 +2069,17 @@ function initializeIconFrameTool() {
 
 
   // ⑤ 角丸
-  baseRadius.addEventListener("input", function() {
+  document.querySelectorAll(
+    'input[name="iconBaseRadius"]'
+  ).forEach(radio => {
 
-    iconFrameState.baseRadius = Number(this.value);
+    radio.addEventListener("change", function() {
 
-    document.getElementById("iconBaseRadiusValue").textContent =
-      this.value + "%";
+      iconFrameState.baseRadius = Number(this.value);
 
-    drawIconFrame();
+      drawIconFrame();
+
+    });
 
   });
 

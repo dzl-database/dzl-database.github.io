@@ -5585,8 +5585,8 @@ padding: 12px 16px;
 /* 固有ページのシンプルなタイトル */
 
 .tool-detail-heading {
-  margin: 10px 0 25px;
-  padding-bottom: 15px;
+  margin: 10px 0;
+  padding-bottom: 10px;
 }
 
 .tool-detail-heading h2 {
@@ -6389,19 +6389,20 @@ padding: 12px 16px;
 .icon-frame-description {
   margin: 24px 0;
   padding: 20px;
-  background: #fff7f7;
+  background: #fff;
   border-radius: 12px;
-  border-left: 5px solid #c80000;
 }
 
 .icon-frame-description h3 {
-  margin: 0 0 10px;
-  color: #c80000;
+  margin: 0 0 8px;
+  color: #d90000;
+  font-size: 18px;
 }
 
 .icon-frame-description p {
   margin: 0;
-  line-height: 1.8;
+  line-height: 1.6;
+  font-size: 14px;
 }
 
 
@@ -6435,7 +6436,7 @@ padding: 12px 16px;
 }
 
 .icon-frame-preview-area h3 .material-symbols-outlined {
-  color: #c80000;
+  color: #d90000;
 }
 
 .icon-frame-preview-background {
@@ -6492,7 +6493,7 @@ padding: 12px 16px;
   width: 28px;
   height: 28px;
   color: #fff;
-  background: #c80000;
+  background: #d90000;
   border-radius: 50%;
   font-weight: bold;
 }
@@ -6519,9 +6520,9 @@ padding: 12px 16px;
   gap: 8px;
   width: 100%;
   padding: 12px;
-  color: #c80000;
+  color: #d90000;
   background: #fff;
-  border: 1px solid #c80000;
+  border: 1px solid #d90000;
   border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
@@ -6530,7 +6531,7 @@ padding: 12px 16px;
 
 .icon-frame-upload-btn:hover {
   color: #fff;
-  background: #c80000;
+  background: #d90000;
 }
 
 .icon-frame-upload-btn input {
@@ -6557,13 +6558,13 @@ padding: 12px 16px;
 .icon-frame-range-row input {
   flex: 1;
   min-width: 0;
-  accent-color: #c80000;
+  accent-color: #d90000;
   cursor: pointer;
 }
 
 .icon-frame-range-row span {
   width: 55px;
-  color: #c80000;
+  color: #d90000;
   font-size: 14px;
   font-weight: bold;
   text-align: right;
@@ -6592,7 +6593,7 @@ padding: 12px 16px;
 }
 
 .icon-frame-color.active {
-  outline: 3px solid #c80000;
+  outline: 3px solid #d90000;
   outline-offset: 3px;
 }
 
@@ -6617,7 +6618,7 @@ padding: 12px 16px;
 }
 
 .icon-frame-download-btn {
-  background: #c80000;
+  background: #d90000;
 }
 
 .icon-frame-download-btn:hover {
@@ -6649,6 +6650,160 @@ padding: 12px 16px;
 
   .icon-frame-preview-background {
     max-width: 400px;
+  }
+
+}
+
+/* ========================================
+   角丸ラジオボタン
+======================================== */
+
+.icon-frame-radius-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.icon-frame-radius-options label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.icon-frame-radius-options label:has(input:checked) {
+  color: #d90000;
+  background: #fff5f5;
+  border-color: #d90000;
+  font-weight: bold;
+}
+
+.icon-frame-radius-options input {
+  accent-color: #d90000;
+  cursor: pointer;
+}
+
+/* ========================================
+   フレームサイズリセットボタン
+======================================== */
+
+.icon-frame-reset-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 8px 14px;
+  color: #666;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.icon-frame-reset-btn:hover {
+  color: #d90000;
+  background: #fff5f5;
+  border-color: #d90000;
+}
+
+
+/* ========================================
+   プレビュー追従機能
+======================================== */
+
+/* パソコン */
+@media (min-width: 769px) {
+
+  .icon-frame-preview-area {
+    position: sticky;
+    top: 20px;
+    align-self: start;
+    z-index: 5;
+  }
+
+}
+
+
+/* スマートフォン */
+@media (max-width: 768px) {
+
+  .icon-frame-workspace {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* プレビューを上部に固定 */
+  .icon-frame-preview-area {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    display: grid;
+    grid-template-columns: 90px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+
+    align-items: center;
+    gap: 4px 14px;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 10px 14px;
+
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0 0 12px 12px;
+
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  }
+
+
+  /* 見出し */
+  .icon-frame-preview-area h3 {
+    grid-column: 2;
+    grid-row: 1;
+
+    margin: 0;
+    font-size: 14px;
+  }
+
+
+  /* プレビュー画像 */
+  .icon-frame-preview-background {
+    grid-column: 1;
+    grid-row: 1 / 3;
+
+    width: 90px;
+    max-width: none;
+
+    margin: 0;
+    border-radius: 6px;
+  }
+
+
+  /* 説明文 */
+  .icon-frame-preview-caption {
+    grid-column: 2;
+    grid-row: 2;
+
+    margin: 0;
+    font-size: 11px;
+    text-align: left;
+  }
+
+
+  /* 調整項目 */
+  .icon-frame-controls {
+    width: 100%;
   }
 
 }

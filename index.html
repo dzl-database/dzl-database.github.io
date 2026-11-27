@@ -937,14 +937,6 @@
       <h2>アイコンフレーム合成ツール</h2>
     </div>
 
-    <div class="tool-detail-notice">
-      <span class="material-symbols-outlined">info</span>
-      <p>
-        このツールは非公式なものであり、公式様とは一切関係ございません。<br>
-        画像はブラウザ内で処理され、サーバーには送信されません。
-      </p>
-    </div>
-
     <div class="icon-frame-description">
       <h3>自分だけのアイコンを作ろう！</h3>
       <p>
@@ -952,6 +944,11 @@
         オリジナルのアイコンを作成できます。<br>
         下の手順に沿って画像を調整してみてください！
       </p>
+    </div>
+
+    <div class="tool-detail-notice">
+      <span class="material-symbols-outlined">info</span>
+      <p>画像はブラウザ内で処理され、サーバーには送信されません。</p>
     </div>
 
     <div class="icon-frame-workspace">
@@ -1065,6 +1062,15 @@
             <span id="iconFrameSizeValue">100%</span>
           </div>
 
+          <button
+            type="button"
+            class="icon-frame-reset-btn"
+            id="iconFrameSizeReset"
+          >
+            <span class="material-symbols-outlined">restart_alt</span>
+            100%に戻す
+          </button>
+
         </div>
 
 
@@ -1107,15 +1113,27 @@
             四角い画像を使用する場合は、フレームから角がはみ出さないように調整してください。
           </p>
 
-          <div class="icon-frame-range-row">
-            <input
-              type="range"
-              id="iconBaseRadius"
-              min="0"
-              max="50"
-              value="50"
-            >
-            <span id="iconBaseRadiusValue">50%</span>
+          <div class="icon-frame-radius-options">
+
+            <label>
+              <input
+                type="radio"
+                name="iconBaseRadius"
+                value="100"
+                checked
+              >
+              <span>丸くする</span>
+            </label>
+
+            <label>
+              <input
+                type="radio"
+                name="iconBaseRadius"
+                value="0"
+              >
+              <span>丸くしない</span>
+            </label>
+
           </div>
 
         </div>
@@ -1136,54 +1154,26 @@
 
           <div class="icon-frame-color-list">
 
-            <button
-              class="icon-frame-color active"
-              style="background:#C80000;"
-              data-color="#C80000"
-              aria-label="赤"
-            ></button>
+            <!-- 白 -->
+            <button class="icon-frame-color active" style="background:#FFFFFF;" data-color="#FFFFFF" aria-label="白"></button>
 
-            <button
-              class="icon-frame-color"
-              style="background:#733C93;"
-              data-color="#733C93"
-              aria-label="紫"
-            ></button>
+            <!-- 黒 -->
+            <button class="icon-frame-color" style="background:#000000;" data-color="#000000" aria-label="黒"></button>
 
-            <button
-              class="icon-frame-color"
-              style="background:#FCC700;"
-              data-color="#FCC700"
-              aria-label="黄色"
-            ></button>
+            <!-- 赤 -->
+            <button class="icon-frame-color" style="background:#C80000;" data-color="#C80000" aria-label="赤"></button>
 
-            <button
-              class="icon-frame-color"
-              style="background:#54C3F1;"
-              data-color="#54C3F1"
-              aria-label="水色"
-            ></button>
+            <!-- 紫 -->
+            <button class="icon-frame-color" style="background:#733C93;" data-color="#733C93" aria-label="紫"></button>
 
-            <button
-              class="icon-frame-color"
-              style="background:#EB6D9A;"
-              data-color="#EB6D9A"
-              aria-label="ピンク"
-            ></button>
+            <!-- 黄色 -->
+            <button class="icon-frame-color" style="background:#FCC700;" data-color="#FCC700" aria-label="黄色"></button>
 
-            <button
-              class="icon-frame-color"
-              style="background:#FFFFFF;"
-              data-color="#FFFFFF"
-              aria-label="白"
-            ></button>
+            <!-- 水色 -->
+            <button class="icon-frame-color" style="background:#54C3F1;" data-color="#54C3F1" aria-label="水色"></button>
 
-            <button
-              class="icon-frame-color"
-              style="background:#000000;"
-              data-color="#000000"
-              aria-label="黒"
-            ></button>
+            <!-- ピンク -->
+            <button class="icon-frame-color" style="background:#EB6D9A;" data-color="#EB6D9A" aria-label="ピンク"></button>
 
           </div>
 
