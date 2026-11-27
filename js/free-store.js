@@ -601,14 +601,7 @@ function formatStoreText(value) {
         parsedUrl.protocol === "http:"
       ) {
 
-        result += `
-          <a
-            href="${escapeStoreAttribute(url)}"
-            class="store-text-link"
-            target="_blank"
-            rel="noopener noreferrer"
-          >${escapeStoreHTML(title)}</a>
-        `;
+        result += `<a href="${escapeStoreAttribute(url)}" class="store-text-link" target="_blank" rel="noopener noreferrer">${escapeStoreHTML(title)}</a>`;
 
       } else {
 
