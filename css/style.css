@@ -6217,7 +6217,30 @@ padding: 12px 16px;
   background: #fff5f5;
   border: 1px solid #ffdcdc;
   border-radius: 12px;
-  max-width: 290px;
+}
+
+.store-count-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex-direction: row;
+}
+
+@media (max-width: 600px) {
+
+  .store-count-area {
+    padding: 15px;
+    margin: 20px 0 30px;
+    max-width: unset;
+  }
+
+  .store-count-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    flex-direction: column;
+  }
+
 }
 
 .store-count-heading {
@@ -6242,13 +6265,6 @@ padding: 12px 16px;
   border-radius: 20px;
   font-size: 0.75rem;
   font-weight: bold;
-}
-
-.store-count-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  flex-direction: column;
 }
 
 .store-count-item {
@@ -6296,12 +6312,6 @@ padding: 12px 16px;
 
 @media (max-width: 600px) {
 
-  .store-count-area {
-    padding: 15px;
-    margin: 20px 0 30px;
-    max-width: unset;
-  }
-
   .store-count-heading {
     font-size: 1rem;
   }
@@ -6312,6 +6322,7 @@ padding: 12px 16px;
     padding: 9px 10px;
     gap: 5px;
     font-size: 0.85rem;
+    max-width: unset;
   }
 
   .store-count-item strong {
