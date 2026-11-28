@@ -6988,3 +6988,173 @@ padding: 12px 16px;
   }
 
 }
+
+/* ========================================
+   おらふくんアイコンフレーム告知カード
+======================================== */
+
+.oraf-frame-banner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  margin: 24px 0;
+  padding: 20px 24px;
+
+  color: #222;
+  background: #54C3F1;
+
+  border: 2px solid #54C3F1;
+  border-radius: 14px;
+
+  text-decoration: none;
+
+  transition: 0.2s;
+}
+
+/* ホバー */
+.oraf-frame-banner:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+
+/* 画像 */
+.oraf-frame-banner-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 112px;
+  height: 112px;
+
+  padding: 8px;
+  box-sizing: border-box;
+
+  background: #fff;
+  border-radius: 12px;
+}
+
+.oraf-frame-banner-image img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+
+/* テキスト */
+.oraf-frame-banner-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.oraf-frame-banner-label {
+  display: inline-block;
+
+  margin-bottom: 6px;
+  padding: 4px 9px;
+
+  color: #fff;
+  background: #D90000;
+
+  border-radius: 5px;
+
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+}
+
+.oraf-frame-banner-content h2 {
+  margin: 0 0 6px;
+
+  color: #17384A;
+  font-size: 19px;
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+.oraf-frame-banner-content p {
+  margin: 0 0 12px;
+
+  color: #34596A;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+
+/* リンク部分 */
+.oraf-frame-banner-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  color: #D90000;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.oraf-frame-banner-link .material-symbols-outlined {
+  font-size: 18px;
+}
+
+
+/* ========================================
+   スマートフォン
+======================================== */
+
+@media (max-width: 768px) {
+
+  .oraf-frame-banner {
+    gap: 14px;
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .oraf-frame-banner-image {
+    width: 88px;
+    height: 88px;
+    padding: 6px;
+  }
+
+  .oraf-frame-banner-content h2 {
+    font-size: 15px;
+  }
+
+  .oraf-frame-banner-content p {
+    font-size: 11px;
+    margin-bottom: 8px;
+  }
+
+  .oraf-frame-banner-link {
+    font-size: 12px;
+  }
+
+}
+
+
+/* 小さなスマートフォン */
+@media (max-width: 380px) {
+
+  .oraf-frame-banner {
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .oraf-frame-banner-image {
+    width: 72px;
+    height: 72px;
+  }
+
+  .oraf-frame-banner-content h2 {
+    font-size: 13px;
+  }
+
+}
