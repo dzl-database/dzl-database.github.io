@@ -2019,9 +2019,10 @@ font-size:18px;
 
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
 
-  padding: 80px 16px 20px;
+  /* 上下左右を均等にする */
+  padding: 20px 16px;
   box-sizing: border-box;
 
   z-index: 9999;
@@ -2043,12 +2044,14 @@ font-size:18px;
   width: 100%;
   max-width: 380px;
 
-  /* 画面の高さに合わせる */
-  height: calc(100dvh - 100px);
-  max-height: calc(100dvh - 100px);
+  /* 内容に合わせて高さを自動調整 */
+  height: auto;
+  max-height: calc(100dvh - 40px);
 
   display: flex;
   flex-direction: column;
+
+  box-sizing: border-box;
 
   background: white;
   border-radius: 18px;
@@ -2098,7 +2101,7 @@ font-size:18px;
 
 /* メニュー */
 .menu-modal-body {
-  flex: 1;
+  flex: 0 1 auto;
   min-height: 0;
 
   padding: 12px;
