@@ -6425,7 +6425,7 @@ padding: 12px 16px;
 ======================================== */
 
 .icon-frame-description {
-  margin: 24px 0;
+  margin: 0 0 24px;
   padding: 20px;
   background: #fff;
   border-radius: 12px;
@@ -7177,13 +7177,10 @@ padding: 12px 16px;
 
 /* 文章 */
 .site-video-box p {
-  margin: 0 0 20px;
-
+  margin: 0 0 7px;
   color: #444;
-
   font-size: 15px;
-  line-height: 2;
-
+  line-height: 1.7;
   overflow-wrap: anywhere;
 }
 
@@ -7236,8 +7233,8 @@ padding: 12px 16px;
 
   .site-video-box p {
     font-size: 14px;
-    line-height: 1.9;
-    margin-bottom: 18px;
+    line-height: 1.7;
+    margin-bottom: 10px;
   }
 
   .site-video-embed {
