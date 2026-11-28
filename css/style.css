@@ -6159,6 +6159,35 @@ padding: 12px 16px;
   margin-bottom: 0;
 }
 
+/* ========================================
+   外部ブラウザ利用の注意書き
+======================================== */
+
+.store-browser-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+
+  margin-top: 14px;
+  padding: 11px 13px;
+
+  color: #D90000;
+  background: #fff0f0;
+
+  border: 1px solid #ffd1d1;
+  border-radius: 7px;
+
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1.6;
+}
+
+.store-browser-notice .material-symbols-outlined {
+  flex-shrink: 0;
+  font-size: 20px;
+  color: #D90000;
+}
+
 
 /* =========================
    素材配布ページ：共通利用規約

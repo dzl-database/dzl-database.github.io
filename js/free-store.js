@@ -275,6 +275,14 @@ function renderFreeStore(items, groupSettings) {
           ご利用の際は、本ページ下部の「全素材共通の利用規約」および各素材に記載された「個別利用規約」をお読みいただき、内容に同意のうえご使用ください。
         </p>
 
+        <!-- ダウンロードに関する注意 -->
+        <div class="store-browser-notice">
+          <span class="material-symbols-outlined">info</span>
+          <span>
+            ダウンロードできない場合は、ChromeやSafariなどの外部ブラウザで開き直してご利用ください。
+          </span>
+        </div>
+
       </div>
 
 
